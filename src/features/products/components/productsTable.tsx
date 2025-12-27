@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import useProducts from "@/products/hooks/useProducts";
 import { TrendingDown, TrendingUp } from "lucide-react";
 
@@ -55,11 +56,17 @@ export function ProductsTable() {
                 {index + 1}
               </td>
               <td className="px-4 py-3">
-                <div className="flex items-center gap-3">
-                  <div>
-                    <div className="font-medium text-foreground">
-                      {product?.name}
-                    </div>
+                <div className="flex flex-row items-center justify-center gap-3">
+                  <div className="min-w-[80px] h-[80px]">
+                    <Image
+                      src={`/images/products/${product?.product_id}.png`}
+                      alt={product?.name}
+                      width={80}
+                      height={80}
+                    />
+                  </div>
+                  <div className="font-medium text-foreground ml-3">
+                    {product?.name}
                   </div>
                 </div>
               </td>

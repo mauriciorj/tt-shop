@@ -1,12 +1,22 @@
+import { UUID } from "crypto";
+
 interface ITopStores {
-  id: string;
+  created_at: Date;
+  id: UUID;
+  k_id: string;
+  main_category: number;
   name: string;
-  type: string;
-  logo: string;
+  position: number;
+  region: string;
   revenue: number | string;
   revenue_growth_rate: number | string;
-  sales: number | string;
   revenue_history: number[];
+  sales: number | string;
+  second_category: number | null;
+  store_id: UUID;
+  third_category: number | null;
+  type: string;
+  updated_at: Date;
 }
 
 export default class TopStores {

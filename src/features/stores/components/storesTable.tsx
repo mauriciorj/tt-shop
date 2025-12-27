@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import useStores from "@/stores/hooks/useStores";
 
 export function StoresTable() {
   const { data, isPending, isError, error } = useStores();
+
+  console.log(data);
 
   return (
     <div className="bg-background max-w-7xl mx-auto px-6 py-4  w-full overflow-x-auto">
@@ -56,15 +59,26 @@ export function StoresTable() {
               </td>
               <td className="px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-2xl">{store?.logo}</div>
-                  <div>
-                    <div className="font-medium text-foreground">
-                      {store?.name}
+                  <div className="flex flex-row items-center justify-center gap-3">
+                    <div className="min-w-[80px] h-[80px]">
+                      <Image
+                        src={`/images/stores/${store?.store_id}.png`}
+                        alt={store?.name}
+                        width={80}
+                        height={80}
+                      />
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {store?.type}
+                    <div className="font-medium text-foreground ml-3">
+                      <div className="font-medium text-foreground">
+                        {store?.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {store?.type}
+                      </div>
                     </div>
                   </div>
+                  <div className="text-2xl">{store?.logo}</div>
+                  <div></div>
                 </div>
               </td>
               {/* <td className="px-4 py-3">
