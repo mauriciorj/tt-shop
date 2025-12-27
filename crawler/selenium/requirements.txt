@@ -1,0 +1,11 @@
+scrapy
+beautifulsoup4
+webdriver_manager
+selenium
+supabase
+fake-useragent
+seletools
+undetected-chromedriver
+setuptools
+python-dotenv
+psycopg2-binary
