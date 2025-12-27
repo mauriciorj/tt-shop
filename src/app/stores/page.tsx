@@ -6,7 +6,7 @@ export default function StoresPageWrapper() {
   return (
     <div className="min-h-screen bg-background">
       <SubHeader />
-      <Search />
+      <Search page="stores" />
       <StoresTable />
     </div>
   );

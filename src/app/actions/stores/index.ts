@@ -1,7 +1,7 @@
 "use server";
 
 import TopStores from "@/stores/dtos/topStores";
-import pool from "@/src/lib/db";
+import pool from "@/db/lib/db";
 
 export async function getStores() {
   try {

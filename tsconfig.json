@@ -22,6 +22,7 @@
       "@/*": ["./*"],
       "@/actions/*": ["./src/app/actions/*"],
       "@/components/*": ["./src/features/common/components/*"],
+      "@/db/*": ["./src/features/db/*"],
       "@/payment/*": ["./src/features/payment/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],

@@ -6,8 +6,6 @@ import useStores from "@/stores/hooks/useStores";
 export function StoresTable() {
   const { data, isPending, isError, error } = useStores();
 
-  console.log(data);
-
   return (
     <div className="bg-background max-w-7xl mx-auto px-6 py-4  w-full overflow-x-auto">
       <table className="w-full text-sm">
@@ -91,7 +89,8 @@ export function StoresTable() {
               </td>
               <td className="px-4 py-3 text-center">
                 <div className="flex justify-center items-center gap-2">
-                  {store?.revenue_growth_rate > 0 ? (
+                  {typeof store?.revenue_growth_rate === "number" ||
+                  parseFloat(store?.revenue_growth_rate) > 0 ? (
                     <>
                       <TrendingUp className="w-4 h-4 text-green-600" />
                       <span className="font-medium text-green-600">
