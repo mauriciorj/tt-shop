@@ -59,7 +59,7 @@ export function ProductsTable() {
                 <div className="flex flex-row items-center justify-center gap-3">
                   <div className="min-w-[80px] h-[80px]">
                     <Image
-                      src={`/images/products/${product?.product_id}.png`}
+                      src={`/images/products/${product?.id}.png`}
                       alt={product?.name}
                       width={80}
                       height={80}

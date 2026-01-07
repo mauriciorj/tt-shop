@@ -9,7 +9,7 @@ export async function searchStores(query: string) {
     if (!query) return [];
 
     const result = await pool.query(
-      "SELECT * FROM top_stores WHERE name ILIKE $1",
+      "SELECT * FROM stores WHERE name ILIKE $1",
       [`%${query}%`]
     );
     const topStores = new TopStores(result?.rows);
@@ -25,7 +25,7 @@ export async function searchProducts(query: string) {
     if (!query) return [];
 
     const result = await pool.query(
-      "SELECT * FROM top_products WHERE name ILIKE $1",
+      "SELECT * FROM products WHERE name ILIKE $1",
       [`%${query}%`]
     );
     const topProducts = new TopProducts(result?.rows);

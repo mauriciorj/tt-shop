@@ -54,9 +54,9 @@ def request_top_stores_data_dto(request_data_result):
         
         formated_data.append({
             'k_id': data['id'],
+            'k_position': index,
             'main_category': pri_cat,
             'name': data['name'],
-            'position': index,
             'region': 'BR',
             'revenue': parse_value(data['revenue']),
             'revenue_growth_rate': parse_value(data['revenue_grouping_rate']),

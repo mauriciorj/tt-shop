@@ -5,10 +5,10 @@ interface ITopProducts {
   creator_conversion_ratio: number;
   id: UUID;
   k_id: string;
+  k_position: number;
   launch_date: string;
   main_category: number;
   name: string;
-  position: number;
   product_id: UUID;
   product_rating: number;
   revenue: number | string;
@@ -32,13 +32,16 @@ export default class TopProducts {
   }
 
   getProducts(data: ITopProducts[]) {
-    return data.map((item) => {
-      return {
-        ...item,
-        revenue: item?.revenue.toLocaleString("pt-BR"),
-        revenue_growth_rate: item?.revenue_growth_rate.toLocaleString("pt-BR"),
-        sales: item?.sales.toLocaleString("pt-BR"),
-      };
-    });
+    return data
+      .map((item) => {
+        return {
+          ...item,
+          revenue: item?.revenue.toLocaleString("pt-BR"),
+          revenue_growth_rate:
+            item?.revenue_growth_rate.toLocaleString("pt-BR"),
+          sales: item?.sales.toLocaleString("pt-BR"),
+        };
+      })
+      .sort((a, b) => a.k_position - b.k_position);
   }
 }

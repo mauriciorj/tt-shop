@@ -5,7 +5,9 @@ import pool from "@/db/lib/db";
 
 export async function getStores() {
   try {
-    const result = await pool.query("SELECT * FROM top_stores");
+    const result = await pool.query(
+      "SELECT * FROM stores WHERE k_position IS NOT NULL"
+    );
     const getStores = new TopStores(result?.rows);
     if (getStores?.stores) {
       return getStores?.stores;

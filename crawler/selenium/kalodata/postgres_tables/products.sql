@@ -1,6 +1,7 @@
 CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   k_id TEXT NOT NULL,
+  k_position INTEGER,
   name TEXT NOT NULL,
   launch_date TEXT,
   product_rating NUMERIC(5, 2),

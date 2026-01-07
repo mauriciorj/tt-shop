@@ -28,8 +28,8 @@ def request_top_products_data(driver):
     # Prepare the payload (same as before)
     body = {
         "country": "BR",
-        "startDate": "2025-11-26",
-        "endDate": "2025-12-25",
+        "startDate": "2025-12-06",
+        "endDate": "2026-01-05",
         "cateIds": [],
         "showCateIds": [],
         "pageNo": 1,
@@ -45,7 +45,7 @@ def request_top_products_data(driver):
     headers = {
         'accept': 'application/json, text/plain, */*',
         'content-type': 'application/json',
-        'country': 'US',
+        'country': 'BR',
         'currency': 'USD',
         'language': 'en-US',
         'origin': 'https://www.kalodata.com',

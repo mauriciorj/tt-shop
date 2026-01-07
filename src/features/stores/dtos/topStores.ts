@@ -4,9 +4,9 @@ interface ITopStores {
   created_at: Date;
   id: UUID;
   k_id: string;
+  k_position: number;
   main_category: number;
   name: string;
-  position: number;
   region: string;
   revenue: number | string;
   revenue_growth_rate: number | string;
@@ -30,13 +30,16 @@ export default class TopStores {
   }
 
   getStores(data: ITopStores[]) {
-    return data.map((item) => {
-      return {
-        ...item,
-        revenue: item?.revenue.toLocaleString("pt-BR"),
-        revenue_growth_rate: item?.revenue_growth_rate.toLocaleString("pt-BR"),
-        sales: item?.sales.toLocaleString("pt-BR"),
-      };
-    });
+    return data
+      .map((item) => {
+        return {
+          ...item,
+          revenue: item?.revenue.toLocaleString("pt-BR"),
+          revenue_growth_rate:
+            item?.revenue_growth_rate.toLocaleString("pt-BR"),
+          sales: item?.sales.toLocaleString("pt-BR"),
+        };
+      })
+      .sort((a, b) => a.k_position - b.k_position);
   }
 }

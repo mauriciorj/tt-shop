@@ -24,17 +24,24 @@ def request_top_stores_data_to_db(formated_data):
 
     try:
         cursor = conn.cursor()
-
-        # Delete all records from top_stores table with same region
-        region = formated_data[0].get('region')
-        sql = 'DELETE FROM top_stores WHERE region = %s'
-        cursor.execute(sql, (region,))
-        conn.commit()
         
         for item in formated_data:
             k_id = item.get('k_id')
             if not k_id:
                 continue
+
+            # Prepare k_position value
+            refined_k_position = 0 if item.get('k_position') == 'index' else item.get('k_position')
+
+            # Check for conflict: specific position already taken by ANOTHER store
+            if refined_k_position is not None:
+                cursor.execute("SELECT id, k_id FROM stores WHERE k_position = %s", (refined_k_position,))
+                conflict = cursor.fetchone()
+                if conflict:
+                    conflict_id, conflict_k_id = conflict
+                    # If the occupant is NOT the current store we are processing
+                    if str(conflict_k_id) != str(k_id):
+                        cursor.execute("UPDATE stores SET k_position = NULL WHERE id = %s", (conflict_id,))
 
             # FIRST: Check the "stores" table for existing k_id
             cursor.execute("SELECT id FROM stores WHERE k_id = %s", (k_id,))
@@ -44,7 +51,7 @@ def request_top_stores_data_to_db(formated_data):
             # Common data for both tables
             data_map = {
                 'k_id': item.get('k_id'),
-                'position': 0 if item.get('position') == 'index' else item.get('position'),
+                'k_position': refined_k_position,
                 'name': item.get('name'),
                 'type': item.get('type'),
                 'region': item.get('region'),
@@ -59,9 +66,10 @@ def request_top_stores_data_to_db(formated_data):
                 'updated_at': datetime.now()
             }
             
-            # STORES table columns (excluding position)
+            # STORES table columns
             stores_columns = [
                 'k_id',
+                'k_position',
                 'name',
                 'type',
                 'region',
@@ -98,23 +106,7 @@ def request_top_stores_data_to_db(formated_data):
                 cursor.execute(sql, stores_values)
                 store_id = cursor.fetchone()[0]
 
-            # SECOND: Add to top_stores table
-            # TOP_STORES includes position and store_id
-            top_stores_columns = stores_columns + ['position', 'store_id']
-            # Reconstruct values for top_stores (stores_values + position + store_id)
-            # CAREFUL: stores_columns doesn't have position. existing 'stores_values' matches 'stores_columns'.
-            # We need to build the list manually or append.
-            top_stores_values = stores_values + [data_map['position'], store_id]
-            
-            # Wait, stores_columns ends with updated_at. top_stores_columns appends position, store_id.
-            # So top_stores_values must match that order.
-            
-            placeholders = ", ".join(["%s"] * len(top_stores_columns))
-            col_names = ", ".join(top_stores_columns)
-            sql = f"INSERT INTO top_stores ({col_names}) VALUES ({placeholders})"
-            cursor.execute(sql, top_stores_values)   
-
-            # THIRD: Download Image
+            # SECOND: Download Image
             try:
                 print('')
                 print('[ SELENIUM ] Downloading image...')

@@ -32,10 +32,10 @@ def request_top_products_data_dto(request_data_result):
         formated_data.append({
             'creator_conversion_ratio': parse_value(data['creator_conversion_ratio']),
             'k_id': data['id'],
+            'k_position': index,
             'launch_date': data['launch_date'],
             'main_category': data['pri_cate_id'],
             'name': data['product_title'],
-            'position': index,
             'product_rating': data['product_rating'],
             'revenue': parse_value(data['revenue']),
             'revenue_growth_rate': parse_value(data['revenue_grouping_rate']),

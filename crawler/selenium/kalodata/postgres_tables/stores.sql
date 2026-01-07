@@ -1,6 +1,7 @@
 CREATE TABLE stores (
   id UUID NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   k_id TEXT NOT NULL, -- id from shop-detail
+  k_position INTEGER, -- position from shop-detail
   name TEXT NOT NULL, -- name from shop-detail
   type TEXT, -- type from shop-detail
   region TEXT, -- region from shop-detail

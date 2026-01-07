@@ -7,8 +7,6 @@ import useStores from "@/stores/hooks/useStores";
 export function StoresTable() {
   const { data, isPending, isError, error } = useStores();
 
-  console.log(data);
-
   return (
     <div className="bg-background max-w-7xl mx-auto px-6 py-4  w-full overflow-x-auto">
       <table className="w-full text-sm">
@@ -62,7 +60,7 @@ export function StoresTable() {
                   <div className="flex flex-row items-center justify-center gap-3">
                     <div className="min-w-[80px] h-[80px]">
                       <Image
-                        src={`/images/stores/${store?.store_id}.png`}
+                        src={`/images/stores/${store?.id}.png`}
                         alt={store?.name}
                         width={80}
                         height={80}
