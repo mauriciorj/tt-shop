@@ -7,12 +7,28 @@ import useProducts from "@/products/hooks/useProducts";
 import { PaginationControl } from "@/components/pagination-control";
 
 export default function ProductsPageWrapper() {
-  const { data, isLoading, page, setPage, totalPages } = useProducts();
+  const {
+    data,
+    isLoading,
+    page,
+    setPage,
+    totalPages,
+    sortBy,
+    order,
+    handleSort,
+  } = useProducts();
   return (
     <div className="min-h-screen bg-background">
       <SubHeader />
       <Search page="products" />
-      <Table data={data} isLoading={isLoading} type="products" />
+      <Table
+        data={data}
+        isLoading={isLoading}
+        type="products"
+        sortBy={sortBy}
+        order={order}
+        onSort={handleSort}
+      />
       <PaginationControl
         currentPage={page}
         totalPages={totalPages}

@@ -14,7 +14,7 @@ export interface ITopStores {
   day_sales: number;
   revenue: number | string;
   revenue_history: number[];
-  revenue_growth_rate: number;
+  revenue_growth_rate: number | string;;
   sales: number | string;
   unit_price: number;
   created_at: Date;

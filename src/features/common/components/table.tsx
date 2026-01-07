@@ -5,14 +5,38 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ITopProducts } from "@/products/types";
 import { ITopStores } from "@/stores/types";
+import {
+  ArrowUpDown,
+  ArrowDownNarrowWide,
+  ArrowUpWideNarrow,
+} from "lucide-react";
 
 interface ITable {
   data?: ITopStores[] | ITopProducts[];
   isLoading: boolean;
   type: "products" | "stores";
+  sortBy?: string;
+  order?: "asc" | "desc";
+  onSort?: (column: string) => void;
 }
 
-export function Table({ data, isLoading, type }: ITable) {
+export function Table({
+  data,
+  isLoading,
+  type,
+  sortBy,
+  order,
+  onSort,
+}: ITable) {
+  const SortIcon = ({ column }: { column: string }) => {
+    if (sortBy !== column) return <ArrowUpDown className="w-6 h-6 ml-1" />;
+    return order === "asc" ? (
+      <ArrowDownNarrowWide className="w-6 h-6 ml-1" />
+    ) : (
+      <ArrowUpWideNarrow className="w-6 h-6 ml-1" />
+    );
+  };
+
   return (
     <div className="bg-background max-w-7xl mx-auto px-6 py-4  w-full overflow-x-auto">
       <table className="w-full text-sm">
@@ -27,17 +51,32 @@ export function Table({ data, isLoading, type }: ITable) {
             {/* <th className="px-4 py-3 text-center font-medium text-muted-foreground">
               Best-selling Products
             </th> */}
-            <th className="px-4 py-3 text-center font-medium text-muted-foreground">
-              Vendas
+            <th
+              className="px-4 py-3 text-center font-medium text-muted-foreground cursor-pointer hover:bg-muted/80 transition-colors"
+              onClick={() => onSort?.("revenue")}
+            >
+              <div className="flex flex-row items-center ">
+                Vendas <SortIcon column="revenue" />
+              </div>
             </th>
             <th className="px-4 py-3 text-center font-medium text-muted-foreground">
               Vendas
             </th>
-            <th className="px-4 py-3 text-center font-medium text-muted-foreground">
-              Taxa de crescimento
+            <th
+              className="px-4 py-3 text-center font-medium text-muted-foreground cursor-pointer hover:bg-muted/80 transition-colors"
+              onClick={() => onSort?.("revenue_growth_rate")}
+            >
+              <div className="flex flex-row items-center ">
+                Taxa de crescimento <SortIcon column="revenue_growth_rate" />
+              </div>
             </th>
-            <th className="px-4 py-3 text-center font-medium text-muted-foreground">
-              Itens Vendidos
+            <th
+              className="px-4 py-3 text-center font-medium text-muted-foreground cursor-pointer hover:bg-muted/80 transition-colors"
+              onClick={() => onSort?.("sales")}
+            >
+              <div className="flex flex-row items-center ">
+                Itens Vendidos <SortIcon column="sales" />
+              </div>
             </th>
             {/* <th className="px-4 py-3 text-center font-medium text-muted-foreground">
               Preço médio
@@ -114,7 +153,7 @@ export function Table({ data, isLoading, type }: ITable) {
                           <div className="font-medium text-foreground">
                             {item?.name}
                           </div>
-                          {item?.type && (
+                          {"type" in item && (
                             <div className="text-xs text-muted-foreground">
                               {item.type}
                             </div>

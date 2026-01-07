@@ -11,16 +11,13 @@ export default class TopProducts {
   }
 
   getProducts(data: ITopProducts[]) {
-    return data
-      .map((item) => {
-        return {
-          ...item,
-          revenue: item?.revenue.toLocaleString("pt-BR"),
-          revenue_growth_rate:
-            item?.revenue_growth_rate.toLocaleString("pt-BR"),
-          sales: item?.sales.toLocaleString("pt-BR"),
-        };
-      })
-      .sort((a, b) => a.k_position - b.k_position);
+    return data.map((item) => {
+      return {
+        ...item,
+        revenue: item?.revenue.toLocaleString("pt-BR"),
+        revenue_growth_rate: item?.revenue_growth_rate.toLocaleString("pt-BR"),
+        sales: item?.sales.toLocaleString("pt-BR"),
+      };
+    });
   }
 }
