@@ -1,25 +1,4 @@
-import { UUID } from "crypto";
-
-interface ITopProducts {
-  created_at: Date;
-  creator_conversion_ratio: number;
-  id: UUID;
-  k_id: string;
-  k_position: number;
-  launch_date: string;
-  main_category: number;
-  name: string;
-  product_id: UUID;
-  product_rating: number;
-  revenue: number | string;
-  revenue_growth_rate: number | string;
-  revenue_history: number[];
-  sales: number | string;
-  second_category: number | null;
-  third_category: number | null;
-  unit_price: number;
-  updated_at: Date;
-}
+import { ITopProducts } from "@/products/types";
 
 export default class TopProducts {
   products: ITopProducts[] | [];

@@ -2,16 +2,14 @@ import { getStores } from "@/src/app/actions/stores";
 import { useQuery } from "@tanstack/react-query";
 
 const useStores = () => {
-  const { isPending, isError, data, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["top_stores"],
     queryFn: async () => getStores(),
   });
 
   return {
-    isPending,
-    isError,
     data,
-    error,
+    isLoading,
   };
 };
 

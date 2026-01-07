@@ -10,7 +10,7 @@ CREATE TABLE stores (
   type TEXT, -- type from shop-detail
   region TEXT, -- region from shop-detail
   day_revenue NUMERIC(15, 2), -- day_revenue from shop-detail-total
-  day_sale NUMERIC(15, 2), -- sale from shop-detail-total [item sold]
+  day_sales NUMERIC(15, 2), -- sale from shop-detail-total [item sold]
   main_category INTEGER, -- main_category from shop-detail
   second_category INTEGER, -- second_category from shop-detail
   third_category INTEGER, -- third_category from shop-detail

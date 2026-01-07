@@ -9,7 +9,7 @@ CREATE TABLE stores (
   second_category INTEGER, -- second_category from shop-detail
   third_category INTEGER, -- third_category from shop-detail
   day_revenue NUMERIC(15, 2), -- day_revenue from shop-detail-total
-  day_sale NUMERIC(15, 2), -- sale from shop-detail-total [item sold]
+  day_sales NUMERIC(15, 2), -- sale from shop-detail-total [item sold]
   revenue NUMERIC(15, 2), -- revenue from shop-detail-total
   revenue_history NUMERIC[], -- unit_price from shop-detail-history
   revenue_growth_rate NUMERIC(5, 2), -- data > revenue from shop-detail-history

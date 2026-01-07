@@ -9,21 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { IStore } from "@/stores/types";
 
-interface Store {
-  id: number;
-  name: string;
-  type: string;
-  logo: string;
-  bestSellingProducts: string[];
-  revenue: string;
-  revenueLastMonth: string;
-  growthRate: number;
-  itemsSold: string;
-  avgUnitPrice: string;
-}
-
-const STORES: Store[] = [
+const STORES: IStore[] = [
   {
     id: 1,
     name: "Always Fit...",
