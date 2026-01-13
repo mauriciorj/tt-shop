@@ -10,3 +10,4 @@ setuptools
 python-dotenv
 psycopg2-binary
 requests
+simple-term-menu
