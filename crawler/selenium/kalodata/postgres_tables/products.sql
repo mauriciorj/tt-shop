@@ -15,6 +15,8 @@ CREATE TABLE products (
   revenue_growth_rate NUMERIC(5, 2),
   sales NUMERIC(15, 2),
   unit_price NUMERIC(10, 2),
+  top_creators NUMERIC[], -- 
+  top_videos NUMERIC[], -- 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE
 );

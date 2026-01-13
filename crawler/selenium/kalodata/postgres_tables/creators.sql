@@ -7,6 +7,7 @@ CREATE TABLE creators (
   revenue NUMERIC(15, 2), -- revenue from shop-detail-total
   video_revenue NUMERIC(15, 2), -- revenue from shop-detail-total
   live_revenue NUMERIC(15, 2), -- revenue from shop-detail-total
+  by_product TEXT[],
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE
 );

@@ -1,6 +1,7 @@
 import sys
 import os
 import requests
+import json
 from datetime import datetime
 
 # Adjust path to allow imports from crawler root
@@ -33,7 +34,7 @@ def update_creators_db(formated_data):
                 continue
 
             # FIRST: Check the "creators" table for existing k_id
-            cursor.execute("SELECT id FROM creators WHERE k_id = %s", (k_id,))
+            cursor.execute("SELECT id, by_product FROM creators WHERE k_id = %s", (k_id,))
             existing_creator = cursor.fetchone()
             creator_id = None
 
@@ -42,52 +43,49 @@ def update_creators_db(formated_data):
             
             # Common data for both tables
             data_map = {
-                'k_id': item.get('k_id'),
-                'tt_account': item.get('tt_account'),
-                'tt_nickname': item.get('tt_nickname'),
-                'tt_followers': item.get('tt_followers'),
+                'product_id': item.get('product_id'),
                 'revenue': item.get('revenue'),
-                'video_revenue': item.get('video_revenue'),
-                'live_revenue': item.get('live_revenue'),
-                'updated_at': datetime.now()
+                'sales': item.get('sales'),
             }
             
-            # CREATORS table columns
-            creators_columns = [
-                'k_id',
-                'tt_account',
-                'tt_nickname',
-                'tt_followers',
-                'revenue',
-                'video_revenue',
-                'live_revenue',
-                'updated_at'
-            ]
-            creator_values = [data_map[col] for col in creators_columns]
-
             if existing_creator:
                 creator_id = existing_creator[0]
-                # Update
-                # Construct SET clause
-                set_clause = ", ".join([f"{col} = %s" for col in creators_columns if col != 'k_id'])
+                existing_by_product = existing_creator[1] if existing_creator[1] else []
                 
-                # Values for update (exclude k_id from set values, but need it for WHERE)
-                # creator_values has k_id at index 0 (based on creators_columns order)
-                update_values = creator_values[1:] + [creator_id]
+                updated_by_product = []
+                found_product = False
                 
-                sql = f"UPDATE creators SET {set_clause} WHERE id = %s"
-                cursor.execute(sql, update_values)
+                # Check for existing product and update
+                for prod_str in existing_by_product:
+                    try:
+                        # Depending on how it's stored, it might already be a dict if the driver converts JSONB, 
+                        # but for TEXT[] usually it's strings.
+                        prod_obj = json.loads(prod_str) if isinstance(prod_str, str) else prod_str
+                        
+                        if str(prod_obj.get('product_id')) == str(data_map.get('product_id')):
+                            updated_by_product.append(data_map)
+                            found_product = True
+                        else:
+                            updated_by_product.append(prod_obj)
+                    except Exception as e:
+                        # Keep original if parsing fails
+                        print(f"Error parsing product data: {e}")
+                        continue
 
-                # print('')
-                # print(f'Updating creator {creator_id}...')
-                # print('sql: ', sql)
-                # print('update_values: ', update_values)
-                # print('')
+                if not found_product:
+                    updated_by_product.append(data_map)
+                
+                # Prepare for TEXT[] - list of JSON strings
+                final_by_product = [json.dumps(p) for p in updated_by_product]
+                
+                sql = "UPDATE creators SET by_product = %s, updated_at = NOW() WHERE id = %s"
+                cursor.execute(sql, (final_by_product, creator_id))
             
             else:
                 # Insert
-                placeholders = ", ".join(["%s"] * len(creators_columns))
-                col_names = ", ".join(creators_columns)
+                placeholders = ['%s', '%s', '%s', '%s', '%s']
+                col_names = ['k_id', 'tt_account', 'tt_nickname', 'tt_followers', 'by_product']
+                creator_values = [item.get('k_id'), item.get('tt_account'), item.get('tt_nickname'), item.get('tt_followers'), item.get('by_product')]
                 
                 sql = f"INSERT INTO creators ({col_names}) VALUES ({placeholders}) RETURNING id"
                 cursor.execute(sql, creator_values)
