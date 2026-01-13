@@ -1,5 +1,6 @@
 CREATE TABLE stores (
   id UUID NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  country TEXT,
   k_id TEXT NOT NULL, -- id from shop-detail
   k_position INTEGER, -- position from shop-detail
   name TEXT NOT NULL, -- name from shop-detail
@@ -15,6 +16,8 @@ CREATE TABLE stores (
   revenue_growth_rate NUMERIC(5, 2), -- data > revenue from shop-detail-history
   sales NUMERIC(15, 2), -- sale from shop-detail-total [item sold]
   unit_price NUMERIC(10, 2), -- 
+  top_creators NUMERIC[], -- 
+  top_products NUMERIC[], -- 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE
 );

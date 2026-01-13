@@ -21,9 +21,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from login import login
-from request_top_products import request_top_products
-from request_top_products_dto import request_top_products_dto
-from update_products_db import update_products_db
+from request_all_top_stores_from_db import request_all_top_stores_from_db
+from request_stores_information import request_stores_information
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -36,18 +35,16 @@ driver = uc.Chrome(options=chrome_options)
 
 
 def main(): 
-    login(driver)
+    result_request_all_top_stores_from_db = request_all_top_stores_from_db()
 
-    result_request_top_products = request_top_products(driver)
-
-    if result_request_top_products['data'] is None:
+    if result_request_all_top_stores_from_db is None:
         print('')
-        print('[ SELENIUM ] result_request_top_products is None')
+        print('[ SELENIUM ] request_data_result is None')
         return
 
-    result_request_top_products_dto = request_top_products_dto(result_request_top_products)
+    login(driver)
 
-    update_products_db(result_request_top_products_dto)
+    request_stores_information(driver, result_request_all_top_stores_from_db)
 
 if __name__ == "__main__":
     main()

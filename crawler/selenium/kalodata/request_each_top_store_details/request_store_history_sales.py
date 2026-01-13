@@ -19,27 +19,19 @@ sys.path.append(parent_parent_parent)
 
 from selenium_utils import selenium_fetch
 
-def request_top_products_data(driver):
+def request_store_history_sales(driver, id):
     print('')
-    print('[ SELENIUM ] Requesting data...')
+    print('[ SELENIUM ] Requesting store history sales...')
 
-    search_url = 'https://www.kalodata.com/product/queryList'
+    search_url = 'https://www.kalodata.com/shop/detail/history'
 
     # Prepare the payload (same as before)
     body = {
-        "country": "BR",
-        "startDate": "2025-12-06",
-        "endDate": "2026-01-05",
+        "id": id,
         "cateIds": [],
-        "showCateIds": [],
-        "pageNo": 1,
-        "pageSize": 10,
-        "sort": [
-            {
-                "field": "revenue",
-                "type": "DESC"
-            }
-        ]
+        "startDate": "2025-12-08",
+        "endDate": "2026-01-06",
+        "authority": true
     }
     
     headers = {

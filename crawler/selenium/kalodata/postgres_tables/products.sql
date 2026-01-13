@@ -1,5 +1,6 @@
 CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  country TEXT,
   k_id TEXT NOT NULL,
   k_position INTEGER,
   name TEXT NOT NULL,

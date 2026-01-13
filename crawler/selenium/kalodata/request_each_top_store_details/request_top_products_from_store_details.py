@@ -1,37 +1,31 @@
 import sys
 import os
 
-# getting the name of the directory
-# where the this file is present.
+# Adjust path to allow imports from crawler root
 current = os.path.dirname(os.path.realpath(__file__))
-
-# Getting the parent directory name
-# where the current directory is present.
-parent = os.path.dirname(current)
-parent_parent = os.path.dirname(parent)
-parent_parent_parent = os.path.dirname(parent_parent)
+parent = os.path.dirname(current) # kalodata
+parent_parent = os.path.dirname(parent) # selenium
+parent_parent_parent = os.path.dirname(parent_parent) # crawler
 
 # adding the parent directory to
 # the sys.path.
-sys.path.append(parent)
-sys.path.append(parent_parent)
 sys.path.append(parent_parent_parent)
 
 from selenium_utils import selenium_fetch
 
-def request_top_stores_data(driver):
+def request_top_products_from_store_details(driver, id):
     print('')
-    print('[ SELENIUM ] Requesting data...')
+    print('[ SELENIUM ] Requesting top products...')
 
-    search_url = 'https://www.kalodata.com/shop/queryList'
+    search_url = 'https://www.kalodata.com/shop/detail/product/queryList'
 
     # Prepare the payload (same as before)
     body = {
-        "country": "BR",
-        "startDate": "2025-12-06",
-        "endDate": "2026-01-05",
+        "id": id,
+        "startDate": "2025-12-31",
+        "endDate": "2026-01-06",
         "cateIds": [],
-        "showCateIds": [],
+        "authority": true,
         "pageNo": 1,
         "pageSize": 10,
         "sort": [
@@ -39,7 +33,8 @@ def request_top_stores_data(driver):
                 "field": "revenue",
                 "type": "DESC"
             }
-        ]
+        ],
+        "productType": ""
     }
     
     headers = {

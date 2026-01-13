@@ -4,18 +4,11 @@ import os
 # getting the name of the directory
 # where the this file is present.
 current = os.path.dirname(os.path.realpath(__file__))
-
-# Getting the parent directory name
-# where the current directory is present.
-parent = os.path.dirname(current)
-parent_parent = os.path.dirname(parent)
-parent_parent_parent = os.path.dirname(parent_parent)
+parent = os.path.dirname(current) # kalodata
 
 # adding the parent directory to
 # the sys.path.
 sys.path.append(parent)
-sys.path.append(parent_parent)
-sys.path.append(parent_parent_parent)
 
 from dotenv import load_dotenv
 
@@ -28,9 +21,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from login import login
-from request_top_stores_data import request_top_stores_data
-from request_top_stores_data_dto import request_top_stores_data_dto
-from request_top_stores_data_to_db import request_top_stores_data_to_db
+from request_top_stores import request_top_stores
+from request_top_stores_dto import request_top_stores_dto
+from update_stores_db import update_stores_db
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -41,20 +34,19 @@ chrome_options.add_argument("lang=en-US,en")
 
 driver = uc.Chrome(options=chrome_options)
 
-
 def main(): 
-    cookies_dict = login(driver)
+    login(driver)
 
-    request_data_result = request_top_stores_data(driver)
+    result_request_top_stores = request_top_stores(driver)
 
-    if request_data_result['data'] is None:
+    if result_request_top_stores['data'] is None:
         print('')
-        print('[ SELENIUM ] request_data_result is None')
+        print('[ SELENIUM ] result_request_top_stores is None')
         return
 
-    formated_data = request_top_stores_data_dto(request_data_result)
+    result_request_top_stores_dto = request_top_stores_dto(result_request_top_stores)
 
-    result = request_top_stores_data_to_db(formated_data)
+    update_stores_db(result_request_top_stores_dto)
 
 if __name__ == "__main__":
     main()
