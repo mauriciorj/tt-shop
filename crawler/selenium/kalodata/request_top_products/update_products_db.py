@@ -53,6 +53,7 @@ def update_products_db(formated_data):
             # Common data for both tables
             data_map = {
                 'k_id': item.get('k_id'),
+                'country': item.get('country'),
                 'k_position': 0 if item.get('k_position') == 'index' else item.get('k_position'),
                 'name': item.get('name'),
                 'launch_date': item.get('launch_date'),
@@ -72,6 +73,7 @@ def update_products_db(formated_data):
             # PRODUCTS table columns
             products_columns = [
                 'k_id',
+                'country',
                 'k_position',
                 'name',
                 'launch_date',
@@ -95,20 +97,34 @@ def update_products_db(formated_data):
                 # Construct SET clause
                 set_clause = ", ".join([f"{col} = %s" for col in products_columns if col != 'k_id'])
                 
-                # Values for update (exclude k_id from set values, but need it for WHERE)
-                # product_values has k_id at index 0 (based on products_columns order)
-                update_values = product_values[1:] + [k_id]
+                # Values for update (exclude id from set values, but need it for WHERE)
+                # product_values has id at index 0 (based on products_columns order)
+                update_values = product_values[1:] + [product_id]
                 
-                sql = f"UPDATE products SET {set_clause} WHERE k_id = %s"
+                sql = f"UPDATE products SET {set_clause} WHERE id = %s"
                 cursor.execute(sql, update_values)
+
+                print('')
+                print(f'Updating product {product_id}...')
+                print('sql: ', sql)
+                print('product_values: ', product_values)
+                print('update_values: ', update_values)
+                print('')
             
             else:
                 # Insert
                 placeholders = ", ".join(["%s"] * len(products_columns))
                 col_names = ", ".join(products_columns)
+                
                 sql = f"INSERT INTO products ({col_names}) VALUES ({placeholders}) RETURNING id"
                 cursor.execute(sql, product_values)
                 product_id = cursor.fetchone()[0] 
+
+                print('')
+                print(f'Inserting product {product_id}...')
+                print('sql: ', sql)
+                print('product_values: ', product_values)
+                print('')
 
             # SECOND: Download Image
             try:
@@ -134,14 +150,32 @@ def update_products_db(formated_data):
                 else:
                     print(f"[ SELENIUM ] Failed to download image for product {product_id} (k_id: {k_id}). Status: {response.status_code}")
             except Exception as e_img:
-                print(f"[ SELENIUM ] Error downloading image for product {product_id}: {e_img}")
+                print('')
+                print('')
+                print('')
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"Error downloading image for product {product_id}: {e_img}")
+                print('')
+                print('')
+                print('')
 
         conn.commit()
         print('')
         print(f"[ SELENIUM ] Processed {len(formated_data)} items successfully.")
 
     except Exception as e:
+        print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
         print(f"[ SELENIUM ] Error saving to DB: {e}")
+        print('')
+        print('')
+        print('')
         if conn:
             conn.rollback()
         return False

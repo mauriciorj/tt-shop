@@ -21,6 +21,7 @@ def request_top_products_dto(request_data_result):
         
         formated_data.append({
             'k_id': data['id'],
+            'country': "br",
             'k_position': index,
             'name': data['product_title'],
             'launch_date': data['launch_date'],

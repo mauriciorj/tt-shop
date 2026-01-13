@@ -1,5 +1,7 @@
 import sys
 import os
+import time
+import random
 
 # getting the name of the directory
 # where the this file is present.
@@ -35,16 +37,26 @@ driver = uc.Chrome(options=chrome_options)
 
 
 def main(): 
-    result_request_all_top_stores_from_db = request_all_top_stores_from_db()
-
-    if result_request_all_top_stores_from_db is None:
-        print('')
-        print('[ SELENIUM ] request_data_result is None')
-        return
-
     login(driver)
 
-    request_stores_information(driver, result_request_all_top_stores_from_db)
+    limit = 10
+    offset = 0
+
+    while True:
+        print(f"\n[ SELENIUM ] Fetching batch with limit={limit}, offset={offset}")
+        result_request_all_top_stores_from_db = request_all_top_stores_from_db(limit=limit, offset=offset)
+
+        if not result_request_all_top_stores_from_db:
+            print('[ SELENIUM ] No more stores to process or error occurred.')
+            break
+
+        request_stores_information(driver, result_request_all_top_stores_from_db)
+        
+        offset += limit
+        
+        sleep_time = random.randint(1, 10)
+        print(f"[ SELENIUM ] Sleeping for {sleep_time} seconds...")
+        time.sleep(sleep_time)
 
 if __name__ == "__main__":
     main()

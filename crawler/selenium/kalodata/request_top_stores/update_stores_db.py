@@ -53,6 +53,7 @@ def update_stores_db(formated_data):
             # Common data for both tables
             data_map = {
                 'k_id': item.get('k_id'),
+                'country': "br",
                 'k_position': refined_k_position,
                 'name': item.get('name'),
                 'type': item.get('type'),
@@ -71,6 +72,7 @@ def update_stores_db(formated_data):
             # STORES table columns
             stores_columns = [
                 'k_id',
+                'country',
                 'k_position',
                 'name',
                 'type',
@@ -95,18 +97,31 @@ def update_stores_db(formated_data):
                 
                 # Values for update (exclude k_id from set values, but need it for WHERE)
                 # stores_values has k_id at index 0 (based on stores_columns order)
-                update_values = stores_values[1:] + [k_id]
+                update_values = stores_values[1:] + [store_id]
                 
-                sql = f"UPDATE stores SET {set_clause} WHERE k_id = %s"
+                sql = f"UPDATE stores SET {set_clause} WHERE id = %s"
                 cursor.execute(sql, update_values)
+
+                print('')
+                print(f'Updating store {store_id}...')
+                print('sql: ', sql)
+                print('update_values: ', update_values)
+                print('')
             
             else:
                 # Insert
                 placeholders = ", ".join(["%s"] * len(stores_columns))
                 col_names = ", ".join(stores_columns)
+                
                 sql = f"INSERT INTO stores ({col_names}) VALUES ({placeholders}) RETURNING id"
                 cursor.execute(sql, stores_values)
                 store_id = cursor.fetchone()[0]
+
+                print('')
+                print(f'Inserting store {store_id}...')
+                print('sql: ', sql)
+                print('stores_values: ', stores_values)
+                print('')
 
             # SECOND: Download Image
             try:
@@ -132,13 +147,31 @@ def update_stores_db(formated_data):
                 else:
                     print(f"[ SELENIUM ] Failed to download image for store {store_id} (k_id: {k_id}). Status: {response.status_code}")
             except Exception as e_img:
+                print('')
+                print('')
+                print('')
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
                 print(f"[ SELENIUM ] Error downloading image for store {store_id}: {e_img}")
+                print('')
+                print('')
+                print('')
 
         conn.commit()
         print(f"[ SELENIUM ] Processed {len(formated_data)} items successfully.")
 
     except Exception as e:
+        print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
         print(f"[ SELENIUM ] Error saving to DB: {e}")
+        print('')
+        print('')
+        print('')
         if conn:
             conn.rollback()
         return False

@@ -25,7 +25,6 @@ def request_top_products_from_store_details(driver, id):
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
-        "authority": true,
         "pageNo": 1,
         "pageSize": 10,
         "sort": [
@@ -58,4 +57,12 @@ def request_top_products_from_store_details(driver, id):
         error_to_string = str(e)
         log_string = '['+ datetime.today().strftime('%Y-%m-%d %H:%M:%S') + '] ' + '[ SELENIUM - ERROR ] - ' + error_to_string
         print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
         print(log_string)
+        print('')
+        print('')
+        print('')

@@ -13,13 +13,13 @@ sys.path.append(parent_parent_parent)
 
 from utils.parse_value import parse_value
 
-def request_top_products_from_store_details_dto(result_request_top_products):
+def request_top_videos_dto(result_request_top_videos):
     print('')
     print('[ SELENIUM ] Formatting data...')
     
     formated_data =  []
 
-    for data in result_request_top_products['data']:
+    for data in result_request_top_videos['data']:
         formated_data.append({
             'k_id': data['id'],
             'tt_account': data['handle'],

@@ -17,13 +17,10 @@ def request_store_total_sales_dto(result_request_top_products):
     print('')
     print('[ SELENIUM ] Formatting data...')
     
-    formated_data =  []
-
-    for data in result_request_top_products['data']:
-        formated_data.append({
-            'day_sales': data['day_sale'],
-            'day_revenue': data['day_revenue'],
-        })
+    formated_data = {
+        'day_sales': parse_value(result_request_top_products['data']['day_sale']),
+        'day_revenue': parse_value(result_request_top_products['data']['day_revenue']),
+    }
 
     print('[ SELENIUM ] Format data done')
     return formated_data

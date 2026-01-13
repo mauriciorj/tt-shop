@@ -35,7 +35,16 @@ def create_stores():
         print("[ SELENIUM ] Table 'stores' created successfully.")
         
     except Exception as e:
-        print(f"[ SELENIUM - ERROR !!! ] Error creating table: {e}")
+        print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"Error creating table: {e}")
+        print('')
+        print('')
+        print('')
     finally:
         if conn:
             conn.close()

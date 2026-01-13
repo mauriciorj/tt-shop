@@ -18,6 +18,7 @@ CREATE TABLE stores (
   unit_price NUMERIC(10, 2), -- 
   top_creators NUMERIC[], -- 
   top_products NUMERIC[], -- 
+  top_videos NUMERIC[], -- 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE
 );

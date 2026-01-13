@@ -23,6 +23,7 @@ def request_top_stores_dto(request_data_result):
         
         formated_data.append({
             'k_id': data['id'],
+            'country': "br",
             'k_position': index,
             'main_category': pri_cat,
             'name': data['name'],

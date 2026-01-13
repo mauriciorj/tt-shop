@@ -31,7 +31,6 @@ def request_store_history_sales(driver, id):
         "cateIds": [],
         "startDate": "2025-12-08",
         "endDate": "2026-01-06",
-        "authority": true
     }
     
     headers = {
@@ -55,4 +54,12 @@ def request_store_history_sales(driver, id):
         error_to_string = str(e)
         log_string = '['+ datetime.today().strftime('%Y-%m-%d %H:%M:%S') + '] ' + '[ SELENIUM - ERROR ] - ' + error_to_string
         print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
         print(log_string)
+        print('')
+        print('')
+        print('')

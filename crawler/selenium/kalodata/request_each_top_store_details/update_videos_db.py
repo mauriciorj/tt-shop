@@ -70,23 +70,36 @@ def update_videos_db(formated_data):
                 
                 # Values for update (exclude k_id from set values, but need it for WHERE)
                 # video_values has k_id at index 0 (based on video_columns order)
-                update_values = video_values[1:] + [k_id]
+                update_values = video_values[1:] + [video_id]
                 
-                sql = f"UPDATE videos SET {set_clause} WHERE k_id = %s"
+                sql = f"UPDATE videos SET {set_clause} WHERE id = %s"
                 cursor.execute(sql, update_values)
+
+                # print('')
+                # print(f'Updating video {video_id}...')
+                # print('sql: ', sql)
+                # print('update_values: ', update_values)
+                # print('')
             
             else:
                 # Insert
                 placeholders = ", ".join(["%s"] * len(video_columns))
                 col_names = ", ".join(video_columns)
+
                 sql = f"INSERT INTO videos ({col_names}) VALUES ({placeholders}) RETURNING id"
                 cursor.execute(sql, video_values)
                 video_id = cursor.fetchone()[0] 
 
+                # print('')
+                # print(f'Inserting video {video_id}...')
+                # print('sql: ', sql)
+                # print('video_values: ', video_values)
+                # print('')
+
             # SECOND: Download Image
             try:
-                print('')
-                print('[ SELENIUM ] Downloading image...')
+                # print('')
+                # print('[ SELENIUM ] Downloading image...')
                 project_root = os.path.dirname(parent_parent_parent)
                 images_dir = os.path.join(project_root, 'public', 'images', 'videos')
                 if not os.path.exists(images_dir):
@@ -103,18 +116,36 @@ def update_videos_db(formated_data):
                     with open(image_path, 'wb') as f:
                         for chunk in response.iter_content(1024):
                             f.write(chunk)
-                    print(f'[ SELENIUM ] downloaded image for creator: {video_id}')
+                    # print(f'[ SELENIUM ] downloaded image for creator: {video_id}')
                 else:
                     print(f"[ SELENIUM ] Failed to download image for creator {video_id} (k_id: {k_id}). Status: {response.status_code}")
             except Exception as e_img:
-                print(f"[ SELENIUM ] Error downloading image for creator {video_id}: {e_img}")
+                print('')
+                print('')
+                print('')
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+                print(f"Error downloading image for creator {video_id}: {e_img}")
+                print('')
+                print('')
+                print('')
 
         conn.commit()
         print('')
         print(f"[ SELENIUM ] Processed {len(formated_data)} items successfully.")
 
     except Exception as e:
+        print('')
+        print('')
+        print('')
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
         print(f"[ SELENIUM ] Error saving to DB: {e}")
+        print('')
+        print('')
+        print('')
         if conn:
             conn.rollback()
         return False
