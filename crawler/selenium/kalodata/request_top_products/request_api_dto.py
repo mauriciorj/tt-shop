@@ -1,19 +1,22 @@
 import sys
 import os
 
-# Adjust path to allow imports from crawler root
+# getting the name of the directory where the this file is present.
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current) # kalodata
 parent_parent = os.path.dirname(parent) # selenium
 parent_parent_parent = os.path.dirname(parent_parent) # crawler
 
-# adding the parent directory to
-# the sys.path.
+# adding the parent directory to the sys.path.
+sys.path.append(parent)
+sys.path.append(parent_parent)
 sys.path.append(parent_parent_parent)
 
 from utils.parse_value import parse_value
 
 def request_api_dto(request_data_result):
+    print('')
+    print('[ SELENIUM ] Formatting data...')
     formated_data =  []
     for index, data in enumerate(request_data_result['data'], start=1):
         
@@ -34,4 +37,5 @@ def request_api_dto(request_data_result):
             'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
             'k_sales': data['sale'],
         })
+    print('[ SELENIUM ] Data formatted successfully')
     return formated_data

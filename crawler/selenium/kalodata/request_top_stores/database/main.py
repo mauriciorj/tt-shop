@@ -14,12 +14,12 @@ parent_parent_parent = os.path.dirname(parent_parent) # crawler
 sys.path.append(parent_parent_parent)
 
 from db.client import connect_to_database
-from update_k_position import update_k_position
-from download_image import download_image
-from crud import data_map
-from crud import select
-from crud import update
-from crud import insert
+from database.update_k_position import update_k_position
+from database.download_image import download_image
+from database.crud import data_map
+from database.crud import select
+from database.crud import update
+from database.crud import insert
 
 # STORES table columns
 stores_columns = [

@@ -1,20 +1,24 @@
 import sys
 import os
+import requests
+from datetime import datetime
 
-# getting the name of the directory
-# where the this file is present.
+# getting the name of the directory where the this file is present.
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current) # kalodata
+parent_parent = os.path.dirname(parent) # selenium
+parent_parent_parent = os.path.dirname(parent_parent) # crawler
 
-# adding the parent directory to
-# the sys.path.
+# adding the parent directory to the sys.path.
 sys.path.append(parent)
+sys.path.append(parent_parent)
+sys.path.append(parent_parent_parent)
 
-from datetime import datetime
 from logger.console import console
 
-def data_map(get, refined_k_position):
-     return {
+def map_data(item):
+    print(f'[ SELENIUM ] map_data Step 000')
+    data_mapped = {
                 'name': item.get('name'),
                 'country': item.get('country'),
                 'launch_date': item.get('launch_date'),
@@ -32,6 +36,8 @@ def data_map(get, refined_k_position):
                 'k_sales': item.get('sales'),
                 'updated_at': datetime.now()
             }
+    print(f'[ SELENIUM ] map_data Step 111 {data_mapped}')
+    return data_mapped
 
 def select(cursor, k_id):
     cursor.execute("SELECT id FROM products WHERE k_id = %s", (k_id,))
@@ -39,6 +45,7 @@ def select(cursor, k_id):
     return select_product
 
 def update(cursor, select_product, products_columns, product_values):
+    print('[ SELENIUM ] Updating Top Products to DB...')
     product_id = select_product[0]
     set_clause = ", ".join([f"{col} = %s" for col in products_columns if col != 'k_id'])
                 
@@ -52,6 +59,7 @@ def update(cursor, select_product, products_columns, product_values):
     return True
 
 def insert(cursor, products_columns, product_values):
+    print('[ SELENIUM ] Inserting Top Products to DB...')
     placeholders = ", ".join(["%s"] * len(products_columns))
     col_names = ", ".join(products_columns)
                 

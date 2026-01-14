@@ -3,14 +3,16 @@ import os
 import time
 import random
 
-# getting the name of the directory
-# where the this file is present.
+# getting the name of the directory where the this file is present.
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current) # kalodata
+parent_parent = os.path.dirname(parent) # selenium
+parent_parent_parent = os.path.dirname(parent_parent) # crawler
 
-# adding the parent directory to
-# the sys.path.
+# adding the parent directory to the sys.path.
 sys.path.append(parent)
+sys.path.append(parent_parent)
+sys.path.append(parent_parent_parent)
 
 from dotenv import load_dotenv
 
@@ -22,7 +24,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from login import login
+from login.login import login
 from request_api import request_api
 from request_api_dto import request_api_dto
 from database.main import main as db_handler
@@ -40,13 +42,15 @@ driver = uc.Chrome(options=chrome_options)
 def main(): 
     login(driver)
 
-    limit = 10
-    offset = 0
+    page = 1
 
     while True:
-        print(f"\n[ SELENIUM ] Fetching batch with limit={limit}, offset={offset}")
+        print('')
+        print('')
+        print('')
+        print(f"\n[ SELENIUM ] Fetching batch with page={page}")
 
-        request_api_result = request_api(driver)
+        request_api_result = request_api(driver, page)
 
         if request_api_result['data'] is None:
             print('[ SELENIUM ] request_api_result is None')
@@ -56,9 +60,10 @@ def main():
 
         db_handler(request_api_dto_result)
 
-        offset += limit
+        page += 1
 
         sleep_time = random.randint(1, 10)
+        print('')
         print(f"[ SELENIUM ] Sleeping for {sleep_time} seconds...")
         time.sleep(sleep_time)
 
