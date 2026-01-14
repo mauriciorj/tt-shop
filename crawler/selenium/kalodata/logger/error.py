@@ -1,0 +1,11 @@
+def error(error): 
+    print('')
+    print('')
+    print('')
+    print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+    print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+    print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
+    print(f"[ SELENIUM ] Error saving to DB: {error}")
+    print('')
+    print('')
+    print('')

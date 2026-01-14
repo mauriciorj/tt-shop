@@ -1,5 +1,5 @@
-from request_top_creators import request_top_creators
-from request_top_creators_dto import request_top_creators_dto
+from top_creators.main import main as top_creators_main
+
 from request_top_products_from_store_details import request_top_products_from_store_details
 from request_top_products_from_store_details_dto import request_top_products_from_store_details_dto
 from request_top_videos import request_top_videos
@@ -11,23 +11,18 @@ from update_creators_db import update_creators_db
 from update_videos_db import update_videos_db
 from update_stores_db_from_store_details import update_stores_db_from_store_details
 
-def request_stores_information(driver, result_request_all_top_stores_from_db):
-    # print('[ SELENIUM ] Requesting store by store...')
+def request_control(driver, result_request_all_top_stores_from_db):
+    print('[ SELENIUM ] Starting the requests...')
 
-    for store_id in result_request_all_top_stores_from_db:
-        # Request the list of the top creators
-        result_request_top_creators = request_top_creators(driver, store_id[0])
-        if result_request_top_creators['data'] is None:
-            print('')
-            print('[ SELENIUM ] result_request_top_creators is None')
-            return
-        result_request_top_creators_dto = request_top_creators_dto(result_request_top_creators)
-        update_creators_db(result_request_top_creators_dto)
+    for store in result_request_all_top_stores_from_db:
+        store_id = store[0]
 
+        # Top creators
+        top_creators = top_creators_main(driver, store_id)
 
 
         # Request the list of the top products
-        result_request_top_products = request_top_products_from_store_details(driver, store_id[0])
+        result_request_top_products = request_top_products_from_store_details(driver, store_id)
         if result_request_top_products['data'] is None:
             print('')
             print('[ SELENIUM ] result_request_top_products is None')
@@ -37,7 +32,7 @@ def request_stores_information(driver, result_request_all_top_stores_from_db):
 
 
         # Request the list of the top video
-        result_request_top_videos = request_top_videos(driver, store_id[0])
+        result_request_top_videos = request_top_videos(driver, store_id)
         if result_request_top_videos['data'] is None:
             print('')
             print('[ SELENIUM ] result_request_top_videos is None')
@@ -48,7 +43,7 @@ def request_stores_information(driver, result_request_all_top_stores_from_db):
 
 
         # Request the total sales
-        result_request_store_total_sales = request_store_total_sales(driver, store_id[0])
+        result_request_store_total_sales = request_store_total_sales(driver, store_id)
         if result_request_store_total_sales['data'] is None:
             print('')
             print('[ SELENIUM ] result_request_store_total_sales is None')
@@ -59,7 +54,7 @@ def request_stores_information(driver, result_request_all_top_stores_from_db):
 
         # NOTE: This data is coming from the Top Stores crawler
         # Request the history sales
-        # result_request_store_history_sales = request_store_history_sales(driver, store_id[0])
+        # result_request_store_history_sales = request_store_history_sales(driver, store_id)
         # if result_request_store_history_sales['data'] is None:
         #     print('')
         #     print('[ SELENIUM ] result_request_store_history_sales is None')
@@ -68,12 +63,12 @@ def request_stores_information(driver, result_request_all_top_stores_from_db):
 
 
         # NOTE: This data is coming from the Top Stores crawler
-        # Request the details of the store_id[0]
-        # result_request_store_details = request_store_details(driver, store_id[0])
+        # Request the details of the store_id
+        # result_request_store_details = request_store_details(driver, store_id)
         # if result_request_store_details['data'] is None:
         #     print('')
         #     print('[ SELENIUM ] result_request_store_details is None')
         #     return
 
 
-        update_stores_db_from_store_details(store_id[0], result_request_top_creators_dto, result_request_top_products_from_store_details_dto, result_request_top_videos_dto, result_request_store_total_sales_dto)
+        update_stores_db_from_store_details(store_id, top_creators, result_request_top_products_from_store_details_dto, result_request_top_videos_dto, result_request_store_total_sales_dto)

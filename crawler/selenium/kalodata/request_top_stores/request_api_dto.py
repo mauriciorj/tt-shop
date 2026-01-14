@@ -14,7 +14,7 @@ sys.path.append(parent_parent_parent)
 from utils.parse_value import parse_value
 from utils.parse_categories import parse_categories
 
-def request_top_stores_dto(request_data_result):
+def request_api_dto(request_data_result):
     print('')
     print('[ SELENIUM ] Formatting data...')
     formated_data =  []

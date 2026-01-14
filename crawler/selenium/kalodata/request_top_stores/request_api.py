@@ -11,8 +11,9 @@ parent = os.path.dirname(current) # kalodata
 sys.path.append(parent)
 
 from selenium_utils import selenium_fetch
+from logger.error import error
 
-def request_top_stores(driver):
+def request_api(driver):
     print('')
     print('[ SELENIUM ] Requesting data...')
 
@@ -53,15 +54,5 @@ def request_top_stores(driver):
         return data
 
     except Exception as e:
-        error_to_string = str(e)
-        log_string = '['+ datetime.today().strftime('%Y-%m-%d %H:%M:%S') + '] ' + '[ SELENIUM - ERROR ] - ' + error_to_string
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(log_string)
-        print('')
-        print('')
-        print('')
+        error(e)
+        sys.exit(1)

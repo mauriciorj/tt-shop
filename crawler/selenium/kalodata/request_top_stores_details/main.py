@@ -24,7 +24,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from login import login
 from request_all_top_stores_from_db import request_all_top_stores_from_db
-from request_stores_information import request_stores_information
+from request_control import request_control
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -50,7 +50,7 @@ def main():
             print('[ SELENIUM ] No more stores to process or error occurred.')
             break
 
-        request_stores_information(driver, result_request_all_top_stores_from_db)
+        request_control(driver, result_request_all_top_stores_from_db)
         
         offset += limit
         

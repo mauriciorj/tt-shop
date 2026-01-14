@@ -19,7 +19,7 @@ sys.path.append(parent_parent_parent)
 
 from selenium_utils import selenium_fetch
 
-def request_top_creators(driver, id):
+def request_api(driver, id):
     print('')
     print('[ SELENIUM ] Requesting top creators...')
 

@@ -1,0 +1,28 @@
+import sys
+import os
+import requests
+
+def download_image(store_id, k_id):
+    try:
+        project_root = os.path.dirname(parent_parent_parent)
+        images_dir = os.path.join(project_root, 'public', 'images', 'stores')
+        if not os.path.exists(images_dir):
+            os.makedirs(images_dir)
+                
+        image_url = f"https://img.kalocdn.com/tiktok.seller/{k_id}/logo.png"
+        image_path = os.path.join(images_dir, f"{store_id}.png")
+                
+        # Check if image already exists to avoid re-downloading (optional, but good practice)
+        # But user requirement implies we should ensure it's there. Overwriting is safer if image changed.
+                
+        response = requests.get(image_url, stream=True)
+        if response.status_code == 200:
+            with open(image_path, 'wb') as f:
+                for chunk in response.iter_content(1024):
+                    f.write(chunk)
+            print(f'[ SELENIUM ] downloaded image for store: {store_id}')
+        else:
+            print(f"[ SELENIUM ] Failed to download image for store {store_id} (k_id: {k_id}). Status: {response.status_code}")
+    except Exception as e_img:
+        error(e_img)
+        sys.exit(1)

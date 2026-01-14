@@ -16,10 +16,11 @@ parent_parent_parent = os.path.dirname(parent_parent)
 sys.path.append(parent_parent_parent)
 
 from db.client import connect_to_database
+from logger.error import error
 
 def request_all_top_stores_from_db(limit=10, offset=0):
-    # print('')
-    # print('[ SELENIUM ] Requesting all top stores...')
+    print('')
+    print('[ SELENIUM ] Requesting all top stores...')
 
     conn = connect_to_database()
 
@@ -34,16 +35,8 @@ def request_all_top_stores_from_db(limit=10, offset=0):
         cursor.execute("SELECT k_id FROM stores WHERE k_position IS NOT NULL ORDER BY k_position ASC LIMIT %s OFFSET %s", (limit, offset))
         result = cursor.fetchall()
     except Exception as e:
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ SELENIUM ] Error saving to DB: {e}")
-        print('')
-        print('')
-        print('')
+        error(e)
+        sys.exit(1)
         if conn:
             conn.rollback()
         return False
