@@ -1,16 +1,3 @@
-# import sys
-# import os
-
-# Adjust path to allow imports from crawler root
-# current = os.path.dirname(os.path.realpath(__file__))
-# parent = os.path.dirname(current) # kalodata
-# parent_parent = os.path.dirname(parent) # selenium
-# parent_parent_parent = os.path.dirname(parent_parent) # crawler
-
-# adding the parent directory to
-# the sys.path.
-# sys.path.append(parent_parent_parent)
-
 from utils.parse_value import parse_value
 from utils.parse_categories import parse_categories
 

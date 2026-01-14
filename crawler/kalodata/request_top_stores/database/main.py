@@ -1,22 +1,10 @@
 import sys
-# import os
-# import requests
-# from datetime import datetime
 
-# Adjust path to allow imports from crawler root
-# current = os.path.dirname(os.path.realpath(__file__))
-# parent = os.path.dirname(current) # kalodata
-# parent_parent = os.path.dirname(parent) # selenium
-# parent_parent_parent = os.path.dirname(parent_parent) # crawler
-
-# adding the parent directory to
-# the sys.path.
-# sys.path.append(parent_parent_parent)
-
+from logger.error import error
 from db.client import connect_to_database
 from request_top_stores.database.update_k_position import update_k_position
 from request_top_stores.database.download_image import download_image
-from request_top_stores.database.crud import data_map
+from request_top_stores.database.crud import map_data
 from request_top_stores.database.crud import select
 from request_top_stores.database.crud import update
 from request_top_stores.database.crud import insert
@@ -66,9 +54,9 @@ def main(formated_data):
             
             store_id = None
             
-            data_map = data_map()
+            data_mapped = map_data(item)
             
-            stores_values = [data_map[col] for col in stores_columns]
+            stores_values = [data_mapped[col] for col in stores_columns]
 
             # STEP 03
             # Update or insert the values in stores

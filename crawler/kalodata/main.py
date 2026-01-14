@@ -5,7 +5,7 @@ from postgres_tables.create_products import create_products
 from postgres_tables.create_stores import create_stores
 from postgres_tables.create_videos import create_videos
 
-# from request_top_stores.main import main as run_request_top_stores
+from request_top_stores.main import main as run_request_top_stores
 # from request_top_stores_details.main import main as run_request_top_stores_details
 from request_top_products.main import main as run_request_top_products
 # from request_top_products_details.main import main as run_request_top_products_details
@@ -40,8 +40,7 @@ def run_crawler_menu():
     if selection == "Quit":
         print("Exiting...")
     elif selection == "Top Stores":
-        print("Exiting...")
-        # run_request_top_stores()
+        run_request_top_stores()
     # elif selection == "Top Stores Details":
     #     run_request_top_stores_details()
     elif selection == "Top Products":

@@ -1,20 +1,5 @@
-# import sys
-# import os
 import time
 import random
-
-# getting the name of the directory
-# where the this file is present.
-# current = os.path.dirname(os.path.realpath(__file__))
-# parent = os.path.dirname(current) # kalodata
-
-# adding the parent directory to
-# the sys.path.
-# sys.path.append(parent)
-
-# from dotenv import load_dotenv
-
-# load_dotenv()
 
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
@@ -34,17 +19,18 @@ chrome_options.add_argument(f'user-agent={user_agent}')
 chrome_options.add_argument("lang=en-US,en")
 # chrome_options.add_argument("--headless")
 
-driver = uc.Chrome(options=chrome_options)
 
 def main(): 
+    driver = uc.Chrome(options=chrome_options)
+
     login(driver)
 
-    limit = 10
-    offset = 0
-    while True:
-        print(f"\n[ SELENIUM ] Fetching batch with limit={limit}, offset={offset}")
+    page = 1
 
-        request_api_result = request_api(driver)
+    while True:
+        print(f"\n[ SELENIUM ] Fetching batch with page={page}")
+
+        request_api_result = request_api(driver, page)
 
         if request_api_result['data'] is None:
             print('[ SELENIUM ] request_api_result is None')
@@ -54,7 +40,7 @@ def main():
 
         db_handler(request_api_dto_result)
 
-        offset += limit
+        page += 1
 
         sleep_time = random.randint(1, 10)
         print(f"[ SELENIUM ] Sleeping for {sleep_time} seconds...")

@@ -1,20 +1,8 @@
-# import sys
-# import os
-
-# getting the name of the directory
-# where the this file is present.
-# current = os.path.dirname(os.path.realpath(__file__))
-# parent = os.path.dirname(current) # kalodata
-
-# adding the parent directory to
-# the sys.path.
-# sys.path.append(parent)
-
 from datetime import datetime
 from logger.console import console
 
-def data_map(get, refined_k_position):
-     return {
+def map_data(item):
+    data_mapped = {
                 'name': item.get('name'),
                 'country': "br",
                 'type': item.get('type'),
@@ -23,13 +11,14 @@ def data_map(get, refined_k_position):
                 'third_category': item.get('third_category'),
                 'unit_price': item.get('unit_price'),
                 'k_id': item.get('k_id'),
-                'k_position': refined_k_position,
+                'k_position': 0 if item.get('k_position') == 'index' else item.get('k_position'),
                 'k_revenue': item.get('revenue'),
                 'k_revenue_history': item.get('revenue_history'),
                 'k_revenue_growth_rate': item.get('revenue_growth_rate'),
                 'k_sales': item.get('sales'),
                 'updated_at': datetime.now()
             }
+    return data_mapped
 
 def select(cursor, k_id):
     cursor.execute("SELECT id FROM stores WHERE k_id = %s", (k_id,))
@@ -38,9 +27,9 @@ def select(cursor, k_id):
 
 def update(cursor, select_store, stores_columns, stores_values):
     store_id = select_store[0]
-    set_clause = ", ".join([f"{col} = %s" for col in stores_columns if col != 'k_id'])
+    set_clause = ", ".join([f"{col} = %s" for col in stores_columns])
 
-    update_values = stores_values[1:] + [store_id]
+    update_values = stores_values + [store_id]
                 
     sql = f"UPDATE stores SET {set_clause} WHERE id = %s"
     cursor.execute(sql, update_values)

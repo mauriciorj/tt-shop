@@ -1,19 +1,9 @@
 import sys
-# import os
-
-# getting the name of the directory
-# where the this file is present.
-# current = os.path.dirname(os.path.realpath(__file__))
-# parent = os.path.dirname(current) # kalodata
-
-# adding the parent directory to
-# the sys.path.
-# sys.path.append(parent)
 
 from selenium_utils import selenium_fetch
 from logger.error import error
 
-def request_api(driver):
+def request_api(driver, page):
     print('')
     print('[ SELENIUM ] Requesting data...')
 
@@ -26,7 +16,7 @@ def request_api(driver):
         "endDate": "2026-01-05",
         "cateIds": [],
         "showCateIds": [],
-        "pageNo": 1,
+        "pageNo": page,
         "pageSize": 10,
         "sort": [
             {

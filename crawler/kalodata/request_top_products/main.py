@@ -22,6 +22,7 @@ chrome_options.add_argument("lang=en-US,en")
 
 def main(): 
     driver = uc.Chrome(options=chrome_options)
+    
     login(driver)
 
     page = 1
