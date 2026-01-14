@@ -15,20 +15,19 @@ from logger.console import console
 
 def data_map(get, refined_k_position):
      return {
-                'k_id': item.get('k_id'),
-                'country': "br",
-                'k_position': refined_k_position,
                 'name': item.get('name'),
+                'country': "br",
                 'type': item.get('type'),
-                'region': item.get('region'),
                 'main_category': item.get('main_category'),
                 'second_category': item.get('second_category'),
                 'third_category': item.get('third_category'),
-                'revenue': item.get('revenue'),
-                'revenue_history': item.get('revenue_history'),
-                'revenue_growth_rate': item.get('revenue_growth_rate'),
-                'sales': item.get('sales'),
                 'unit_price': item.get('unit_price'),
+                'k_id': item.get('k_id'),
+                'k_position': refined_k_position,
+                'k_revenue': item.get('revenue'),
+                'k_revenue_history': item.get('revenue_history'),
+                'k_revenue_growth_rate': item.get('revenue_growth_rate'),
+                'k_sales': item.get('sales'),
                 'updated_at': datetime.now()
             }
 

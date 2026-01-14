@@ -23,20 +23,19 @@ from crud import insert
 
 # STORES table columns
 stores_columns = [
-    'k_id',
-    'country',
-    'k_position',
     'name',
+    'country',
     'type',
-    'region',
     'main_category',
     'second_category',
     'third_category',
-    'revenue',
-    'revenue_history',
-    'revenue_growth_rate',
-    'sales',
     'unit_price',
+    'k_id',
+    'k_position',
+    'k_revenue',
+    'k_revenue_history',
+    'k_revenue_growth_rate',
+    'k_sales',
     'updated_at'
 ]
 

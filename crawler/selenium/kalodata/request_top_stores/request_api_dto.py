@@ -22,20 +22,19 @@ def request_api_dto(request_data_result):
         pri_cat, sec_cat, ter_cat = parse_categories(data.get('main_category'))
         
         formated_data.append({
-            'k_id': data['id'],
-            'country': "br",
-            'k_position': index,
-            'main_category': pri_cat,
             'name': data['name'],
-            'region': 'BR',
-            'revenue': parse_value(data['revenue']),
-            'revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
-            'revenue_history': data['revenue_trend'],
-            'sales': parse_value(data['sale']),
+            'country': "br",
+            'type': data['seller_type'],
+            'main_category': pri_cat,
             'second_category': sec_cat,
             'third_category': ter_cat,
-            'type': data['seller_type'],
             'unit_price': parse_value(data['unit_price']),
+            'k_id': data['id'],
+            'k_position': index,
+            'k_revenue': parse_value(data['revenue']),
+            'k_revenue_history': data['revenue_trend'],
+            'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
+            'k_sales': parse_value(data['sale']),
         })
     print('[ SELENIUM ] Format data done')
     return formated_data
