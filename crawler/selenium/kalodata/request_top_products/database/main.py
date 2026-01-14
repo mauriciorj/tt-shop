@@ -21,27 +21,28 @@ from crud import select
 from crud import update
 from crud import insert
 
-# STORES table columns
-stores_columns = [
+products_columns = [
     'name',
     'country',
-    'type',
+    'launch_date',
+    'product_rating',
     'main_category',
     'second_category',
     'third_category',
     'unit_price',
     'k_id',
     'k_position',
+    'k_creator_conversion_ratio',
     'k_revenue',
     'k_revenue_history',
     'k_revenue_growth_rate',
     'k_sales',
     'updated_at'
 ]
-
+            
 def main(formated_data):
     print('')
-    print('[ SELENIUM ] Saving Top Stores to DB...')
+    print('[ SELENIUM ] Saving Top Products to DB...')
 
     conn = connect_to_database()
     if conn is None:
@@ -61,27 +62,26 @@ def main(formated_data):
             update_k_position(cursor, item)
 
             # STEP 02
-            # Check the "stores" table for existing k_id
-            select_store = select(cursor, k_id)
-            
-            store_id = None
-            
+            # Check the "products" table for existing k_id
+            select_product = select(cursor, k_id)
+
+            product_id = None
+
             data_map = data_map()
-            
-            stores_values = [data_map[col] for col in stores_columns]
+
+            product_values = [data_map[col] for col in products_columns]
 
             # STEP 03
             # Update or insert the values in stores
-            if select_store:
-                update(cursor, select_store, stores_columns, stores_values)
-            
+            if select_product:
+                update(cursor, select_product, products_columns, product_values)
             else:
-                store_id = insert(cursor, stores_columns, stores_values)
+                product_id = insert(cursor, products_columns, product_values)
 
             # STEP 04
             # Download image
-            download_image(store_id, k_id)
-
+            download_image(product_id, k_id)
+    
         conn.commit()
         print(f"[ SELENIUM ] Processed {len(formated_data)} items successfully.")
 
@@ -96,6 +96,7 @@ def main(formated_data):
             print(f"[ SELENIUM ] Closing connection...")
             conn.close()
         return True
+
 
 if __name__ == "__main__":
     main()

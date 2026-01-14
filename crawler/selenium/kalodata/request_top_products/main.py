@@ -23,9 +23,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from login import login
-from request_top_products import request_top_products
-from request_top_products_dto import request_top_products_dto
-from update_products_db import update_products_db
+from request_api import request_api
+from request_api_dto import request_api_dto
+from database.main import main as db_handler
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -46,15 +46,15 @@ def main():
     while True:
         print(f"\n[ SELENIUM ] Fetching batch with limit={limit}, offset={offset}")
 
-        result_request_top_products = request_top_products(driver)
+        request_api_result = request_api(driver)
 
-        if result_request_top_products['data'] is None:
-            print('[ SELENIUM ] result_request_top_products is None')
+        if request_api_result['data'] is None:
+            print('[ SELENIUM ] request_api_result is None')
             return
 
-        result_request_top_products_dto = request_top_products_dto(result_request_top_products)
+        request_api_dto_result = request_api_dto(request_api_result)
 
-        update_products_db(result_request_top_products_dto)
+        db_handler(request_api_dto_result)
 
         offset += limit
 
