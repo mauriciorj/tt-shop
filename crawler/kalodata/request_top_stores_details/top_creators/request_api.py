@@ -1,25 +1,9 @@
 import sys
-import os
-
-# getting the name of the directory
-# where the this file is present.
-current = os.path.dirname(os.path.realpath(__file__))
-
-# Getting the parent directory name
-# where the current directory is present.
-parent = os.path.dirname(current)
-parent_parent = os.path.dirname(parent)
-parent_parent_parent = os.path.dirname(parent_parent)
-
-# adding the parent directory to
-# the sys.path.
-sys.path.append(parent)
-sys.path.append(parent_parent)
-sys.path.append(parent_parent_parent)
 
 from selenium_utils import selenium_fetch
+from logger.error import error
 
-def request_api(driver, id):
+def request_api(driver, store_k_id):
     print('')
     print('[ SELENIUM ] Requesting top creators...')
 
@@ -27,7 +11,7 @@ def request_api(driver, id):
 
     # Prepare the payload (same as before)
     body = {
-        "id": id,
+        "id": store_k_id,
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
@@ -60,15 +44,5 @@ def request_api(driver, id):
         return data
 
     except Exception as e:
-        error_to_string = str(e)
-        log_string = '['+ datetime.today().strftime('%Y-%m-%d %H:%M:%S') + '] ' + '[ SELENIUM - ERROR ] - ' + error_to_string
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(log_string)
-        print('')
-        print('')
-        print('')
+        error(e, 12)
+        sys.exit(1)

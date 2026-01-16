@@ -36,7 +36,7 @@ def create_videos():
         print("[ SELENIUM ] Table 'videos' created successfully.")
         
     except Exception as e:
-        error(e)
+        error(e, 4)
 
     finally:
         if conn:

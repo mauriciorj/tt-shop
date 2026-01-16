@@ -36,7 +36,7 @@ def create_stores():
         print("[ SELENIUM ] Table 'stores' created successfully.")
         
     except Exception as e:
-        error(e)
+        error(e, 3)
         
     finally:
         if conn:

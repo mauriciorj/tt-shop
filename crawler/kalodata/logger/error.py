@@ -1,11 +1,13 @@
-def error(error): 
+def error(error, id): 
     print('')
     print('')
     print('')
     print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
     print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
     print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-    print(f"[ SELENIUM ] Error saving to DB: {error}")
+    if id:
+        print(f"[ SELENIUM ] Error id: {id}")
+    print(f"[ SELENIUM ] Error message: {error}")
     print('')
     print('')
     print('')

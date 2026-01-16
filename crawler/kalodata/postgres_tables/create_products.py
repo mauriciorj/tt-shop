@@ -36,7 +36,7 @@ def create_products():
         print("[ SELENIUM ] Table 'products' created successfully.")
         
     except Exception as e:
-        error(e)
+        error(e, 2)
 
     finally:
         if conn:

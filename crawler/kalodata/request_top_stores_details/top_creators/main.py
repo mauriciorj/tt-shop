@@ -1,17 +1,21 @@
-from request_api import request_api
+from request_top_stores_details.top_creators.request_api import request_api
+from request_top_stores_details.top_creators.request_api_dto import request_api_dto
+from request_top_stores_details.top_creators.update_db import update_db
 
-def main(driver, store_id): 
+def main(driver, store_k_id): 
     # Request the list of the top creators
-    result_request_top_creators = request_api(driver, store_id)
-    if result_request_top_creators['data'] is None:
+    request_api_result = request_api(driver, store_k_id)
+    
+    if request_api_result['data'] is None:
         print('')
-        print('[ SELENIUM ] result_request_top_creators is None')
+        print('[ SELENIUM ] request_api_result is None')
         return
 
-    result_request_top_creators_dto = request_top_creators_dto(result_request_top_creators)
-    update_creators_db(result_request_top_creators_dto)
+    request_api_dto_result = request_api_dto(request_api_result)
+    
+    update_db(request_api_dto_result)
 
-    return result_request_top_creators_dto
+    return request_api_dto_result
 
 if __name__ == "__main__":
     main()

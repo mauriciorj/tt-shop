@@ -44,5 +44,5 @@ def request_api(driver, page):
         return data
 
     except Exception as e:
-        error(e)
+        error(e, 7)
         sys.exit(1)

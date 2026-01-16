@@ -76,7 +76,7 @@ def main(formated_data):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e)
+        error(e, 8)
         sys.exit(1)
 
     finally:

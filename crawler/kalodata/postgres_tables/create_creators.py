@@ -36,7 +36,7 @@ def create_creators():
         print("[ SELENIUM ] Table 'creators' created successfully.")
         
     except Exception as e:
-        error(e)
+        error(e, 1)
 
     finally:
         if conn:

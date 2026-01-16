@@ -28,6 +28,7 @@ def main():
     page = 1
 
     while True:
+        print('')
         print(f"\n[ SELENIUM ] Fetching batch with page={page}")
 
         request_api_result = request_api(driver, page)
