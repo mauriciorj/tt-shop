@@ -1,6 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -22,15 +30,16 @@ export function Header() {
 
           {/* Desktop Navigation - Right Side */}
           <div className="hidden md:flex items-center gap-6">
-            <Link href="/login">Login</Link>
-            <Link href="/create-account">
-              <Button
-                size="sm"
-                className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
-              >
+            <SignInButton>
+              <div className="block px-5 py-3 text-slate-00 hover:text-slate-900 hover:bg-slate-200 rounded-lg font-medium transition-colors cursor-pointer">
+                Login
+              </div>
+            </SignInButton>
+            <SignUpButton>
+              <Button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
                 Crie uma conta grátis
               </Button>
-            </Link>
+            </SignUpButton>
           </div>
 
           {/* Mobile Menu Button */}
@@ -50,18 +59,16 @@ export function Header() {
         {/* Mobile Navigation Menu */}
         {isOpen && (
           <nav className="md:hidden mt-4 space-y-3 pb-4 border-t border-slate-200 pt-4">
-            <Link
-              href="/create-account"
-              className="block px-2 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
-            <Link href="/login" onClick={() => setIsOpen(false)}>
-              <Button className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white">
+            <SignInButton>
+              <div className="block px-5 py-3 text-slate-00 hover:text-slate-900 hover:bg-slate-200 rounded-lg font-medium transition-colors cursor-pointer">
+                Login
+              </div>
+            </SignInButton>
+            <SignUpButton>
+              <Button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
                 Crie uma conta grátis
               </Button>
-            </Link>
+            </SignUpButton>
           </nav>
         )}
       </div>
