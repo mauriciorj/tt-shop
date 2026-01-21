@@ -1,0 +1,50 @@
+## How to start
+
+### cd transcriber
+
+## Setup the Python
+
+### Install the dependencies
+
+#### brew install ffmpeg
+
+### pip upgrade
+
+#### pip install --upgrade pip
+
+### Create your new virtual environment
+
+#### python3 -m venv venv
+
+### Access the new virtual environment
+
+#### source venv/bin/activate
+
+### Upgrade to the last pip version
+
+#### python3 -m pip install --upgrade pip
+
+#### brew install llvm
+
+### Export LLVM
+
+### export LLVM_DIR="/usr/local/opt/llvm/lib/cmake/llvm"
+
+### Install Whiper OpenAI
+
+#### pip3 install git+https://github.com/openai/whisper.git
+
+### Check the last Whisper version: https://github.com/openai/whisper
+
+```
+pip3 install git+https://github.com/openai/whisper.git
+
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install yt-dlp
+```
+
+### Now it's ready to run any crawler
+
+### Stop the virtual environment
+
+#### deactivate

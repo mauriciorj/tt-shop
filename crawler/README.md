@@ -16,10 +16,6 @@
 
 #### source venv/bin/activate
 
-### Stop the virtual environment
-
-#### deactivate
-
 ### Upgrade to the last pip version
 
 #### python3 -m pip install --upgrade pip
@@ -31,3 +27,7 @@
 ### Now it's ready to run any crawler
 
 #### python3 ./selenium/kalodata/main.py
+
+### Stop the virtual environment
+
+#### deactivate
