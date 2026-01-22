@@ -5,7 +5,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import SearchBar from "@/components/search";
 import StoreTable, { Store as StoreType } from "@/components/storeTable";
-import { mockStores } from "./[id]/mockStores";
+import { mockStores } from "../store/[...id]/mockStores";
 import { Store, TrendingUp, Users } from "lucide-react";
 import { cn } from "@/utils/utils";
 
@@ -104,7 +104,7 @@ const Stores = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 container py-8">
+      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
         {/* Page Header */}
         <div className="mb-8 animate-fade-in">
           <h1 className="text-4xl font-bold mb-2">

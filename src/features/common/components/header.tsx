@@ -14,8 +14,8 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="flex sticky top-0 z-50 w-full items-center justify-center border-b border-border/40 bg-background/80 backdrop-blur-xl">
+      <div className="container flex h-16 px-10 items-center justify-between mx-auto max-w-[1400px]">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary glow-effect">
             <TrendingUp className="h-5 w-5 text-primary-foreground" />

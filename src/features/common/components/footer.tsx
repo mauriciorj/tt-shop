@@ -27,7 +27,7 @@ const Footer = () => {
 
   return (
     <footer className="border-t border-border/40 bg-card/50">
-      <div className="container py-12">
+      <div className="container items-center py-12 px-10 mx-auto max-w-[1400px]">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">

@@ -2,8 +2,6 @@
 
 import { useRouter, useParams } from "next/navigation";
 import { mockStores } from "./mockStores";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -91,12 +89,12 @@ const StoreDetail = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <main className="flex-1">
+      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
         <div className="container mx-auto px-4 py-8">
           {/* Back Button */}
           <Button
             variant="ghost"
-            onClick={() => navigate("/stores")}
+            onClick={() => router.push("/stores")}
             className="mb-6 hover:bg-secondary"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

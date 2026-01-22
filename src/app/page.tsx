@@ -116,7 +116,7 @@ const Page = () => {
         </section>
 
         {/* Features Section */}
-        <section className="py-24">
+        <section className="py-24 flex items-center justify-center flex-col">
           <div className="container">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl font-bold mb-4">
@@ -150,7 +150,7 @@ const Page = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24">
+        <section className="py-24 flex items-center justify-center flex-col">
           <div className="container">
             <div className="glass-card rounded-3xl p-12 text-center relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-accent/10" />
