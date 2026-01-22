@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const useStores = () => {
   const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState("k_position");
+  const [sortBy, setSortBy] = useState("k_revenue");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   const { data, isLoading } = useQuery({

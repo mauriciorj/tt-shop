@@ -15,7 +15,6 @@ def request_api_dto(request_data_result):
             'third_category': ter_cat,
             'unit_price': parse_value(data['unit_price']),
             'k_id': data['id'],
-            'k_position': index,
             'k_revenue': parse_value(data['revenue']),
             'k_revenue_history': data['revenue_trend'],
             'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),

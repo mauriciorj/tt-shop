@@ -19,7 +19,6 @@ stores_columns = [
     'third_category',
     'unit_price',
     'k_id',
-    'k_position',
     'k_revenue',
     'k_revenue_history',
     'k_revenue_growth_rate',
@@ -46,7 +45,7 @@ def main(formated_data):
 
             # STEP 01
             # If there is another product with the same 'k_position' it will be changed to NULL
-            update_k_position(cursor, item)
+            # update_k_position(cursor, item)
 
             # STEP 02
             # Check the "stores" table for existing k_id

@@ -12,7 +12,6 @@ def map_data(item):
                 'third_category': item.get('third_category'),
                 'unit_price': item.get('unit_price'),
                 'k_id': item.get('k_id'),
-                'k_position': 0 if item.get('k_position') == 'index' else item.get('k_position'),
                 'k_creator_conversion_ratio': item.get('creator_conversion_ratio'),
                 'k_revenue': item.get('revenue'),
                 'k_revenue_history': item.get('revenue_history'),

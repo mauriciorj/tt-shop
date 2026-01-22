@@ -4,7 +4,7 @@ def request_api_dto(request_data_result):
     print('')
     print('[ SELENIUM ] Formatting data...')
     formated_data =  []
-    for index, data in enumerate(request_data_result['data'], start=1):
+    for data in request_data_result['data']:
         
         formated_data.append({
             'name': data['product_title'],
@@ -16,7 +16,6 @@ def request_api_dto(request_data_result):
             'third_category': data['ter_cate_id'],
             'unit_price': parse_value(data['unit_price']),
             'k_id': data['id'],
-            'k_position': index,
             'k_creator_conversion_ratio': parse_value(data['creator_conversion_ratio']),
             'k_revenue': parse_value(data['revenue']),
             'k_revenue_history': data['revenue_trend'],

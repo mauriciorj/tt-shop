@@ -17,7 +17,7 @@ def request_db(limit=10, offset=0):
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT id, k_id FROM stores WHERE k_position IS NOT NULL ORDER BY k_position ASC LIMIT %s OFFSET %s", (limit, offset))
+        cursor.execute("SELECT id, k_id FROM stores ORDER BY k_revenue DESC LIMIT %s OFFSET %s", (limit, offset))
         result = cursor.fetchall()
     except Exception as e:
         if conn:

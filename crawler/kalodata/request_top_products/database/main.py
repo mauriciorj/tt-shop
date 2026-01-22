@@ -2,7 +2,7 @@ import sys
 
 from logger.error import error
 from db.client import connect_to_database
-from request_top_products.database.update_k_position import update_k_position
+# from request_top_products.database.update_k_position import update_k_position
 from request_top_products.database.download_image import download_image
 from request_top_products.database.crud import map_data
 from request_top_products.database.crud import select
@@ -19,7 +19,6 @@ products_columns = [
     'third_category',
     'unit_price',
     'k_id',
-    'k_position',
     'k_creator_conversion_ratio',
     'k_revenue',
     'k_revenue_history',
@@ -47,7 +46,7 @@ def main(formated_data):
 
             # STEP 01
             # If there is another product with the same 'k_position' it will be changed to NULL
-            update_k_position(cursor, item)
+            # update_k_position(cursor, item)
 
             # STEP 02
             # Check the "products" table for existing k_id

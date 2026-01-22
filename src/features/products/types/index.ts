@@ -3,7 +3,6 @@ import { UUID } from "crypto";
 export interface ITopProducts {
   id: UUID;
   k_id: string;
-  k_position: number;
   name: string;
   launch_date: string;
   product_rating: number;

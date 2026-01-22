@@ -31,7 +31,7 @@ def request_all_top_products_from_db(limit=10, offset=0):
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT k_id FROM products WHERE k_position IS NOT NULL ORDER BY k_position ASC LIMIT %s OFFSET %s", (limit, offset))
+        cursor.execute("SELECT k_id FROM products ORDER BY k_revenue DESC LIMIT %s OFFSET %s", (limit, offset))
         result = cursor.fetchall()
     except Exception as e:
         print('')
