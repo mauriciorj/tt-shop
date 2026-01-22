@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useConvexAuth } from "convex/react";
-import { TrendingUp, Store, PackageSearch } from "lucide-react";
+import { House, TrendingUp, Store, PackageSearch } from "lucide-react";
 import {
   SignedIn,
   SignUpButton,
@@ -18,9 +18,9 @@ const Header = () => {
   const { isAuthenticated } = useConvexAuth();
 
   const navLinks = [
-    { path: "/", label: "Home", icon: TrendingUp },
-    { path: "/stores", label: "Stores", icon: Store },
-    { path: "/products", label: "Products", icon: PackageSearch },
+    { path: "/", label: "Inicio", icon: House },
+    { path: "/stores", label: "Lojas", icon: Store },
+    { path: "/products", label: "Produtos", icon: PackageSearch },
   ];
 
   return (
@@ -62,12 +62,12 @@ const Header = () => {
           <SignedOut>
             <SignInButton forceRedirectUrl="/stores">
               <button className="cursor-pointer hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium hover:bg-secondary/80 transition-colors">
-                Sign In
+                Entrar
               </button>
             </SignInButton>
             <SignUpButton forceRedirectUrl="/stores">
               <button className="cursor-pointer px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity glow-effect">
-                Sign Up
+                Comece Agora
               </button>
             </SignUpButton>
           </SignedOut>

@@ -3,25 +3,21 @@ import { TrendingUp, Twitter, Github, Linkedin } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
-    Product: [
+    Produto: [
       { label: "Features", href: "#" },
-      { label: "Pricing", href: "#" },
-      { label: "API", href: "#" },
+      { label: "Preço", href: "#" },
     ],
-    Resources: [
-      { label: "Documentation", href: "#" },
-      { label: "Blog", href: "#" },
-      { label: "Support", href: "#" },
+    Recursos: [
+      { label: "Documentação", href: "#" },
+      { label: "Suporte", href: "#" },
     ],
-    Company: [
-      { label: "About", href: "#" },
-      { label: "Careers", href: "#" },
-      { label: "Contact", href: "#" },
+    Empresa: [
+      { label: "Sobre", href: "#" },
+      { label: "Contato", href: "#" },
     ],
     Legal: [
-      { label: "Privacy", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Cookies", href: "#" },
+      { label: "Privacidade", href: "#" },
+      { label: "Termos", href: "#" },
     ],
   };
 
@@ -39,9 +35,9 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
-              Discover and track the best performing TikTok stores worldwide.
+              Descubra e rastreie as melhores lojas no TikTok Shop.
             </p>
-            <div className="flex gap-3">
+            {/* <div className="flex gap-3">
               <a
                 href="#"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors"
@@ -60,7 +56,7 @@ const Footer = () => {
               >
                 <Linkedin className="h-4 w-4" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           {Object.entries(footerLinks).map(([category, links]) => (
@@ -84,10 +80,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2026 TikTokRank. All rights reserved.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Made with <span className="text-primary">♥</span> for creators
+            © 2026 TikTokRank. Todos os direitos reservados.
           </p>
         </div>
       </div>

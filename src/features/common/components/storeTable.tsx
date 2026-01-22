@@ -110,17 +110,17 @@ const StoreTable = ({
                   </button>
                 </th>
                 <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
-                  Store
+                  Loja
                 </th>
                 <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
-                  Category
+                  Categoria
                 </th>
                 <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
                   <button
                     onClick={() => handleSort("followers")}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
-                    Followers
+                    Seguidores
                     <SortIcon columnKey="followers" />
                   </button>
                 </th>
@@ -129,7 +129,7 @@ const StoreTable = ({
                     onClick={() => handleSort("products")}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
-                    Products
+                    Produtos
                     <SortIcon columnKey="products" />
                   </button>
                 </th>
@@ -138,7 +138,7 @@ const StoreTable = ({
                     onClick={() => handleSort("revenue")}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
-                    Est. Revenue
+                    Est. Receita
                     <SortIcon columnKey="revenue" />
                   </button>
                 </th>
@@ -147,7 +147,7 @@ const StoreTable = ({
                     onClick={() => handleSort("rating")}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
-                    Rating
+                    Avaliação
                     <SortIcon columnKey="rating" />
                   </button>
                 </th>
@@ -160,7 +160,6 @@ const StoreTable = ({
                     <SortIcon columnKey="trend" />
                   </button>
                 </th>
-                <th className="p-4"></th>
               </tr>
             </thead>
             <tbody>
@@ -231,11 +230,11 @@ const StoreTable = ({
                       {store.trendValue}%
                     </div>
                   </td>
-                  <td className="p-4">
+                  {/* <td className="p-4">
                     <button className="p-2 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
                       <ExternalLink className="h-4 w-4" />
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -254,7 +253,7 @@ const StoreTable = ({
             disabled={currentPage === 1}
             className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
           >
-            Previous
+            Anterior
           </button>
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
             const page = i + 1;
@@ -277,7 +276,7 @@ const StoreTable = ({
             disabled={currentPage === totalPages}
             className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
           >
-            Next
+            Próxima
           </button>
         </div>
       </div>

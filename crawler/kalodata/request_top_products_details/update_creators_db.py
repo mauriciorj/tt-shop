@@ -14,6 +14,7 @@ parent_parent_parent = os.path.dirname(parent_parent) # crawler
 # the sys.path.
 sys.path.append(parent_parent_parent)
 
+from logger.error import error
 from db.client import connect_to_database
 
 def update_creators_db(formated_data):
@@ -121,34 +122,18 @@ def update_creators_db(formated_data):
                 else:
                     print(f"[ SELENIUM ] Failed to download image for creator {creator_id} (k_id: {k_id}). Status: {response.status_code}")
             except Exception as e_img:
-                print('')
-                print('')
-                print('')
-                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-                print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-                print(f"Error downloading image for creator {creator_id}: {e_img}")
-                print('')
-                print('')
-                print('')
+                error(e_img, 6)
+                sys.exit(1)
 
         conn.commit()
         print('')
         print(f"[ SELENIUM ] Processed {len(formated_data)} items successfully.")
 
     except Exception as e:
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ SELENIUM ] Error saving to DB: {e}")
-        print('')
-        print('')
-        print('')
         if conn:
             conn.rollback()
+        error(e, 6)
+        sys.exit(1)
         return False
 
     finally:

@@ -15,6 +15,7 @@ parent_parent_parent = os.path.dirname(parent_parent)
 # the sys.path.
 sys.path.append(parent_parent_parent)
 
+from logger.error import error
 from db.client import connect_to_database
 
 def request_all_top_products_from_db(limit=10, offset=0):
@@ -34,18 +35,10 @@ def request_all_top_products_from_db(limit=10, offset=0):
         cursor.execute("SELECT k_id FROM products ORDER BY k_revenue DESC LIMIT %s OFFSET %s", (limit, offset))
         result = cursor.fetchall()
     except Exception as e:
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ SELENIUM ] Error saving to DB: {e}")
-        print('')
-        print('')
-        print('')
         if conn:
             conn.rollback()
+        error(e, 6)
+        sys.exit(1)
         return False
 
     finally:

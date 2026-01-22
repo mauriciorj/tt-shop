@@ -58,7 +58,7 @@ const SearchBar = ({
       );
     } else if (e.key === "Enter" && highlightedIndex >= 0) {
       e.preventDefault();
-      navigate(`/store/${suggestions[highlightedIndex].id}`);
+      router.push(`/store/${suggestions[highlightedIndex].id}`);
       setQuery("");
       setIsOpen(false);
     } else if (e.key === "Escape") {
@@ -128,15 +128,15 @@ const SearchBar = ({
         {isOpen && query.length > 0 && suggestions.length === 0 && (
           <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl p-4 z-[100]">
             <p className="text-sm text-muted-foreground text-center">
-              No stores found
+              Nenhum resultado
             </p>
           </div>
         )}
       </div>
-      <button className="flex items-center gap-2 h-12 px-5 rounded-xl bg-secondary border border-border text-foreground hover:bg-secondary/80 transition-colors">
+      {/* <button className="flex items-center gap-2 h-12 px-5 rounded-xl bg-secondary border border-border text-foreground hover:bg-secondary/80 transition-colors">
         <SlidersHorizontal className="h-5 w-5" />
         <span className="hidden sm:inline font-medium">Filters</span>
-      </button>
+      </button> */}
     </div>
   );
 };

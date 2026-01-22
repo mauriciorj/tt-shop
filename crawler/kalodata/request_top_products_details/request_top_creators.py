@@ -17,6 +17,7 @@ sys.path.append(parent)
 sys.path.append(parent_parent)
 sys.path.append(parent_parent_parent)
 
+from logger.error import error
 from selenium_utils import selenium_fetch
 
 def request_top_creators(driver, id):
@@ -59,15 +60,5 @@ def request_top_creators(driver, id):
         return data
 
     except Exception as e:
-        error_to_string = str(e)
-        log_string = '['+ datetime.today().strftime('%Y-%m-%d %H:%M:%S') + '] ' + '[ SELENIUM - ERROR ] - ' + error_to_string
-        print('')
-        print('')
-        print('')
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(f"[ !!!!!!!!!!!!!!!!!!!!!!!! SELENIUM - ERROR !!!!!!!!!!!!!!!!!!!!!!!! ]")
-        print(log_string)
-        print('')
-        print('')
-        print('')
+        error(e, 6)
+        sys.exit(1)

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import SearchBar from "@/components/search";
 import StoreTable, { Store as StoreType } from "@/components/storeTable";
 import { mockStores } from "../store/[...id]/mockStores";
@@ -83,23 +81,23 @@ const Stores = () => {
 
   const stats = [
     {
-      label: "Total Stores",
+      label: "Total de Lojas",
       value: "2,847",
       icon: Store,
       change: "+12%",
     },
-    {
-      label: "Active Sellers",
-      value: "1.2M",
-      icon: Users,
-      change: "+8%",
-    },
-    {
-      label: "Avg. Growth",
-      value: "24%",
-      icon: TrendingUp,
-      change: "+5%",
-    },
+    // {
+    //   label: "Active Sellers",
+    //   value: "1.2M",
+    //   icon: Users,
+    //   change: "+8%",
+    // },
+    // {
+    //   label: "Avg. Growth",
+    //   value: "24%",
+    //   icon: TrendingUp,
+    //   change: "+5%",
+    // },
   ];
 
   return (
@@ -108,10 +106,10 @@ const Stores = () => {
         {/* Page Header */}
         <div className="mb-8 animate-fade-in">
           <h1 className="text-4xl font-bold mb-2">
-            Top TikTok <span className="gradient-text">Stores</span>
+            Top TikTok <span className="gradient-text">Lojas</span>
           </h1>
           <p className="text-muted-foreground text-lg">
-            Discover the best performing stores on TikTok Shop
+            Descubra as melhores lojas no TikTok Shop
           </p>
         </div>
 
@@ -214,7 +212,7 @@ const Stores = () => {
         >
           <SearchBar
             stores={mockStores as StoreType[]}
-            placeholder="Search stores by name or category..."
+            placeholder="Procuar por uma loja ou produto..."
           />
         </div>
 

@@ -1,0 +1,47 @@
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+export default defineSchema({
+  // Define your tables here.
+  stores: defineTable({
+    country: v.string(),
+    name: v.string(),
+    type: v.string(),
+    main_category: v.string(),
+    second_category: v.string(),
+    third_category: v.string(),
+    unit_price: v.number(),
+    k_id: v.string(),
+    k_day_revenue: v.optional(v.number()),
+    k_day_sales: v.optional(v.number()),
+    k_revenue: v.number(),
+    k_revenue_history: v.array(v.number()),
+    k_revenue_growth_rate: v.number(),
+    k_sales: v.number(),
+    k_top_creators: v.optional(v.array(v.number())),
+    k_top_products: v.optional(v.array(v.number())),
+    k_top_videos: v.optional(v.array(v.number())),
+    created_at: v.optional(v.string()),
+    updated_at: v.optional(v.string()),
+  }),
+  products: defineTable({
+    country: v.string(),
+    name: v.string(),
+    launch_date: v.string(),
+    product_rating: v.number(),
+    main_category: v.string(),
+    second_category: v.string(),
+    third_category: v.string(),
+    unit_price: v.number(),
+    k_id: v.string(),
+    k_creator_conversion_ratio: v.number(),
+    k_revenue: v.number(),
+    k_revenue_history: v.array(v.number()),
+    k_revenue_growth_rate: v.number(),
+    k_sales: v.number(),
+    k_top_creators: v.optional(v.array(v.number())),
+    k_top_videos: v.optional(v.array(v.number())),
+    created_at: v.optional(v.string()),
+    updated_at: v.optional(v.string()),
+  }),
+});

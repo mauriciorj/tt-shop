@@ -204,13 +204,13 @@
     box-shadow: var(--shadow-glow);
   }
 
-  .table-row-hover {
+  /* .table-row-hover {
     @apply transition-all duration-200;
-  }
+  } */
 
   .table-row-hover:hover {
     @apply bg-secondary/50;
-    transform: translateX(4px);
+    /* transform: translateX(4px); */
   }
 }
 
