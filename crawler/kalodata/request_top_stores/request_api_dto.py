@@ -2,22 +2,27 @@ from utils.parse_value import parse_value
 from utils.parse_categories import parse_categories
 
 def request_api_dto(request_data_result):
+    print('')
+    print('[ SELENIUM ] Formatting data...')
     formated_data =  []
-    for index, data in enumerate(request_data_result['data'], start=1):
+    for data in request_data_result['data']:
         pri_cat, sec_cat, ter_cat = parse_categories(data.get('main_category'))
+
+        revenue_trend_to_float = [round(float(value), 2) for value in data['revenue_trend']]
         
         formated_data.append({
             'name': data['name'],
             'country': "br",
-            'type': data['seller_type'],
-            'main_category': pri_cat,
-            'second_category': sec_cat,
-            'third_category': ter_cat,
+            'type': data['seller_type'].lower(),
+            'main_category': str(pri_cat),
+            'second_category': str(sec_cat),
+            'third_category': str(ter_cat),
             'unit_price': parse_value(data['unit_price']),
-            'k_id': data['id'],
+            'k_id': str(data['id']),
             'k_revenue': parse_value(data['revenue']),
-            'k_revenue_history': data['revenue_trend'],
+            'k_revenue_history': revenue_trend_to_float,
             'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
-            'k_sales': parse_value(data['sale']),
+            'k_sales': int(parse_value(data['sale'])),
         })
+    print('[ SELENIUM ] Data formatted successfully')
     return formated_data

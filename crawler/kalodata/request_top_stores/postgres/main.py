@@ -2,12 +2,12 @@ import sys
 
 from logger.error import error
 from db.client import connect_to_database
-from request_top_stores.database.update_k_position import update_k_position
-from request_top_stores.database.download_image import download_image
-from request_top_stores.database.crud import map_data
-from request_top_stores.database.crud import select
-from request_top_stores.database.crud import update
-from request_top_stores.database.crud import insert
+from request_top_stores.postgres.update_k_position import update_k_position
+from request_top_stores.postgres.download_image import download_image
+from request_top_stores.postgres.crud import map_data
+from request_top_stores.postgres.crud import select
+from request_top_stores.postgres.crud import update
+from request_top_stores.postgres.crud import insert
 
 # STORES table columns
 stores_columns = [

@@ -2,6 +2,8 @@ import sys
 import os
 import requests
 
+from logger.error import error
+
 # getting the name of the directory
 # where the this file is present.
 current = os.path.dirname(os.path.realpath(__file__))
@@ -34,5 +36,5 @@ def download_image(store_id, k_id):
         else:
             print(f"[ SELENIUM ] Failed to download image for store {store_id} (k_id: {k_id}). Status: {response.status_code}")
     except Exception as e_img:
-        error(e_img)
+        error(e_img,111)
         sys.exit(1)

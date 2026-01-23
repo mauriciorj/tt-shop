@@ -37,5 +37,5 @@ def download_image(product_id, k_id):
         else:
             print(f"[ SELENIUM ] Failed to download image for product {product_id} (k_id: {k_id}). Status: {response.status_code}")
     except Exception as e_img:
-        error(e_img)
+        error(e_img,111)
         sys.exit(1)

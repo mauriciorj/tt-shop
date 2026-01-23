@@ -19,5 +19,5 @@ def update_k_position(cursor, item):
                     cursor.execute("UPDATE products SET k_position = NULL WHERE id = %s", (conflict_id,))
 
     except Exception as e_img:
-        error(e_img)
+        error(e_img, 111)
         sys.exit(1)

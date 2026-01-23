@@ -17,6 +17,7 @@ def parse_value(value):
         clean_value = clean_value.lower().replace('b', '')
         
     try:
-        return float(clean_value) * multiplier
+        temp = float(clean_value) * multiplier
+        return round(temp, 2)
     except ValueError:
         return 0.0
