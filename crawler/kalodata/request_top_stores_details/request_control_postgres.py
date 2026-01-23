@@ -5,7 +5,7 @@ from request_top_stores_details.top_store_sales.main import main as top_store_sa
 
 from request_top_stores_details.update_stores_db import update_stores_db
 
-def request_control(driver, result_request_all_top_stores_from_db):
+def request_control_postgres(driver, result_request_all_top_stores_from_db):
     print('[ SELENIUM ] Starting the requests...')
 
     for store in result_request_all_top_stores_from_db:

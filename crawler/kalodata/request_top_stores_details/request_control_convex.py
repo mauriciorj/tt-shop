@@ -15,16 +15,16 @@ def request_control_convex(request_db_result):
         # Top creators
         top_creators = top_creators_main()
 
-        # # Request products details
+
+        # Request products details
         top_store_products = store_details_products_main(store_k_id)
 
 
-        # # Request the list of the top video
+        # Request the list of the top video
         top_videos = top_videos_main(store_k_id)
 
 
-
-        # # Request the total sales
+        # Request the total sales
         top_store_sales = top_store_sales_main(store_k_id)
 
 

@@ -1,5 +1,5 @@
-from request_top_creators import request_top_creators
-from request_top_creators_dto import request_top_creators_dto
+from top_creators_postgres.request_top_creators import request_top_creators
+from top_creators_postgres.request_top_creators_dto import request_top_creators_dto
 # from request_top_products_from_store_details import request_top_products_from_store_details
 # from request_top_products_from_store_details_dto import request_top_products_from_store_details_dto
 # from request_top_videos import request_top_videos
@@ -7,11 +7,11 @@ from request_top_creators_dto import request_top_creators_dto
 # from request_store_total_sales import request_store_total_sales
 # from request_store_total_sales_dto import request_store_total_sales_dto
 
-from update_creators_db import update_creators_db
+from request_top_creators.update_creators_db import update_creators_db
 # from update_videos_db import update_videos_db
 # from update_stores_db_from_store_details import update_stores_db_from_store_details
 
-def request_products_information(driver, result_request_all_top_products_from_db):
+def request_control_postgres(driver, result_request_all_top_products_from_db):
     # print('[ SELENIUM ] Requesting product by product...')
 
     for product_id in result_request_all_top_products_from_db:

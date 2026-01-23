@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from login.login import login
 from request_top_stores_details.request_db import request_db
-from request_top_stores_details.request_control import request_control
+from request_top_stores_details.request_control_postgres import request_control_postgres
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -35,7 +35,7 @@ def main():
             print('[ SELENIUM ] No more stores to process or error occurred.')
             break
 
-        request_control(driver, request_db_result)
+        request_control_postgres(driver, request_db_result)
         
         offset += limit
         

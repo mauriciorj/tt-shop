@@ -1,4 +1,5 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
 export const addProduct = mutation({
@@ -65,5 +66,46 @@ export const addProduct = mutation({
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     });
+  },
+});
+
+export const getProducts = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const { paginationOpts } = args;
+
+    return await ctx.db.query("products").order("asc").paginate(paginationOpts);
+  },
+});
+
+export const updateProductDetails = mutation({
+  args: {
+    data: v.object({
+      id: v.id("products"),
+      k_id: v.string(),
+      k_top_creators: v.optional(v.array(v.string())),
+      k_top_videos: v.optional(v.array(v.string())),
+      k_day_sales: v.number(),
+      k_day_revenue: v.number(),
+    }),
+  },
+  handler: async (ctx, args) => {
+    const { data } = args;
+
+    const existingProduct = await ctx.db
+      .query("products")
+      .filter((q) => q.eq(q.field("k_id"), data.k_id))
+      .first();
+
+    if (existingProduct) {
+      await ctx.db.patch(existingProduct._id, {
+        k_top_creators: data.k_top_creators,
+        k_top_videos: data.k_top_videos,
+        k_day_sales: data.k_day_sales,
+        k_day_revenue: data.k_day_revenue,
+        updated_at: new Date().toISOString(),
+      });
+      return existingProduct;
+    }
   },
 });

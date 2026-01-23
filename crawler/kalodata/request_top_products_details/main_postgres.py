@@ -23,8 +23,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from login.login import login
-from request_all_top_products_from_db import request_all_top_products_from_db
-from request_products_information import request_products_information
+from request_all_top_products_from_db_postgres import request_all_top_products_from_db_postgres
+from request_control_postgres import request_control_postgres
 
 # UC automatically handles most anti-detection, but setting a specific user-agent is still good practice.
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -44,13 +44,13 @@ def main():
 
     while True:
         print(f"\n[ SELENIUM ] Fetching batch with limit={limit}, offset={offset}")
-        result_request_all_top_products_from_db = request_all_top_products_from_db(limit=limit, offset=offset)
+        result_request_all_top_products_from_db_postgres = request_all_top_products_from_db_postgres(limit=limit, offset=offset)
 
-        if not result_request_all_top_products_from_db:
+        if not result_request_all_top_products_from_db_postgres:
             print('[ SELENIUM ] No more products to process or error occurred.')
             break
 
-        request_products_information(driver, result_request_all_top_products_from_db)
+        request_control_postgres(driver, result_request_all_top_products_from_db_postgres)
         
         offset += limit
         
