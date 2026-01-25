@@ -2,10 +2,10 @@ import sys
 
 from logger.error import error
 from db.client import connect_to_database
-from request_categories.database.crud import map_data
-from request_categories.database.crud import select
-from request_categories.database.crud import update
-from request_categories.database.crud import insert
+from request_categories.database_postgres.crud import map_data
+from request_categories.database_postgres.crud import select
+from request_categories.database_postgres.crud import update
+from request_categories.database_postgres.crud import insert
 
 categories_columns = [
     'main_category_id',

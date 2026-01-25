@@ -1,15 +1,9 @@
 import json
 
-def get_categories(file_path: str) -> list[dict]:
-    with open(file_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-
+def dto(request_api_result):
     categories = []
     
-    # Access the root of the category tree
-    # Based on sample.json, the path is data['data']['global.category.tree']
-    # We should handle potential missing keys safely if possible, but strict pathing is fine for this specific task
-    root_tree = data.get('data', {}).get('global.category.tree', [])
+    root_tree = request_api_result['data']['global.category.tree']
 
     for main_cat in root_tree:
         main_id = main_cat.get('value')
@@ -24,8 +18,8 @@ def get_categories(file_path: str) -> list[dict]:
         if not level2_children:
             # Case: Level 1 only
             categories.append({
-                "main_category_id": main_id,
-                "main_category_name": main_name,
+                "main_category_id": str(main_id),
+                "main_category_name": str(main_name),
                 "second_category_id": None,
                 "second_category_name": None,
                 "third_category_id": None,
@@ -42,10 +36,10 @@ def get_categories(file_path: str) -> list[dict]:
             if not level3_children:
                 # Case: Level 1 -> Level 2 only
                 categories.append({
-                    "main_category_id": main_id,
-                    "main_category_name": main_name,
-                    "second_category_id": second_id,
-                    "second_category_name": second_name,
+                    "main_category_id": str(main_id),
+                    "main_category_name": str(main_name),
+                    "second_category_id": str(second_id),
+                    "second_category_name": str(second_name),
                     "third_category_id": None,
                     "third_category_name": None
                 })
@@ -57,12 +51,12 @@ def get_categories(file_path: str) -> list[dict]:
                 
                 # Case: Level 1 -> Level 2 -> Level 3
                 categories.append({
-                    "main_category_id": main_id,
-                    "main_category_name": main_name,
-                    "second_category_id": second_id,
-                    "second_category_name": second_name,
-                    "third_category_id": third_id,
-                    "third_category_name": third_name
+                    "main_category_id": str(main_id),
+                    "main_category_name": str(main_name),
+                    "second_category_id": str(second_id),
+                    "second_category_name": str(second_name),
+                    "third_category_id": str(third_id),
+                    "third_category_name": str(third_name)
                 })
 
     return categories

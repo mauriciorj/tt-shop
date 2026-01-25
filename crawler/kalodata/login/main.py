@@ -4,11 +4,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def login(driver):
+def main(driver):
     url = "https://www.kalodata.com/login"
 
     print('')
     print('[ SELENIUM ] Trying to login...')
+
     # Open the web page
     driver.get(url)
     WebDriverWait(driver, 10)
@@ -33,3 +34,6 @@ def login(driver):
 
     print('[ SELENIUM ] Login Done')
     return cookies_dict
+
+if __name__ == "__main__":
+    main()

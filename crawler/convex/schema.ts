@@ -69,4 +69,14 @@ export default defineSchema({
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }),
+  categories: defineTable({
+    main_category_id: v.string(),
+    main_category_name: v.string(),
+    second_category_id: v.string(),
+    second_category_name: v.string(),
+    third_category_id: v.string(),
+    third_category_name: v.string(),
+    created_at: v.optional(v.string()),
+    updated_at: v.optional(v.string()),
+  }),
 });
