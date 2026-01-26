@@ -2,6 +2,37 @@ import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
+const revenueHistoryChanged = ({ existingStore, data }) =>
+  Boolean(
+    !existingStore.k_revenue_history ||
+      existingStore.k_revenue_history.length !==
+        data.k_revenue_history.length ||
+      existingStore.k_revenue_history.some(
+        (val, index) => val !== data.k_revenue_history[index]
+      )
+  );
+
+const checkValues = ({ existingStore, data }) => {
+  const updates = {};
+
+  if (existingStore.type !== data.type) updates.type = data.type;
+  if (existingStore.main_category !== data.main_category)
+    updates.main_category = data.main_category;
+  if (existingStore.second_category !== data.second_category)
+    updates.second_category = data.second_category;
+  if (existingStore.third_category !== data.third_category)
+    updates.third_category = data.third_category;
+  if (existingStore.unit_price !== data.unit_price)
+    updates.unit_price = data.unit_price;
+  if (existingStore.k_revenue !== data.k_revenue)
+    updates.k_revenue = data.k_revenue;
+  if (existingStore.k_revenue_growth_rate !== data.k_revenue_growth_rate)
+    updates.k_revenue_growth_rate = data.k_revenue_growth_rate;
+  if (existingStore.k_sales !== data.k_sales) updates.k_sales = data.k_sales;
+
+  return updates;
+};
+
 export const addStore = mutation({
   args: {
     data: v.object({
@@ -33,22 +64,22 @@ export const addStore = mutation({
       .first();
 
     if (existingStore) {
-      await ctx.db.patch(existingStore._id, {
-        type: data.type,
-        main_category: data.main_category,
-        second_category: data.second_category,
-        third_category: data.third_category,
-        unit_price: data.unit_price,
-        k_revenue: data.k_revenue,
-        k_revenue_history: data.k_revenue_history,
-        k_revenue_growth_rate: data.k_revenue_growth_rate,
-        k_sales: data.k_sales,
-        updated_at: new Date().toISOString(),
-      });
-      return;
+      const updates = checkValues({ existingStore, data });
+
+      if (revenueHistoryChanged({ existingStore, data })) {
+        updates.k_revenue_history = data.k_revenue_history;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await ctx.db.patch(existingStore._id, {
+          ...updates,
+          updated_at: new Date().toISOString(),
+        });
+      }
+      return { id: existingStore._id, status: "updated" };
     }
 
-    await ctx.db.insert("stores", {
+    const result = await ctx.db.insert("stores", {
       country: data.country,
       name: data.name,
       type: data.type,
@@ -64,6 +95,7 @@ export const addStore = mutation({
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     });
+    return { id: result._id, status: "added" };
   },
 });
 

@@ -16,7 +16,7 @@ from simple_term_menu import TerminalMenu
 
 # CONVEX
 from request_categories.main import main as run_request_categories
-from request_top_stores.main_convex import main as run_request_top_stores_convex
+from request_top_stores.main import main as run_request_top_stores_convex
 from request_top_stores_details.main_convex import main as run_request_top_stores_details_convex
 from request_top_products.main_convex import main as run_request_top_products_convext
 from request_top_products_details.main_convex import main as run_request_top_products_details_convex
@@ -83,7 +83,7 @@ def run_crawler_convext_menu():
     elif selection == options[0]:
         run_request_categories(type='convex')
     elif selection == options[1]:
-        run_request_top_stores_convex()
+        run_request_top_stores_convex(type='convex')
     elif selection == options[2]:
         run_request_top_stores_details_convex()
     elif selection == options[3]:

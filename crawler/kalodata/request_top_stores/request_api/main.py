@@ -1,9 +1,10 @@
 import sys
 
 from selenium_utils import selenium_fetch
-from logger.error import error
+from utils.save_error import save_error
+# from logger.error import error
 
-def request_api(driver, page):
+def main(driver, page):
     print('')
     print('[ SELENIUM ] Requesting data...')
 
@@ -44,5 +45,9 @@ def request_api(driver, page):
         return data
 
     except Exception as e:
-        error(e, 7)
+        save_error(source='top_stores/request_api', error=e)
+        # error(e, 7)
         sys.exit(1)
+
+    if __name__ == "__main__":
+        main()

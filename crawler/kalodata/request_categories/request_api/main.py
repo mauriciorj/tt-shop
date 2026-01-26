@@ -1,7 +1,7 @@
 import sys
 
-from utils.save_error import save_error
 from selenium_utils import selenium_fetch
+from utils.save_error import save_error
 # from logger.error import error
 
 def main(driver):
