@@ -4,7 +4,8 @@ import sys
 from convex import ConvexClient
 from dotenv import load_dotenv
 
-# from utils.image_handler import image_handler
+from utils.image.main import main as image_handler
+from utils.delete_images import delete_images
 
 from utils.save_error import save_error
 # from logger.error import error
@@ -20,17 +21,16 @@ def main(formated_data):
         client = ConvexClient(CONVEX_URL)
         
         for item in formated_data:
-            result = client.mutation("stores:addStore", {'data': item})
+            # STEP 01 - Handle images
+            new_storage_id = image_handler(k_id=item['k_id'], id=result['id'], storage_id=result['storage_id'], status=result['status'], type='store')
 
-            image_handler(k_id=item['k_id'], id=result['id'], status=result['status'], type='store')
+            if new_storage_id:
+                item.storage_id = new_storage_id
+
+            # STEP 02 - Add / Update store
+            result = client.mutation("stores:addStore", {'data': item})
             
-            print('\n')
-            print('\n')
-            print('\n')
-            print(f"[ CONVEX ] Store added / updated successfully {result}")
-            print('\n')
-            print('\n')
-            print('\n')
+            delete_images()
 
         print("[ CONVEX ] Stores added / updated successfully")
         print("")

@@ -12,4 +12,4 @@ def save_json(data = None, file_name = ''):
 
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-    print(f"[ SELENIUM ] Saved JSON to {file_path}")
+    # print(f"[ SELENIUM ] Saved JSON to {file_path}")

@@ -21,4 +21,4 @@ def delete_images():
         except Exception as e:
             print(f'[ SELENIUM ] Failed to delete {file_path}. Reason: {e}')
     
-    print(f"[ SELENIUM ] All images deleted from {folder}")
+    # print(f"[ SELENIUM ] All images deleted from {folder}")

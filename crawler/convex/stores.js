@@ -15,6 +15,7 @@ const revenueHistoryChanged = ({ existingStore, data }) =>
 const checkValues = ({ existingStore, data }) => {
   const updates = {};
 
+  if (data.storage_id) updates.storage_id = data.storage_id;
   if (existingStore.type !== data.type) updates.type = data.type;
   if (existingStore.main_category !== data.main_category)
     updates.main_category = data.main_category;
@@ -38,6 +39,7 @@ export const addStore = mutation({
     data: v.object({
       country: v.string(),
       name: v.string(),
+      storage_id: v.optional(v.string()),
       type: v.string(),
       main_category: v.string(),
       second_category: v.string(),
@@ -82,6 +84,7 @@ export const addStore = mutation({
     const result = await ctx.db.insert("stores", {
       country: data.country,
       name: data.name,
+      storage_id: data.storage_id,
       type: data.type,
       main_category: data.main_category,
       second_category: data.second_category,
@@ -95,7 +98,7 @@ export const addStore = mutation({
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     });
-    return { id: result._id, status: "added" };
+    return { id: result, status: "added" };
   },
 });
 

@@ -28,19 +28,24 @@ def main(type='convex'):
     login(driver)
 
     page = 1
+    max_page = 10
 
-    while True:
+    while page <= max_page:
+
+        # STEP 01 - Request the top stores from API
         request_api_result = request_api(driver, page)
-        # request_api_result = load_json()
 
         if request_api_result['data'] is None:
             print(f'[ SELENIUM ] request_api_result is None {request_api_result}')
             return
 
+        # STEP 02 - Save the response to a JSON file
         save_json(data=request_api_result, file_name=f'request_top_stores_{page}.json')
 
+        # STEP 03 - Convert the response to a DTO
         request_api_dto_result = request_api_dto(request_api_result)
 
+        # STEP 04 - Save the response to a database
         if type == 'convex':
             db_handler_convex(request_api_dto_result)
         elif type == 'postgres':

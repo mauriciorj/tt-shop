@@ -12,3 +12,4 @@ psycopg2-binary
 requests
 simple-term-menu
 convex
+Pillow
