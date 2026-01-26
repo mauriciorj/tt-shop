@@ -5,7 +5,7 @@ import requests
 from utils.save_error import save_error
 # from logger.error import error
 
-def download_image_from_k(k_id, id, type):
+def download_image_from_k(k_id, type):
     try:
         images_dir = os.path.join('images')
         if not os.path.exists(images_dir):
@@ -18,7 +18,7 @@ def download_image_from_k(k_id, id, type):
         elif type == "video":
             image_url = f"https://img.kalocdn.com/tiktok.video/{k_id}/cover.png"
         
-        image_path = os.path.join(images_dir, f"{id}.png")
+        image_path = os.path.join(images_dir, f"{k_id}.png")
                 
         response = requests.get(image_url, stream=True)
 
@@ -31,6 +31,6 @@ def download_image_from_k(k_id, id, type):
         else:
             return False
     except Exception as e:
-        save_error(source=f'{k_id}-{id}-{type}/download_image_from_k', error=e)
+        save_error(source=f'{k_id}-{type}/download_image_from_k', error=e)
         # error(e, 111)
         sys.exit(1)

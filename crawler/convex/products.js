@@ -78,6 +78,18 @@ export const getProducts = query({
   },
 });
 
+export const getProductByKId = query({
+  args: { k_id: v.string() },
+  handler: async (ctx, args) => {
+    const { k_id } = args;
+
+    return await ctx.db
+      .query("products")
+      .filter((q) => q.eq(q.field("k_id"), k_id))
+      .first();
+  },
+});
+
 export const updateProductDetails = mutation({
   args: {
     data: v.object({

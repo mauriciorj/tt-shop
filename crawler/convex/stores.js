@@ -15,21 +15,36 @@ const revenueHistoryChanged = ({ existingStore, data }) =>
 const checkValues = ({ existingStore, data }) => {
   const updates = {};
 
-  if (data.storage_id) updates.storage_id = data.storage_id;
-  if (existingStore.type !== data.type) updates.type = data.type;
-  if (existingStore.main_category !== data.main_category)
+  if (data?.storage_id && existingStore?.storage_id !== data?.storage_id)
+    updates.storage_id = data.storage_id;
+  if (data?.type && existingStore?.type !== data?.type)
+    updates.type = data.type;
+  if (
+    data?.main_category &&
+    existingStore?.main_category !== data?.main_category
+  )
     updates.main_category = data.main_category;
-  if (existingStore.second_category !== data.second_category)
+  if (
+    data?.second_category &&
+    existingStore?.second_category !== data?.second_category
+  )
     updates.second_category = data.second_category;
-  if (existingStore.third_category !== data.third_category)
+  if (
+    data?.third_category &&
+    existingStore?.third_category !== data?.third_category
+  )
     updates.third_category = data.third_category;
-  if (existingStore.unit_price !== data.unit_price)
+  if (data?.unit_price && existingStore?.unit_price !== data?.unit_price)
     updates.unit_price = data.unit_price;
-  if (existingStore.k_revenue !== data.k_revenue)
+  if (data?.k_revenue && existingStore?.k_revenue !== data?.k_revenue)
     updates.k_revenue = data.k_revenue;
-  if (existingStore.k_revenue_growth_rate !== data.k_revenue_growth_rate)
+  if (
+    data?.k_revenue_growth_rate &&
+    existingStore?.k_revenue_growth_rate !== data?.k_revenue_growth_rate
+  )
     updates.k_revenue_growth_rate = data.k_revenue_growth_rate;
-  if (existingStore.k_sales !== data.k_sales) updates.k_sales = data.k_sales;
+  if (data?.k_sales && existingStore?.k_sales !== data?.k_sales)
+    updates.k_sales = data.k_sales;
 
   return updates;
 };
@@ -46,15 +61,10 @@ export const addStore = mutation({
       third_category: v.string(),
       unit_price: v.number(),
       k_id: v.string(),
-      k_day_revenue: v.optional(v.number()),
-      k_day_sales: v.optional(v.number()),
       k_revenue: v.number(),
       k_revenue_history: v.array(v.number()),
       k_revenue_growth_rate: v.number(),
       k_sales: v.number(),
-      k_top_creators: v.optional(v.array(v.string())),
-      k_top_products: v.optional(v.array(v.string())),
-      k_top_videos: v.optional(v.array(v.string())),
     }),
   },
   handler: async (ctx, args) => {
@@ -73,6 +83,10 @@ export const addStore = mutation({
       }
 
       if (Object.keys(updates).length > 0) {
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("updates => ", updates);
         await ctx.db.patch(existingStore._id, {
           ...updates,
           updated_at: new Date().toISOString(),
@@ -81,10 +95,9 @@ export const addStore = mutation({
       return { id: existingStore._id, status: "updated" };
     }
 
-    const result = await ctx.db.insert("stores", {
+    const newDataObj = {
       country: data.country,
       name: data.name,
-      storage_id: data.storage_id,
       type: data.type,
       main_category: data.main_category,
       second_category: data.second_category,
@@ -97,7 +110,18 @@ export const addStore = mutation({
       k_sales: data.k_sales,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    });
+    };
+
+    if (data?.storage_id) {
+      newDataObj.storage_id = data.storage_id;
+    }
+
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("newDataObj => ", newDataObj);
+
+    const result = await ctx.db.insert("stores", newDataObj);
     return { id: result, status: "added" };
   },
 });
@@ -108,6 +132,18 @@ export const getStores = query({
     const { paginationOpts } = args;
 
     return await ctx.db.query("stores").order("asc").paginate(paginationOpts);
+  },
+});
+
+export const getStoreByKId = query({
+  args: { k_id: v.string() },
+  handler: async (ctx, args) => {
+    const { k_id } = args;
+
+    return await ctx.db
+      .query("stores")
+      .filter((q) => q.eq(q.field("k_id"), k_id))
+      .first();
   },
 });
 

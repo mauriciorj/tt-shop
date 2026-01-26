@@ -72,22 +72,9 @@ export const getUrl = query({
 
 export const deleteFile = mutation({
   args: {
-    table_id: v.string(),
-    k_id: v.string(),
+    storageId: v.id("_storage"),
   },
   handler: async (ctx, args) => {
-    const file = await ctx.db
-      .query("app")
-      .filter((q) =>
-        q.and(
-          q.eq(q.field("table_id"), args.table_id),
-          q.eq(q.field("k_id"), args.k_id)
-        )
-      )
-      .first();
-    if (file) {
-      return await ctx.db.delete("app", file._id);
-    }
-    return null;
+    return await ctx.storage.delete(args.storageId);
   },
 });

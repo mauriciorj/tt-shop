@@ -22,14 +22,20 @@ def main(formated_data):
         
         for item in formated_data:
             # STEP 01 - Handle images
-            new_storage_id = image_handler(k_id=item['k_id'], id=result['id'], storage_id=result['storage_id'], status=result['status'], type='store')
+            new_storage_id = image_handler(k_id=item['k_id'], type='store')
 
+            # STEP 02 - Add storage_id to item
             if new_storage_id:
-                item.storage_id = new_storage_id
+                item['storage_id'] = new_storage_id
 
-            # STEP 02 - Add / Update store
+            print("[ CONVEX ] Adding / Updating store...")
+
+            # STEP 03 - Add / Update store
             result = client.mutation("stores:addStore", {'data': item})
             
+            print("[ CONVEX ] Updated store...")
+            
+            # STEP 04 - Delete images from /images local folder
             delete_images()
 
         print("[ CONVEX ] Stores added / updated successfully")

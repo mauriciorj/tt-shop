@@ -35,17 +35,18 @@ def main(type='convex'):
         # STEP 01 - Request the top stores from API
         request_api_result = request_api(driver, page)
 
+        # STEP 02 - Check if the request was successful
         if request_api_result['data'] is None:
             print(f'[ SELENIUM ] request_api_result is None {request_api_result}')
             return
 
-        # STEP 02 - Save the response to a JSON file
+        # STEP 03 - Save the response to a JSON file
         save_json(data=request_api_result, file_name=f'request_top_stores_{page}.json')
 
-        # STEP 03 - Convert the response to a DTO
+        # STEP 04 - Convert the response to a DTO
         request_api_dto_result = request_api_dto(request_api_result)
 
-        # STEP 04 - Save the response to a database
+        # STEP 05 - Save the response to correct database
         if type == 'convex':
             db_handler_convex(request_api_dto_result)
         elif type == 'postgres':
