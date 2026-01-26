@@ -9,10 +9,10 @@ from chrome.main import main as chrome
 
 from utils.save_json import save_json
 
-from request_top_stores.request_api.main import main as request_api
-from request_top_stores.request_api.dto import dto as request_api_dto
-from request_top_stores.convex.main import main as db_handler_convex
-from request_top_stores.postgres.main import main as db_handler_postgres
+from request_top_products.request_api.main import main as request_api
+from request_top_products.request_api.dto import dto as request_api_dto
+from request_top_products.convex.main import main as db_handler_convex
+from request_top_products.postgres.main import main as db_handler_postgres
 
 # def load_json():
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,7 +36,6 @@ def main(type='convex'):
         print('\n')
         print("=========================")
         print(f"[ SELENIUM ] Page {page}")
-
         # STEP 01 - Request the top stores from API
         request_api_result = request_api(driver, page)
 
@@ -44,9 +43,9 @@ def main(type='convex'):
         if request_api_result['data'] is None:
             print(f'[ SELENIUM ] request_api_result is None {request_api_result}')
             return
-
+        
         # STEP 03 - Save the response to a JSON file
-        save_json(data=request_api_result, file_name=f'request_top_stores_{page}.json')
+        save_json(data=request_api_result, file_name=f'request_top_products_{page}.json')
 
         # STEP 04 - Convert the response to a DTO
         request_api_dto_result = request_api_dto(request_api_result)
@@ -59,7 +58,7 @@ def main(type='convex'):
         else:
             print('[ SELENIUM ] Invalid type')
             return
-
+    
         page += 1
 
         sleep_time = random.randint(1, 10)

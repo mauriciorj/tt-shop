@@ -3,7 +3,7 @@ import sys
 from selenium_utils import selenium_fetch
 from logger.error import error
 
-def request_api(driver, page):
+def main(driver, page):
     print('')
     print('[ SELENIUM ] Requesting data...')
 
@@ -46,3 +46,6 @@ def request_api(driver, page):
     except Exception as e:
         error(e, 5)
         sys.exit(1)
+
+if __name__ == "__main__":
+    main()

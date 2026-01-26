@@ -83,10 +83,6 @@ export const addStore = mutation({
       }
 
       if (Object.keys(updates).length > 0) {
-        console.log("");
-        console.log("");
-        console.log("");
-        console.log("updates => ", updates);
         await ctx.db.patch(existingStore._id, {
           ...updates,
           updated_at: new Date().toISOString(),
@@ -115,11 +111,6 @@ export const addStore = mutation({
     if (data?.storage_id) {
       newDataObj.storage_id = data.storage_id;
     }
-
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("newDataObj => ", newDataObj);
 
     const result = await ctx.db.insert("stores", newDataObj);
     return { id: result, status: "added" };

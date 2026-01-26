@@ -16,9 +16,9 @@ from simple_term_menu import TerminalMenu
 
 # CONVEX
 from request_categories.main import main as run_request_categories
-from request_top_stores.main import main as run_request_top_stores_convex
+from request_top_stores.main import main as run_request_top_stores_convext
 from request_top_stores_details.main_convex import main as run_request_top_stores_details_convex
-from request_top_products.main_convex import main as run_request_top_products_convext
+from request_top_products.main import main as run_request_top_products_convext
 from request_top_products_details.main_convex import main as run_request_top_products_details_convex
 
 # def create_tables_menu():
@@ -83,13 +83,13 @@ def run_crawler_convext_menu():
     elif selection == options[0]:
         run_request_categories(type='convex')
     elif selection == options[1]:
-        run_request_top_stores_convex(type='convex')
+        run_request_top_stores_convext(type='convex')
     elif selection == options[2]:
-        run_request_top_stores_details_convex()
+        run_request_top_stores_details_convext(type='convex')
     elif selection == options[3]:
-        run_request_top_products_convext()
+        run_request_top_products_convext(type='convex')
     elif selection == options[4]:
-        run_request_top_products_details_convex()
+        run_request_top_products_details_convex(type='convex')
 
 def main(): 
     options = ["Run Crawler Convex", " * Quit"]

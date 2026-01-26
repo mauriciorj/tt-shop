@@ -15,6 +15,8 @@ def download_image_from_k(k_id, type):
 
         if type == "store":
             image_url = f"https://img.kalocdn.com/tiktok.seller/{k_id}/logo.png"
+        elif type == "product":
+            image_url = f"https://img.kalocdn.com/tiktok.product/{k_id}/cover.png"
         elif type == "video":
             image_url = f"https://img.kalocdn.com/tiktok.video/{k_id}/cover.png"
         
