@@ -1,22 +1,21 @@
 import sys
 
 from selenium_utils import selenium_fetch
-from logger.error import error
+from utils.save_error import save_error
+# from logger.error import error
 
-def main(driver, id):
+def main(driver, store_k_id):
     print('')
-    print('[ SELENIUM ] Requesting top videos...')
+    print('[ SELENIUM ] Requesting top creators...')
 
-    search_url = 'https://www.kalodata.com/shop/detail/searchVideos'
+    search_url = 'https://www.kalodata.com/shop/detail/searchCooperativeCreators'
 
     # Prepare the payload (same as before)
     body = {
-        "id": id,
+        "id": store_k_id,
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
-        "videoType": "",
-        "creatorNickName": "",
         "pageNo": 1,
         "pageSize": 10,
         "sort": [
@@ -24,7 +23,8 @@ def main(driver, id):
                 "field": "revenue",
                 "type": "DESC"
             }
-        ]
+        ],
+        "creatorType": ""
     }
     
     headers = {
@@ -45,7 +45,8 @@ def main(driver, id):
         return data
 
     except Exception as e:
-        error(e, 15)
+        save_error(source='top_stores_details/top_creators/request_api/main', error=e)
+        # error(e, 12)
         sys.exit(1)
 
 if __name__ == "__main__":

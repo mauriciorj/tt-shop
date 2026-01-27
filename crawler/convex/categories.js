@@ -1,5 +1,4 @@
-import { mutation, query } from "./_generated/server";
-import { paginationOptsValidator } from "convex/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 export const addCategory = mutation({

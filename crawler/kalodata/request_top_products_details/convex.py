@@ -11,12 +11,12 @@ from logger.error import error
 
 def convex(data_map):
     print('')
-    print('[ SELENIUM ] Updating store in DB...')
+    print('[ SELENIUM ] Updating product in DB...')
 
     try:
         client = ConvexClient(CONVEX_URL)
         
-        client.mutation("stores:updateStore", {'data': data_map})
+        client.mutation("products:updateProduct", {'data': data_map})
 
         print('')
         print(f"[ SELENIUM ] Processed items successfully.")

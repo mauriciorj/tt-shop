@@ -12,6 +12,5 @@ def dto(request_api_result):
             'k_revenue': parse_value(data['revenue']),
             'k_video_revenue': parse_value(data['video_revenue']),
             'k_live_revenue': parse_value(data['live_revenue']),
-            
         })
     return formated_data

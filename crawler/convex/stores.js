@@ -2,14 +2,11 @@ import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
-const revenueHistoryChanged = ({ existingStore, data }) =>
+const checkArrayValues = ({ key, existingStore, data }) =>
   Boolean(
-    !existingStore.k_revenue_history ||
-      existingStore.k_revenue_history.length !==
-        data.k_revenue_history.length ||
-      existingStore.k_revenue_history.some(
-        (val, index) => val !== data.k_revenue_history[index]
-      )
+    !existingStore[key] ||
+      existingStore[key].length !== data[key].length ||
+      existingStore[key].some((val, index) => val !== data[key][index])
   );
 
 const checkValues = ({ existingStore, data }) => {
@@ -102,7 +99,7 @@ export const addStore = mutation({
     if (existingStore) {
       const updates = checkValues({ existingStore, data });
 
-      if (revenueHistoryChanged({ existingStore, data })) {
+      if (checkArrayValues({ key: "k_revenue_history", existingStore, data })) {
         updates.k_revenue_history = data.k_revenue_history;
       }
 
@@ -163,41 +160,6 @@ export const getStoreByKId = query({
 });
 
 export const updateStore = mutation({
-  args: {
-    data: v.object({
-      k_id: v.string(),
-      tt_account: v.string(),
-      tt_nickname: v.string(),
-      tt_followers: v.number(),
-      k_revenue: v.number(),
-      k_video_revenue: v.number(),
-      k_live_revenue: v.number(),
-    }),
-  },
-  handler: async (ctx, args) => {
-    const { data } = args;
-
-    const existingStore = await ctx.db
-      .query("stores")
-      .filter((q) => q.eq(q.field("k_id"), data.k_id))
-      .first();
-
-    if (existingStore) {
-      await ctx.db.patch(existingStore._id, {
-        tt_account: data.tt_account,
-        tt_nickname: data.tt_nickname,
-        tt_followers: data.tt_followers,
-        k_revenue: data.k_revenue,
-        k_video_revenue: data.k_video_revenue,
-        k_live_revenue: data.k_live_revenue,
-        updated_at: new Date().toISOString(),
-      });
-      return existingStore;
-    }
-  },
-});
-
-export const updateStoreDetails = mutation({
   args: {
     data: v.object({
       id: v.id("stores"),

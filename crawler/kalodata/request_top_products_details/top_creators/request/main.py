@@ -20,7 +20,7 @@ sys.path.append(parent_parent_parent)
 from logger.error import error
 from selenium_utils import selenium_fetch
 
-def request_top_creators(driver, id):
+def main(driver, id):
     print('')
     print('[ SELENIUM ] Requesting top creators...')
 
@@ -62,3 +62,7 @@ def request_top_creators(driver, id):
     except Exception as e:
         error(e, 6)
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

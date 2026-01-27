@@ -17,7 +17,7 @@ sys.path.append(parent_parent_parent)
 from logger.error import error
 from db.client import connect_to_database
 
-def update_creators_db(formated_data):
+def main(formated_data):
     print('')
     print('[ SELENIUM ] Saving Top Creators to DB...')
 
@@ -141,3 +141,6 @@ def update_creators_db(formated_data):
             print(f"[ SELENIUM ] Closing connection...")
             conn.close()
         return True
+
+if __name__ == "__main__":
+    main()

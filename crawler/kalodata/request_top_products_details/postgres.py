@@ -18,7 +18,7 @@ sys.path.append(parent_parent_parent)
 from logger.error import error
 from db.client import connect_to_database
 
-def request_all_top_products_from_db_postgres(limit=10, offset=0):
+def postgres_request(limit=10, offset=0):
     # print('')
     # print('[ SELENIUM ] Requesting all top products...')
 

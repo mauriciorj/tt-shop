@@ -4,7 +4,7 @@ from request_top_stores_details.top_videos.main import main as top_videos_main
 from request_top_stores_details.top_store_sales.main import main as top_store_sales_main
 
 from request_top_stores_details.convex import convex
-from request_top_stores_details.postgres import postgres
+from request_top_stores_details.postgres import postgres_update
 
 
 def handlers_control(driver, request_db_result, type, page):
@@ -17,14 +17,11 @@ def handlers_control(driver, request_db_result, type, page):
         # Top creators
         top_creators = top_creators_main(driver, store_k_id, type, page)
 
-
         # Request products details
         top_store_products = store_details_products_main(driver, store_k_id, page)
 
-
         # # Request the list of the top video
         top_videos = top_videos_main(driver, store_k_id, type, page)
-
 
         # # Request the total sales
         top_store_sales = top_store_sales_main(driver, store_k_id, page)
@@ -52,4 +49,4 @@ def handlers_control(driver, request_db_result, type, page):
         if type == 'convex':
             convex(data_map)
         elif type == 'postgres':
-            postgres(data_map)
+            postgres_update(data_map)

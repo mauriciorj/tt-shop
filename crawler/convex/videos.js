@@ -60,7 +60,6 @@ export const updateVideos = mutation({
     }
 
     const newDataObj = {
-      tt_account: data.tt_account,
       description: data.description,
       views: data.views,
       duration: data.duration,
@@ -73,6 +72,10 @@ export const updateVideos = mutation({
 
     if (data?.storage_id) {
       newDataObj.storage_id = data.storage_id;
+    }
+
+    if (data?.tt_account) {
+      newDataObj.tt_account = data.tt_account;
     }
 
     const result = await ctx.db.insert("videos", newDataObj);

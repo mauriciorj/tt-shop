@@ -1,6 +1,6 @@
 from utils.parse_value import parse_value
 
-def request_api_dto(request_api_result):
+def dto(request_api_result):
     formated_data =  []
     for data in request_api_result['data']: 
         formated_data.append({
@@ -10,6 +10,5 @@ def request_api_dto(request_api_result):
             'tt_followers': int(data['followers']),
             'k_revenue': parse_value(data['revenue']),
             'k_sales': int(parse_value(data['sale'])),
-            
         })
     return formated_data

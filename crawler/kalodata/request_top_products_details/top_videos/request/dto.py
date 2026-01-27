@@ -1,6 +1,6 @@
 from utils.parse_value import parse_value
 
-def request_api_dto(result_request_top_videos):
+def dto(result_request_top_videos):
     formated_data =  []
 
     for data in result_request_top_videos['data']:

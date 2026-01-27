@@ -2,14 +2,11 @@ import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
-const revenueHistoryChanged = ({ existingProduct, data }) =>
+const checkArrayValues = ({ key, existingProduct, data }) =>
   Boolean(
-    !existingProduct.k_revenue_history ||
-      existingProduct.k_revenue_history.length !==
-        data.k_revenue_history.length ||
-      existingProduct.k_revenue_history.some(
-        (val, index) => val !== data.k_revenue_history[index]
-      )
+    !existingProduct[key] ||
+      existingProduct[key].length !== data[key].length ||
+      existingProduct[key].some((val, index) => val !== data[key][index])
   );
 
 const checkValues = ({ existingProduct, data }) => {
@@ -17,36 +14,59 @@ const checkValues = ({ existingProduct, data }) => {
 
   if (data?.storage_id && existingProduct?.storage_id !== data?.storage_id)
     updates.storage_id = data.storage_id;
+
+  if (
+    data?.product_rating &&
+    existingProduct?.product_rating !== data?.product_rating
+  )
+    updates.product_rating = data.product_rating;
+
   if (
     data?.main_category &&
     existingProduct?.main_category !== data?.main_category
   )
     updates.main_category = data.main_category;
+
   if (
     data?.second_category &&
     existingProduct?.second_category !== data?.second_category
   )
     updates.second_category = data.second_category;
+
   if (
     data?.third_category &&
     existingProduct?.third_category !== data?.third_category
   )
     updates.third_category = data.third_category;
+
   if (data?.unit_price && existingProduct?.unit_price !== data?.unit_price)
     updates.unit_price = data.unit_price;
+
   if (
     data?.k_creator_conversion_ratio &&
     existingProduct?.k_creator_conversion_ratio !==
       data?.k_creator_conversion_ratio
   )
     updates.k_creator_conversion_ratio = data.k_creator_conversion_ratio;
+
+  if (
+    data?.k_day_revenue &&
+    existingProduct?.k_day_revenue !== data?.k_day_revenue
+  )
+    updates.k_day_revenue = data.k_day_revenue;
+
+  if (data?.k_day_sales && existingProduct?.k_day_sales !== data?.k_day_sales)
+    updates.k_day_sales = data.k_day_sales;
+
   if (data?.k_revenue && existingProduct?.k_revenue !== data?.k_revenue)
     updates.k_revenue = data.k_revenue;
+
   if (
     data?.k_revenue_growth_rate &&
     existingProduct?.k_revenue_growth_rate !== data?.k_revenue_growth_rate
   )
     updates.k_revenue_growth_rate = data.k_revenue_growth_rate;
+
   if (data?.k_sales && existingProduct?.k_sales !== data?.k_sales)
     updates.k_sales = data.k_sales;
 
@@ -84,7 +104,9 @@ export const addProduct = mutation({
     if (existingProduct) {
       const updates = checkValues({ existingProduct, data });
 
-      if (revenueHistoryChanged({ existingProduct, data })) {
+      if (
+        checkArrayValues({ key: "k_revenue_history", existingProduct, data })
+      ) {
         updates.k_revenue_history = data.k_revenue_history;
       }
 
@@ -147,7 +169,7 @@ export const getProductByKId = query({
   },
 });
 
-export const updateProductDetails = mutation({
+export const updateProduct = mutation({
   args: {
     data: v.object({
       id: v.id("products"),
@@ -167,13 +189,22 @@ export const updateProductDetails = mutation({
       .first();
 
     if (existingProduct) {
-      await ctx.db.patch(existingProduct._id, {
-        k_top_creators: data.k_top_creators,
-        k_top_videos: data.k_top_videos,
-        k_day_sales: data.k_day_sales,
-        k_day_revenue: data.k_day_revenue,
-        updated_at: new Date().toISOString(),
-      });
+      const updates = checkValues({ existingProduct, data });
+
+      if (checkArrayValues({ key: "k_top_creators", existingProduct, data })) {
+        updates.k_top_creators = data.k_top_creators;
+      }
+
+      if (checkArrayValues({ key: "k_top_videos", existingProduct, data })) {
+        updates.k_top_videos = data.k_top_videos;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await ctx.db.patch(existingProduct._id, {
+          ...updates,
+          updated_at: new Date().toISOString(),
+        });
+      }
       return existingProduct;
     }
   },

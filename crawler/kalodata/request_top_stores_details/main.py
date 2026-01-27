@@ -19,12 +19,13 @@ from utils.save_error import save_error
 # from logger.error import error
 
 from request_top_stores_details.handlers_control import handlers_control
-from request_top_stores_details.request_postgres import request_postgres
+from request_top_stores_details.postgres import postgres_request
 
 def main(type='convex'): 
     driver = chrome()
     login(driver)
 
+    # Used in case type == 'convex'
     done = False
     cursor = None
     data = []
@@ -68,7 +69,6 @@ def main(type='convex'):
         
             # STEP 04 - Send the request result to handler
             handlers_control(driver, request_db_result['page'], type, page)
-
 
             # STEP 05 - Extract the page data, cursor, and completion status
             cursor = request_db_result['continueCursor']

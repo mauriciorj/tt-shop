@@ -22,6 +22,9 @@ const checkValues = ({ existingCreator, data }) => {
   if (data?.k_revenue && existingCreator?.k_revenue !== data?.k_revenue)
     updates.k_revenue = data.k_revenue;
 
+  if (data?.k_sales && existingCreator?.k_sales !== data?.k_sales)
+    updates.k_sales = data.k_sales;
+
   if (
     data?.k_video_revenue &&
     existingCreator?.k_video_revenue !== data?.k_video_revenue
@@ -46,6 +49,7 @@ export const updateCreator = mutation({
       tt_nickname: v.string(),
       tt_followers: v.number(),
       k_revenue: v.number(),
+      k_sales: v.optional(v.number()),
       k_video_revenue: v.optional(v.number()),
       k_live_revenue: v.optional(v.number()),
     }),
@@ -76,14 +80,24 @@ export const updateCreator = mutation({
       tt_nickname: data.tt_nickname,
       tt_followers: data.tt_followers,
       k_revenue: data.k_revenue,
-      k_video_revenue: data.k_video_revenue,
-      k_live_revenue: data.k_live_revenue,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     };
 
     if (data?.storage_id) {
       newDataObj.storage_id = data.storage_id;
+    }
+
+    if (data?.k_sales) {
+      newDataObj.k_sales = data.k_sales;
+    }
+
+    if (data?.k_video_revenue) {
+      newDataObj.k_video_revenue = data.k_video_revenue;
+    }
+
+    if (data?.k_live_revenue) {
+      newDataObj.k_live_revenue = data.k_live_revenue;
     }
 
     const result = await ctx.db.insert("creators", newDataObj);
