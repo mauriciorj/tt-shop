@@ -14,36 +14,37 @@ load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 def main(formated_data):
-    print("")
-    print("[ CONVEX ] Adding / Updating products...")
+    print('')
+    print('[ SELENIUM ] Saving Top Creators to DB...')
 
     try:
         client = ConvexClient(CONVEX_URL)
-        
+
         for item in formated_data:
             # STEP 01 - Handle images
-            new_storage_id = image_handler(k_id=item['k_id'], type='product')
+            new_storage_id = image_handler(k_id=item['k_id'], type='creator')
 
             # STEP 02 - Add storage_id to item
             if new_storage_id:
                 item['storage_id'] = new_storage_id
-            
-            print("[ CONVEX ] Adding / Updating product...")
 
-            # STEP 03 - Add / Update product
-            client.mutation("products:addProduct", {'data': item})
+            print("[ CONVEX ] Adding / Updating creator...")
 
-            print("[ CONVEX ] Updated product...")
+            # STEP 03 - Add / Update store
+            creator_id = client.mutation("creators:updateCreator", {'data': item})
+
+            print("[ CONVEX ] Updated creator...")
 
             # STEP 04 - Delete images from /images local folder
             delete_images()
-
-        print("[ CONVEX ] Products added / updated successfully")
+    
+        print('[ SELENIUM ] Top Creators saved successfully')
         print("")
+            
 
     except Exception as e:
-        save_error(source='top_products/convex', error=e)
-        # error(e, 8)
+        save_error(source='top_stores_details/top_creators/convex', error=e)
+        # error(e, 16)
         sys.exit(1)
 
 if __name__ == "__main__":

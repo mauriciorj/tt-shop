@@ -19,6 +19,8 @@ def download_image_from_k(k_id, type):
             image_url = f"https://img.kalocdn.com/tiktok.product/{k_id}/cover.png"
         elif type == "video":
             image_url = f"https://img.kalocdn.com/tiktok.video/{k_id}/cover.png"
+        elif type == "creator":
+            image_url = f"https://img.kalocdn.com/tiktok.creator/{k_id}/avatar_medium.png"
         
         image_path = os.path.join(images_dir, f"{k_id}.png")
                 

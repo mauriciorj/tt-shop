@@ -6,20 +6,11 @@ from simple_term_menu import TerminalMenu
 # from postgres_tables.create_stores import create_stores
 # from postgres_tables.create_videos import create_videos
 
-
-# POSTGRES
-# from request_categories.main_postgres import main as run_request_categories_postgres
-# from request_top_stores.main_postgres import main as run_request_top_stores_postgres
-# from request_top_stores_details.main_postgres import main as run_request_top_stores_details_postgres
-# from request_top_products.main_postgres import main as run_request_top_products_postgres
-# from request_top_products_details.main import main as run_request_top_products_details
-
-# CONVEX
 from request_categories.main import main as run_request_categories
 from request_top_stores.main import main as run_request_top_stores_convext
-from request_top_stores_details.main_convex import main as run_request_top_stores_details_convex
-from request_top_products.main import main as run_request_top_products_convext
-from request_top_products_details.main_convex import main as run_request_top_products_details_convex
+from request_top_stores_details.main import main as run_request_top_stores_details
+from request_top_products.main import main as run_request_top_products
+from request_top_products_details.main import main as run_request_top_products_details
 
 # def create_tables_menu():
 #     options = [" > Categories", " > Creators", " > Products", " > Stores", " > Videos", "  << Return", "   * Quit"]
@@ -45,31 +36,31 @@ from request_top_products_details.main_convex import main as run_request_top_pro
 #         create_videos()
 
 # def run_crawler_postgres_menu():
-#     options = [" > [POSTGRES] Categories", " > [POSTGRES] Top Stores", "  > [POSTGRES] Top Stores Details", " > [POSTGRES] Top Products", "   << Return", "   <<< Quit"]
+#     options = [" > [POSTGRES] Categories", " > [POSTGRES] Top Stores", "  > [POSTGRES] Top Stores Details", " > [POSTGRES] Top Products", "  > [POSTGRES] Top Products Details", "   << Return", "   <<< Quit"]
 #     terminal_menu = TerminalMenu(options, title="Select an option")
 #     menu_entry_index = terminal_menu.show()
     
 #     selection = options[menu_entry_index]
 #     print(f"You selected: {selection}")
 
-#     if selection == options[5]:
+#     if selection == options[6]:
 #         print("Exiting...")
-#     elif selection == options[4]:
+#     elif selection == options[5]:
 #         main()
 #     elif selection == options[0]:
-#         run_request_categories_postgres()
+#         run_request_categories(type='postgres')
 #     elif selection == options[1]:
-#         run_request_top_stores_postgres()
+#         run_request_top_stores_convext(type='postgres')
 #     elif selection == options[2]:
-#         run_request_top_stores_details_postgres()
+#         run_request_top_stores_details(type='postgres')
 #     elif selection == options[3]:
-#         run_request_top_products_postgres()
-    # elif selection == "Top Products Details":
-    #     run_request_top_products_details()
+#         run_request_top_products_convext(type='postgres')
+#     elif selection == options[4]:
+#         run_request_top_products_details(type='postgres')
 
 
 def run_crawler_convext_menu():
-    options = [" > [CONVEX] Categories", " > [CONVEX] Top Stores", "  > [CONVEX] Top Stores Details", " > [CONVEX] Top Products", "  > [CONVEX] Top Products Details", "   << Return", "   <<< Quit"]
+    options = [" - Categories", " - Top Stores", "  -- Top Stores Details", " - Top Products", "  -- Top Products Details", "   << Return", "   <<< Quit"]
     terminal_menu = TerminalMenu(options, title="Select an option")
     menu_entry_index = terminal_menu.show()
     
@@ -85,14 +76,14 @@ def run_crawler_convext_menu():
     elif selection == options[1]:
         run_request_top_stores_convext(type='convex')
     elif selection == options[2]:
-        run_request_top_stores_details_convext(type='convex')
+        run_request_top_stores_details(type='convex')
     elif selection == options[3]:
         run_request_top_products_convext(type='convex')
     elif selection == options[4]:
-        run_request_top_products_details_convex(type='convex')
+        run_request_top_products_details(type='convex')
 
 def main(): 
-    options = ["Run Crawler Convex", " * Quit"]
+    options = ["Run Crawler", " * Quit"]
     terminal_menu = TerminalMenu(options, title="Select an option")
     menu_entry_index = terminal_menu.show()
     selection = options[menu_entry_index]

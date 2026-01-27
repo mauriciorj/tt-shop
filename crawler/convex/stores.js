@@ -46,6 +46,30 @@ const checkValues = ({ existingStore, data }) => {
   if (data?.k_sales && existingStore?.k_sales !== data?.k_sales)
     updates.k_sales = data.k_sales;
 
+  if (
+    data?.k_top_creators &&
+    existingStore?.k_top_creators !== data?.k_top_creators
+  )
+    updates.k_top_creators = data.k_top_creators;
+
+  if (
+    data?.k_top_products &&
+    existingStore?.k_top_products !== data?.k_top_products
+  )
+    updates.k_top_products = data.k_top_products;
+
+  if (data?.k_top_videos && existingStore?.k_top_videos !== data?.k_top_videos)
+    updates.k_top_videos = data.k_top_videos;
+
+  if (data?.k_day_sales && existingStore?.k_day_sales !== data?.k_day_sales)
+    updates.k_day_sales = data.k_day_sales;
+
+  if (
+    data?.k_day_revenue &&
+    existingStore?.k_day_revenue !== data?.k_day_revenue
+  )
+    updates.k_day_revenue = data.k_day_revenue;
+
   return updates;
 };
 
@@ -194,14 +218,14 @@ export const updateStoreDetails = mutation({
       .first();
 
     if (existingStore) {
-      await ctx.db.patch(existingStore._id, {
-        k_top_creators: data.k_top_creators,
-        k_top_products: data.k_top_products,
-        k_top_videos: data.k_top_videos,
-        k_day_sales: data.k_day_sales,
-        k_day_revenue: data.k_day_revenue,
-        updated_at: new Date().toISOString(),
-      });
+      const updates = checkValues({ existingStore, data });
+
+      if (Object.keys(updates).length > 0) {
+        await ctx.db.patch(existingStore._id, {
+          ...updates,
+          updated_at: new Date().toISOString(),
+        });
+      }
       return existingStore;
     }
   },

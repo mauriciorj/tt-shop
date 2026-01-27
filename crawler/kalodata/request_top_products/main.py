@@ -36,6 +36,7 @@ def main(type='convex'):
         print('\n')
         print("=========================")
         print(f"[ SELENIUM ] Page {page}")
+        
         # STEP 01 - Request the top stores from API
         request_api_result = request_api(driver, page)
 
