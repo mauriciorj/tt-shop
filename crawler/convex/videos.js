@@ -50,7 +50,7 @@ export const updateVideos = mutation({
       .first();
 
     if (existingVideo) {
-      const updates = checkValues({ existingVideo, data });
+      const updates = getUpdatedValues({ existingVideo, data });
 
       await ctx.db.patch(existingVideo._id, {
         ...updates,

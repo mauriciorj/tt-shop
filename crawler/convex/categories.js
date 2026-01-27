@@ -15,7 +15,7 @@ export const addCategory = mutation({
   handler: async (ctx, args) => {
     const { data } = args;
 
-    const existingCategory = await ctx.db
+    const queryResult = await ctx.db
       .query("categories")
       .filter((q) => q.eq(q.field("main_category_id"), data.main_category_id))
       .filter((q) =>
@@ -25,7 +25,7 @@ export const addCategory = mutation({
       .first();
 
     // Don't do anything if the category already exists
-    if (!existingCategory) {
+    if (!queryResult) {
       await ctx.db.insert("categories", {
         main_category_id: data.main_category_id,
         main_category_name: data.main_category_name,

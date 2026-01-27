@@ -35,8 +35,6 @@ def upload_image_to_convex(image_path):
         # STEP 04 - Return the storage ID
         return storage_id
 
-        # client.mutation("files:saveFile", {'storageId': storage_id, 'table_id': id, 'k_id': k_id, 'source': type})
-
     except Exception as e:
         save_error(source='upload_image_to_convex', error=e)
         # error(e, 111)

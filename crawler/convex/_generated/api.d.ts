@@ -13,6 +13,7 @@ import type * as creators from "../creators.js";
 import type * as files from "../files.js";
 import type * as products from "../products.js";
 import type * as stores from "../stores.js";
+import type * as utils from "../utils.js";
 import type * as videos from "../videos.js";
 
 import type {
@@ -27,6 +28,7 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   products: typeof products;
   stores: typeof stores;
+  utils: typeof utils;
   videos: typeof videos;
 }>;
 

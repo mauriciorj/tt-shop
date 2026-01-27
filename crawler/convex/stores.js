@@ -1,74 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
-
-const checkArrayValues = ({ key, existingStore, data }) =>
-  Boolean(
-    !existingStore[key] ||
-      existingStore[key].length !== data[key].length ||
-      existingStore[key].some((val, index) => val !== data[key][index])
-  );
-
-const checkValues = ({ existingStore, data }) => {
-  const updates = {};
-
-  if (data?.storage_id && existingStore?.storage_id !== data?.storage_id)
-    updates.storage_id = data.storage_id;
-  if (data?.type && existingStore?.type !== data?.type)
-    updates.type = data.type;
-  if (
-    data?.main_category &&
-    existingStore?.main_category !== data?.main_category
-  )
-    updates.main_category = data.main_category;
-  if (
-    data?.second_category &&
-    existingStore?.second_category !== data?.second_category
-  )
-    updates.second_category = data.second_category;
-  if (
-    data?.third_category &&
-    existingStore?.third_category !== data?.third_category
-  )
-    updates.third_category = data.third_category;
-  if (data?.unit_price && existingStore?.unit_price !== data?.unit_price)
-    updates.unit_price = data.unit_price;
-  if (data?.k_revenue && existingStore?.k_revenue !== data?.k_revenue)
-    updates.k_revenue = data.k_revenue;
-  if (
-    data?.k_revenue_growth_rate &&
-    existingStore?.k_revenue_growth_rate !== data?.k_revenue_growth_rate
-  )
-    updates.k_revenue_growth_rate = data.k_revenue_growth_rate;
-  if (data?.k_sales && existingStore?.k_sales !== data?.k_sales)
-    updates.k_sales = data.k_sales;
-
-  if (
-    data?.k_top_creators &&
-    existingStore?.k_top_creators !== data?.k_top_creators
-  )
-    updates.k_top_creators = data.k_top_creators;
-
-  if (
-    data?.k_top_products &&
-    existingStore?.k_top_products !== data?.k_top_products
-  )
-    updates.k_top_products = data.k_top_products;
-
-  if (data?.k_top_videos && existingStore?.k_top_videos !== data?.k_top_videos)
-    updates.k_top_videos = data.k_top_videos;
-
-  if (data?.k_day_sales && existingStore?.k_day_sales !== data?.k_day_sales)
-    updates.k_day_sales = data.k_day_sales;
-
-  if (
-    data?.k_day_revenue &&
-    existingStore?.k_day_revenue !== data?.k_day_revenue
-  )
-    updates.k_day_revenue = data.k_day_revenue;
-
-  return updates;
-};
+import { getUpdatedValues } from "./utils";
 
 export const addStore = mutation({
   args: {
@@ -91,49 +24,31 @@ export const addStore = mutation({
   handler: async (ctx, args) => {
     const { data } = args;
 
-    const existingStore = await ctx.db
+    const queryResult = await ctx.db
       .query("stores")
       .filter((q) => q.eq(q.field("k_id"), data.k_id))
       .first();
 
-    if (existingStore) {
-      const updates = checkValues({ existingStore, data });
-
-      if (checkArrayValues({ key: "k_revenue_history", existingStore, data })) {
-        updates.k_revenue_history = data.k_revenue_history;
-      }
+    if (queryResult) {
+      const updates = getUpdatedValues({
+        currentData: queryResult,
+        newData: data,
+      });
 
       if (Object.keys(updates).length > 0) {
-        await ctx.db.patch(existingStore._id, {
+        await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
         });
       }
-      return { id: existingStore._id, status: "updated" };
+      return { id: queryResult._id, status: "updated" };
     }
 
-    const newDataObj = {
-      country: data.country,
-      name: data.name,
-      type: data.type,
-      main_category: data.main_category,
-      second_category: data.second_category,
-      third_category: data.third_category,
-      unit_price: data.unit_price,
-      k_id: data.k_id,
-      k_revenue: data.k_revenue,
-      k_revenue_history: data.k_revenue_history,
-      k_revenue_growth_rate: data.k_revenue_growth_rate,
-      k_sales: data.k_sales,
+    const result = await ctx.db.insert("stores", {
+      ...data,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    };
-
-    if (data?.storage_id) {
-      newDataObj.storage_id = data.storage_id;
-    }
-
-    const result = await ctx.db.insert("stores", newDataObj);
+    });
     return { id: result, status: "added" };
   },
 });
@@ -174,21 +89,24 @@ export const updateStore = mutation({
   handler: async (ctx, args) => {
     const { data } = args;
 
-    const existingStore = await ctx.db
+    const queryResult = await ctx.db
       .query("stores")
       .filter((q) => q.eq(q.field("_id"), data.id))
       .first();
 
-    if (existingStore) {
-      const updates = checkValues({ existingStore, data });
+    if (queryResult) {
+      const updates = getUpdatedValues({
+        currentData: queryResult,
+        newData: data,
+      });
 
       if (Object.keys(updates).length > 0) {
-        await ctx.db.patch(existingStore._id, {
+        await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
         });
       }
-      return existingStore;
+      return queryResult;
     }
   },
 });
