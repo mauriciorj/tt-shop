@@ -2,7 +2,6 @@ from request_top_products_details.top_creators.main import main as top_creators
 from request_top_products_details.top_videos.main import main as top_videos
 from request_top_products_details.top_products_sales.main import main as top_products_sales
 from request_top_products_details.convex import convex
-from request_top_products_details.postgres import postgres_update
 
 def handlers_control(driver, data, type, page):
     print('[ SELENIUM ] Requesting product by product...')

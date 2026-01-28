@@ -1,5 +1,4 @@
 from datetime import datetime
-# from logger.console import console
 
 def map_data(item):
     data_mapped = {

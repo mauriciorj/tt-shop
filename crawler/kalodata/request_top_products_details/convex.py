@@ -8,8 +8,6 @@ from dotenv import load_dotenv
 load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
-from logger.error import error
-
 def convex(data):
     print('')
     print('[ SELENIUM ] Updating product in DB...')

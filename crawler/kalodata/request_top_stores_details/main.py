@@ -15,7 +15,6 @@ load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 from utils.save_error import save_error
-# from logger.error import error
 
 from request_top_stores_details.handlers_control import handlers_control
 from request_top_stores_details.postgres import postgres_request
