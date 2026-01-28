@@ -39,7 +39,6 @@ def main(k_id, type):
             print(f"[ SELENIUM ] Failed to download image for store (k_id: {k_id}).")
     except Exception as e:
         save_error(source=f'utils/image/main-{k_id}-{type}', error=e)
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

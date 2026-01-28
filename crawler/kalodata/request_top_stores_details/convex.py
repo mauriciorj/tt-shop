@@ -23,7 +23,6 @@ def convex(data_map):
 
     except Exception as e:
         save_error(source='request_top_stores_details/convex', error=e)
-        sys.exit(1)
 
     finally:
         return True

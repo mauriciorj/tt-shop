@@ -1,4 +1,4 @@
-import json
+# import json
 import os
 
 import time
@@ -38,8 +38,9 @@ def main(type='convex'):
     page = 1
 
     while not done:
-        print('')
-        print(f"\n[ SELENIUM ] Fetching batch")
+        print("")
+        print("=========================")
+        print(f"[ SELENIUM ] Page {page}")
 
         try:
             client = ConvexClient(CONVEX_URL)
@@ -75,7 +76,6 @@ def main(type='convex'):
 
         except Exception as e:
             save_error(source='request_top_products_details/main', error=e)
-            break
 
 if __name__ == "__main__":
     main()

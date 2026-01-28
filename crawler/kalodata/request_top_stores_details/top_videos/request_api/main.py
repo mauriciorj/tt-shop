@@ -1,30 +1,13 @@
 import sys
-import os
 
-# getting the name of the directory
-# where the this file is present.
-current = os.path.dirname(os.path.realpath(__file__))
-
-# Getting the parent directory name
-# where the current directory is present.
-parent = os.path.dirname(current)
-parent_parent = os.path.dirname(parent)
-parent_parent_parent = os.path.dirname(parent_parent)
-
-# adding the parent directory to
-# the sys.path.
-sys.path.append(parent)
-sys.path.append(parent_parent)
-sys.path.append(parent_parent_parent)
-
-from utils.save_error import save_error
 from selenium_utils import selenium_fetch
+from utils.save_error import save_error
 
 def main(driver, id):
     print('')
-    print('[ SELENIUM ] Requesting top creators...')
+    print('[ SELENIUM ] Requesting top videos...')
 
-    search_url = 'https://www.kalodata.com/product/detail/creator/queryList'
+    search_url = 'https://www.kalodata.com/shop/detail/searchVideos'
 
     # Prepare the payload (same as before)
     body = {
@@ -32,6 +15,8 @@ def main(driver, id):
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
+        "videoType": "",
+        "creatorNickName": "",
         "pageNo": 1,
         "pageSize": 10,
         "sort": [
@@ -39,7 +24,7 @@ def main(driver, id):
                 "field": "revenue",
                 "type": "DESC"
             }
-        ],
+        ]
     }
     
     headers = {
@@ -60,9 +45,7 @@ def main(driver, id):
         return data
 
     except Exception as e:
-        save_error(source='request_top_products_details/top_products_sales/request/main', error=e)
-        sys.exit(1)
-
+        save_error(source='request_top_stores_details/top_videos/request/main', error=e)
 
 if __name__ == "__main__":
     main()

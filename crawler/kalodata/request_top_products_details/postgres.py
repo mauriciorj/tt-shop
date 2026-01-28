@@ -38,7 +38,6 @@ def postgres_request(limit=10, offset=0):
         if conn:
             conn.rollback()
         save_error(source='request_top_products_details/postgres', error=e)
-        sys.exit(1)
         return False
 
     finally:

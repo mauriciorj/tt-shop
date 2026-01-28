@@ -76,7 +76,6 @@ def main(formated_data):
         if conn:
             conn.rollback()
         save_error(source='request_top_stores/postgres/main', error=e)
-        sys.exit(1)
 
     finally:
         if conn:

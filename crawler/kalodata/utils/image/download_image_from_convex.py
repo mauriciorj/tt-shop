@@ -55,4 +55,3 @@ def download_image_from_convex(k_id, type):
 
     except Exception as e:
         save_error(source=f'utils/image/download_image_from_convex-{k_id}-{type}', error=e)
-        sys.exit(1)

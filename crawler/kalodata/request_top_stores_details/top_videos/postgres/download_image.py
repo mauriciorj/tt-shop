@@ -38,4 +38,3 @@ def download_image(video_id, k_id):
             print(f"[ SELENIUM ] Failed to download image for store {video_id} (k_id: {k_id}). Status: {response.status_code}")
     except Exception as e_img:
         save_error(source='request_top_stores_details/top_videos/postgres/download_image', error=e_img)
-        sys.exit(1)

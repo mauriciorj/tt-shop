@@ -1,9 +1,9 @@
 import json
 
-def dto(request_api_result):
+def dto(data):
     categories = []
     
-    root_tree = request_api_result['data']['global.category.tree']
+    root_tree = data['data']['global.category.tree']
 
     for main_cat in root_tree:
         main_id = main_cat.get('value')

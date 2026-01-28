@@ -1,9 +1,9 @@
 from utils.parse_value import parse_value
 
-def dto(result_request_top_videos):
+def dto(data):
     formated_data =  []
 
-    for data in result_request_top_videos['data']:
+    for data in data['data']:
         formated_data.append({
             'k_id': data['id'],
             'tt_account': data['handle'],

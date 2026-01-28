@@ -36,4 +36,3 @@ def upload_image_to_convex(image_path):
 
     except Exception as e:
         save_error(source='utils/image/upload_image_to_convex', error=e)
-        sys.exit(1)

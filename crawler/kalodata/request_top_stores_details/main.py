@@ -1,4 +1,3 @@
-import json
 import os
 
 import time
@@ -39,11 +38,9 @@ def main(type='convex'):
     page = 1
 
     while not done:
-        print('\n')
-        print('\n')
-        print('\n')
+        print("")
         print("=========================")
-        print(f"\n[ SELENIUM ] Fetching batch")
+        print(f"[ SELENIUM ] Page {page}")
 
         try:
             client = ConvexClient(CONVEX_URL)
@@ -54,7 +51,7 @@ def main(type='convex'):
             if type == 'convex':
                 request_db_result = client.query("stores:getStores", {'paginationOpts': { 'numItems': num_items_per_page, 'cursor': cursor }})
             elif type == 'postgres':
-                request_db_result = request_postgres(limit=limit, offset=offset)
+                request_db_result = postgres_request(limit=limit, offset=offset)
 
             # STEP 02 - Check if the request was successful
             if type == 'convex' and (request_db_result is None or request_db_result['page'] is None):
@@ -79,7 +76,6 @@ def main(type='convex'):
 
         except Exception as e:
             save_error(source='request_top_stores_details/main', error=e)
-            break
 
 
 if __name__ == "__main__":

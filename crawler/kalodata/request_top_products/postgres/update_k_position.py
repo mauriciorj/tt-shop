@@ -20,4 +20,3 @@ def update_k_position(cursor, item):
 
     except Exception as e_img:
         save_error(source='request_top_products/postgres/update_k_position', error=e_img)
-        sys.exit(1)

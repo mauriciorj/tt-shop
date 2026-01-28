@@ -5,9 +5,9 @@ from utils.save_error import save_error
 
 def main(driver, id):
     print('')
-    print('[ SELENIUM ] Requesting top videos...')
+    print('[ SELENIUM ] Requesting top creators...')
 
-    search_url = 'https://www.kalodata.com/shop/detail/searchVideos'
+    search_url = 'https://www.kalodata.com/shop/detail/searchCooperativeCreators'
 
     # Prepare the payload (same as before)
     body = {
@@ -15,8 +15,6 @@ def main(driver, id):
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
-        "videoType": "",
-        "creatorNickName": "",
         "pageNo": 1,
         "pageSize": 10,
         "sort": [
@@ -24,7 +22,8 @@ def main(driver, id):
                 "field": "revenue",
                 "type": "DESC"
             }
-        ]
+        ],
+        "creatorType": ""
     }
     
     headers = {
@@ -45,8 +44,7 @@ def main(driver, id):
         return data
 
     except Exception as e:
-        save_error(source='request_top_stores_details/top_videos/request/main', error=e)
-        sys.exit(1)
+        save_error(source='request_top_stores_details/top_creators/request/main', error=e)
 
 if __name__ == "__main__":
     main()

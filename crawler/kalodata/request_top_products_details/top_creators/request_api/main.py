@@ -61,7 +61,6 @@ def main(driver, id):
 
     except Exception as e:
         save_error(source='request_top_products_details/top_creators/request/main', error=e)
-        sys.exit(1)
 
 
 if __name__ == "__main__":

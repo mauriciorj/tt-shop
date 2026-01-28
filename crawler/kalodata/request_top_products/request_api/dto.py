@@ -1,10 +1,10 @@
 from utils.parse_value import parse_value
 
-def dto(request_data_result):
+def dto(data):
     print('')
     print('[ SELENIUM ] Formatting data...')
     formated_data =  []
-    for data in request_data_result['data']:
+    for data in data['data']:
 
         revenue_trend_to_float = [round(float(value), 2) for value in data['revenue_trend']]
         

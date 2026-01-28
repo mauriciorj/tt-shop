@@ -21,4 +21,3 @@ def delete_image(storage_id):
         client.mutation("files:deleteFile", {'storage_id': storage_id})
     except Exception as e:
         save_error(source=f'utils/image/delete_image', error=e)
-        sys.exit(1)

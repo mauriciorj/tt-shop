@@ -12,14 +12,14 @@ from utils.save_error import save_error
 load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
-def main(formated_data):
+def main(data):
     print('')
     print('[ SELENIUM ] Saving Top Creators to DB...')
 
     try:
         client = ConvexClient(CONVEX_URL)
 
-        for item in formated_data:
+        for item in data:
             # STEP 01 - Handle images
             new_storage_id = image_handler(k_id=item['k_id'], type='creator')
 
@@ -43,7 +43,6 @@ def main(formated_data):
 
     except Exception as e:
         save_error(source='request_top_stores_details/top_creators/convex/main', error=e)
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

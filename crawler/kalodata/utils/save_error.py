@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+
 from datetime import datetime
 
 def save_error(source = None, error = None):
@@ -33,3 +35,4 @@ def save_error(source = None, error = None):
     print('\n')
     print(f"[ SELENIUM ] Error saved to logs/errors.json")
     print('\n')
+    sys.exit(1)

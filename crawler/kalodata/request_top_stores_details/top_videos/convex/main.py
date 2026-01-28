@@ -44,7 +44,6 @@ def main(formated_data):
 
     except Exception as e:
         save_error(source='request_top_stores_details/top_videos/convex/main', error=e)
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

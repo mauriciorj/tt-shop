@@ -21,4 +21,3 @@ def compare_images(image1, image2):
             return True   # Images are the same
     except Exception as e:
         save_error(source=f'utils/image/compare_images', error=e)
-        sys.exit(1)

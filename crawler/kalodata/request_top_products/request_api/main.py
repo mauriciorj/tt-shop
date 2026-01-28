@@ -1,5 +1,3 @@
-import sys
-
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
@@ -45,7 +43,6 @@ def main(driver, page):
 
     except Exception as e:
         save_error(source='request_top_products/request_api/main', error=e)
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

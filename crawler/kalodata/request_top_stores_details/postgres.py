@@ -27,7 +27,7 @@ def postgres_update(data_map):
         
         store_values = [data_map[col] for col in store_columns]
 
-        set_clause = ", ".join([f"{col} = %s" for col in store_columns if col != 'store_k_id'])
+        set_clause = ", ".join([f"{col} = %s" for col in store_columns if col != 'k_id'])
         update_values = store_values + [store_id]
         
         sql = f"UPDATE stores SET {set_clause} WHERE id = %s"
@@ -42,7 +42,6 @@ def postgres_update(data_map):
         if conn:
             conn.rollback()
         save_error(source='request_top_stores_details/postgres/01', error=e)
-        sys.exit(1)
 
     finally:
         if conn:
@@ -70,7 +69,6 @@ def postgres_request(limit=10, offset=0):
         if conn:
             conn.rollback()
         save_error(source='request_top_stores_details/postgres/02', error=e)
-        sys.exit(1)
         return False
 
     finally:

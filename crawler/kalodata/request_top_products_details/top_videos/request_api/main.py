@@ -3,7 +3,7 @@ import sys
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
-def main(driver, store_k_id):
+def main(driver, id):
     print('')
     print('[ SELENIUM ] Requesting top creators...')
 
@@ -11,7 +11,7 @@ def main(driver, store_k_id):
 
     # Prepare the payload (same as before)
     body = {
-        "id": store_k_id,
+        "id": id,
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
@@ -44,8 +44,7 @@ def main(driver, store_k_id):
         return data
 
     except Exception as e:
-        save_error(source='request_top_stores_details/top_creators/request/main', error=e)
-        sys.exit(1)
+        save_error(source='request_top_products_details/top_videos/request/main', error=e)
 
 if __name__ == "__main__":
     main()

@@ -45,7 +45,6 @@ def main(driver, page):
 
     except Exception as e:
         save_error(source='request_top_stores/request_api/main', error=e)
-        sys.exit(1)
 
     if __name__ == "__main__":
         main()

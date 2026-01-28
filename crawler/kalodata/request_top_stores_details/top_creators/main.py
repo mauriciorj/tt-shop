@@ -3,10 +3,10 @@ import json
 
 from utils.save_json import save_json
 
-from request_top_stores_details.top_creators.request.main import main as request_api
-from request_top_stores_details.top_creators.request.dto import dto as request_api_dto
-from request_top_stores_details.top_creators.convex.main import main as update_db_convex
-from request_top_stores_details.top_creators.postgres.main import main as update_db_postgres
+from request_top_stores_details.top_creators.request_api.main import main as request_api
+from request_top_stores_details.top_creators.request_api.dto import dto as dto
+from request_top_stores_details.top_creators.convex.main import main as convex
+from request_top_stores_details.top_creators.postgres.main import main as postgres
 
 # def load_json():
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -17,9 +17,9 @@ from request_top_stores_details.top_creators.postgres.main import main as update
 #         data = json.load(f)
 #     return data
 
-def main(driver, store_k_id, type, page):
+def main(driver, k_id, type, page):
     # STEP 01 - Request the list of the top creators
-    request_api_result = request_api(driver, store_k_id)
+    request_api_result = request_api(driver, k_id)
     
     if request_api_result['data'] is None:
         print('')
@@ -30,16 +30,16 @@ def main(driver, store_k_id, type, page):
     save_json(data=request_api_result, file_name=f'request_top_stores_details-top_creators_{page}.json')
 
     # STEP 04 - Convert the response to a DTO
-    request_api_dto_result = request_api_dto(request_api_result)
+    dto_result = dto(request_api_result)
     
     # STEP 05 - Save the response to correct database
     if type == 'convex':
-        update_db_convex(request_api_dto_result)
+        convex(dto_result)
     elif type == 'postgres':
-        update_db_postgres(request_api_dto_result)
+        postgres(dto_result)
 
     # STEP 06 - Return the response to correct database
-    return request_api_dto_result
+    return dto_result
 
 
 if __name__ == "__main__":

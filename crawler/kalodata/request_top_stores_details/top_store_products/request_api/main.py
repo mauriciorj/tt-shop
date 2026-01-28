@@ -3,20 +3,27 @@ import sys
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
-def main(driver, store_k_id):
+def main(driver, id):
     print('')
-    print('[ SELENIUM ] Requesting store total sales...')
+    print('[ SELENIUM ] Requesting top products...')
 
-    search_url = 'https://www.kalodata.com/shop/detail/total'
+    search_url = 'https://www.kalodata.com/shop/detail/product/queryList'
 
     # Prepare the payload (same as before)
     body = {
-        "id": store_k_id,
+        "id": id,
         "startDate": "2025-12-31",
         "endDate": "2026-01-06",
         "cateIds": [],
-        "historyStartDate": "2025-12-08",
-        "historyEndDate": "2026-01-06"
+        "pageNo": 1,
+        "pageSize": 10,
+        "sort": [
+            {
+                "field": "revenue",
+                "type": "DESC"
+            }
+        ],
+        "productType": ""
     }
     
     headers = {
@@ -37,8 +44,7 @@ def main(driver, store_k_id):
         return data
 
     except Exception as e:
-        save_error(source='request_top_stores_details/top_store_sales/request/main', error=e)
-        sys.exit(1)
+        save_error(source='request_top_stores_details/top_store_products/request/main', error=e)
 
 if __name__ == "__main__":
     main()
