@@ -10,7 +10,7 @@ parent_parent_parent = os.path.dirname(parent_parent) # crawler
 sys.path.append(parent_parent_parent)
 
 from db.client import connect_to_database
-from logger.error import error
+from utils.save_error import save_error
 
 def create_stores():
     print("[ SELENIUM ] Connecting to database...")
@@ -36,7 +36,7 @@ def create_stores():
         print("[ SELENIUM ] Table 'stores' created successfully.")
         
     except Exception as e:
-        error(e, 3)
+        save_error(source='postgres_tables/create_stores', error=e)
         
     finally:
         if conn:

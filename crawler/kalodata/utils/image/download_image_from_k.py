@@ -3,7 +3,6 @@ import os
 import requests
 
 from utils.save_error import save_error
-# from logger.error import error
 
 def download_image_from_k(k_id, type):
     try:
@@ -35,6 +34,5 @@ def download_image_from_k(k_id, type):
         else:
             return False
     except Exception as e:
-        save_error(source=f'{k_id}-{type}/download_image_from_k', error=e)
-        # error(e, 111)
+        save_error(source=f'utils/image/download_image_from_k-{k_id}-{type}', error=e)
         sys.exit(1)

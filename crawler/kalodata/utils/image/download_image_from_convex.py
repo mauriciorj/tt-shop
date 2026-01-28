@@ -9,7 +9,6 @@ load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 from utils.save_error import save_error
-# from logger.error import error
  
 def download_image_from_convex(k_id, type):
     try:
@@ -51,10 +50,9 @@ def download_image_from_convex(k_id, type):
         # STEP 07 - If the download_image status code is not 200, return None, None
         # It will avoid to delete the image from Convex
         else:
-            save_error(source=f'{k_id}/image_not_downloaded', error=f'Image not downloaded for {type}: {k_id}')
+            save_error(source=f'utils/image/download_image_from_convex-{k_id}-{type}', error=f'Image not downloaded for {type}: {k_id}')
             return None, None
 
     except Exception as e:
-        save_error(source=f'{k_id}/download_image_from_convex', error=e)
-        # error(e, 111)
+        save_error(source=f'utils/image/download_image_from_convex-{k_id}-{type}', error=e)
         sys.exit(1)

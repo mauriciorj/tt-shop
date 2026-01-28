@@ -78,7 +78,7 @@ def main(type='convex'):
             page += 1
 
         except Exception as e:
-            save_error(source='top_stores_details/main', error=e)
+            save_error(source='request_top_stores_details/main', error=e)
             break
 
 

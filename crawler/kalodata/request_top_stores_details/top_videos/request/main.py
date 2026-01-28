@@ -1,7 +1,7 @@
 import sys
 
 from selenium_utils import selenium_fetch
-from logger.error import error
+from utils.save_error import save_error
 
 def main(driver, id):
     print('')
@@ -45,7 +45,7 @@ def main(driver, id):
         return data
 
     except Exception as e:
-        error(e, 15)
+        save_error(source='request_top_stores_details/top_videos/request/main', error=e)
         sys.exit(1)
 
 if __name__ == "__main__":

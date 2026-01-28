@@ -2,7 +2,6 @@ import sys
 
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
-# from logger.error import error
 
 def main(driver):
     print('')
@@ -35,8 +34,7 @@ def main(driver):
         return data
 
     except Exception as e:
-        save_error(source='categories/request_api', error=e)
-        # error(e, 5)
+        save_error(source='request_categories/request_api/main', error=e)
         sys.exit(1)
 
 

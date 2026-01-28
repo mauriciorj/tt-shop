@@ -1,6 +1,8 @@
 import os
 import sys
 
+from utils.save_error import save_error
+
 from convex import ConvexClient
 from dotenv import load_dotenv
 
@@ -22,7 +24,7 @@ def convex(data_map):
         print(f"[ SELENIUM ] Processed items successfully.")
 
     except Exception as e:
-        error(e, 10)
+        save_error(source='request_top_products_details/convex', error=e)
         sys.exit(1)
 
     finally:

@@ -3,7 +3,6 @@ import sys
 from PIL import Image, ImageChops
 
 from utils.save_error import save_error
-# from logger.error import error
 
 def compare_images(image1, image2):
     try:
@@ -21,6 +20,5 @@ def compare_images(image1, image2):
         else:
             return True   # Images are the same
     except Exception as e:
-        save_error(source=f'{k_id}-{id}-{type}/compare_images', error=e)
-        # error(e, 111)
+        save_error(source=f'utils/image/compare_images', error=e)
         sys.exit(1)

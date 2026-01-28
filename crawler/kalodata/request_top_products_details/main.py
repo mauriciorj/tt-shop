@@ -16,9 +16,7 @@ load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 from utils.save_error import save_error
-# from logger.error import error
 
-from logger.error import error
 from request_top_products_details.handlers_control import handlers_control
 from request_top_products_details.postgres import postgres_request
 
@@ -76,7 +74,7 @@ def main(type='convex'):
             page += 1
 
         except Exception as e:
-            error(f"[ SELENIUM ] Error fetching batch: {e}")
+            save_error(source='request_top_products_details/main', error=e)
             break
 
 if __name__ == "__main__":

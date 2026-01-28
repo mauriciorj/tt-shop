@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
-from logger.error import error
+from utils.save_error import save_error
 
 def convex(data_map):
     print('')
@@ -22,7 +22,7 @@ def convex(data_map):
         print(f"[ SELENIUM ] Processed items successfully.")
 
     except Exception as e:
-        error(e, 10)
+        save_error(source='request_top_stores_details/convex', error=e)
         sys.exit(1)
 
     finally:

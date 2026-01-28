@@ -33,8 +33,6 @@ def update(cursor, select_store, stores_columns, stores_values):
     sql = f"UPDATE stores SET {set_clause} WHERE id = %s"
     cursor.execute(sql, update_values)
 
-    console(store_id, sql, update_values)
-
     return True
 
 def insert(cursor, stores_columns, stores_values):
@@ -44,7 +42,5 @@ def insert(cursor, stores_columns, stores_values):
     sql = f"INSERT INTO stores ({col_names}) VALUES ({placeholders}) RETURNING id"
     cursor.execute(sql, stores_values)
     store_id = cursor.fetchone()[0]
-
-    console(store_id, sql, stores_values)
 
     return store_id

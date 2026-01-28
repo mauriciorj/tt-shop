@@ -27,8 +27,6 @@ def update(cursor, select_video, video_columns, video_values):
     sql = f"UPDATE videos SET {set_clause} WHERE id = %s"
     cursor.execute(sql, update_values)
 
-    # console(video_id, sql, update_values)
-
     return True
 
 def insert(cursor, video_columns, video_values):
@@ -38,7 +36,5 @@ def insert(cursor, video_columns, video_values):
     sql = f"INSERT INTO videos ({col_names}) VALUES ({placeholders}) RETURNING id"
     cursor.execute(sql, video_values)
     video_id = cursor.fetchone()[0] 
-
-    # console(video_id, sql, video_values)
 
     return video_id

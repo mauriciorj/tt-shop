@@ -3,7 +3,6 @@ import os
 import requests
 
 from utils.save_error import save_error
-# from logger.error import error
 
 from utils.image.download_image_from_convex import download_image_from_convex
 from utils.image.download_image_from_k import download_image_from_k
@@ -39,8 +38,7 @@ def main(k_id, type):
         else:
             print(f"[ SELENIUM ] Failed to download image for store (k_id: {k_id}).")
     except Exception as e:
-        save_error(source=f'{type}/image_handler', error=e)
-        # error(e, 111)
+        save_error(source=f'utils/image/main-{k_id}-{type}', error=e)
         sys.exit(1)
 
 if __name__ == "__main__":

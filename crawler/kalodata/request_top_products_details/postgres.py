@@ -15,7 +15,7 @@ parent_parent_parent = os.path.dirname(parent_parent)
 # the sys.path.
 sys.path.append(parent_parent_parent)
 
-from logger.error import error
+from utils.save_error import save_error
 from db.client import connect_to_database
 
 def postgres_request(limit=10, offset=0):
@@ -37,7 +37,7 @@ def postgres_request(limit=10, offset=0):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 6)
+        save_error(source='request_top_products_details/postgres', error=e)
         sys.exit(1)
         return False
 

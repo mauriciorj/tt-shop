@@ -14,7 +14,7 @@ parent_parent_parent = os.path.dirname(parent_parent) # crawler
 # the sys.path.
 sys.path.append(parent_parent_parent)
 
-from logger.error import error
+from utils.save_error import save_error
 from db.client import connect_to_database
 
 def main(formated_data):
@@ -122,7 +122,7 @@ def main(formated_data):
                 else:
                     print(f"[ SELENIUM ] Failed to download image for creator {creator_id} (k_id: {k_id}). Status: {response.status_code}")
             except Exception as e_img:
-                error(e_img, 6)
+                save_error(source='request_top_products_details/top_creators/postgres/main/01', error=e_img)
                 sys.exit(1)
 
         conn.commit()
@@ -132,7 +132,7 @@ def main(formated_data):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 6)
+        save_error(source='request_top_products_details/top_creators/postgres/main/02', error=e)
         sys.exit(1)
         return False
 

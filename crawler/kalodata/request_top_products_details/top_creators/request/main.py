@@ -17,7 +17,7 @@ sys.path.append(parent)
 sys.path.append(parent_parent)
 sys.path.append(parent_parent_parent)
 
-from logger.error import error
+from utils.save_error import save_error
 from selenium_utils import selenium_fetch
 
 def main(driver, id):
@@ -60,7 +60,7 @@ def main(driver, id):
         return data
 
     except Exception as e:
-        error(e, 6)
+        save_error(source='request_top_products_details/top_creators/request/main', error=e)
         sys.exit(1)
 
 

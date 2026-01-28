@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime
 
-from logger.error import error
+from utils.save_error import save_error
 from db.client import connect_to_database
 from request_top_stores_details.top_videos.postgres.download_image import download_image
 from request_top_stores_details.top_videos.postgres.crud import map_data
@@ -66,7 +66,7 @@ def main(formated_data):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 16)
+        save_error(source='request_top_stores_details/top_videos/postgres/main', error=e)
         sys.exit(1)
 
     finally:

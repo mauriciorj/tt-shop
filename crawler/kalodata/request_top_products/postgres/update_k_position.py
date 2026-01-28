@@ -1,6 +1,6 @@
 import sys
 
-from logger.error import error
+from utils.save_error import save_error
 
 def update_k_position(cursor, item):
     try:
@@ -19,5 +19,5 @@ def update_k_position(cursor, item):
                     cursor.execute("UPDATE products SET k_position = NULL WHERE id = %s", (conflict_id,))
 
     except Exception as e_img:
-        error(e_img, 111)
+        save_error(source='request_top_products/postgres/update_k_position', error=e_img)
         sys.exit(1)

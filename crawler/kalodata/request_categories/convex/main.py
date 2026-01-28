@@ -2,7 +2,6 @@ import os
 import sys
 
 from utils.save_error import save_error
-# from logger.error import error
 
 from convex import ConvexClient
 from dotenv import load_dotenv
@@ -27,8 +26,7 @@ def main(formated_data):
         print("")
 
     except Exception as e:
-        save_error(source='categories/database_convex', error=e)
-        # error(e, 8)
+        save_error(source='request_categories/convex/main', error=e)
         sys.exit(1)
 
 if __name__ == "__main__":

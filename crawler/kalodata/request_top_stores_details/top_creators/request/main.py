@@ -2,7 +2,6 @@ import sys
 
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
-# from logger.error import error
 
 def main(driver, store_k_id):
     print('')
@@ -45,8 +44,7 @@ def main(driver, store_k_id):
         return data
 
     except Exception as e:
-        save_error(source='top_stores_details/top_creators/request_api/main', error=e)
-        # error(e, 12)
+        save_error(source='request_top_stores_details/top_creators/request/main', error=e)
         sys.exit(1)
 
 if __name__ == "__main__":

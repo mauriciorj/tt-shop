@@ -11,7 +11,6 @@ load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 from utils.save_error import save_error
-# from logger.error import error
 
 def upload_image_to_convex(image_path):
     try:
@@ -36,6 +35,5 @@ def upload_image_to_convex(image_path):
         return storage_id
 
     except Exception as e:
-        save_error(source='upload_image_to_convex', error=e)
-        # error(e, 111)
+        save_error(source='utils/image/upload_image_to_convex', error=e)
         sys.exit(1)

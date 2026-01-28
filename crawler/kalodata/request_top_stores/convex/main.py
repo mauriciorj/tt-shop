@@ -8,7 +8,6 @@ from utils.image.main import main as image_handler
 from utils.delete_images import delete_images
 
 from utils.save_error import save_error
-# from logger.error import error
 
 load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
@@ -42,8 +41,7 @@ def main(formated_data):
         print("")
 
     except Exception as e:
-        save_error(source='top_stores/convex', error=e)
-        # error(e, 8)
+        save_error(source='request_top_stores/convex/main', error=e)
         sys.exit(1)
 
 if __name__ == "__main__":

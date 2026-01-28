@@ -1,6 +1,6 @@
 import sys
 
-from logger.error import error
+from utils.save_error import save_error
 from db.client import connect_to_database
 # from request_top_products.postgres.update_k_position import update_k_position
 from request_top_products.postgres.download_image import download_image
@@ -75,7 +75,7 @@ def main(formated_data):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 6)
+        save_error(source='request_top_products/postgres/main', error=e)
         sys.exit(1)
 
     finally:

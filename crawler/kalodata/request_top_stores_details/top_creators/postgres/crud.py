@@ -27,8 +27,6 @@ def update(cursor, select_creator, creators_columns, creator_values):
     sql = f"UPDATE creators SET {set_clause} WHERE id = %s"
     cursor.execute(sql, update_values)
 
-    # console(creator_id, sql, update_values)
-
     return True
 
 def insert(cursor, creators_columns, creator_values):
@@ -38,7 +36,5 @@ def insert(cursor, creators_columns, creator_values):
     sql = f"INSERT INTO creators ({col_names}) VALUES ({placeholders}) RETURNING id"
     cursor.execute(sql, creator_values)
     creator_id = cursor.fetchone()[0] 
-
-    # console(creator_id, sql, creator_values)
 
     return creator_id

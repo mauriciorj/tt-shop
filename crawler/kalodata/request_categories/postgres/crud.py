@@ -28,8 +28,6 @@ def update(cursor, select_category, categories_columns, category_values):
 
     cursor.execute(sql, update_values)
 
-    console(category_id, sql, update_values)
-
     return True
 
 def insert(cursor, categories_columns, category_values):
@@ -40,7 +38,5 @@ def insert(cursor, categories_columns, category_values):
 
     cursor.execute(sql, category_values)
     category_id = cursor.fetchone()[0] 
-
-    console(category_id, sql, category_values)
 
     return category_id

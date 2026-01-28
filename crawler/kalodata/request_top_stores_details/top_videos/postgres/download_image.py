@@ -13,6 +13,8 @@ parent_parent_parent = os.path.dirname(parent_parent) # crawler
 # the sys.path.
 sys.path.append(parent_parent_parent)
 
+from utils.save_error import save_error
+
 def download_image(video_id, k_id):
     try:
         project_root = os.path.dirname(parent_parent_parent)
@@ -35,5 +37,5 @@ def download_image(video_id, k_id):
         else:
             print(f"[ SELENIUM ] Failed to download image for store {video_id} (k_id: {k_id}). Status: {response.status_code}")
     except Exception as e_img:
-        error(e_img, 111)
+        save_error(source='request_top_stores_details/top_videos/postgres/download_image', error=e_img)
         sys.exit(1)

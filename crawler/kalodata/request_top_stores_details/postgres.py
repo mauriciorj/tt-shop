@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime
 
-from logger.error import error
+from utils.save_error import save_error
 from db.client import connect_to_database
 
 # STORE table columns
@@ -41,7 +41,7 @@ def postgres_update(data_map):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 10)
+        save_error(source='request_top_stores_details/postgres/01', error=e)
         sys.exit(1)
 
     finally:
@@ -69,7 +69,7 @@ def postgres_request(limit=10, offset=0):
     except Exception as e:
         if conn:
             conn.rollback()
-        error(e, 9)
+        save_error(source='request_top_stores_details/postgres/02', error=e)
         sys.exit(1)
         return False
 
