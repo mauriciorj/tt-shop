@@ -18,7 +18,7 @@ def main(data):
         print(f"[ CONVEX ] Total categories: {len(data)}")
         
         for item in data:
-            client.mutation("categories:addCategory", {'data': item})
+            client.mutation("categories:addCategory", item)
 
         print("[ CONVEX ] Categories added / updated successfully")
         print("")

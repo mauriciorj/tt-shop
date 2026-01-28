@@ -30,7 +30,7 @@ def main(data):
             print("[ CONVEX ] Adding / Updating creator...")
 
             # STEP 03 - Add / Update store
-            creator_id = client.mutation("creators:updateCreator", {'data': item})
+            creator_id = client.mutation("creators:updateCreator", item)
 
             print("[ CONVEX ] Updated creator...")
 

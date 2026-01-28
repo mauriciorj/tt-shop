@@ -29,7 +29,7 @@ def main(data):
             print("[ CONVEX ] Adding / Updating store...")
 
             # STEP 03 - Add / Update store
-            result = client.mutation("stores:addStore", {'data': item})
+            result = client.mutation("stores:addStore", item)
             
             print("[ CONVEX ] Updated store...")
             

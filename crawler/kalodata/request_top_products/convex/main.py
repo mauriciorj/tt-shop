@@ -30,7 +30,7 @@ def main(data):
             print("[ CONVEX ] Adding / Updating product...")
 
             # STEP 03 - Add / Update product
-            client.mutation("products:addProduct", {'data': item})
+            client.mutation("products:addProduct", item)
 
             print("[ CONVEX ] Updated product...")
 

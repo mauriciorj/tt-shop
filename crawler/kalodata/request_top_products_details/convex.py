@@ -15,7 +15,7 @@ def convex(data):
     try:
         client = ConvexClient(CONVEX_URL)
         
-        client.mutation("products:updateProduct", {'data': data})
+        client.mutation("products:updateProduct", data)
 
         print('')
         print(f"[ SELENIUM ] Processed items successfully.")

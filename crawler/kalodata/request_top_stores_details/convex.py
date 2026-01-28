@@ -16,7 +16,7 @@ def convex(data_map):
     try:
         client = ConvexClient(CONVEX_URL)
         
-        client.mutation("stores:updateStore", {'data': data_map})
+        client.mutation("stores:updateStore", data_map)
 
         print('')
         print(f"[ SELENIUM ] Processed items successfully.")

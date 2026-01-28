@@ -1,38 +1,34 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query } from "../crawler/convex/_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { getUpdatedValues } from "./utils";
 
 export const addStore = mutation({
   args: {
-    data: v.object({
-      country: v.string(),
-      name: v.string(),
-      storage_id: v.optional(v.string()),
-      type: v.string(),
-      main_category: v.string(),
-      second_category: v.string(),
-      third_category: v.string(),
-      unit_price: v.number(),
-      k_id: v.string(),
-      k_revenue: v.number(),
-      k_revenue_history: v.array(v.number()),
-      k_revenue_growth_rate: v.number(),
-      k_sales: v.number(),
-    }),
+    country: v.string(),
+    name: v.string(),
+    storage_id: v.optional(v.string()),
+    type: v.string(),
+    main_category: v.string(),
+    second_category: v.string(),
+    third_category: v.string(),
+    unit_price: v.number(),
+    k_id: v.string(),
+    k_revenue: v.number(),
+    k_revenue_history: v.array(v.number()),
+    k_revenue_growth_rate: v.number(),
+    k_sales: v.number(),
   },
   handler: async (ctx, args) => {
-    const { data } = args;
-
     const queryResult = await ctx.db
       .query("stores")
-      .filter((q) => q.eq(q.field("k_id"), data.k_id))
+      .filter((q) => q.eq(q.field("k_id"), args.k_id))
       .first();
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
-        newData: data,
+        newData: args,
       });
 
       if (Object.keys(updates).length > 0) {
@@ -45,7 +41,7 @@ export const addStore = mutation({
     }
 
     const result = await ctx.db.insert("stores", {
-      ...data,
+      ...args,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     });
@@ -76,28 +72,24 @@ export const getStoreByKId = query({
 
 export const updateStore = mutation({
   args: {
-    data: v.object({
-      id: v.id("stores"),
-      k_id: v.string(),
-      k_top_creators: v.array(v.string()),
-      k_top_products: v.array(v.string()),
-      k_top_videos: v.array(v.string()),
-      k_day_sales: v.number(),
-      k_day_revenue: v.number(),
-    }),
+    id: v.id("stores"),
+    k_id: v.string(),
+    k_top_creators: v.array(v.string()),
+    k_top_products: v.array(v.string()),
+    k_top_videos: v.array(v.string()),
+    k_day_sales: v.number(),
+    k_day_revenue: v.number(),
   },
   handler: async (ctx, args) => {
-    const { data } = args;
-
     const queryResult = await ctx.db
       .query("stores")
-      .filter((q) => q.eq(q.field("_id"), data.id))
+      .filter((q) => q.eq(q.field("_id"), args.id))
       .first();
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
-        newData: data,
+        newData: args,
       });
 
       if (Object.keys(updates).length > 0) {

@@ -1,14 +1,30 @@
-export const getArrayUpdatedValues = ({ key, currentData, newData }) =>
+export const getArrayUpdatedValues = ({
+  key,
+  currentData,
+  newData,
+}: {
+  key: string;
+  currentData: any;
+  newData: any;
+}) =>
   Boolean(
     !currentData[key] ||
       currentData[key].length !== newData[key].length ||
-      currentData[key].some((val, index) => val !== newData[key][index])
+      currentData[key].some(
+        (val: any, index: any) => val !== newData[key][index]
+      )
   );
 
-export const getUpdatedValues = ({ currentData, newData }) => {
-  const updates = {};
+export const getUpdatedValues = ({
+  currentData,
+  newData,
+}: {
+  currentData: any;
+  newData: any;
+}) => {
+  const updates = {} as Record<string, any>;
 
-  Object.keys(newData).forEach((key) => {
+  Object.keys(newData).forEach((key: string) => {
     if (["updated_at", "k_id"].includes(key)) return;
 
     if (Array.isArray(newData[key])) {

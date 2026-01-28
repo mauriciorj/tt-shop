@@ -30,7 +30,7 @@ def main(formated_data):
             print("[ CONVEX ] Adding / Updating video...")
 
             # STEP 03 - Add / Update video
-            video_id = client.mutation("videos:updateVideos", {'data': item})
+            video_id = client.mutation("videos:updateVideos", item)
 
             print("[ CONVEX ] Updated video...")
 
