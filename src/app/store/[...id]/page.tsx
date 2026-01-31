@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
-import { mockStores } from "./mockStores";
+import { mockStores } from "@/stores/hooks/mockStores";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +23,9 @@ const StoreDetail = () => {
   const { id } = useParams();
   const router = useRouter();
 
-  const store = mockStores.find((s) => s.id === Number(id));
+  const store = mockStores.find((s) =>
+    id?.[0] ? s.name.trim().toLowerCase().replace(/\s+/g, "-") === id[0] : null
+  );
 
   if (!store) {
     return (

@@ -118,8 +118,12 @@ const Table = ({
               <tbody>
                 {items.map((item, index) => (
                   <tr
-                    key={item.id}
-                    onClick={() => router.push(`/item/${item.id}`)}
+                    key={item.name}
+                    onClick={() =>
+                      router.push(
+                        `/store/${item.name.trim().toLowerCase().replace(/\s+/g, "-")}`
+                      )
+                    }
                     className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >

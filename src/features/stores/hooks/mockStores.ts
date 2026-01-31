@@ -1,10 +1,8 @@
-import { Store } from "@/src/features/common/components/table";
-
-export const mockStores: Store[] = [
+export const mockStores: any[] = [
   {
     id: 1,
     rank: 1,
-    name: "GlowUp Beauty",
+    name: "Always Fit Suplementos",
     category: "Beauty",
     followers: "12.5M",
     products: 245,
