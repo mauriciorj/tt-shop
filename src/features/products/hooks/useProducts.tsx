@@ -22,6 +22,8 @@ const useProducts = () => {
     setPage(1); // Reset to page 1 on sort change
   };
 
+  const totalProducts = 10;
+
   return {
     data: data?.data || [],
     total: data?.total || 0,
@@ -32,6 +34,7 @@ const useProducts = () => {
     order,
     handleSort,
     isLoading,
+    totalProducts,
   };
 };
 

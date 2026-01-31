@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const addCategory = mutation({
@@ -33,5 +33,41 @@ export const addCategory = mutation({
         created_at: new Date().toISOString(),
       });
     }
+  },
+});
+
+export const getCategories = query({
+  handler: async (ctx) => {
+    const categories = await ctx.db.query("categories").collect();
+    const mainCategories = categories.map((c) => c.main_category_name);
+    const uniqueMainCategories = new Set(mainCategories);
+
+    const setToArray = Array.from(uniqueMainCategories);
+
+    const mainCategoriesIds = await Promise.all(
+      setToArray?.map(async (item) => {
+        const categories = await ctx.db
+          .query("categories")
+          .filter((q) => q.eq(q.field("main_category_name"), item))
+          .first();
+
+        return {
+          id: categories?.main_category_id,
+          label: categories?.main_category_name,
+        };
+      })
+    );
+
+    const sanatizedCategories = Array.from(mainCategoriesIds)
+      ?.map((item) => ({
+        id: item.id,
+        label: item.label,
+      }))
+      .sort((a, b) => a?.label?.localeCompare(b?.label!)!);
+
+    return [
+      { id: "all", label: "Todas as categorias" },
+      ...sanatizedCategories,
+    ];
   },
 });

@@ -1,4 +1,4 @@
-import { Store } from "@/components/StoreTable";
+import { Store } from "@/src/features/common/components/table";
 
 export const mockStores: Store[] = [
   {

@@ -1,39 +1,11 @@
 "use client";
 
-import { Search } from "@/components/search";
-import { SubHeader } from "@/components/subHeader";
-import { Table } from "@/components/table";
-import useProducts from "@/products/hooks/useProducts";
-import { PaginationControl } from "@/components/pagination-control";
-
-export default function ProductsPageWrapper() {
-  const {
-    data,
-    isLoading,
-    page,
-    setPage,
-    totalPages,
-    sortBy,
-    order,
-    handleSort,
-  } = useProducts();
+const Products = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <SubHeader />
-      <Search page="products" />
-      <Table
-        data={data}
-        isLoading={isLoading}
-        type="products"
-        sortBy={sortBy}
-        order={order}
-        onSort={handleSort}
-      />
-      <PaginationControl
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]"></main>
     </div>
   );
-}
+};
+
+export default Products;

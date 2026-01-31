@@ -2,6 +2,8 @@ import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { getUpdatedValues } from "./utils";
+import TopStores from "@/stores/dtos/topStores";
+import { IStoreWithCategory } from "@/stores/types";
 
 export const addStore = mutation({
   args: {
@@ -54,7 +56,22 @@ export const getStores = query({
   handler: async (ctx, args) => {
     const { paginationOpts } = args;
 
-    return await ctx.db.query("stores").order("asc").paginate(paginationOpts);
+    const stores = await ctx.db
+      .query("stores")
+      .order("asc")
+      .paginate(paginationOpts);
+
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStores(
+      stores?.page
+    );
+
+    return {
+      page: resultsDto.stores,
+      isDone: stores?.isDone,
+      continueCursor: stores?.continueCursor,
+      splitCursor: stores?.splitCursor,
+      pageStatus: stores?.pageStatus,
+    };
   },
 });
 

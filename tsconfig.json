@@ -23,6 +23,7 @@
       "@/actions/*": ["./src/app/actions/*"],
       "@/components/*": ["./src/features/common/components/*"],
       "@/db/*": ["./src/features/db/*"],
+      "@/hooks/*": ["./src/features/common/hooks/*"],
       "@/payment/*": ["./src/features/payment/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],

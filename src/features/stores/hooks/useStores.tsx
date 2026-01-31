@@ -1,37 +1,72 @@
-import { getStores } from "@/src/app/actions/stores";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { api } from "@/convex/_generated/api";
+import { useConvexPaginatedQuery } from "@convex-dev/react-query";
+import TopStores from "@/stores/dtos/topStores";
+
+import { mockStores } from "./mockStores";
+import useCategories from "@/hooks/useCategories";
 
 const useStores = () => {
-  const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState("k_revenue");
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const ITEMS_PER_PAGE = 10;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["topStores", page, sortBy, order],
-    queryFn: async () => getStores(page, 10, sortBy, order),
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null
+  );
+
+  const { data: categories } = useCategories();
+
+  const { results, isLoading, status, loadMore } = useConvexPaginatedQuery(
+    api.stores.getStores, // Reference to your Convex query function
+    {
+      // Optional initial arguments for your query
+    },
+    {
+      initialNumItems: 10, // Initial number of items to load
+    }
+  );
+
+  const resultWithCategories = results?.map((store) => {
+    return {
+      ...store,
+      category: categories?.find((category) => category.id === store.category)
+        ?.label,
+    };
   });
 
-  const handleSort = (column: string) => {
-    if (sortBy === column) {
-      setOrder(order === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setOrder("desc"); // Default to desc for new metrics usually
-    }
-    setPage(1); // Reset to page 1 on sort change
-  };
+  const filteredStores = useMemo(() => {
+    return mockStores.filter((store) => {
+      const matchesCategory =
+        selectedCategory === "all" ||
+        store.category.toLowerCase() === selectedCategory.toLowerCase();
+      return matchesCategory;
+    });
+  }, [selectedCategory]);
+
+  const totalPages = Math.ceil(filteredStores.length / ITEMS_PER_PAGE);
+  const paginatedStores = filteredStores.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalStores = 10;
 
   return {
-    data: data?.data || [],
-    total: data?.total || 0,
-    totalPages: Math.ceil((data?.total || 0) / 10),
-    page,
-    setPage,
-    sortBy,
-    order,
-    handleSort,
+    categories,
+    currentPage,
+    data: resultWithCategories,
     isLoading,
+    loadMore,
+    paginatedStores,
+    selectedCategory,
+    selectedSubcategory,
+    setSelectedCategory,
+    setCurrentPage,
+    setSelectedSubcategory,
+    status,
+    totalPages,
+    totalStores,
   };
 };
 

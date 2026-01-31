@@ -3,10 +3,7 @@ import { TrendingUp, Twitter, Github, Linkedin } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
-    Produto: [
-      { label: "Features", href: "#" },
-      { label: "Preço", href: "#" },
-    ],
+    Produto: [{ label: "Preço", href: "#" }],
     Recursos: [
       { label: "Documentação", href: "#" },
       { label: "Suporte", href: "#" },
