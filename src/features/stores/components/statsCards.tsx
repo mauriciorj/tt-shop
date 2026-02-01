@@ -3,27 +3,27 @@
 import { Store, TrendingUp, Users } from "lucide-react";
 
 const StatsCards = ({
-  totalStores,
   totalProducts,
+  totalStores,
 }: {
-  totalStores: number;
   totalProducts: number;
+  totalStores: number;
 }) => {
   const stats = [
     {
+      icon: Store,
       label: "Lojas",
       value: totalStores.toString(),
-      icon: Store,
     },
     {
+      icon: Users,
       label: "Produtos",
       value: totalProducts.toString(),
-      icon: Users,
     },
     {
+      icon: TrendingUp,
       label: "Videos",
       value: "24",
-      icon: TrendingUp,
     },
   ];
   return (

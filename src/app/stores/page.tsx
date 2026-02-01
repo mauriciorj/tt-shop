@@ -1,6 +1,6 @@
 "use client";
 
-import Table, { ITable } from "@/components/table";
+import Table from "@/components/table";
 import SearchBar from "@/components/search";
 import Categories from "@/stores/components/categories";
 import Header from "@/stores/components/header";
@@ -38,15 +38,15 @@ const Stores = () => {
           setSelectedSubcategory={setSelectedSubcategory}
           setCurrentPage={setCurrentPage}
         />
-        {/* <SearchBar
-          stores={mockStores as ITable[]}
+        <SearchBar
+          data={stores}
           placeholder="Procuar por uma loja ou produto..."
-        /> */}
+        />
         <Table
-          items={stores}
           currentPage={currentPage}
-          totalPages={totalPages}
+          items={stores}
           onPageChange={setCurrentPage}
+          totalPages={totalPages}
         />
       </main>
     </div>

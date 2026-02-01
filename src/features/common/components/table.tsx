@@ -1,39 +1,29 @@
-import {
-  ArrowUp,
-  ArrowDown,
-  ExternalLink,
-  Star,
-  TrendingUp,
-  TrendingDown,
-} from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from "lucide-react";
+import RevenueSparkline from "@/components/revenueSparkline";
+import TablePagination from "@/components/tablePagination";
 import { IStoreWithCategory } from "@/stores/types";
 
-interface TableProps {
+export interface TableProps {
   items: IStoreWithCategory[];
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-type SortKey =
-  | "rank"
-  | "followers"
-  | "products"
-  | "revenue"
-  | "rating"
-  | "trend";
+type SortKey = "revenue" | "revenueHistory" | "revenueGrowthRate" | "sales";
+
 type SortOrder = "asc" | "desc";
 
 const Table = ({
-  items,
   currentPage,
-  totalPages,
+  items,
   onPageChange,
+  totalPages,
 }: TableProps) => {
   const router = useRouter();
-  const [sortKey, setSortKey] = useState<SortKey>("rank");
+  const [sortKey, setSortKey] = useState<SortKey>("revenue");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
 
   const handleSort = (key: SortKey) => {
@@ -63,13 +53,7 @@ const Table = ({
               <thead>
                 <tr className="border-b border-border/50">
                   <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
-                    <button
-                      onClick={() => handleSort("rank")}
-                      className="flex items-center gap-1 hover:text-foreground transition-colors"
-                    >
-                      Rank
-                      <SortIcon columnKey="rank" />
-                    </button>
+                    Rank
                   </th>
                   <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
                     Loja
@@ -79,38 +63,38 @@ const Table = ({
                   </th>
                   <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
                     <button
-                      onClick={() => handleSort("followers")}
-                      className="flex items-center gap-1 hover:text-foreground transition-colors"
-                    >
-                      Receita
-                      <SortIcon columnKey="followers" />
-                    </button>
-                  </th>
-                  <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
-                    <button
-                      onClick={() => handleSort("products")}
-                      className="flex items-center gap-1 hover:text-foreground transition-colors"
-                    >
-                      Receita Histórica
-                      <SortIcon columnKey="products" />
-                    </button>
-                  </th>
-                  <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
-                    <button
                       onClick={() => handleSort("revenue")}
                       className="flex items-center gap-1 hover:text-foreground transition-colors"
                     >
-                      Receita %
+                      Receita
                       <SortIcon columnKey="revenue" />
                     </button>
                   </th>
                   <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
                     <button
-                      onClick={() => handleSort("rating")}
+                      onClick={() => handleSort("revenueHistory")}
+                      className="flex items-center gap-1 hover:text-foreground transition-colors"
+                    >
+                      Receita Histórica
+                      <SortIcon columnKey="revenueHistory" />
+                    </button>
+                  </th>
+                  <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
+                    <button
+                      onClick={() => handleSort("revenueGrowthRate")}
+                      className="flex items-center gap-1 hover:text-foreground transition-colors"
+                    >
+                      Receita %
+                      <SortIcon columnKey="revenueGrowthRate" />
+                    </button>
+                  </th>
+                  <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
+                    <button
+                      onClick={() => handleSort("sales")}
                       className="flex items-center gap-1 hover:text-foreground transition-colors"
                     >
                       Vendas
-                      <SortIcon columnKey="rating" />
+                      <SortIcon columnKey="sales" />
                     </button>
                   </th>
                 </tr>
@@ -167,44 +151,34 @@ const Table = ({
                       }).format(item?.revenue)}
                     </td>
                     <td className="p-4 font-medium">
-                      {/* {item?.k_revenue_history} */}
-                      220,00
+                      <RevenueSparkline data={item?.revenue_history} />
                     </td>
                     <td className="p-4 font-semibold text-accent">
-                      {item?.revenue_growth_rate}%
+                      <div
+                        className={`flex items-center gap-1 text-sm font-medium ${
+                          item.revenue_growth_rate >= 0
+                            ? "text-green-400"
+                            : item.revenue_growth_rate < 0
+                              ? "text-red-400"
+                              : "text-muted-foreground"
+                        }`}
+                      >
+                        {item.revenue_growth_rate > 0 ? (
+                          <TrendingUp className="h-4 w-4 mr-2" />
+                        ) : item.revenue_growth_rate < 0 ? (
+                          <TrendingDown className="h-4 w-4 mr-2" />
+                        ) : null}
+                        {item.revenue_growth_rate > 0 ? "+" : ""}
+                        {item.revenue_growth_rate}%
+                      </div>
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-1">
-                        {/* <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" /> */}
                         <span className="font-medium">
                           {new Intl.NumberFormat("pt-BR").format(item?.sales)}
                         </span>
                       </div>
                     </td>
-                    {/* <td className="p-4">
-                      <div
-                        className={`flex items-center gap-1 text-sm font-medium ${
-                          item.trend === "up"
-                            ? "text-green-400"
-                            : item.trend === "down"
-                              ? "text-red-400"
-                              : "text-muted-foreground"
-                        }`}
-                      >
-                        {item.trend === "up" ? (
-                          <TrendingUp className="h-4 w-4" />
-                        ) : item.trend === "down" ? (
-                          <TrendingDown className="h-4 w-4" />
-                        ) : null}
-                        {item.trendValue > 0 ? "+" : ""}
-                        {item.trendValue}%
-                      </div>
-                    </td> */}
-                    {/* <td className="p-4">
-                    <button className="p-2 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-                      <ExternalLink className="h-4 w-4" />
-                    </button>
-                  </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -213,43 +187,11 @@ const Table = ({
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between mt-6">
-          <p className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages}
-          </p>
-          <div className="flex gap-2">
-            <button
-              onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
-            >
-              Anterior
-            </button>
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + 1;
-              return (
-                <button
-                  key={page}
-                  onClick={() => onPageChange(page)}
-                  className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                    currentPage === page
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  }`}
-                >
-                  {page}
-                </button>
-              );
-            })}
-            <button
-              onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
-            >
-              Próxima
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
