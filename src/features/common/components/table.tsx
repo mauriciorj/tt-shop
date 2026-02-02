@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from "lucide-react";
@@ -128,12 +129,19 @@ const Table = ({
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        {/* TODO: add image */}
-                        {/* <img
-                          src={item.avatar}
-                          alt={item?.name}
-                          className="w-10 h-10 rounded-xl object-cover"
-                        /> */}
+                        <div className="w-[50px]">
+                          {item?.image && (
+                            <Image
+                              src={item.image}
+                              alt={item?.name}
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "10px",
+                              }}
+                            />
+                          )}
+                        </div>
                         <span className="font-semibold">{item?.name}</span>
                       </div>
                     </td>

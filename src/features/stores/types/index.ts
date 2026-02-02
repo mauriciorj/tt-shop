@@ -29,7 +29,7 @@ export interface IStoreWithCategory {
   country: string;
   category: string | undefined;
   name: string;
-  image: string | undefined;
+  image: string | null | undefined;
   type: string;
   unit_price: number;
   revenue: number;

@@ -65,8 +65,17 @@ export const getStores = query({
       stores?.page
     );
 
+    const storesWithImages = await Promise.all(
+      resultsDto?.stores?.map(async (store) => {
+        store["image"] = store.image
+          ? await ctx.storage.getUrl(store.image)
+          : null;
+        return store;
+      })
+    );
+
     return {
-      page: resultsDto.stores,
+      page: storesWithImages,
       isDone: stores?.isDone,
       continueCursor: stores?.continueCursor,
       splitCursor: stores?.splitCursor,
