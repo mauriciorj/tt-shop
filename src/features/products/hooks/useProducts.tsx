@@ -1,41 +1,24 @@
-import { getProducts } from "@/src/app/actions/products";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { api } from '@/convex/_generated/api'
+import { useConvexPaginatedQuery } from '@convex-dev/react-query'
 
 const useProducts = () => {
-  const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState("k_revenue");
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const { results, isLoading, status, loadMore } = useConvexPaginatedQuery(
+    api.products.getProducts, // Reference to your Convex query function
+    {
+      // Optional initial arguments for your query
+    },
+    {
+      initialNumItems: 10, // Initial number of items to load
+    },
+  )
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["topProducts", page, sortBy, order],
-    queryFn: async () => getProducts(page, 10, sortBy, order),
-  });
-
-  const handleSort = (column: string) => {
-    if (sortBy === column) {
-      setOrder(order === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setOrder("desc"); // Default to desc for new metric columns
-    }
-    setPage(1); // Reset to page 1 on sort change
-  };
-
-  const totalProducts = 10;
+  const totalProducts = 10
 
   return {
-    data: data?.data || [],
-    total: data?.total || 0,
-    totalPages: Math.ceil((data?.total || 0) / 10),
-    page,
-    setPage,
-    sortBy,
-    order,
-    handleSort,
+    data: results || [],
     isLoading,
     totalProducts,
-  };
-};
+  }
+}
 
-export default useProducts;
+export default useProducts

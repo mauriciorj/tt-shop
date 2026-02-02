@@ -13,3 +13,4 @@ requests
 simple-term-menu
 convex
 Pillow
+chromedriver

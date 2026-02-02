@@ -29,7 +29,7 @@ chrome_options.add_argument("--lang=en-US,en")
 
 
 def main(): 
-    driver = uc.Chrome(options=chrome_options)
+    driver = uc.Chrome(options=chrome_options, version_main=144)
     return driver
 
 if __name__ == "__main__":

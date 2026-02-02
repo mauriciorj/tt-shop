@@ -7,7 +7,7 @@ from chrome.main import main as chrome
 from utils.save_json import save_json
 
 from request_categories.request_api.main import main as request_api
-from request_categories.request_api.dto import dto as dto
+from request_categories.request_api.dto_only_main_category import dto as dto
 
 from request_categories.convex.main import main as db_handler_convex
 from request_categories.postgres.main import main as db_handler_postgres
