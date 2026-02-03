@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Card,
@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 import {
   Line,
   XAxis,
@@ -15,18 +15,18 @@ import {
   Tooltip,
   ResponsiveContainer,
   ComposedChart,
-} from "recharts";
+} from 'recharts'
 
 export function RevenueChart({ productId }: { productId: string }) {
   const data = [
-    { date: "Jan 1", revenue: 4000, orders: 240 },
-    { date: "Jan 8", revenue: 3000, orders: 221 },
-    { date: "Jan 15", revenue: 2000, orders: 229 },
-    { date: "Jan 22", revenue: 2780, orders: 200 },
-    { date: "Jan 29", revenue: 1890, orders: 229 },
-    { date: "Feb 5", revenue: 2390, orders: 200 },
-    { date: "Feb 12", revenue: 3490, orders: 221 },
-  ];
+    { date: 'Jan 1', revenue: 4000, orders: 240 },
+    { date: 'Jan 8', revenue: 3000, orders: 221 },
+    { date: 'Jan 15', revenue: 2000, orders: 229 },
+    { date: 'Jan 22', revenue: 2780, orders: 200 },
+    { date: 'Jan 29', revenue: 1890, orders: 229 },
+    { date: 'Feb 5', revenue: 2390, orders: 200 },
+    { date: 'Feb 12', revenue: 3490, orders: 221 },
+  ]
 
   return (
     <div>
@@ -81,5 +81,5 @@ export function RevenueChart({ productId }: { productId: string }) {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

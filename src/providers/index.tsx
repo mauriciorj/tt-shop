@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
-import { ConvexQueryClient } from "@convex-dev/react-query";
+import * as React from 'react'
+import { ConvexReactClient } from 'convex/react'
+import { ConvexQueryClient } from '@convex-dev/react-query'
 import {
   QueryClient,
   QueryClientProvider,
   isServer,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
-import ConvexClientProvider from "@/providers/convex";
-import ClerkProviderWrapper from "@/providers/clerk";
-import { Toaster } from "@/components/ui/sonner";
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental'
+import ConvexClientProvider from '@/providers/convex'
+import ClerkProviderWrapper from '@/providers/clerk'
+import { Toaster } from '@/components/ui/sonner'
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
-const convexQueryClient = new ConvexQueryClient(convex);
+const convexQueryClient = new ConvexQueryClient(convex)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,8 +25,8 @@ const queryClient = new QueryClient({
       queryFn: convexQueryClient.queryFn(),
     },
   },
-});
-convexQueryClient.connect(queryClient);
+})
+convexQueryClient.connect(queryClient)
 
 // function makeQueryClient() {
 //   return new QueryClient({
@@ -38,19 +38,19 @@ convexQueryClient.connect(queryClient);
 //   });
 // }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined = undefined
 
 function getQueryClient() {
   if (isServer) {
-    return queryClient;
+    return queryClient
   } else {
-    if (!browserQueryClient) browserQueryClient = queryClient;
-    return browserQueryClient;
+    if (!browserQueryClient) browserQueryClient = queryClient
+    return browserQueryClient
   }
 }
 
 export function Providers(props: { children: React.ReactNode }) {
-  const getQueryClientFunction = getQueryClient();
+  const getQueryClientFunction = getQueryClient()
 
   return (
     <ClerkProviderWrapper>
@@ -64,5 +64,5 @@ export function Providers(props: { children: React.ReactNode }) {
         </QueryClientProvider>
       </ConvexClientProvider>
     </ClerkProviderWrapper>
-  );
+  )
 }

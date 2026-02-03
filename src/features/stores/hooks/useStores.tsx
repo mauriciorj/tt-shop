@@ -20,7 +20,7 @@ const useStores = () => {
     },
     {
       initialNumItems: 10, // Initial number of items to load
-    },
+    }
   )
 
   const resultWithCategories = results?.map((store) => {
@@ -43,7 +43,7 @@ const useStores = () => {
   const totalPages = Math.ceil(filteredStores.length / ITEMS_PER_PAGE)
   const paginatedStores = filteredStores.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
   )
 
   const totalStores = 10

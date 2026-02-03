@@ -65,7 +65,7 @@ export const getProducts = query({
       .paginate(paginationOpts)
 
     const resultsDto: { products: IProductWithCategory[] } = new TopProducts(
-      products?.page,
+      products?.page
     )
 
     const productsWithImages = await Promise.all(
@@ -74,7 +74,7 @@ export const getProducts = query({
           ? await ctx.storage.getUrl(product.image)
           : null
         return product
-      }),
+      })
     )
 
     return {

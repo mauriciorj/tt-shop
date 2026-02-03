@@ -15,7 +15,7 @@ export const addCategory = mutation({
       .query('categories')
       .filter((q) => q.eq(q.field('main_category_id'), args.main_category_id))
       .filter((q) =>
-        q.eq(q.field('second_category_id'), args.second_category_id),
+        q.eq(q.field('second_category_id'), args.second_category_id)
       )
       .filter((q) => q.eq(q.field('third_category_id'), args.third_category_id))
       .first()
@@ -50,7 +50,7 @@ export const getCategories = query({
           id: categories?.main_category_id,
           label: categories?.main_category_name,
         }
-      }),
+      })
     )
 
     return [{ id: 'all', label: 'Todas as categorias' }, ...mainCategoriesIds]

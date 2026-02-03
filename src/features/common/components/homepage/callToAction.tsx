@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 const CallToAction = () => {
   return (
@@ -26,7 +26,7 @@ const CallToAction = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default CallToAction;
+export default CallToAction

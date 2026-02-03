@@ -1,6 +1,6 @@
-import { mutation } from "./_generated/server";
-import { v } from "convex/values";
-import { getUpdatedValues } from "./utils";
+import { mutation } from './_generated/server'
+import { v } from 'convex/values'
+import { getUpdatedValues } from './utils'
 
 export const updateVideos = mutation({
   args: {
@@ -15,29 +15,29 @@ export const updateVideos = mutation({
   },
   handler: async (ctx, args) => {
     const existingVideo = await ctx.db
-      .query("videos")
-      .filter((q) => q.eq(q.field("k_id"), args.k_id))
-      .first();
+      .query('videos')
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
+      .first()
 
     if (existingVideo) {
       const updates = getUpdatedValues({
         currentData: existingVideo,
         newData: args,
-      });
+      })
 
       await ctx.db.patch(existingVideo._id, {
         ...updates,
         updated_at: new Date().toISOString(),
-      });
-      return { id: existingVideo._id, status: "updated" };
+      })
+      return { id: existingVideo._id, status: 'updated' }
     }
 
-    const result = await ctx.db.insert("videos", {
+    const result = await ctx.db.insert('videos', {
       ...args,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    });
+    })
 
-    return { id: result, status: "added" };
+    return { id: result, status: 'added' }
   },
-});
+})

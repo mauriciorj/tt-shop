@@ -1,51 +1,51 @@
-import Link from "next/link";
-import { Check } from "lucide-react";
+import Link from 'next/link'
+import { Check } from 'lucide-react'
 
 export default function ProductsPage() {
   const plans = [
     {
-      name: "Free",
-      price: "$0",
-      description: "Perfect for exploring the market basics.",
+      name: 'Free',
+      price: '$0',
+      description: 'Perfect for exploring the market basics.',
       features: [
-        "Track up to 5 stores",
-        "Top 10 products ranking",
-        "Monthly trend reports",
-        "Standard data refresh",
+        'Track up to 5 stores',
+        'Top 10 products ranking',
+        'Monthly trend reports',
+        'Standard data refresh',
       ],
-      cta: "Get Started",
+      cta: 'Get Started',
       mostPopular: false,
     },
     {
-      name: "Beginner",
-      price: "$29",
-      description: "Ideal for growing businesses and startups.",
+      name: 'Beginner',
+      price: '$29',
+      description: 'Ideal for growing businesses and startups.',
       features: [
-        "Track up to 50 stores",
-        "Full product rankings",
-        "Weekly analytics reports",
-        "Sales velocity alerts",
-        "Competitor benchmarking",
+        'Track up to 50 stores',
+        'Full product rankings',
+        'Weekly analytics reports',
+        'Sales velocity alerts',
+        'Competitor benchmarking',
       ],
-      cta: "Start Free Trial",
+      cta: 'Start Free Trial',
       mostPopular: true,
     },
     {
-      name: "Pro",
-      price: "$99",
-      description: "For enterprises needing deep market insights.",
+      name: 'Pro',
+      price: '$99',
+      description: 'For enterprises needing deep market insights.',
       features: [
-        "Unlimited store tracking",
-        "Real-time data streaming",
-        "Advanced AI forecasting",
-        "Custom API access",
-        "Dedicated account manager",
-        "Team collaboration tools",
+        'Unlimited store tracking',
+        'Real-time data streaming',
+        'Advanced AI forecasting',
+        'Custom API access',
+        'Dedicated account manager',
+        'Team collaboration tools',
       ],
-      cta: "Contact Sales",
+      cta: 'Contact Sales',
       mostPopular: false,
     },
-  ];
+  ]
 
   return (
     <div className="bg-white py-24 sm:py-32">
@@ -67,7 +67,7 @@ export default function ProductsPage() {
             <div
               key={plan.name}
               className={`flex flex-col justify-between rounded-3xl p-8 ring-1 ring-slate-200 xl:p-10 ${
-                plan.mostPopular ? "bg-slate-900 ring-slate-900" : "bg-white"
+                plan.mostPopular ? 'bg-slate-900 ring-slate-900' : 'bg-white'
               }`}
             >
               <div>
@@ -75,7 +75,7 @@ export default function ProductsPage() {
                   <h3
                     id={plan.name}
                     className={`text-lg font-semibold leading-8 ${
-                      plan.mostPopular ? "text-white" : "text-slate-900"
+                      plan.mostPopular ? 'text-white' : 'text-slate-900'
                     }`}
                   >
                     {plan.name}
@@ -87,18 +87,18 @@ export default function ProductsPage() {
                   )}
                 </div>
                 <p
-                  className={`mt-4 text-sm leading-6 ${plan.mostPopular ? "text-slate-300" : "text-slate-600"}`}
+                  className={`mt-4 text-sm leading-6 ${plan.mostPopular ? 'text-slate-300' : 'text-slate-600'}`}
                 >
                   {plan.description}
                 </p>
                 <p className="mt-6 flex items-baseline gap-x-1">
                   <span
-                    className={`text-4xl font-bold tracking-tight ${plan.mostPopular ? "text-white" : "text-slate-900"}`}
+                    className={`text-4xl font-bold tracking-tight ${plan.mostPopular ? 'text-white' : 'text-slate-900'}`}
                   >
                     {plan.price}
                   </span>
                   <span
-                    className={`text-sm font-semibold leading-6 ${plan.mostPopular ? "text-slate-300" : "text-slate-600"}`}
+                    className={`text-sm font-semibold leading-6 ${plan.mostPopular ? 'text-slate-300' : 'text-slate-600'}`}
                   >
                     /month
                   </span>
@@ -106,7 +106,7 @@ export default function ProductsPage() {
                 <ul
                   role="list"
                   className={`mt-8 space-y-3 text-sm leading-6 ${
-                    plan.mostPopular ? "text-slate-300" : "text-slate-600"
+                    plan.mostPopular ? 'text-slate-300' : 'text-slate-600'
                   }`}
                 >
                   {plan.features.map((feature) => (
@@ -125,8 +125,8 @@ export default function ProductsPage() {
                 aria-describedby={plan.name}
                 className={`mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition-colors ${
                   plan.mostPopular
-                    ? "bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500"
-                    : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100 ring-1 ring-inset ring-indigo-200"
+                    ? 'bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500'
+                    : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 ring-1 ring-inset ring-indigo-200'
                 }`}
               >
                 {plan.cta}
@@ -136,5 +136,5 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

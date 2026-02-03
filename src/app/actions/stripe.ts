@@ -1,20 +1,20 @@
-"use server";
-import { stripe } from "@/payment/utils/stripe";
-import { PRODUCTS } from "@/payment/utils/products";
+'use server'
+import { stripe } from '@/payment/utils/stripe'
+import { PRODUCTS } from '@/payment/utils/products'
 
 export async function startCheckoutSession(productId: string) {
-  const product = PRODUCTS.find((p) => p.id === productId);
+  const product = PRODUCTS.find((p) => p.id === productId)
   if (!product) {
-    throw new Error(`Product with id "${productId}" not found`);
+    throw new Error(`Product with id "${productId}" not found`)
   }
 
   const session = await stripe.checkout.sessions.create({
-    ui_mode: "embedded",
-    redirect_on_completion: "never",
+    ui_mode: 'embedded',
+    redirect_on_completion: 'never',
     line_items: [
       {
         price_data: {
-          currency: "usd",
+          currency: 'usd',
           product_data: {
             name: product.name,
             description: product.description,
@@ -24,8 +24,8 @@ export async function startCheckoutSession(productId: string) {
         quantity: 1,
       },
     ],
-    mode: "payment",
-  });
+    mode: 'payment',
+  })
 
-  return session.client_secret;
+  return session.client_secret
 }

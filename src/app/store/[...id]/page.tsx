@@ -24,7 +24,7 @@ const StoreDetail = () => {
   const router = useRouter()
 
   const store = mockStores.find((s) =>
-    id?.[0] ? s.name.trim().toLowerCase().replace(/\s+/g, '-') === id[0] : null,
+    id?.[0] ? s.name.trim().toLowerCase().replace(/\s+/g, '-') === id[0] : null
   )
 
   if (!store) {

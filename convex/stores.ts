@@ -1,9 +1,9 @@
-import { mutation, query } from "./_generated/server";
-import { paginationOptsValidator } from "convex/server";
-import { v } from "convex/values";
-import { getUpdatedValues } from "./utils";
-import TopStores from "@/stores/dtos/topStores";
-import { IStoreWithCategory } from "@/stores/types";
+import { mutation, query } from './_generated/server'
+import { paginationOptsValidator } from 'convex/server'
+import { v } from 'convex/values'
+import { getUpdatedValues } from './utils'
+import TopStores from '@/stores/dtos/topStores'
+import { IStoreWithCategory } from '@/stores/types'
 
 export const addStore = mutation({
   args: {
@@ -23,56 +23,56 @@ export const addStore = mutation({
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
-      .query("stores")
-      .filter((q) => q.eq(q.field("k_id"), args.k_id))
-      .first();
+      .query('stores')
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
+      .first()
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
         newData: args,
-      });
+      })
 
       if (Object.keys(updates).length > 0) {
         await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
-        });
+        })
       }
-      return { id: queryResult._id, status: "updated" };
+      return { id: queryResult._id, status: 'updated' }
     }
 
-    const result = await ctx.db.insert("stores", {
+    const result = await ctx.db.insert('stores', {
       ...args,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    });
-    return { id: result, status: "added" };
+    })
+    return { id: result, status: 'added' }
   },
-});
+})
 
 export const getStores = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
-    const { paginationOpts } = args;
+    const { paginationOpts } = args
 
     const stores = await ctx.db
-      .query("stores")
-      .order("asc")
-      .paginate(paginationOpts);
+      .query('stores')
+      .order('asc')
+      .paginate(paginationOpts)
 
     const resultsDto: { stores: IStoreWithCategory[] } = new TopStores(
       stores?.page
-    );
+    )
 
     const storesWithImages = await Promise.all(
       resultsDto?.stores?.map(async (store) => {
-        store["image"] = store.image
+        store['image'] = store.image
           ? await ctx.storage.getUrl(store.image)
-          : null;
-        return store;
+          : null
+        return store
       })
-    );
+    )
 
     return {
       page: storesWithImages,
@@ -80,25 +80,25 @@ export const getStores = query({
       continueCursor: stores?.continueCursor,
       splitCursor: stores?.splitCursor,
       pageStatus: stores?.pageStatus,
-    };
+    }
   },
-});
+})
 
 export const getStoreByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {
-    const { k_id } = args;
+    const { k_id } = args
 
     return await ctx.db
-      .query("stores")
-      .filter((q) => q.eq(q.field("k_id"), k_id))
-      .first();
+      .query('stores')
+      .filter((q) => q.eq(q.field('k_id'), k_id))
+      .first()
   },
-});
+})
 
 export const updateStore = mutation({
   args: {
-    id: v.id("stores"),
+    id: v.id('stores'),
     k_id: v.string(),
     k_top_creators: v.array(v.string()),
     k_top_products: v.array(v.string()),
@@ -108,23 +108,23 @@ export const updateStore = mutation({
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
-      .query("stores")
-      .filter((q) => q.eq(q.field("_id"), args.id))
-      .first();
+      .query('stores')
+      .filter((q) => q.eq(q.field('_id'), args.id))
+      .first()
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
         newData: args,
-      });
+      })
 
       if (Object.keys(updates).length > 0) {
         await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
-        });
+        })
       }
-      return queryResult;
+      return queryResult
     }
   },
-});
+})

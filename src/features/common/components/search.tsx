@@ -31,7 +31,7 @@ const SearchBar = ({
     query.length > 0
       ? data
           .filter((item: IStoreWithCategory | IProductWithCategory) =>
-            item.name.toLowerCase().includes(query.toLowerCase()),
+            item.name.toLowerCase().includes(query.toLowerCase())
           )
           .slice(0, 6)
       : []
@@ -55,17 +55,17 @@ const SearchBar = ({
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setHighlightedIndex((prev) =>
-        prev < suggestions.length - 1 ? prev + 1 : 0,
+        prev < suggestions.length - 1 ? prev + 1 : 0
       )
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setHighlightedIndex((prev) =>
-        prev > 0 ? prev - 1 : suggestions.length - 1,
+        prev > 0 ? prev - 1 : suggestions.length - 1
       )
     } else if (e.key === 'Enter' && highlightedIndex >= 0) {
       e.preventDefault()
       router.push(
-        `${isStore ? '/store' : '/products'}/${suggestions[highlightedIndex].name}`,
+        `${isStore ? '/store' : '/products'}/${suggestions[highlightedIndex].name}`
       )
       setQuery('')
       setIsOpen(false)
@@ -76,7 +76,7 @@ const SearchBar = ({
 
   const handleSelect = (item: IStoreWithCategory | IProductWithCategory) => {
     router.push(
-      `${isStore ? '/store' : '/products'}/${item.name.toLowerCase().replace(/\s/g, '-')}`,
+      `${isStore ? '/store' : '/products'}/${item.name.toLowerCase().replace(/\s/g, '-')}`
     )
     setQuery('')
     setIsOpen(false)
@@ -118,7 +118,7 @@ const SearchBar = ({
                   key={item.name}
                   onClick={() =>
                     handleSelect(
-                      item as IStoreWithCategory | IProductWithCategory,
+                      item as IStoreWithCategory | IProductWithCategory
                     )
                   }
                   onMouseEnter={() => setHighlightedIndex(index)}

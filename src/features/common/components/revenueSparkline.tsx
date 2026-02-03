@@ -1,16 +1,16 @@
-import { Line, LineChart, ResponsiveContainer } from "recharts";
+import { Line, LineChart, ResponsiveContainer } from 'recharts'
 
 const RevenueSparkline = ({ data }: { data: number[] }) => {
-  const chartData = data.map((value, index) => ({ value, day: index }));
+  const chartData = data.map((value, index) => ({ value, day: index }))
 
-  const firstValue = data[0] || 0;
-  const lastValue = data[data.length - 1] || 0;
+  const firstValue = data[0] || 0
+  const lastValue = data[data.length - 1] || 0
 
   const trend =
-    lastValue > firstValue ? "up" : lastValue < firstValue ? "down" : "neutral";
+    lastValue > firstValue ? 'up' : lastValue < firstValue ? 'down' : 'neutral'
 
   const color =
-    trend === "up" ? "#22c55e" : trend === "down" ? "#ef4444" : "#a1a1aa";
+    trend === 'up' ? '#22c55e' : trend === 'down' ? '#ef4444' : '#a1a1aa'
 
   return (
     <div className="w-20 h-8">
@@ -26,7 +26,7 @@ const RevenueSparkline = ({ data }: { data: number[] }) => {
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
-};
+  )
+}
 
-export default RevenueSparkline;
+export default RevenueSparkline

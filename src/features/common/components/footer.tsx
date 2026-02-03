@@ -1,22 +1,22 @@
-import Link from "next/link";
-import { TrendingUp, Twitter, Github, Linkedin } from "lucide-react";
+import Link from 'next/link'
+import { TrendingUp } from 'lucide-react'
 
 const Footer = () => {
   const footerLinks = {
-    Produto: [{ label: "Preço", href: "#" }],
+    Produto: [{ label: 'Preço', href: '#' }],
     Recursos: [
-      { label: "Documentação", href: "#" },
-      { label: "Suporte", href: "#" },
+      { label: 'Documentação', href: '#' },
+      { label: 'Suporte', href: '#' },
     ],
     Empresa: [
-      { label: "Sobre", href: "#" },
-      { label: "Contato", href: "#" },
+      { label: 'Sobre', href: '#' },
+      { label: 'Contato', href: '#' },
     ],
     Legal: [
-      { label: "Privacidade", href: "#" },
-      { label: "Termos", href: "#" },
+      { label: 'Privacidade', href: '#' },
+      { label: 'Termos', href: '#' },
     ],
-  };
+  }
 
   return (
     <footer className="border-t border-border/40 bg-card/50">
@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

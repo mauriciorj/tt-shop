@@ -15,6 +15,9 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    'crawler/**',
+    'node_modules/**',
+    'convex/_generated/**',
   ]),
   {
     plugins: {

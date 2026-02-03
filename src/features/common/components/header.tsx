@@ -1,27 +1,27 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useConvexAuth } from "convex/react";
-import { House, TrendingUp, Store, PackageSearch } from "lucide-react";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useConvexAuth } from 'convex/react'
+import { House, TrendingUp, Store, PackageSearch } from 'lucide-react'
 import {
   SignedIn,
   SignUpButton,
   SignInButton,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs'
 
 const Header = () => {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
-  const { isAuthenticated } = useConvexAuth();
+  const { isAuthenticated } = useConvexAuth()
 
   const navLinks = [
-    { path: "/", label: "Inicio", icon: House },
-    { path: "/stores", label: "Lojas", icon: Store },
-    { path: "/products", label: "Produtos", icon: PackageSearch },
-  ];
+    { path: '/', label: 'Inicio', icon: House },
+    { path: '/stores', label: 'Lojas', icon: Store },
+    { path: '/products', label: 'Produtos', icon: PackageSearch },
+  ]
 
   return (
     <header className="flex sticky top-0 z-50 w-full items-center justify-center border-b border-border/40 bg-background/80 backdrop-blur-xl">
@@ -38,22 +38,22 @@ const Header = () => {
         {isAuthenticated && (
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
-              const Icon = link.icon;
-              const isActive = pathname === link.path;
+              const Icon = link.icon
+              const isActive = pathname === link.path
               return (
                 <Link
                   key={link.path}
                   href={link.path}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
                   {link.label}
                 </Link>
-              );
+              )
             })}
           </nav>
         )}
@@ -77,7 +77,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

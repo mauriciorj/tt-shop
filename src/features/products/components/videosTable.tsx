@@ -1,159 +1,159 @@
-"use client";
+'use client'
 
-import { TrendingDown, TrendingUp } from "lucide-react";
-import { useState } from "react";
+import { TrendingDown, TrendingUp } from 'lucide-react'
+import { useState } from 'react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 
 interface Store {
-  id: number;
-  name: string;
-  type: string;
-  logo: string;
-  bestSellingProducts: string[];
-  revenue: string;
-  revenueLastMonth: string;
-  growthRate: number;
-  itemsSold: string;
-  avgUnitPrice: string;
+  id: number
+  name: string
+  type: string
+  logo: string
+  bestSellingProducts: string[]
+  revenue: string
+  revenueLastMonth: string
+  growthRate: number
+  itemsSold: string
+  avgUnitPrice: string
 }
 
 const STORES: Store[] = [
   {
     id: 1,
-    name: "Always Fit...",
-    type: "BRAND",
-    logo: "🏋️",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$1.82m",
-    revenueLastMonth: "$1.75m",
+    name: 'Always Fit...',
+    type: 'BRAND',
+    logo: '🏋️',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$1.82m',
+    revenueLastMonth: '$1.75m',
     growthRate: 0.7,
-    itemsSold: "229.1k",
-    avgUnitPrice: "$7.95",
+    itemsSold: '229.1k',
+    avgUnitPrice: '$7.95',
   },
   {
     id: 2,
-    name: "Bodyaction",
-    type: "BRAND",
-    logo: "⚡",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$954.72k",
-    revenueLastMonth: "$1.12m",
+    name: 'Bodyaction',
+    type: 'BRAND',
+    logo: '⚡',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$954.72k',
+    revenueLastMonth: '$1.12m',
     growthRate: -16.5,
-    itemsSold: "85.84k",
-    avgUnitPrice: "$11.12",
+    itemsSold: '85.84k',
+    avgUnitPrice: '$11.12',
   },
   {
     id: 3,
-    name: "Beauty Store",
-    type: "BRAND",
-    logo: "💄",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$781.20k",
-    revenueLastMonth: "$575k",
+    name: 'Beauty Store',
+    type: 'BRAND',
+    logo: '💄',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$781.20k',
+    revenueLastMonth: '$575k',
     growthRate: 35.4,
-    itemsSold: "54.88k",
-    avgUnitPrice: "$14.23",
+    itemsSold: '54.88k',
+    avgUnitPrice: '$14.23',
   },
   {
     id: 4,
-    name: "Tech Hub",
-    type: "BRAND",
-    logo: "🛠️",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$728.93k",
-    revenueLastMonth: "$428k",
+    name: 'Tech Hub',
+    type: 'BRAND',
+    logo: '🛠️',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$728.93k',
+    revenueLastMonth: '$428k',
     growthRate: 35,
-    itemsSold: "62.4k",
-    avgUnitPrice: "$11.68",
+    itemsSold: '62.4k',
+    avgUnitPrice: '$11.68',
   },
   {
     id: 5,
-    name: "Home Essentials",
-    type: "BRAND",
-    logo: "🏠",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$720.44k",
-    revenueLastMonth: "$710k",
+    name: 'Home Essentials',
+    type: 'BRAND',
+    logo: '🏠',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$720.44k',
+    revenueLastMonth: '$710k',
     growthRate: 1.7,
-    itemsSold: "166.38k",
-    avgUnitPrice: "$4.33",
+    itemsSold: '166.38k',
+    avgUnitPrice: '$4.33',
   },
   {
     id: 6,
-    name: "Fashion Forward",
-    type: "BRAND",
-    logo: "👜",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$703.54k",
-    revenueLastMonth: "$1.0m",
+    name: 'Fashion Forward',
+    type: 'BRAND',
+    logo: '👜',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$703.54k',
+    revenueLastMonth: '$1.0m',
     growthRate: -29.6,
-    itemsSold: "29.36k",
-    avgUnitPrice: "$23.96",
+    itemsSold: '29.36k',
+    avgUnitPrice: '$23.96',
   },
   {
     id: 7,
-    name: "Wellness Co",
-    type: "BRAND",
-    logo: "💪",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$645.11k",
-    revenueLastMonth: "$1.02m",
+    name: 'Wellness Co',
+    type: 'BRAND',
+    logo: '💪',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$645.11k',
+    revenueLastMonth: '$1.02m',
     growthRate: -36.6,
-    itemsSold: "81.01k",
-    avgUnitPrice: "$7.96",
+    itemsSold: '81.01k',
+    avgUnitPrice: '$7.96',
   },
   {
     id: 8,
-    name: "Electronics Plus",
-    type: "BRAND",
-    logo: "📱",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$597.20k",
-    revenueLastMonth: "$467k",
+    name: 'Electronics Plus',
+    type: 'BRAND',
+    logo: '📱',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$597.20k',
+    revenueLastMonth: '$467k',
     growthRate: 27.5,
-    itemsSold: "60.05k",
-    avgUnitPrice: "$9.95",
+    itemsSold: '60.05k',
+    avgUnitPrice: '$9.95',
   },
   {
     id: 9,
-    name: "Skincare Studio",
-    type: "BRAND",
-    logo: "✨",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$579.96k",
-    revenueLastMonth: "$677k",
+    name: 'Skincare Studio',
+    type: 'BRAND',
+    logo: '✨',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$579.96k',
+    revenueLastMonth: '$677k',
     growthRate: -14.9,
-    itemsSold: "51.85k",
-    avgUnitPrice: "$11.19",
+    itemsSold: '51.85k',
+    avgUnitPrice: '$11.19',
   },
   {
     id: 10,
-    name: "Toy World",
-    type: "BRAND",
-    logo: "🎮",
-    bestSellingProducts: ["Product 1", "Product 2", "Product 3"],
-    revenue: "$517.51k",
-    revenueLastMonth: "$1.08m",
+    name: 'Toy World',
+    type: 'BRAND',
+    logo: '🎮',
+    bestSellingProducts: ['Product 1', 'Product 2', 'Product 3'],
+    revenue: '$517.51k',
+    revenueLastMonth: '$1.08m',
     growthRate: -52.3,
-    itemsSold: "42.86k",
-    avgUnitPrice: "$12.08",
+    itemsSold: '42.86k',
+    avgUnitPrice: '$12.08',
   },
-];
+]
 
 export function VideosTable() {
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([])
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
-    );
-  };
+    )
+  }
 
   return (
     <Card className="w-full mt-10">
@@ -272,5 +272,5 @@ export function VideosTable() {
         </table>
       </CardContent>
     </Card>
-  );
+  )
 }

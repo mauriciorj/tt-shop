@@ -71,7 +71,7 @@ const Support = () => {
   const filteredFaqs = faqs.filter(
     (faq) =>
       faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return (

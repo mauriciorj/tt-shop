@@ -10,3 +10,6 @@ yarn.lock
 .next
 .swc
 .yalc
+crawler/**
+node_modules/**
+convex/_generated/**

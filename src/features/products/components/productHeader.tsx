@@ -1,24 +1,23 @@
-"use client";
+'use client'
 
-import { Star, Heart, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Star } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 export function ProductHeader({ productId }: { productId: string }) {
   const product = {
-    name: "Kit ProMágnesís + FISSIB",
-    price: "$13.71",
+    name: 'Kit ProMágnesís + FISSIB',
+    price: '$13.71',
     rating: 4.8,
     reviews: 2451,
-    image: "/product-kit-image.jpg",
-    store: "Always Fit",
-  };
+    image: '/product-kit-image.jpg',
+    store: 'Always Fit',
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="flex items-center justify-center bg-muted rounded-lg p-8">
         <img
-          src={product.image || "/placeholder.svg"}
+          src={product.image || '/placeholder.svg'}
           alt={product.name}
           className="w-full h-full object-contain max-w-sm"
         />
@@ -36,7 +35,7 @@ export function ProductHeader({ productId }: { productId: string }) {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                  className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`}
                 />
               ))}
             </div>
@@ -58,5 +57,5 @@ export function ProductHeader({ productId }: { productId: string }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

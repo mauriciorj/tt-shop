@@ -168,7 +168,7 @@ const ProductsTable = ({
                     key={item.name}
                     onClick={() =>
                       router.push(
-                        `/store/${item.name.trim().toLowerCase().replace(/\s+/g, '-')}`,
+                        `/store/${item.name.trim().toLowerCase().replace(/\s+/g, '-')}`
                       )
                     }
                     className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"

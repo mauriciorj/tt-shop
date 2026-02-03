@@ -1,42 +1,42 @@
-import { TrendingUp, Store, BarChart3, Zap, Shield, Globe } from "lucide-react";
+import { TrendingUp, Store, BarChart3, Zap, Shield, Globe } from 'lucide-react'
 
 const Features = () => {
   const features = [
     {
       icon: TrendingUp,
-      title: "Real-Time Rankings",
+      title: 'Real-Time Rankings',
       description:
-        "Track store performance with live data updates and trend analysis.",
+        'Track store performance with live data updates and trend analysis.',
     },
     {
       icon: BarChart3,
-      title: "Deep Analytics",
+      title: 'Deep Analytics',
       description:
-        "Comprehensive insights into revenue, followers, and growth metrics.",
+        'Comprehensive insights into revenue, followers, and growth metrics.',
     },
     {
       icon: Globe,
-      title: "Global Coverage",
-      description: "Monitor stores across all TikTok Shop regions worldwide.",
+      title: 'Global Coverage',
+      description: 'Monitor stores across all TikTok Shop regions worldwide.',
     },
     {
       icon: Zap,
-      title: "Instant Alerts",
-      description: "Get notified when your tracked stores hit new milestones.",
+      title: 'Instant Alerts',
+      description: 'Get notified when your tracked stores hit new milestones.',
     },
     {
       icon: Shield,
-      title: "Verified Data",
+      title: 'Verified Data',
       description:
-        "All metrics are verified and cross-referenced for accuracy.",
+        'All metrics are verified and cross-referenced for accuracy.',
     },
     {
       icon: Store,
-      title: "Store Profiles",
+      title: 'Store Profiles',
       description:
-        "Detailed profiles with product catalogs and seller information.",
+        'Detailed profiles with product catalogs and seller information.',
     },
-  ];
+  ]
   return (
     <section className="py-24 flex items-center justify-center flex-col">
       <div className="container">
@@ -68,7 +68,7 @@ const Features = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Features;
+export default Features

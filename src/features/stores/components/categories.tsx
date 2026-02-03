@@ -43,7 +43,7 @@ const Categories = ({
               'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
               selectedCategory === category.id
                 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                : 'bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground',
+                : 'bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground'
             )}
           >
             {category.label}

@@ -20,7 +20,7 @@ const useProducts = () => {
     },
     {
       initialNumItems: 10, // Initial number of items to load
-    },
+    }
   )
 
   const resultWithCategories = results?.map((product) => {
