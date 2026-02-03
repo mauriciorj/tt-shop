@@ -10,9 +10,6 @@ const useStores = () => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
-    null,
-  )
 
   const { data: categories } = useCategories()
 
@@ -59,10 +56,8 @@ const useStores = () => {
     loadMore,
     paginatedStores,
     selectedCategory,
-    selectedSubcategory,
-    setSelectedCategory,
     setCurrentPage,
-    setSelectedSubcategory,
+    setSelectedCategory,
     status,
     totalPages,
     totalStores,

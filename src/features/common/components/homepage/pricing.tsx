@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { Zap } from "lucide-react";
+import Link from 'next/link'
+import { Zap } from 'lucide-react'
 
 const Pricing = () => {
   return (
-    <section className="py-24 border-t border-border/40">
+    <section className="py-24 border-t border-border/40 flex justify-center">
       <div className="container">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold mb-4">
@@ -22,7 +22,7 @@ const Pricing = () => {
           {/* Free Plan */}
           <div
             className="glass-card rounded-2xl p-8 animate-slide-up"
-            style={{ animationDelay: "100ms" }}
+            style={{ animationDelay: '100ms' }}
           >
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">Free</h3>
@@ -36,10 +36,10 @@ const Pricing = () => {
             </div>
             <ul className="space-y-4 mb-8">
               {[
-                "Track up to 10 stores",
-                "Basic analytics dashboard",
-                "Daily ranking updates",
-                "Email support",
+                'Track up to 10 stores',
+                'Basic analytics dashboard',
+                'Daily ranking updates',
+                'Email support',
               ].map((feature) => (
                 <li key={feature} className="flex items-center gap-3">
                   <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
@@ -60,7 +60,7 @@ const Pricing = () => {
           {/* Pro Plan */}
           <div
             className="glass-card rounded-2xl p-8 relative border-primary/50 animate-slide-up"
-            style={{ animationDelay: "200ms" }}
+            style={{ animationDelay: '200ms' }}
           >
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-primary-foreground text-sm font-medium">
               Most Popular
@@ -77,12 +77,12 @@ const Pricing = () => {
             </div>
             <ul className="space-y-4 mb-8">
               {[
-                "Unlimited store tracking",
-                "Advanced analytics & insights",
-                "Real-time ranking updates",
-                "Custom alerts & notifications",
-                "API access",
-                "Priority support",
+                'Unlimited store tracking',
+                'Advanced analytics & insights',
+                'Real-time ranking updates',
+                'Custom alerts & notifications',
+                'API access',
+                'Priority support',
               ].map((feature) => (
                 <li key={feature} className="flex items-center gap-3">
                   <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
@@ -102,7 +102,7 @@ const Pricing = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Pricing;
+export default Pricing

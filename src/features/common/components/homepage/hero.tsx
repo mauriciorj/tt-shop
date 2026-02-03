@@ -1,13 +1,13 @@
-import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import Link from 'next/link'
+import { ArrowRight, Zap } from 'lucide-react'
 
 const Hero = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden flex justify-center">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl opacity-50" />
 
-      <div className="container relative">
+      <div className="container w-full">
         <div className="max-w-3xl mx-auto text-center animate-fade-in">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-6">
             <Zap className="h-4 w-4" />
@@ -40,7 +40,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

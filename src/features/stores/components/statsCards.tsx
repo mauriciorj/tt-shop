@@ -1,31 +1,31 @@
-"use client";
+'use client'
 
-import { Store, TrendingUp, Users } from "lucide-react";
+import { Store, TrendingUp, Users } from 'lucide-react'
 
 const StatsCards = ({
   totalProducts,
   totalStores,
 }: {
-  totalProducts: number;
-  totalStores: number;
+  totalProducts: number
+  totalStores: number
 }) => {
   const stats = [
     {
       icon: Store,
-      label: "Lojas",
+      label: 'Lojas',
       value: totalStores.toString(),
     },
     {
       icon: Users,
-      label: "Produtos",
+      label: 'Produtos',
       value: totalProducts.toString(),
     },
     {
       icon: TrendingUp,
-      label: "Videos",
-      value: "24",
+      label: 'Videos',
+      value: '24',
     },
-  ];
+  ]
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       {stats.map((stat, index) => (
@@ -34,7 +34,7 @@ const StatsCards = ({
           className="glass-card rounded-2xl p-6 animate-slide-up"
           style={{ animationDelay: `${index * 100}ms` }}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex justify-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
               <p className="text-3xl font-bold">{stat.value}</p>
@@ -48,7 +48,7 @@ const StatsCards = ({
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default StatsCards;
+export default StatsCards

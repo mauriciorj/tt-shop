@@ -1,13 +1,13 @@
 const Stats = () => {
   return (
-    <section className="py-16 border-y border-border/40">
+    <section className="py-16 border-y border-border/40 flex justify-center">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { value: "50K+", label: "Stores Tracked" },
-            { value: "2M+", label: "Products Listed" },
-            { value: "150+", label: "Countries" },
-            { value: "99.9%", label: "Uptime" },
+            { value: '50K+', label: 'Stores Tracked' },
+            { value: '2M+', label: 'Products Listed' },
+            { value: '150+', label: 'Countries' },
+            { value: '99.9%', label: 'Uptime' },
           ].map((stat, index) => (
             <div
               key={stat.label}
@@ -23,7 +23,7 @@ const Stats = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Stats;
+export default Stats

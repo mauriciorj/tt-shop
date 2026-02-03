@@ -3,9 +3,9 @@ const TablePagination = ({
   onPageChange,
   totalPages,
 }: {
-  currentPage: number;
-  onPageChange: (page: number) => void;
-  totalPages: number;
+  currentPage: number
+  onPageChange: (page: number) => void
+  totalPages: number
 }) => {
   return (
     <div className="flex items-center justify-between mt-6">
@@ -21,20 +21,20 @@ const TablePagination = ({
           Anterior
         </button>
         {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-          const page = i + 1;
+          const page = i + 1
           return (
             <button
               key={page}
               onClick={() => onPageChange(page)}
               className={`w-10 h-10 rounded-lg font-medium transition-colors ${
                 currentPage === page
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
               }`}
             >
               {page}
             </button>
-          );
+          )
         })}
         <button
           className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
@@ -45,7 +45,7 @@ const TablePagination = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TablePagination;
+export default TablePagination

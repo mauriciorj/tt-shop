@@ -212,7 +212,7 @@ const Contact = () => {
                   href="/support"
                   className="glass-card rounded-xl p-6 flex items-start gap-4 hover:border-primary/50 transition-all duration-300 group block"
                 >
-                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex justify-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
                     <FileQuestionMark className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -245,7 +245,7 @@ const Contact = () => {
                       href={info.link}
                       className="glass-card rounded-xl p-6 flex items-start gap-4 hover:border-primary/50 transition-all duration-300 group block"
                     >
-                      <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
+                      <div className="h-12 w-12 rounded-lg bg-primary/10 flex justify-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
                       <div>

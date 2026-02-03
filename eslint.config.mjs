@@ -34,6 +34,7 @@ const eslintConfig = defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ])

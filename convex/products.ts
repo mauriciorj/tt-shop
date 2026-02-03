@@ -1,7 +1,9 @@
-import { mutation, query } from "./_generated/server";
-import { paginationOptsValidator } from "convex/server";
-import { v } from "convex/values";
-import { getUpdatedValues } from "./utils";
+import { mutation, query } from './_generated/server'
+import { paginationOptsValidator } from 'convex/server'
+import { v } from 'convex/values'
+import { getUpdatedValues } from './utils'
+import TopProducts from '@/products/dtos/topProducts'
+import { IProductWithCategory } from '@/products/types'
 
 export const addProduct = mutation({
   args: {
@@ -23,59 +25,83 @@ export const addProduct = mutation({
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
-      .query("products")
-      .filter((q) => q.eq(q.field("k_id"), args.k_id))
-      .first();
+      .query('products')
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
+      .first()
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
         newData: args,
-      });
+      })
 
       if (Object.keys(updates).length > 0) {
         await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
-        });
+        })
       }
 
-      return { id: queryResult._id, status: "updated" };
+      return { id: queryResult._id, status: 'updated' }
     }
 
-    const result = await ctx.db.insert("products", {
+    const result = await ctx.db.insert('products', {
       ...args,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    });
-    return { id: result, status: "created" };
+    })
+    return { id: result, status: 'created' }
   },
-});
+})
 
 export const getProducts = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
-    const { paginationOpts } = args;
+    const { paginationOpts } = args
 
-    return await ctx.db.query("products").order("asc").paginate(paginationOpts);
+    const products = await ctx.db
+      .query('products')
+      .order('asc')
+      .paginate(paginationOpts)
+
+    const resultsDto: { products: IProductWithCategory[] } = new TopProducts(
+      products?.page,
+    )
+
+    const productsWithImages = await Promise.all(
+      resultsDto?.products?.map(async (product) => {
+        product['image'] = product.image
+          ? await ctx.storage.getUrl(product.image)
+          : null
+        return product
+      }),
+    )
+
+    return {
+      page: productsWithImages,
+      isDone: products?.isDone,
+      continueCursor: products?.continueCursor,
+      splitCursor: products?.splitCursor,
+      pageStatus: products?.pageStatus,
+    }
   },
-});
+})
 
 export const getProductByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {
-    const { k_id } = args;
+    const { k_id } = args
 
     return await ctx.db
-      .query("products")
-      .filter((q) => q.eq(q.field("k_id"), k_id))
-      .first();
+      .query('products')
+      .filter((q) => q.eq(q.field('k_id'), k_id))
+      .first()
   },
-});
+})
 
 export const updateProduct = mutation({
   args: {
-    id: v.id("products"),
+    id: v.id('products'),
     k_id: v.string(),
     k_day_sales: v.number(),
     k_day_revenue: v.number(),
@@ -84,23 +110,23 @@ export const updateProduct = mutation({
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
-      .query("products")
-      .filter((q) => q.eq(q.field("k_id"), args.k_id))
-      .first();
+      .query('products')
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
+      .first()
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
         newData: args,
-      });
+      })
 
       if (Object.keys(updates).length > 0) {
         await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
-        });
+        })
       }
-      return queryResult;
+      return queryResult
     }
   },
-});
+})
