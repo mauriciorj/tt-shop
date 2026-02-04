@@ -1,5 +1,12 @@
 import { Id } from '@/convex/_generated/dataModel'
 
+export type TSortKey =
+  | 'revenue'
+  | 'revenueHistory'
+  | 'revenueGrowthRate'
+  | 'sales'
+export type TSortOrder = 'asc' | 'desc'
+
 export interface ITopStores {
   _id?: Id<'stores'>
   _creationTime?: number

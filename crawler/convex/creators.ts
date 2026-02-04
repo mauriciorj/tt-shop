@@ -1,6 +1,6 @@
-import { mutation } from "./_generated/server";
-import { v } from "convex/values";
-import { getUpdatedValues } from "./utils";
+import { mutation } from './_generated/server'
+import { v } from 'convex/values'
+import { getUpdatedValues } from './utils'
 
 export const updateCreator = mutation({
   args: {
@@ -16,30 +16,30 @@ export const updateCreator = mutation({
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
-      .query("creators")
-      .filter((q) => q.eq(q.field("k_id"), args.k_id))
-      .first();
+      .query('creators')
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
+      .first()
 
     if (queryResult) {
       const updates = getUpdatedValues({
         currentData: queryResult,
         newData: args,
-      });
+      })
 
       if (Object.keys(updates).length > 0) {
         await ctx.db.patch(queryResult._id, {
           ...updates,
           updated_at: new Date().toISOString(),
-        });
+        })
       }
-      return { id: queryResult._id, status: "updated" };
+      return { id: queryResult._id, status: 'updated' }
     }
 
-    const result = await ctx.db.insert("creators", {
+    const result = await ctx.db.insert('creators', {
       ...args,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-    });
-    return { id: result, status: "added" };
+    })
+    return { id: result, status: 'added' }
   },
-});
+})

@@ -3,6 +3,7 @@
 import Breadcrumb from '@/components/breadcrumb'
 import SearchBar from '@/components/search'
 import useProducts from '@/products/hooks/useProducts'
+import StoreTableSkeleton from '@/src/features/stores/components/StoreTableSkeleton'
 import Categories from '@/stores/components/categories'
 import StatsCards from '@/stores/components/statsCards'
 import StoresTable from '@/stores/components/storesTable'
@@ -15,10 +16,15 @@ const Stores = () => {
     currentPage,
     data: stores,
     isLoading,
+    itemsPerPage,
     onPageChange,
     selectedCategory,
     setSelectedCategory,
     setCurrentPage,
+    setSortKey,
+    setSortOrder,
+    sortKey,
+    sortOrder,
     status,
     totalPages,
     totalStores,
@@ -42,13 +48,21 @@ const Stores = () => {
           data={stores}
           placeholder="Procuar por uma loja ou produto..."
         />
-        <StoresTable
-          currentPage={currentPage}
-          items={stores}
-          onPageChange={onPageChange}
-          status={status}
-          totalPages={totalPages}
-        />
+        {isLoading ? (
+          <StoreTableSkeleton rows={itemsPerPage} />
+        ) : (
+          <StoresTable
+            currentPage={currentPage}
+            items={stores}
+            onPageChange={onPageChange}
+            setSortKey={setSortKey}
+            setSortOrder={setSortOrder}
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            status={status}
+            totalPages={totalPages}
+          />
+        )}
       </main>
     </div>
   )

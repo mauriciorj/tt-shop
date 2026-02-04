@@ -1,31 +1,30 @@
 import Image from 'next/image'
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IStoreWithCategory } from '@/stores/types'
+import { IStoreWithCategory, TSortKey, TSortOrder } from '@/stores/types'
 
 export interface TableProps {
   currentPage: number
   items: IStoreWithCategory[]
   onPageChange: (page: number) => void
+  setSortKey: (key: TSortKey) => void
+  setSortOrder: (order: TSortOrder) => void
+  sortKey: TSortKey
+  sortOrder: TSortOrder
   status: string
-  totalPages: number
+  totalPages: number | undefined
 }
-
-type SortKey = 'revenue' | 'revenueHistory' | 'revenueGrowthRate' | 'sales'
-
-type SortOrder = 'asc' | 'desc'
 
 const SortIcon = ({
   columnKey,
   sortKey,
   sortOrder,
 }: {
-  columnKey: SortKey
-  sortKey: SortKey
-  sortOrder: SortOrder
+  columnKey: TSortKey
+  sortKey: TSortKey
+  sortOrder: TSortOrder
 }) => {
   if (sortKey !== columnKey) return null
   return sortOrder === 'asc' ? (
@@ -39,14 +38,16 @@ const StoresTable = ({
   currentPage,
   items,
   onPageChange,
+  setSortKey,
+  setSortOrder,
+  sortKey,
+  sortOrder,
   status,
   totalPages,
 }: TableProps) => {
   const router = useRouter()
-  const [sortKey, setSortKey] = useState<SortKey>('revenue')
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
 
-  const handleSort = (key: SortKey) => {
+  const handleSort = (key: TSortKey) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {
