@@ -3,6 +3,7 @@
 // import { useQuery } from '@tanstack/react-query'
 
 const useCategories = () => {
+  // TODO: Get the categories from the database
   // const { data: data2 } = useQuery({
   //   ...convexQuery(api.categories.getCategories),
   // })

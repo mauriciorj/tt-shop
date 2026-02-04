@@ -1,10 +1,12 @@
 const TablePagination = ({
   currentPage,
   onPageChange,
+  status,
   totalPages,
 }: {
   currentPage: number
   onPageChange: (page: number) => void
+  status: string
   totalPages: number
 }) => {
   return (
@@ -37,7 +39,7 @@ const TablePagination = ({
           )
         })}
         <button
-          className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
+          className="cursor-pointer px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
         >

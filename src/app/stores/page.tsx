@@ -15,10 +15,11 @@ const Stores = () => {
     currentPage,
     data: stores,
     isLoading,
-    paginatedStores,
+    onPageChange,
     selectedCategory,
     setSelectedCategory,
     setCurrentPage,
+    status,
     totalPages,
     totalStores,
   } = useStores()
@@ -44,7 +45,8 @@ const Stores = () => {
         <StoresTable
           currentPage={currentPage}
           items={stores}
-          onPageChange={setCurrentPage}
+          onPageChange={onPageChange}
+          status={status}
           totalPages={totalPages}
         />
       </main>

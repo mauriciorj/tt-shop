@@ -7,13 +7,13 @@ const StatsCards = ({
   totalStores,
 }: {
   totalProducts: number
-  totalStores: number
+  totalStores: number | undefined
 }) => {
   const stats = [
     {
       icon: Store,
       label: 'Lojas',
-      value: totalStores.toString(),
+      value: totalStores?.toString(),
     },
     {
       icon: Users,
@@ -34,7 +34,7 @@ const StatsCards = ({
           className="glass-card rounded-2xl p-6 animate-slide-up"
           style={{ animationDelay: `${index * 100}ms` }}
         >
-          <div className="flex justify-center justify-between">
+          <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
               <p className="text-3xl font-bold">{stat.value}</p>
@@ -43,6 +43,9 @@ const StatsCards = ({
               <div className="p-3 rounded-xl bg-primary/10">
                 <stat.icon className="h-6 w-6 text-primary" />
               </div>
+              {/* <span className="text-sm font-medium text-green-400">
+                {stat.change}
+              </span> */}
             </div>
           </div>
         </div>

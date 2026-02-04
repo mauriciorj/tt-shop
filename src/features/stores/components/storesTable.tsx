@@ -7,10 +7,11 @@ import TablePagination from '@/components/tablePagination'
 import { IStoreWithCategory } from '@/stores/types'
 
 export interface TableProps {
-  items: IStoreWithCategory[]
   currentPage: number
-  totalPages: number
+  items: IStoreWithCategory[]
   onPageChange: (page: number) => void
+  status: string
+  totalPages: number
 }
 
 type SortKey = 'revenue' | 'revenueHistory' | 'revenueGrowthRate' | 'sales'
@@ -38,6 +39,7 @@ const StoresTable = ({
   currentPage,
   items,
   onPageChange,
+  status,
   totalPages,
 }: TableProps) => {
   const router = useRouter()
@@ -222,6 +224,7 @@ const StoresTable = ({
         <TablePagination
           currentPage={currentPage}
           onPageChange={onPageChange}
+          status={status}
           totalPages={totalPages}
         />
       </div>

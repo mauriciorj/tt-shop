@@ -84,6 +84,13 @@ export const getStores = query({
   },
 })
 
+export const getStoresCount = query({
+  handler: async (ctx) => {
+    const stores = await ctx.db.query('stores').collect()
+    return stores.map((row) => row.name)
+  },
+})
+
 export const getStoreByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {
