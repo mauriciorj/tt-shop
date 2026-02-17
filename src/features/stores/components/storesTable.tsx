@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
 import { IStoreWithCategory, TSortKey, TSortOrder } from '@/stores/types'
+import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   currentPage: number
@@ -132,9 +133,7 @@ const StoresTable = ({
                   <tr
                     key={item.name}
                     onClick={() =>
-                      router.push(
-                        `/store/${item.name.trim().toLowerCase().replace(/\s+/g, '-')}`
-                      )
+                      router.push(`/store/${normalizeUrl(item.name)}`)
                     }
                     className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                     style={{ animationDelay: `${index * 50}ms` }}

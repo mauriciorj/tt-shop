@@ -7,11 +7,11 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { IStoreWithCategory } from '@/stores/types'
+import { IProductWithCategory } from '@/products/types'
 
-const LineChart = ({ store }: { store: IStoreWithCategory }) => {
+const LineChart = ({ product }: { product: IProductWithCategory }) => {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const chartData = store.revenue_history.map((value: number, i: number) => ({
+  const chartData = product.revenue_history.map((value: number, i: number) => ({
     day: i + 1,
     revenue: value,
   }))
@@ -19,9 +19,9 @@ const LineChart = ({ store }: { store: IStoreWithCategory }) => {
     revenue: {
       label: 'Revenue',
       color:
-        store.revenue_growth_rate >= 0
+        product.revenue_growth_rate >= 0
           ? 'hsl(142, 71%, 45%)'
-          : store.revenue_growth_rate < 0
+          : product.revenue_growth_rate < 0
             ? 'hsl(0, 84%, 60%)'
             : 'hsl(var(--muted-foreground))',
     },

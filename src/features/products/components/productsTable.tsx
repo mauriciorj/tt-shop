@@ -11,6 +11,7 @@ import {
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
 import { IProductWithCategory } from '@/products/types'
+import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   items: IProductWithCategory[]
@@ -167,9 +168,7 @@ const ProductsTable = ({
                   <tr
                     key={item.name}
                     onClick={() =>
-                      router.push(
-                        `/store/${item.name.trim().toLowerCase().replace(/\s+/g, '-')}`
-                      )
+                      router.push(`/product/${normalizeUrl(item.name)}`)
                     }
                     className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                     style={{ animationDelay: `${index * 50}ms` }}

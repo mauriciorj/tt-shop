@@ -25,6 +25,7 @@
       "@/db/*": ["./src/features/db/*"],
       "@/hooks/*": ["./src/features/common/hooks/*"],
       "@/payment/*": ["./src/features/payment/*"],
+      "@/product/*": ["./src/features/product/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],
       "@/store/*": ["./src/features/store/*"],

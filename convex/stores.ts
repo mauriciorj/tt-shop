@@ -5,6 +5,7 @@ import { getUpdatedValues } from './utils'
 import StoreDto from '@/store/dtos/store'
 import TopStores from '@/stores/dtos/topStores'
 import { IStoreWithCategory } from '@/stores/types'
+import { normalizeUrl } from '@/utils/string'
 
 export const addStore = mutation({
   args: {
@@ -138,7 +139,7 @@ export const getStoreByName = query({
     const getAllStores = await ctx.db.query('stores').collect()
 
     const getStore = getAllStores.find(
-      (store) => store.name.trim().toLowerCase().replace(/\s+/g, '-') === name
+      (store) => normalizeUrl(store.name) === name
     )
 
     const storeDto: { store: IStoreWithCategory | null } = new StoreDto(

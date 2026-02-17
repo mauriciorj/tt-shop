@@ -2,8 +2,10 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import ProductDto from '@/product/dtos/product'
 import TopProducts from '@/products/dtos/topProducts'
 import { IProductWithCategory } from '@/products/types'
+import { normalizeUrl } from '@/utils/string'
 
 export const addProduct = mutation({
   args: {
@@ -96,6 +98,36 @@ export const getProductByKId = query({
       .query('products')
       .filter((q) => q.eq(q.field('k_id'), k_id))
       .first()
+  },
+})
+
+export const getProductByName = query({
+  args: { name: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const { name } = args
+
+    if (!name) {
+      return null
+    }
+
+    // TODO: create a name_url field in stores table
+    const getAllStores = await ctx.db.query('products').collect()
+
+    const getProduct = getAllStores.find(
+      (product) => normalizeUrl(product.name) === name
+    )
+
+    const productDto: { product: IProductWithCategory | null } = new ProductDto(
+      getProduct
+    )
+
+    if (productDto?.product?.image) {
+      productDto.product.image = await ctx.storage.getUrl(
+        productDto.product.image
+      )
+    }
+
+    return productDto.product
   },
 })
 
