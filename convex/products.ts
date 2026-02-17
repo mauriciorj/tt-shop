@@ -3,7 +3,7 @@ import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
 import ProductDto from '@/product/dtos/product'
-import TopProducts from '@/products/dtos/topProducts'
+import TopProductsDto from '@/products/dtos/topProducts'
 import { IProductWithCategory } from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
@@ -69,7 +69,7 @@ export const getProducts = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { products: IProductWithCategory[] } = new TopProducts(
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
       products?.page
     )
 

@@ -3,7 +3,7 @@ import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
 import StoreDto from '@/store/dtos/store'
-import TopStores from '@/stores/dtos/topStores'
+import TopStoresDto from '@/stores/dtos/topStores'
 import { IStoreWithCategory } from '@/stores/types'
 import { normalizeUrl } from '@/utils/string'
 
@@ -60,7 +60,9 @@ export const getAllStores = query({
   handler: async (ctx) => {
     const stores = await ctx.db.query('stores').order('asc').collect()
 
-    const resultsDto: { stores: IStoreWithCategory[] } = new TopStores(stores)
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
+      stores
+    )
 
     const storesWithImages = await Promise.all(
       resultsDto?.stores?.map(async (store) => {
@@ -87,7 +89,7 @@ export const getStores = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { stores: IStoreWithCategory[] } = new TopStores(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores?.page
     )
 

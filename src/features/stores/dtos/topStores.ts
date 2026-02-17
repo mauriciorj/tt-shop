@@ -1,6 +1,6 @@
 import { ITopStores, IStoreWithCategory } from '@/stores/types'
 
-export default class TopStores {
+export default class TopStoresDto {
   stores: IStoreWithCategory[]
 
   constructor(data: ITopStores[] | undefined | null) {

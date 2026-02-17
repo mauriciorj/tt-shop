@@ -1,12 +1,10 @@
 const TablePagination = ({
   currentPage,
   onPageChange,
-  status,
   totalPages,
 }: {
   currentPage: number
   onPageChange: (page: number) => void
-  status: string
   totalPages: number | undefined
 }) => {
   return (

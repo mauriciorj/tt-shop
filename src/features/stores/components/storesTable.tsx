@@ -224,7 +224,6 @@ const StoresTable = ({
         <TablePagination
           currentPage={currentPage}
           onPageChange={onPageChange}
-          status={status}
           totalPages={totalPages}
         />
       </div>

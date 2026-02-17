@@ -1,6 +1,6 @@
 import { ITopProducts, IProductWithCategory } from '@/products/types'
 
-export default class TopProducts {
+export default class TopProductsDto {
   products: IProductWithCategory[]
 
   constructor(data: ITopProducts[] | undefined | null) {
