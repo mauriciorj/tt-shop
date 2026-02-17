@@ -11,6 +11,7 @@ export const addStore = mutation({
   args: {
     country: v.string(),
     name: v.string(),
+    name_url: v.string(),
     storage_id: v.optional(v.string()),
     type: v.string(),
     main_category: v.string(),

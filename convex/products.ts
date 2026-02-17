@@ -19,6 +19,7 @@ export const addProduct = mutation({
     launch_date: v.string(),
     main_category: v.string(),
     name: v.string(),
+    name_url: v.string(),
     product_rating: v.number(),
     second_category: v.string(),
     storage_id: v.optional(v.string()),

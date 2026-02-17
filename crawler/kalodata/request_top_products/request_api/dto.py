@@ -1,3 +1,4 @@
+from utils.normalize_url import normalize_url
 from utils.parse_value import parse_value
 
 def dto(data):
@@ -10,6 +11,7 @@ def dto(data):
         
         formated_data.append({
             'name': data['product_title'],
+            'name_url': normalize_url(data['product_title']),
             'country': "br",
             'launch_date': data['launch_date'],
             'product_rating': data['product_rating'],

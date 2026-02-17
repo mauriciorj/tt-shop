@@ -1,3 +1,4 @@
+from utils.normalize_url import normalize_url
 from utils.parse_value import parse_value
 from utils.parse_categories import parse_categories
 
@@ -12,6 +13,7 @@ def dto(data):
         
         formated_data.append({
             'name': data['name'],
+            'name_url': normalize_url(data['product_title']),
             'country': "br",
             'type': data['seller_type'].lower(),
             'main_category': str(pri_cat),
