@@ -125,7 +125,7 @@ function ChartTooltipContent({
     indicator?: 'line' | 'dot' | 'dashed'
     nameKey?: string
     labelKey?: string
-    payload: any
+    payload?: any
     label?: string
   }) {
   const { config } = useChart()

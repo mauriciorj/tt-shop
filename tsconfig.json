@@ -27,6 +27,7 @@
       "@/payment/*": ["./src/features/payment/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],
+      "@/store/*": ["./src/features/store/*"],
       "@/stores/*": ["./src/features/stores/*"],
       "@/utils/*": ["./src/features/common/utils/*"],
       "@/ui/*": ["./src/features/common/components/ui/*"]

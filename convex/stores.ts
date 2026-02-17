@@ -2,6 +2,7 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import StoreDto from '@/store/dtos/store'
 import TopStores from '@/stores/dtos/topStores'
 import { IStoreWithCategory } from '@/stores/types'
 
@@ -48,6 +49,27 @@ export const addStore = mutation({
       created_at: new Date().toISOString(),
     })
     return { id: result, status: 'added' }
+  },
+})
+
+export const getAllStores = query({
+  handler: async (ctx) => {
+    const stores = await ctx.db.query('stores').order('asc').collect()
+
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStores(stores)
+
+    const storesWithImages = await Promise.all(
+      resultsDto?.stores?.map(async (store) => {
+        store['image'] = store.image
+          ? await ctx.storage.getUrl(store.image)
+          : null
+        return store
+      })
+    )
+
+    return {
+      stores: storesWithImages,
+    }
   },
 })
 
@@ -100,6 +122,34 @@ export const getStoreByKId = query({
       .query('stores')
       .filter((q) => q.eq(q.field('k_id'), k_id))
       .first()
+  },
+})
+
+export const getStoreByName = query({
+  args: { name: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const { name } = args
+
+    if (!name) {
+      return null
+    }
+
+    // TODO: create a name_url field in stores table
+    const getAllStores = await ctx.db.query('stores').collect()
+
+    const getStore = getAllStores.find(
+      (store) => store.name.trim().toLowerCase().replace(/\s+/g, '-') === name
+    )
+
+    const storeDto: { store: IStoreWithCategory | null } = new StoreDto(
+      getStore
+    )
+
+    if (storeDto?.store?.image) {
+      storeDto.store.image = await ctx.storage.getUrl(storeDto.store.image)
+    }
+
+    return storeDto.store
   },
 })
 

@@ -44,7 +44,6 @@ export interface IStoreWithCategory {
   revenue_history: number[]
   sales: number
 }
-;[]
 
 export interface IStoreTable {
   category: string

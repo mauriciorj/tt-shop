@@ -3,8 +3,8 @@ import { api } from '@/convex/_generated/api'
 import { usePaginatedQuery } from 'convex/react'
 import { convexQuery } from '@convex-dev/react-query'
 import useCategories from '@/hooks/useCategories'
-import { useQuery } from '@tanstack/react-query'
 import { IStoreWithCategory, TSortKey, TSortOrder } from '@/stores/types'
+import { useQuery } from '@tanstack/react-query'
 
 const useStores = () => {
   const ITEMS_PER_PAGE = 10
