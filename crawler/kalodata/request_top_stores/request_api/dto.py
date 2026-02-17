@@ -1,4 +1,5 @@
 from utils.normalize_url import normalize_url
+from utils.revenue_history_periods import revenue_history_periods
 from utils.parse_value import parse_value
 from utils.parse_categories import parse_categories
 
@@ -9,8 +10,8 @@ def dto(data):
     for data in data['data']:
         pri_cat, sec_cat, ter_cat = parse_categories(data.get('main_category'))
 
-        revenue_trend_to_float = [round(float(value), 2) for value in data['revenue_trend']]
-        
+        revenue_history, revenue_history_14_days, revenue_history_7_days = revenue_history_periods(data['revenue_trend'])
+
         formated_data.append({
             'name': data['name'],
             'name_url': normalize_url(data['product_title']),

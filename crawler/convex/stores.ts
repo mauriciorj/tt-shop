@@ -21,6 +21,8 @@ export const addStore = mutation({
     k_id: v.string(),
     k_revenue: v.number(),
     k_revenue_history: v.array(v.number()),
+    k_revenue_history_14_days: v.optional(v.array(v.number())),
+    k_revenue_history_7_days: v.optional(v.array(v.number())),
     k_revenue_growth_rate: v.number(),
     k_sales: v.number(),
   },

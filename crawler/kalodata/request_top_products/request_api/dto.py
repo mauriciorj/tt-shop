@@ -1,4 +1,5 @@
 from utils.normalize_url import normalize_url
+from utils.revenue_history_periods import revenue_history_periods
 from utils.parse_value import parse_value
 
 def dto(data):
@@ -7,8 +8,8 @@ def dto(data):
     formated_data =  []
     for data in data['data']:
 
-        revenue_trend_to_float = [round(float(value), 2) for value in data['revenue_trend']]
-        
+        revenue_history, revenue_history_14_days, revenue_history_7_days = revenue_history_periods(data['revenue_trend'])
+
         formated_data.append({
             'name': data['product_title'],
             'name_url': normalize_url(data['product_title']),
@@ -22,7 +23,9 @@ def dto(data):
             'k_id': str(data['id']),
             'k_creator_conversion_ratio': round(float(data['creator_conversion_ratio']), 2),
             'k_revenue': parse_value(data['revenue']),
-            'k_revenue_history': revenue_trend_to_float,
+            'k_revenue_history': revenue_history,
+            'k_revenue_history_14_days': revenue_history_14_days,
+            'k_revenue_history_7_days': revenue_history_7_days,
             'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
             'k_sales': int(parse_value(data['sale'])),
         })
