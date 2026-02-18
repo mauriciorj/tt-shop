@@ -144,3 +144,4 @@ __pycache__/
 *.pyc
 
 /crawler/images
+.vercel
