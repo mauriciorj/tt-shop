@@ -21,7 +21,7 @@ export const addProduct = mutation({
     launch_date: v.string(),
     main_category: v.string(),
     name: v.string(),
-    name_url: v.string(),
+    name_url: v.optional(v.string()),
     product_rating: v.number(),
     second_category: v.string(),
     storage_id: v.optional(v.string()),
@@ -92,6 +92,13 @@ export const getProducts = query({
   },
 })
 
+export const getProductsCount = query({
+  handler: async (ctx) => {
+    const products = await ctx.db.query('products').collect()
+    return products.map((row) => row.name)?.length
+  },
+})
+
 export const getProductByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {
@@ -114,9 +121,9 @@ export const getProductByName = query({
     }
 
     // TODO: create a name_url field in stores table
-    const getAllStores = await ctx.db.query('products').collect()
+    const getAllProducts = await ctx.db.query('products').collect()
 
-    const getProduct = getAllStores.find(
+    const getProduct = getAllProducts.find(
       (product) => normalizeUrl(product.name) === name
     )
 

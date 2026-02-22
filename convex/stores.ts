@@ -6,12 +6,13 @@ import StoreDto from '@/store/dtos/store'
 import TopStoresDto from '@/stores/dtos/topStores'
 import { IStoreWithCategory } from '@/stores/types'
 import { normalizeUrl } from '@/utils/string'
+import { data as categories } from '@/hooks/useCategories'
 
 export const addStore = mutation({
   args: {
     country: v.string(),
     name: v.string(),
-    name_url: v.string(),
+    name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
     type: v.string(),
     main_category: v.string(),
@@ -64,6 +65,7 @@ export const getAllStores = query({
       stores
     )
 
+    // Add the image url to the store
     const storesWithImages = await Promise.all(
       resultsDto?.stores?.map(async (store) => {
         store['image'] = store.image
@@ -73,9 +75,15 @@ export const getAllStores = query({
       })
     )
 
-    return {
-      stores: storesWithImages,
-    }
+    // Add the category name to the store
+    const storesWithCategories = storesWithImages.map((store) => {
+      store['category_name'] =
+        categories.find((category) => category.id === store.category_id)
+          ?.label || null
+      return store
+    })
+
+    return storesWithCategories
   },
 })
 
@@ -115,7 +123,7 @@ export const getStores = query({
 export const getStoresCount = query({
   handler: async (ctx) => {
     const stores = await ctx.db.query('stores').collect()
-    return stores.map((row) => row.name)
+    return stores.map((row) => row.name)?.length
   },
 })
 

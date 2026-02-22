@@ -1,79 +1,74 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
-import { usePaginatedQuery } from 'convex/react'
 import { convexQuery } from '@convex-dev/react-query'
-import useCategories from '@/hooks/useCategories'
-import { IStoreWithCategory, TSortKey, TSortOrder } from '@/stores/types'
+import { TSortKey, TSortOrder } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 
+type TCategory = { id: string; label: string | null | undefined }
+
 const useStores = () => {
-  const ITEMS_PER_PAGE = 10
+  const ITEMS_PER_PAGE = 5
   const [currentPage, setCurrentPage] = useState(1)
-
-  const [stores, setStores] = useState<IStoreWithCategory[]>([])
-
   const [selectedCategory, setSelectedCategory] = useState('all')
 
   const [sortKey, setSortKey] = useState<TSortKey>('revenue')
   const [sortOrder, setSortOrder] = useState<TSortOrder>('desc')
 
-  // Get the total number of stores from the database
-  // TODO: update to use aggregation
-  const { data: getTotalStores, isLoading: isLoadingTotalStores } = useQuery({
-    ...convexQuery(api.stores.getStoresCount),
+  // Get ALL stores from the database
+  // TODO: check if this is the best to fetch all information needed
+  // maybe aggregation + pagination is better
+  const { data: getAllStores, isLoading: isLoadingAllStores } = useQuery({
+    ...convexQuery(api.stores.getAllStores),
   })
+
+  // Show only unique categories from the stores
+  const categories = useMemo(() => {
+    if (getAllStores) {
+      const getUniqueCategoriesFromStores: TCategory[] = Array.from(
+        new Map(
+          getAllStores
+            .filter((store) => store.category_name)
+            .map((store) => [
+              store.category_id,
+              { id: store.category_id, label: store.category_name },
+            ])
+        ).values()
+      ).sort((a, b) => a.label!.localeCompare(b.label!))
+
+      if (getUniqueCategoriesFromStores.length > 0) {
+        return [
+          {
+            id: 'all',
+            label: 'Todas as categorias',
+          },
+          ...getUniqueCategoriesFromStores,
+        ]
+      }
+    }
+  }, [getAllStores])
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
-    () =>
-      getTotalStores?.length &&
-      Math.ceil(getTotalStores?.length / ITEMS_PER_PAGE),
-    [getTotalStores]
+    () => getAllStores && Math.ceil(getAllStores.length / ITEMS_PER_PAGE),
+    [getAllStores]
   )
-
-  // const totalStores = 10
-
-  // Get the categories from the database
-  const { data: categories } = useCategories()
-
-  // Get the stores from the database
-  const {
-    results,
-    isLoading: isLoadingStores,
-    status,
-    loadMore,
-  } = usePaginatedQuery(
-    api.stores.getStores, // Reference to your Convex query function
-    {
-      // Optional initial arguments for your query
-    },
-    {
-      initialNumItems: 100, // Initial number of items to load
-    }
-  )
-
-  useEffect(() => {
-    const resultWithCategories = results?.map((store) => {
-      return {
-        ...store,
-        category: categories?.find((category) => category.id === store.category)
-          ?.label,
-      }
-    })
-    setStores(resultWithCategories)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [results])
 
   // Function to get the stores for the current page
   const storesPaginated = useMemo(() => {
-    let result = stores
+    if (!getAllStores) return []
+
+    const start = (currentPage - 1) * ITEMS_PER_PAGE
+    const end = currentPage * ITEMS_PER_PAGE
+
+    // Add category name to the store
+    let result = getAllStores
 
     // Filter by category
     if (selectedCategory && selectedCategory !== 'all') {
       const categoryByName = categories?.find(
         (category) => category.id === selectedCategory
       )?.label
-      result = result.filter((store) => store.category === categoryByName)
+      result = result?.filter((store) => store.category_name === categoryByName)
     }
 
     // Sort by key and order
@@ -110,18 +105,23 @@ const useStores = () => {
       }
     })
 
-    const start = (currentPage - 1) * ITEMS_PER_PAGE
-    const end = currentPage * ITEMS_PER_PAGE
+    result = result.map((store, index) => ({
+      ...store,
+      rank: index + 1,
+    }))
 
     return result.slice(start, end)
-  }, [stores, currentPage, selectedCategory, sortKey, sortOrder, categories])
+  }, [
+    getAllStores,
+    categories,
+    currentPage,
+    selectedCategory,
+    sortKey,
+    sortOrder,
+  ])
 
-  // Function to load more stores when the user clicks on the next page
-  // It should only load more stores if the user request a non fetched page
+  // Function related to pagination
   const onPageChange = (page: number) => {
-    if (page > currentPage) {
-      loadMore(ITEMS_PER_PAGE)
-    }
     setCurrentPage(page)
   }
 
@@ -129,10 +129,9 @@ const useStores = () => {
     categories,
     currentPage,
     data: storesPaginated,
-    isLoading: Boolean(isLoadingStores || isLoadingTotalStores),
+    isLoading: isLoadingAllStores,
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
-    loadMore,
     selectedCategory,
     setCurrentPage,
     setSelectedCategory,
@@ -140,9 +139,7 @@ const useStores = () => {
     setSortOrder,
     sortKey,
     sortOrder,
-    status,
     totalPages,
-    totalStores: getTotalStores?.length,
   }
 }
 

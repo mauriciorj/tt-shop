@@ -135,7 +135,7 @@ const SearchBar = ({
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{item.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {item.category}
+                      {item.category_name}
                     </p>
                   </div>
                 </button>

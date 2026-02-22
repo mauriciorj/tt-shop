@@ -34,11 +34,13 @@ export interface ITopStores {
 
 export interface IStoreWithCategory {
   country: string
-  category: string | undefined
+  category_id: string
+  category_name?: string | null
   name: string
   image: string | null | undefined
   type: string
   unit_price: number
+  rank?: number
   revenue: number
   revenue_growth_rate: number
   revenue_history: number[]

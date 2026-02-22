@@ -6,19 +6,19 @@ const StatsCards = ({
   totalProducts,
   totalStores,
 }: {
-  totalProducts: number
+  totalProducts: number | undefined
   totalStores: number | undefined
 }) => {
   const stats = [
     {
       icon: Store,
       label: 'Lojas',
-      value: totalStores?.toString(),
+      value: totalStores,
     },
     {
       icon: Users,
       label: 'Produtos',
-      value: totalProducts.toString(),
+      value: totalProducts,
     },
     {
       icon: TrendingUp,

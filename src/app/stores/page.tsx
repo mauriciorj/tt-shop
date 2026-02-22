@@ -2,15 +2,12 @@
 
 import Breadcrumb from '@/components/breadcrumb'
 import SearchBar from '@/components/search'
-import useProducts from '@/products/hooks/useProducts'
-import StoreTableSkeleton from '@/src/features/stores/components/StoreTableSkeleton'
+import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
 import Categories from '@/stores/components/categories'
-import StatsCards from '@/stores/components/statsCards'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
 const Stores = () => {
-  const { totalProducts } = useProducts()
   const {
     categories,
     currentPage,
@@ -25,9 +22,7 @@ const Stores = () => {
     setSortOrder,
     sortKey,
     sortOrder,
-    status,
     totalPages,
-    totalStores,
   } = useStores()
 
   return (
@@ -37,7 +32,6 @@ const Stores = () => {
           description="Descubra as melhores lojas no TikTok Shop"
           title="Lojas"
         />
-        <StatsCards totalStores={totalStores} totalProducts={totalProducts} />
         <Categories
           categories={categories}
           selectedCategory={selectedCategory}
@@ -59,7 +53,6 @@ const Stores = () => {
             setSortOrder={setSortOrder}
             sortKey={sortKey}
             sortOrder={sortOrder}
-            status={status}
             totalPages={totalPages}
           />
         )}

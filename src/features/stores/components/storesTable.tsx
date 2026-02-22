@@ -14,7 +14,6 @@ export interface TableProps {
   setSortOrder: (order: TSortOrder) => void
   sortKey: TSortKey
   sortOrder: TSortOrder
-  status: string
   totalPages: number | undefined
 }
 
@@ -43,7 +42,6 @@ const StoresTable = ({
   setSortOrder,
   sortKey,
   sortOrder,
-  status,
   totalPages,
 }: TableProps) => {
   const router = useRouter()
@@ -141,16 +139,16 @@ const StoresTable = ({
                     <td className="p-4">
                       <div
                         className={`flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm ${
-                          index + 1 === 1
+                          item.rank === 1
                             ? 'bg-primary text-primary-foreground'
-                            : index + 1 === 2
+                            : item.rank === 2
                               ? 'bg-accent text-accent-foreground'
-                              : index + 1 === 3
+                              : item.rank === 3
                                 ? 'bg-orange-500 text-white'
                                 : 'bg-secondary text-secondary-foreground'
                         }`}
                       >
-                        {index + 1}
+                        {item.rank}
                       </div>
                     </td>
                     <td className="p-4">
@@ -172,9 +170,9 @@ const StoresTable = ({
                       </div>
                     </td>
                     <td className="p-4">
-                      {item?.category && (
+                      {item?.category_name && (
                         <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
-                          {item?.category}
+                          {item?.category_name}
                         </span>
                       )}
                     </td>

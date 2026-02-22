@@ -26,7 +26,7 @@ export default class TopStoresDto {
       delete item.updated_at
       return {
         country: item.country,
-        category: item.main_category,
+        category_id: item.main_category,
         name: item.name,
         image: item.storage_id,
         type: item.type,

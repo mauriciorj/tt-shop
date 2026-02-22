@@ -29,7 +29,7 @@ export default defineSchema({
   products: defineTable({
     country: v.string(),
     name: v.string(),
-    name_url: v.string(),
+    name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
     launch_date: v.string(),
     product_rating: v.number(),
@@ -55,7 +55,7 @@ export default defineSchema({
   stores: defineTable({
     country: v.string(),
     name: v.string(),
-    name_url: v.string(),
+    name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
     type: v.string(),
     main_category: v.string(),
@@ -88,5 +88,5 @@ export default defineSchema({
     k_sales: v.number(),
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
-  }),
+  }).index('by_k_revenue', ['k_revenue']),
 })
