@@ -10,9 +10,9 @@ const Categories = ({
     | {
         id: string
         label: string | null | undefined
-        subcategories?: { id: string; label: string }[]
       }[]
     | null
+    | undefined
   selectedCategory: string | null
   setSelectedCategory: (category: string) => void
   setCurrentPage: (page: number) => void

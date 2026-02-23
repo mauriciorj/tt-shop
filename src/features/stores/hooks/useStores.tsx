@@ -8,6 +8,7 @@ type TCategory = { id: string; label: string | null | undefined }
 
 const useStores = () => {
   const ITEMS_PER_PAGE = 5
+
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
 
@@ -49,7 +50,7 @@ const useStores = () => {
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
-    () => getAllStores && Math.ceil(getAllStores.length / ITEMS_PER_PAGE),
+    () => getAllStores && Math.ceil(getAllStores?.length / ITEMS_PER_PAGE),
     [getAllStores]
   )
 
@@ -60,7 +61,6 @@ const useStores = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     const end = currentPage * ITEMS_PER_PAGE
 
-    // Add category name to the store
     let result = getAllStores
 
     // Filter by category

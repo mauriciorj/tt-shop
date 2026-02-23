@@ -53,6 +53,8 @@ const StoresTable = ({
       setSortKey(key)
       setSortOrder('asc')
     }
+    // Move to first page whenever the user changes the table sort
+    onPageChange(1)
   }
 
   return (
