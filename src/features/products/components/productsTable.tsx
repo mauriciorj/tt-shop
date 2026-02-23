@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowDown,
@@ -10,34 +9,28 @@ import {
 } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IProductWithCategory } from '@/products/types'
+import { IProductWithCategory, TSortKey, TSortOrder } from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
-  items: IProductWithCategory[]
   currentPage: number
-  totalPages: number
+  items: IProductWithCategory[]
   onPageChange: (page: number) => void
+  setSortKey: (key: TSortKey) => void
+  setSortOrder: (order: TSortOrder) => void
+  sortKey: TSortKey
+  sortOrder: TSortOrder
+  totalPages: number | undefined
 }
-
-type SortKey =
-  | 'revenue'
-  | 'revenueHistory'
-  | 'revenueGrowthRate'
-  | 'rating'
-  | 'sales'
-  | 'unitPrice'
-
-type SortOrder = 'asc' | 'desc'
 
 const SortIcon = ({
   columnKey,
   sortKey,
   sortOrder,
 }: {
-  columnKey: SortKey
-  sortKey: SortKey
-  sortOrder: SortOrder
+  columnKey: TSortKey
+  sortKey: TSortKey
+  sortOrder: TSortOrder
 }) => {
   if (sortKey !== columnKey) return null
   return sortOrder === 'asc' ? (
@@ -51,19 +44,23 @@ const ProductsTable = ({
   currentPage,
   items,
   onPageChange,
+  setSortKey,
+  setSortOrder,
+  sortKey,
+  sortOrder,
   totalPages,
 }: TableProps) => {
   const router = useRouter()
-  const [sortKey, setSortKey] = useState<SortKey>('revenue')
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
 
-  const handleSort = (key: SortKey) => {
+  const handleSort = (key: TSortKey) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {
       setSortKey(key)
       setSortOrder('asc')
     }
+    // Move to first page whenever the user changes the table sort
+    onPageChange(1)
   }
 
   return (
@@ -176,16 +173,16 @@ const ProductsTable = ({
                     <td className="p-4">
                       <div
                         className={`flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm ${
-                          index + 1 === 1
+                          item?.rank === 1
                             ? 'bg-primary text-primary-foreground'
-                            : index + 1 === 2
+                            : item?.rank === 2
                               ? 'bg-accent text-accent-foreground'
-                              : index + 1 === 3
+                              : item?.rank === 3
                                 ? 'bg-orange-500 text-white'
                                 : 'bg-secondary text-secondary-foreground'
                         }`}
                       >
-                        {index + 1}
+                        {item?.rank}
                       </div>
                     </td>
                     <td className="p-4">
@@ -207,9 +204,9 @@ const ProductsTable = ({
                       </div>
                     </td>
                     <td className="p-4">
-                      {item?.category && (
+                      {item?.category_name && (
                         <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
-                          {item?.category}
+                          {item?.category_name}
                         </span>
                       )}
                     </td>

@@ -2,6 +2,7 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import { data as categories } from '@/hooks/useCategories'
 import ProductDto from '@/product/dtos/product'
 import TopProductsDto from '@/products/dtos/topProducts'
 import { IProductWithCategory } from '@/products/types'
@@ -56,6 +57,36 @@ export const addProduct = mutation({
       created_at: new Date().toISOString(),
     })
     return { id: result, status: 'created' }
+  },
+})
+
+export const getAllProducts = query({
+  handler: async (ctx) => {
+    const products = await ctx.db.query('products').order('asc').collect()
+
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+      products
+    )
+
+    // Add the image url to the product
+    const productsWithImages = await Promise.all(
+      resultsDto?.products?.map(async (product) => {
+        product['image'] = product.image
+          ? await ctx.storage.getUrl(product.image)
+          : null
+        return product
+      })
+    )
+
+    // Add the category name to the store
+    const productsWithCategories = productsWithImages.map((product) => {
+      product['category_name'] =
+        categories.find((category) => category.id === product.category_id)
+          ?.label || null
+      return product
+    })
+
+    return productsWithCategories
   },
 })
 

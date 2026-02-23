@@ -2,11 +2,11 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import { data as categories } from '@/hooks/useCategories'
 import StoreDto from '@/store/dtos/store'
 import TopStoresDto from '@/stores/dtos/topStores'
 import { IStoreWithCategory } from '@/stores/types'
 import { normalizeUrl } from '@/utils/string'
-import { data as categories } from '@/hooks/useCategories'
 
 export const addStore = mutation({
   args: {

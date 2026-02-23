@@ -24,7 +24,7 @@ export default class TopProductsDto {
 
       return {
         country: item.country,
-        category: item.main_category,
+        category_id: item.main_category,
         name: item.name,
         image: item.storage_id,
         revenue: item.k_revenue,

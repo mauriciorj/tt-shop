@@ -5,6 +5,7 @@ import SearchBar from '@/components/search'
 import Categories from '@/stores/components/categories'
 import useProducts from '@/products/hooks/useProducts'
 import ProductsTable from '@/products/components/productsTable'
+import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const Products = () => {
   const {
@@ -12,13 +13,16 @@ const Products = () => {
     currentPage,
     data: products,
     isLoading,
+    itemsPerPage,
+    onPageChange,
     selectedCategory,
     setCurrentPage,
     setSelectedCategory,
-    status,
-    loadMore,
+    setSortKey,
+    setSortOrder,
+    sortKey,
+    sortOrder,
     totalPages,
-    totalProducts,
   } = useProducts()
 
   return (
@@ -39,12 +43,20 @@ const Products = () => {
           isStore={false}
           placeholder="Procurar por um produto..."
         />
-        <ProductsTable
-          currentPage={currentPage}
-          items={products}
-          onPageChange={setCurrentPage}
-          totalPages={totalPages}
-        />
+        {isLoading ? (
+          <ProductTableSkeleton rows={itemsPerPage} />
+        ) : (
+          <ProductsTable
+            currentPage={currentPage}
+            items={products}
+            onPageChange={onPageChange}
+            setSortKey={setSortKey}
+            setSortOrder={setSortOrder}
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            totalPages={totalPages}
+          />
+        )}
       </main>
     </div>
   )

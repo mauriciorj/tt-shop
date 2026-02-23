@@ -23,7 +23,7 @@ export default class ProductDto {
 
     return {
       country: data.country,
-      category: data.main_category,
+      category_id: data.main_category,
       name: data.name,
       image: data.storage_id,
       revenue: data.k_revenue,

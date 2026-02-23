@@ -1,4 +1,14 @@
-import { Id } from '../../../../convex/_generated/dataModel'
+import { Id } from '@/convex/_generated/dataModel'
+
+export type TSortKey =
+  | 'revenue'
+  | 'revenueHistory'
+  | 'revenueGrowthRate'
+  | 'rating'
+  | 'sales'
+  | 'unitPrice'
+
+export type TSortOrder = 'asc' | 'desc'
 
 export interface ITopProducts {
   _id?: Id<'products'>
@@ -24,11 +34,13 @@ export interface ITopProducts {
 
 export interface IProductWithCategory {
   country: string
-  category: string | undefined
+  category_id: string
+  category_name?: string | null
   name: string
   image: string | null | undefined
   unit_price: number
   product_rating: number
+  rank?: number
   revenue: number
   revenue_growth_rate: number
   revenue_history: number[]
