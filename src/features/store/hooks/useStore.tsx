@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
-import useCategories from '@/hooks/useCategories'
+import { data as categories } from '@/hooks/useCategories'
 import { IStoreWithCategory } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 
@@ -16,18 +16,15 @@ const useStore = () => {
     }),
   })
 
-  // Get the categories from the database
-  const { data: categories } = useCategories()
-
   const store = useMemo(() => {
     const getCategory = categories?.find(
-      (category) => category.id === getStore?.category
+      (category) => category.id === getStore?.category_id
     )?.label
 
     const storeWithCategory: IStoreWithCategory | null = getStore?.name
       ? {
           ...getStore,
-          category: getCategory,
+          category_name: getCategory,
         }
       : null
 

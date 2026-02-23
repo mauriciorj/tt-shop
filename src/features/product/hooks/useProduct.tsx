@@ -5,6 +5,7 @@ import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import { data as categories } from '@/hooks/useCategories'
 import { useQuery } from '@tanstack/react-query'
+import { IProductWithCategory } from '@/products/types'
 
 const useProduct = () => {
   const [name, setName] = useState<string | null>(null)
@@ -20,7 +21,14 @@ const useProduct = () => {
       (category) => category.id === getProduct?.category_id
     )?.label
 
-    return getCategory
+    const storeWithCategory: IProductWithCategory | null = getProduct?.name
+      ? {
+          ...getProduct,
+          category_name: getCategory,
+        }
+      : null
+
+    return storeWithCategory
   }, [name, getProduct, categories])
 
   return { isLoading, setName, product }

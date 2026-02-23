@@ -30,7 +30,7 @@ const Header = ({ store }: { store: IStoreWithCategory }) => {
               {store.name}
             </h1>
             <Badge variant="secondary" className="text-sm">
-              {store.category}
+              {store.category_name}
             </Badge>
           </div>
         </div>

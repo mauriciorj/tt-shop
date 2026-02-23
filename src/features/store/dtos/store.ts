@@ -25,7 +25,7 @@ export default class StoreDto {
     delete data.updated_at
     return {
       country: data.country,
-      category: data.main_category,
+      category_id: data.main_category,
       name: data.name,
       image: data.storage_id,
       type: data.type,
