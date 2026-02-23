@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useConvexAuth } from 'convex/react'
-import { House, TrendingUp, Store, PackageSearch } from 'lucide-react'
+import { House, TrendingUp, Store, PackageSearch, Video } from 'lucide-react'
 import {
   SignedIn,
   SignUpButton,
@@ -21,6 +21,7 @@ const Header = () => {
     { path: '/', label: 'Inicio', icon: House },
     { path: '/stores', label: 'Lojas', icon: Store },
     { path: '/products', label: 'Produtos', icon: PackageSearch },
+    { path: '/videos', label: 'Vídeos', icon: Video },
   ]
 
   return (

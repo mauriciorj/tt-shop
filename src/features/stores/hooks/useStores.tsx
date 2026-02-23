@@ -28,7 +28,7 @@ const useStores = () => {
       const getUniqueCategoriesFromStores: TCategory[] = Array.from(
         new Map(
           getAllStores
-            .filter((store) => store.category_name)
+            .filter((store) => store.category_name && store.category_id)
             .map((store) => [
               store.category_id,
               { id: store.category_id, label: store.category_name },
@@ -50,7 +50,8 @@ const useStores = () => {
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
-    () => getAllStores && Math.ceil(getAllStores?.length / ITEMS_PER_PAGE),
+    () =>
+      getAllStores?.length && Math.ceil(getAllStores?.length / ITEMS_PER_PAGE),
     [getAllStores]
   )
 

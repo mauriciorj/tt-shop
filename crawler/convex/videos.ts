@@ -2,8 +2,9 @@ import { mutation, query } from './_generated/server'
 import { v } from 'convex/values'
 import { paginationOptsValidator } from 'convex/server'
 import { getUpdatedValues } from './utils'
+import { data as categories } from '@/hooks/useCategories'
 import TopVideosDto from '@/videos/dtos/topVideosDto'
-import { ITopVideos, ITopVideosWithCategory } from '@/videos/types'
+import { ITopVideosWithCategory } from '@/videos/types'
 
 export const updateVideos = mutation({
   args: {
@@ -76,6 +77,40 @@ export const getVideos = query({
       splitCursor: videos?.splitCursor,
       pageStatus: videos?.pageStatus,
     }
+  },
+})
+
+export const getAllVideos = query({
+  handler: async (ctx) => {
+    const videos = await ctx.db
+      .query('videos')
+      .withIndex('by_k_revenue')
+      .order('desc')
+      .collect()
+
+    const resultsDto: { videos: ITopVideosWithCategory[] } = new TopVideosDto(
+      videos
+    )
+
+    // Add the image url to the video
+    const videosWithImages = await Promise.all(
+      resultsDto?.videos?.map(async (video) => {
+        video['image'] = video.image
+          ? await ctx.storage.getUrl(video.image)
+          : null
+        return video
+      })
+    )
+
+    // Add the category name to the store
+    const videosWithCategories = videosWithImages.map((video) => {
+      video['category_name'] =
+        categories.find((category) => category.id === video.category_id)
+          ?.label || null
+      return video
+    })
+
+    return videosWithCategories
   },
 })
 

@@ -86,6 +86,8 @@ export default defineSchema({
     k_id: v.string(),
     k_revenue: v.number(),
     k_sales: v.number(),
+    main_category: v.optional(v.string()),
+    transcription: v.optional(v.string()),
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }).index('by_k_revenue', ['k_revenue']),

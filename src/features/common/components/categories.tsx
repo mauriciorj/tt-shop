@@ -8,7 +8,7 @@ const Categories = ({
 }: {
   categories:
     | {
-        id: string
+        id: string | null
         label: string | null | undefined
       }[]
     | null
@@ -25,12 +25,13 @@ const Categories = ({
       <div className="flex flex-wrap gap-2">
         {categories?.map(
           (category) =>
+            category.id &&
             category.label && (
               <button
                 key={category.id}
                 onClick={() => {
                   setCurrentPage(1)
-                  setSelectedCategory(category.id)
+                  setSelectedCategory(category.id!)
                 }}
                 className={cn(
                   'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',

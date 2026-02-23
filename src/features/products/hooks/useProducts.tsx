@@ -50,7 +50,9 @@ const useProducts = () => {
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
-    () => getAllProducts && Math.ceil(getAllProducts?.length / ITEMS_PER_PAGE),
+    () =>
+      getAllProducts?.length &&
+      Math.ceil(getAllProducts?.length / ITEMS_PER_PAGE),
     [getAllProducts]
   )
 

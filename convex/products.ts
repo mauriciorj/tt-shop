@@ -123,13 +123,6 @@ export const getProducts = query({
   },
 })
 
-export const getProductsCount = query({
-  handler: async (ctx) => {
-    const products = await ctx.db.query('products').collect()
-    return products.map((row) => row.name)?.length
-  },
-})
-
 export const getProductByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {

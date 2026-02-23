@@ -1,9 +1,9 @@
 'use client'
 
 import Breadcrumb from '@/components/breadcrumb'
+import Categories from '@/components/categories'
 import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
-import Categories from '@/stores/components/categories'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
