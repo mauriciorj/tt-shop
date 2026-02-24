@@ -2,10 +2,15 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import CreatorDto from '@/dtos/creator'
+import ProductDto from '@/dtos/product'
+import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
 import StoreDto from '@/store/dtos/store'
+import { IStoreWithCategory } from '@/store/types'
 import TopStoresDto from '@/stores/dtos/topStores'
-import { IStoreWithCategory } from '@/stores/types'
+import { IStoresWithCategory } from '@/stores/types'
+import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
 export const addStore = mutation({
@@ -61,7 +66,7 @@ export const getAllStores = query({
   handler: async (ctx) => {
     const stores = await ctx.db.query('stores').order('asc').collect()
 
-    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
       stores
     )
 
@@ -97,7 +102,7 @@ export const getStores = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
       stores?.page
     )
 
@@ -152,9 +157,107 @@ export const getStoreByName = query({
       getStore
     )
 
+    if (!storeDto?.store) {
+      return null
+    }
+
     if (storeDto?.store?.image) {
       storeDto.store.image = await ctx.storage.getUrl(storeDto.store.image)
     }
+
+    let getTopCreators: ICreatorDto[] = []
+    if (
+      storeDto.store?.top_creators &&
+      storeDto.store?.top_creators?.length > 0
+    ) {
+      await Promise.all(
+        storeDto.store?.top_creators?.map(async (creator) => {
+          const getCreator = await ctx.db
+            .query('creators')
+            .filter((q) => q.eq(q.field('k_id'), creator as string))
+            .first()
+
+          if (getCreator) {
+            const creatorDto: { creator: ICreatorDto | null } = new CreatorDto(
+              getCreator
+            )
+            let image = null
+            if (creatorDto.creator?.storage_id) {
+              image = await ctx.storage.getUrl(creatorDto.creator.storage_id)
+            }
+            delete creatorDto.creator?.storage_id
+            getTopCreators.push({
+              ...creatorDto.creator!,
+              image,
+            })
+          }
+        })
+      )
+    }
+
+    let getTopProducts: IProductDto[] = []
+    if (
+      storeDto.store?.top_products &&
+      storeDto.store?.top_products?.length > 0
+    ) {
+      await Promise.all(
+        storeDto.store?.top_products?.map(async (product) => {
+          const getProduct = await ctx.db
+            .query('products')
+            .filter((q) => q.eq(q.field('k_id'), product as string))
+            .first()
+
+          if (getProduct) {
+            const productDto: { product: IProductDto | null } = new ProductDto(
+              getProduct
+            )
+            let image = null
+            if (productDto.product?.storage_id) {
+              image = await ctx.storage.getUrl(productDto.product.storage_id)
+            }
+            delete productDto.product?.storage_id
+            getTopProducts.push({
+              ...productDto.product!,
+              image,
+            })
+          }
+        })
+      )
+    }
+
+    let getTopVideos: IVideoDto[] = []
+    if (storeDto.store?.top_videos && storeDto.store?.top_videos?.length > 0) {
+      await Promise.all(
+        storeDto.store?.top_videos?.map(async (video) => {
+          const getVideo = await ctx.db
+            .query('videos')
+            .filter((q) => q.eq(q.field('k_id'), video as string))
+            .first()
+
+          if (getVideo) {
+            const videoDto: { video: IVideoDto | null } = new VideoDto(getVideo)
+            let image = null
+            if (videoDto.video?.storage_id) {
+              image = await ctx.storage.getUrl(videoDto.video.storage_id)
+            }
+            delete videoDto.video?.storage_id
+            getTopVideos.push({
+              ...videoDto.video!,
+              image,
+            })
+          }
+        })
+      )
+    }
+
+    delete storeDto.store?.top_creators
+    storeDto.store.top_creators = getTopCreators
+
+    delete storeDto.store?.top_products
+    storeDto.store.top_products = getTopProducts
+
+    delete storeDto.store?.top_videos
+    storeDto.store.top_videos = getTopVideos
 
     return storeDto.store
   },

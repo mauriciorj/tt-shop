@@ -1,7 +1,7 @@
-import { ITopStores, IStoreWithCategory } from '@/stores/types'
+import { ITopStores, IStoresWithCategory } from '@/stores/types'
 
 export default class TopStoresDto {
-  stores: IStoreWithCategory[]
+  stores: IStoresWithCategory[]
 
   constructor(data: ITopStores[] | undefined | null) {
     if (!data || data?.length === 0) {
@@ -10,7 +10,7 @@ export default class TopStoresDto {
     this.stores = this.getStores(data!)
   }
 
-  getStores(data: ITopStores[]): IStoreWithCategory[] {
+  getStores(data: ITopStores[]): IStoresWithCategory[] {
     return data.map((item: ITopStores) => {
       delete item._id
       delete item._creationTime

@@ -3,12 +3,12 @@ import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IStoreWithCategory, TSortKey, TSortOrder } from '@/stores/types'
+import { IStoresWithCategory, TSortKey, TSortOrder } from '@/stores/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   currentPage: number
-  items: IStoreWithCategory[]
+  items: IStoresWithCategory[]
   onPageChange: (page: number) => void
   setSortKey: (key: TSortKey) => void
   setSortOrder: (order: TSortOrder) => void

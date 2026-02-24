@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { IStoreWithCategory } from '@/stores/types'
+import { IStoresWithCategory } from '@/stores/types'
 
-const Header = ({ store }: { store: IStoreWithCategory }) => {
+const Header = ({ store }: { store: IStoresWithCategory }) => {
   return (
     <div className="glass-card rounded-2xl p-2 mb-8 animate-fade-in">
       <div className="flex flex-col md:flex-row gap-6 items-start">

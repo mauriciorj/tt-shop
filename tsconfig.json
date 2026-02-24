@@ -23,6 +23,7 @@
       "@/actions/*": ["./src/app/actions/*"],
       "@/components/*": ["./src/features/common/components/*"],
       "@/db/*": ["./src/features/db/*"],
+      "@/dtos/*": ["./src/features/common/dtos/*"],
       "@/hooks/*": ["./src/features/common/hooks/*"],
       "@/payment/*": ["./src/features/payment/*"],
       "@/product/*": ["./src/features/product/*"],
@@ -30,6 +31,7 @@
       "@/providers/*": ["./src/providers/*"],
       "@/store/*": ["./src/features/store/*"],
       "@/stores/*": ["./src/features/stores/*"],
+      "@/types/*": ["./src/features/common/types/*"],
       "@/utils/*": ["./src/features/common/utils/*"],
       "@/videos/*": ["./src/features/videos/*"],
       "@/ui/*": ["./src/features/common/components/ui/*"]

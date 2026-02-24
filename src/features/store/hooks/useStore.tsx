@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import { data as categories } from '@/hooks/useCategories'
-import { IStoreWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/store/types'
 import { useQuery } from '@tanstack/react-query'
 
 const useStore = () => {
