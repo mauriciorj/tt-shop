@@ -9,12 +9,12 @@ import {
 } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IProductWithCategory, TSortKey, TSortOrder } from '@/products/types'
+import { IProductsWithCategory, TSortKey, TSortOrder } from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   currentPage: number
-  items: IProductWithCategory[]
+  items: IProductsWithCategory[]
   onPageChange: (page: number) => void
   setSortKey: (key: TSortKey) => void
   setSortOrder: (order: TSortOrder) => void

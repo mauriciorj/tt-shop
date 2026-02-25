@@ -9,9 +9,9 @@ import {
   TrendingUp,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { IProductWithCategory } from '@/products/types'
+import { IProductsWithCategory } from '@/products/types'
 
-const CardsStats = ({ product }: { product: IProductWithCategory }) => {
+const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
   const getTrendIcon = () => {
     if (product.revenue_growth_rate >= 0)
       return <TrendingUp className="w-5 h-5 text-green-500" />

@@ -4,11 +4,11 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { IStoresWithCategory } from '@/stores/types'
-import { IProductWithCategory } from '@/products/types'
+import { IProductsWithCategory } from '@/products/types'
 import Image from 'next/image'
 
 interface SearchBarProps {
-  data: IStoresWithCategory[] | IProductWithCategory[]
+  data: IStoresWithCategory[] | IProductsWithCategory[]
   isStore?: boolean
   placeholder?: string
 }
@@ -30,7 +30,7 @@ const SearchBar = ({
   const suggestions =
     query.length > 0
       ? data
-          .filter((item: IStoresWithCategory | IProductWithCategory) =>
+          .filter((item: IStoresWithCategory | IProductsWithCategory) =>
             item.name.toLowerCase().includes(query.toLowerCase())
           )
           .slice(0, 6)
@@ -74,7 +74,7 @@ const SearchBar = ({
     }
   }
 
-  const handleSelect = (item: IStoresWithCategory | IProductWithCategory) => {
+  const handleSelect = (item: IStoresWithCategory | IProductsWithCategory) => {
     router.push(
       `${isStore ? '/store' : '/products'}/${item.name.toLowerCase().replace(/\s/g, '-')}`
     )
@@ -118,7 +118,7 @@ const SearchBar = ({
                   key={item.name}
                   onClick={() =>
                     handleSelect(
-                      item as IStoresWithCategory | IProductWithCategory
+                      item as IStoresWithCategory | IProductsWithCategory
                     )
                   }
                   onMouseEnter={() => setHighlightedIndex(index)}

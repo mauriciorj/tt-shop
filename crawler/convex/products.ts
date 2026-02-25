@@ -5,7 +5,7 @@ import { getUpdatedValues } from './utils'
 import { data as categories } from '@/hooks/useCategories'
 import ProductDto from '@/product/dtos/product'
 import TopProductsDto from '@/products/dtos/topProducts'
-import { IProductWithCategory } from '@/products/types'
+import { IProductsWithCategory } from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
 export const addProduct = mutation({
@@ -64,7 +64,7 @@ export const getAllProducts = query({
   handler: async (ctx) => {
     const products = await ctx.db.query('products').order('asc').collect()
 
-    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+    const resultsDto: { products: IProductsWithCategory[] } = new TopProductsDto(
       products
     )
 
@@ -100,7 +100,7 @@ export const getProducts = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+    const resultsDto: { products: IProductsWithCategory[] } = new TopProductsDto(
       products?.page
     )
 
@@ -151,7 +151,7 @@ export const getProductByName = query({
       (product) => normalizeUrl(product.name) === name
     )
 
-    const productDto: { product: IProductWithCategory | null } = new ProductDto(
+    const productDto: { product: IProductsWithCategory | null } = new ProductDto(
       getProduct
     )
 

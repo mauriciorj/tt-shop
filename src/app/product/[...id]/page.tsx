@@ -3,12 +3,15 @@
 import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import CreatorsTable from '@/components/creatorsTable'
+import VideosTable from '@/components/videosTable'
 import { Button } from '@/components/ui/button'
 import CardsStats from '@/product/components/cardsStats'
 import LineChart from '@/product/components/lineChart'
 import NotFoundProduct from '@/product/components/notFoundProduct'
 import useProduct from '@/product/hooks/useProduct'
 import Header from '@/product/components/header'
+import { ICreatorDto, IVideoDto } from '@/types/index'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -48,6 +51,12 @@ const ProductDetail = () => {
 
           {/* Line Chart */}
           <LineChart product={product} />
+
+          {/* Creators Table */}
+          <CreatorsTable data={product.top_creators as ICreatorDto[]} />
+
+          {/* Videos Table */}
+          <VideosTable data={product.top_videos as IVideoDto[]} />
         </div>
       </main>
     </div>

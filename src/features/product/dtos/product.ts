@@ -1,4 +1,4 @@
-import { ITopProducts, IProductWithCategory } from '@/products/types'
+import { ITopProducts, IProductWithCategory } from '@/product/types'
 
 export default class ProductDto {
   product: IProductWithCategory | null
@@ -32,6 +32,8 @@ export default class ProductDto {
       sales: data.k_sales,
       product_rating: data.product_rating,
       unit_price: data.unit_price,
+      top_creators: data?.k_top_creators || [],
+      top_videos: data?.k_top_videos || [],
     }
   }
 }
