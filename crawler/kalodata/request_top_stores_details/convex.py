@@ -15,6 +15,8 @@ def convex(data_map):
 
     try:
         client = ConvexClient(CONVEX_URL)
+
+        del data_map['id']
         
         client.mutation("stores:updateStore", data_map)
 

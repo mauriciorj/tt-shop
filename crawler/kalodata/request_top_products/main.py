@@ -12,7 +12,6 @@ from utils.save_json import save_json
 from request_top_products.request_api.main import main as request_api
 from request_top_products.request_api.dto import dto as dto
 from request_top_products.convex.main import main as db_handler_convex
-from request_top_products.postgres.main import main as db_handler_postgres
 
 # def load_json():
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,7 +22,7 @@ from request_top_products.postgres.main import main as db_handler_postgres
 #         data = json.load(f)
 #     return data
 
-def main(type='convex'): 
+def main(): 
     driver = chrome()
     login(driver)
 
@@ -32,7 +31,7 @@ def main(type='convex'):
 
     while page <= max_page:
         print("")
-        print("=========================")
+        print("========================= TOP PRODUCTS =========================")
         print(f"[ SELENIUM ] Page {page}")
         
         # STEP 01 - Request the top stores from API
@@ -50,14 +49,8 @@ def main(type='convex'):
         dto_result = dto(request_api_result)
 
         # STEP 05 - Save the response to correct database
-        if type == 'convex':
-            db_handler_convex(dto_result)
-        elif type == 'postgres':
-            db_handler_postgres(dto_result)
-        else:
-            print('[ SELENIUM ] Invalid type')
-            return
-    
+        db_handler_convex(dto_result)
+        
         page += 1
 
         sleep_time = random.randint(1, 10)

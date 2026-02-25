@@ -22,11 +22,11 @@
 
 ### Install the necessary libraries
 
-#### pip install -r ./selenium/requirements.txt
+#### pip install -r ./kalodata/requirements.txt
 
 ### Now it's ready to run any crawler
 
-#### python3 ./selenium/kalodata/main.py
+#### python3 ./kalodata/main.py
 
 ### Stop the virtual environment
 

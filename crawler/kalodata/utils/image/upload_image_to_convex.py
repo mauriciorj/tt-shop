@@ -7,6 +7,8 @@ from PIL import Image, ImageChops
 from convex import ConvexClient
 from dotenv import load_dotenv
 
+from utils.image.get_file_url import get_file_url
+
 load_dotenv(".env.local")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
@@ -31,8 +33,10 @@ def upload_image_to_convex(image_path):
         # STEP 03 - Save the storage ID into your database
         file_name = os.path.basename(image_path)
 
+        image_url = get_file_url(storage_id)
+
         # STEP 04 - Return the storage ID
-        return storage_id
+        return storage_id, image_url
 
     except Exception as e:
         save_error(source='utils/image/upload_image_to_convex', error=e)

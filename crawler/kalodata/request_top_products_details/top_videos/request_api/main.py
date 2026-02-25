@@ -12,8 +12,8 @@ def main(driver, id):
     # Prepare the payload (same as before)
     body = {
         "id": id,
-        "startDate": "2025-12-31",
-        "endDate": "2026-01-06",
+        "startDate": "2026-01-25",
+        "endDate": "2026-02-23",
         "cateIds": [],
         "pageNo": 1,
         "pageSize": 10,

@@ -1,0 +1,21 @@
+{
+    "success": true,
+    "data": [
+        {
+            "sec_cate_id": "Women's Bottoms",
+            "revenue": 26865.0230521266,
+            "sale": 8697,
+            "max_price": "$3.09",
+            "min_price": "$3.09",
+            "percentage": 100,
+            "pri_cate_id": "Womenswear & Underwear",
+            "partition_day": "2026-02-23",
+            "ter_cate_id": "Shorts",
+            "id": "1733804469874033816",
+            "product_title": "Cinta Elastique Feminina Modeladora Redutor Afina Cintura Mulher Fitness Abdominal Tecido Eleástico"
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

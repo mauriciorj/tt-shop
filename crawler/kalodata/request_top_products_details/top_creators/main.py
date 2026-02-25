@@ -6,7 +6,6 @@ from utils.save_json import save_json
 from request_top_products_details.top_creators.request_api.main import main as request_api
 from request_top_products_details.top_creators.request_api.dto import dto as dto
 from request_top_products_details.top_creators.convex.main import main as convex
-from request_top_products_details.top_creators.postgres.main import main as postgres
 
 # def load_json():
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +16,7 @@ from request_top_products_details.top_creators.postgres.main import main as post
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, type, page):
+def main(driver, k_id, page):
     # STEP 01 - Request the list of the top creators
     request_api_result = request_api(driver, k_id)
     
@@ -33,10 +32,7 @@ def main(driver, k_id, type, page):
     dto_result = dto(request_api_result)
     
     # STEP 05 - Save the response to correct database
-    if type == 'convex':
-        convex(dto_result)
-    elif type == 'postgres':
-        postgres(dto_result)
+    convex(dto_result)
 
     # STEP 06 - Return the response to correct database
     return dto_result

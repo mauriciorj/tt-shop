@@ -10,6 +10,7 @@ export const updateCreator = mutation({
     k_sales: v.optional(v.number()),
     k_video_revenue: v.optional(v.number()),
     storage_id: v.optional(v.string()),
+    image: v.optional(v.string()),
     tt_account: v.string(),
     tt_followers: v.number(),
     tt_nickname: v.string(),

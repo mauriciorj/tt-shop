@@ -6,8 +6,9 @@ export default class ProductDto {
   constructor(data: ITopProducts | undefined | null) {
     if (!data) {
       this.product = null
+      return
     }
-    this.product = this.getProducts(data!)
+    this.product = this.getProducts(data)
   }
 
   getProducts(data: ITopProducts): IProductWithCategory {

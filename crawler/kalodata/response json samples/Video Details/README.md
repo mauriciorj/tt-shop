@@ -1,0 +1,21 @@
+curl 'https://www.kalodata.com/video/detail/stat/queryProductList' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en-CA,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,en-GB;q=0.6,en-US;q=0.5' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -b 'page_session=9ae80483-76f3-4d30-808c-7d52d154a336; appVersion=2.0; deviceType=pc; _ga=GA1.1.814077482.1771978320; _fbp=fb.1.1771978319706.344985339503388737; Hm_lvt_8aa1693861618ac63989ae373e684811=1771978320; HMACCOUNT=5F6BA67955084790; smidV2=2026022419115991d652c0f5bf82ac589c9bb7a5c5a40400dba3dc2cc973de0; _c_WBKFRo=DyKJ51hRIK6RoPEfsWrPKLUNwjDTqX8st8g8Slko; _nb_ioWEgULi=; _tt_enable_cookie=1; _ttp=01KJ926TGZJPVTV451Z9CG6J9E_.tt.1; _clck=1kluc8d%5E2%5Eg3v%5E0%5E2247; deviceId=31cd713ebcb09ff6f31e95f6c02a6f4f; _cfuvid=6Mgvb3JI4qSS.ayoPI6KY3BlJ8PAOZe7j8HoBA3PiU0-1771978321.710385-1.0.1.1-ZTciG2RAGs0_qaFXvCfPRsa1hhelnmVJHgHjRB7xvF4; SESSION=YWUzNDBhMjctZjViNC00NjRiLTkyMjctNmYzODg2YWNhYzU3; _gcl_au=1.1.1460331686.1771978320.2133953944.1771978386.1771978746; cf_clearance=nSez.cPWX9tu9um0JZPOz_920QesEiLy8v03ZJo_VH4-1771979931-1.2.1.1-QA7ZD8.Wzq7btgcMCZluw0ejOzvjFAyh.xJSk8ijiFMJ9z5lb9acRY5Dw7XL9Xe0rVjRUqoxHcp75XvAP4j17_1h88mCK7NrfoYHbC2wKLdKkTtXL_w_0ijLyWr0wSHgfADhexIIkmsAg3n27hGHplXZcz560yvx5zUizZR5FL0uiR540AMtyTWCf_2sMw947CIWgF._H3h3jfhxCt_NZw_34J9WEV9dooRWGJryFUI; _ga_Q21FRKKG88=GS2.1.s1771978319$o1$g1$t1771980030$j59$l0$h0; _uetsid=9acab4b011de11f1bd339ff797b32130; _uetvid=9acb435011de11f1b03fc7ff6a15ed51; Hm_lpvt_8aa1693861618ac63989ae373e684811=1771980030; ttcsid=1771978320421::U9tOUPp0ZBv8p6MmRvk0.1.1771980030460.0; ttcsid_CM9SHDBC77U4KJBR96OG=1771978320420::jdvqThMdtTsmwV7JeY0W.1.1771980030461.1; .thumbcache_211a882976e013454a0403b9c1967076=YpPL5r5VwwpIV/l+0o7H4xfnkyE/TfgmPkg8vMXvvdVXF+bNDE5rd90+ks+mxO7w1N3Is1Dc1nUbnby4iv6kBg%3D%3D; _clsk=4pq1qd%5E1771980030578%5E17%5E1%5En.clarity.ms%2Fcollect' \
+  -H 'country: BR' \
+  -H 'currency: USD' \
+  -H 'language: en-US' \
+  -H 'origin: https://www.kalodata.com' \
+  -H 'pragma: no-cache' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://www.kalodata.com/video/detail?id=7598166442344746247&language=en-US&currency=USD&region=BR&dateRange=%5B%222026-01-25%22%2C%222026-02-23%22%5D' \
+  -H 'sec-ch-ua: "Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36' \
+  --data-raw '{"id":"7598166442344746247","startDate":"2026-01-25","endDate":"2026-02-23","authority":true}'

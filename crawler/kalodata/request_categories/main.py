@@ -10,7 +10,6 @@ from request_categories.request_api.main import main as request_api
 from request_categories.request_api.dto_only_main_category import dto as dto
 
 from request_categories.convex.main import main as db_handler_convex
-from request_categories.postgres.main import main as db_handler_postgres
 
 # def load_json():
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,7 +20,7 @@ from request_categories.postgres.main import main as db_handler_postgres
 #         data = json.load(f)
 #     return data
 
-def main(type='convex'):
+def main():
     driver = chrome()
     login(driver)
 
@@ -36,13 +35,7 @@ def main(type='convex'):
 
     dto_result = dto(request_api_result)
 
-    if type == 'convex':
-        db_handler_convex(dto_result)
-    elif type == 'postgres':
-        db_handler_postgres(dto_result)
-    else:
-        print('[ SELENIUM ] Invalid type')
-        return
+    db_handler_convex(dto_result)
 
 if __name__ == "__main__":
     main()

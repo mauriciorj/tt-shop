@@ -3,18 +3,28 @@ from request_top_products_details.top_videos.main import main as top_videos
 from request_top_products_details.top_products_sales.main import main as top_products_sales
 from request_top_products_details.convex import convex
 
-def handlers_control(driver, data, type, page):
+def handlers_control(driver, data, page):
     print('[ SELENIUM ] Requesting product by product...')
 
     for product in data:
+        print('')
+        print('')
+        print('product => ', product)
+
         id = product['_id']
         k_id = product['k_id']
+        main_category = product['main_category']
+
+        print('')
+        print('id => ', id)
+        print('k_id => ', k_id)
+        print('main_category => ', main_category)
 
         # Top creators
-        top_creators_result = top_creators(driver, k_id, type, page)
+        top_creators_result = top_creators(driver, k_id, page)
         
         # Top videos
-        top_videos_result = top_videos(driver, k_id, type, page)
+        top_videos_result = top_videos(driver, k_id, page, main_category)
 
         # Request the total sales
         top_products_sales_result = top_products_sales(driver, k_id, page)
@@ -35,9 +45,5 @@ def handlers_control(driver, data, type, page):
             'k_day_revenue': top_products_sales_result['k_day_revenue'],
         }
 
-        if type == 'convex':
-            convex(data_map)
-        elif type == 'postgres':
-            # do nothing
-            pass
+        convex(data_map)
         

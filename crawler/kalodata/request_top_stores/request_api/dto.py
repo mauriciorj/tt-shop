@@ -14,7 +14,7 @@ def dto(data):
 
         formated_data.append({
             'name': data['name'],
-            'name_url': normalize_url(data['product_title']),
+            'name_url': normalize_url(data['name']),
             'country': "br",
             'type': data['seller_type'].lower(),
             'main_category': str(pri_cat),
@@ -23,7 +23,9 @@ def dto(data):
             'unit_price': parse_value(data['unit_price']),
             'k_id': str(data['id']),
             'k_revenue': parse_value(data['revenue']),
-            'k_revenue_history': revenue_trend_to_float,
+            'k_revenue_history': revenue_history,
+            'k_revenue_history_14_days': revenue_history_14_days,
+            'k_revenue_history_7_days': revenue_history_7_days,
             'k_revenue_growth_rate': parse_value(data['revenue_grouping_rate']),
             'k_sales': int(parse_value(data['sale'])),
         })

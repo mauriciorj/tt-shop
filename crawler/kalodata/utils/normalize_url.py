@@ -1,3 +1,6 @@
+import unicodedata
+import re
+
 def normalize_url(text):
     if not text:
         return None

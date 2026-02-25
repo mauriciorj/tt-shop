@@ -8,9 +8,11 @@ import { ITopVideosWithCategory } from '@/videos/types'
 
 export const updateVideos = mutation({
   args: {
+    image: v.optional(v.string()),
     tt_account: v.optional(v.string()),
     storage_id: v.optional(v.string()),
     description: v.string(),
+    main_category: v.string(),
     views: v.number(),
     duration: v.string(),
     k_id: v.string(),

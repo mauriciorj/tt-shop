@@ -8,11 +8,13 @@ from utils.image.download_image_from_convex import download_image_from_convex
 from utils.image.download_image_from_k import download_image_from_k
 from utils.image.compare_images import compare_images
 from utils.image.upload_image_to_convex import upload_image_to_convex
+from utils.image.get_file_url import get_file_url
 
-def main(k_id, type):
+def main(k_id, type, client):
+    print("")
+    print("[ CONVEX ] Handling image...")
+
     try:
-        print("")
-        print("[ CONVEX ] Handling image...")
         # STEP 01 - Download image from Kalodata API
         k_image_path = download_image_from_k(k_id, type)
 
@@ -31,12 +33,14 @@ def main(k_id, type):
                     return
 
             # STEP 08 - Upload k_image to Convex
-            new_storage_id = upload_image_to_convex(k_image_path)
-            return new_storage_id
+            new_storage_id, image_url = upload_image_to_convex(k_image_path)
+
+            return new_storage_id, image_url
             print('[ CONVEX ] Image Handler finished')
 
         else:
             print(f"[ SELENIUM ] Failed to download image for store (k_id: {k_id}).")
+            return None, None
     except Exception as e:
         save_error(source=f'utils/image/main-{k_id}-{type}', error=e)
 

@@ -14,6 +14,9 @@ def convex(data):
 
     try:
         client = ConvexClient(CONVEX_URL)
+
+        if 'id' in data:
+            del data['id']
         
         client.mutation("products:updateProduct", data)
 

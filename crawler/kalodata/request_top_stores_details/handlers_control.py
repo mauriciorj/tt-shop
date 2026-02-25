@@ -4,24 +4,24 @@ from request_top_stores_details.top_videos.main import main as top_videos
 from request_top_stores_details.top_store_sales.main import main as top_store_sales
 
 from request_top_stores_details.convex import convex
-from request_top_stores_details.postgres import postgres_update
 
 
-def handlers_control(driver, data, type, page):
+def handlers_control(driver, data, page):
     print('[ SELENIUM ] Starting the requests...')
 
     for store in data:
         id = store['_id']
         k_id = store['k_id']
+        main_category = store['main_category']
 
         # Top creators
-        top_creators_result = top_creators(driver, k_id, type, page)
+        top_creators_result = top_creators(driver, k_id, page)
 
         # Request products details
         top_store_products_result = store_details_products(driver, k_id, page)
 
         # # Request the list of the top video
-        top_videos_result = top_videos(driver, k_id, type, page)
+        top_videos_result = top_videos(driver, k_id, page, main_category)
 
         # # Request the total sales
         top_store_sales_result = top_store_sales(driver, k_id, page)
@@ -46,7 +46,4 @@ def handlers_control(driver, data, type, page):
             'k_day_revenue': top_store_sales_result['k_day_revenue'],
         }
 
-        if type == 'convex':
-            convex(data_map)
-        elif type == 'postgres':
-            postgres_update(data_map)
+        convex(data_map)

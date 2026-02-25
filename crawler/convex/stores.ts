@@ -16,6 +16,7 @@ import { normalizeUrl } from '@/utils/string'
 export const addStore = mutation({
   args: {
     country: v.string(),
+    image: v.optional(v.string()),
     name: v.string(),
     name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
@@ -117,6 +118,26 @@ export const getStores = query({
 
     return {
       page: storesWithImages,
+      isDone: stores?.isDone,
+      continueCursor: stores?.continueCursor,
+      splitCursor: stores?.splitCursor,
+      pageStatus: stores?.pageStatus,
+    }
+  },
+})
+
+export const getStoresWithId = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const { paginationOpts } = args
+
+    const stores = await ctx.db
+      .query('stores')
+      .order('asc')
+      .paginate(paginationOpts)
+
+    return {
+      page: stores?.page,
       isDone: stores?.isDone,
       continueCursor: stores?.continueCursor,
       splitCursor: stores?.splitCursor,
@@ -265,7 +286,6 @@ export const getStoreByName = query({
 
 export const updateStore = mutation({
   args: {
-    id: v.id('stores'),
     k_id: v.string(),
     k_top_creators: v.array(v.string()),
     k_top_products: v.array(v.string()),
@@ -276,7 +296,7 @@ export const updateStore = mutation({
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
       .query('stores')
-      .filter((q) => q.eq(q.field('_id'), args.id))
+      .filter((q) => q.eq(q.field('k_id'), args.k_id))
       .first()
 
     if (queryResult) {

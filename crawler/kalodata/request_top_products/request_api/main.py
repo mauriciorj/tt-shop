@@ -10,8 +10,8 @@ def main(driver, page):
     # Prepare the payload (same as before)
     body = {
         "country": "BR",
-        "startDate": "2025-12-06",
-        "endDate": "2026-01-05",
+        "startDate": "2026-01-25",
+        "endDate": "2026-02-23",
         "cateIds": [],
         "showCateIds": [],
         "pageNo": page,

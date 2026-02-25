@@ -20,22 +20,23 @@ def main(data):
 
         for item in data:
             # STEP 01 - Handle images
-            new_storage_id = image_handler(k_id=item['k_id'], type='video')
+            new_storage_id, image_url = image_handler(k_id=item['k_id'], type='video', client=client)
 
             # STEP 02 - Add storage_id to item
             if new_storage_id:
                 item['storage_id'] = new_storage_id
 
-            print("[ CONVEX ] Adding / Updating video...")
+            # STEP 03 - Add image to item
+            if image_url:
+                item['image'] = image_url
 
-            # STEP 03 - Add / Update video
+            # STEP 04 - Add / Update video
             video_id = client.mutation("videos:updateVideos", item)
 
             print("[ CONVEX ] Updated video...")
 
-            # STEP 04 - Delete images from /images local folder
+            # STEP 05 - Delete images from /images local folder
             delete_images()
-
 
         print('[ SELENIUM ] Top Videos saved successfully')
         print("")

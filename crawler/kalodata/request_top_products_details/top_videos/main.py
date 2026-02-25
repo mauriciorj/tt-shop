@@ -16,7 +16,7 @@ from request_top_products_details.top_videos.convex.main import main as convex
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, type, page):
+def main(driver, k_id, page, main_category):
     # STEP 01 - Request the list of the top products
     request_api_result = request_api(driver, k_id)
     
@@ -30,14 +30,10 @@ def main(driver, k_id, type, page):
     save_json(data=request_api_result, file_name=f'request_top_products_details/top_videos/request_api/main_{page}.json')
 
     # STEP 04 - Convert the response to a DTO
-    dto_result = dto(request_api_result)
+    dto_result = dto(request_api_result, main_category)
     
     # STEP 05 - Save the response to correct database
-    if type == 'convex':
-        convex(dto_result)
-    elif type == 'postgres':
-        # do nothing
-        pass
+    convex(dto_result)
 
     # STEP 06 - Return the DTO
     return dto_result

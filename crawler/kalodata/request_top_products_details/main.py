@@ -18,28 +18,22 @@ CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 from utils.save_error import save_error
 
 from request_top_products_details.handlers_control import handlers_control
-from request_top_products_details.postgres import postgres_request
 
-def main(type='convex'):
+def main():
     driver = chrome()
     login(driver)
 
-    # Used in case type == 'convex'
     done = False
     cursor = None
     data = []
     num_items_per_page = 5
-
-    # Used in case type == 'postgres'
-    limit = 10
-    offset = 0
 
     # Used to save the JSON files
     page = 1
 
     while not done:
         print("")
-        print("=========================")
+        print("========================= PRODUCTS DETAILS =========================")
         print(f"[ SELENIUM ] Page {page}")
 
         try:
@@ -48,16 +42,10 @@ def main(type='convex'):
             request_db_result = None
 
             # STEP 01 - Request the top stores from database
-            if type == 'convex':
-                request_db_result = client.query("products:getProducts", {'paginationOpts': { 'numItems': num_items_per_page, 'cursor': cursor }})
-            elif type == 'postgres':
-                request_db_result = postgres_request(limit=limit, offset=offset)
+            request_db_result = client.query("products:getProductsWithId", {'paginationOpts': { 'numItems': num_items_per_page, 'cursor': cursor }})
 
             # STEP 02 - Check if the request was successful
-            if type == 'convex' and (request_db_result is None or request_db_result['page'] is None):
-                print('[ SELENIUM ] No more stores to process or error occurred.')
-                break
-            elif type == 'postgres' and request_db_result is None:
+            if request_db_result is None or request_db_result['page'] is None:
                 print('[ SELENIUM ] No more stores to process or error occurred.')
                 break
 
@@ -65,13 +53,12 @@ def main(type='convex'):
             save_json(data=request_db_result, file_name=f'request_top_products_details_{page}.json')
 
             # STEP 04 - Send the request result to handler
-            handlers_control(driver, request_db_result['page'], type, page)
+            handlers_control(driver, request_db_result['page'], page)
         
             # STEP 05 - Extract the page data, cursor, and completion status
             cursor = request_db_result['continueCursor']
             done = request_db_result["isDone"]
             data.extend(request_db_result['page'])
-            offset += limit
             page += 1
 
         except Exception as e:

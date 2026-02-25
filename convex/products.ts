@@ -126,6 +126,26 @@ export const getProducts = query({
   },
 })
 
+export const getProductsWithId = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const { paginationOpts } = args
+
+    const products = await ctx.db
+      .query('products')
+      .order('asc')
+      .paginate(paginationOpts)
+
+    return {
+      page: products?.page,
+      isDone: products?.isDone,
+      continueCursor: products?.continueCursor,
+      splitCursor: products?.splitCursor,
+      pageStatus: products?.pageStatus,
+    }
+  },
+})
+
 export const getProductByKId = query({
   args: { k_id: v.string() },
   handler: async (ctx, args) => {
@@ -238,7 +258,6 @@ export const getProductByName = query({
 
 export const updateProduct = mutation({
   args: {
-    id: v.id('products'),
     k_id: v.string(),
     k_day_sales: v.number(),
     k_day_revenue: v.number(),

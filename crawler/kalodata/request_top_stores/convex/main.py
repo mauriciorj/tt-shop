@@ -20,20 +20,22 @@ def main(data):
         
         for item in data:
             # STEP 01 - Handle images
-            new_storage_id = image_handler(k_id=item['k_id'], type='store')
+            new_storage_id, image_url = image_handler(k_id=item['k_id'], type='store', client=client)
 
             # STEP 02 - Add storage_id to item
             if new_storage_id:
                 item['storage_id'] = new_storage_id
+            
+            # STEP 03 - Add image to item
+            if image_url:
+                item['image'] = image_url
 
-            print("[ CONVEX ] Adding / Updating store...")
-
-            # STEP 03 - Add / Update store
-            result = client.mutation("stores:addStore", item)
+            # STEP 04 - Add / Update store
+            client.mutation("stores:addStore", item)
             
             print("[ CONVEX ] Updated store...")
             
-            # STEP 04 - Delete images from /images local folder
+            # STEP 05 - Delete images from /images local folder
             delete_images()
 
         print("[ CONVEX ] Stores added / updated successfully")
