@@ -2,15 +2,20 @@ import { mutation, query } from './_generated/server'
 import { paginationOptsValidator } from 'convex/server'
 import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
+import CreatorDto from '@/dtos/creator'
+import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
 import ProductDto from '@/product/dtos/product'
+import { IProductWithCategory } from '@/product/types'
 import TopProductsDto from '@/products/dtos/topProducts'
 import { IProductsWithCategory } from '@/products/types'
+import { ICreatorDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
 export const addProduct = mutation({
   args: {
     country: v.string(),
+    image: v.optional(v.string()),
     k_id: v.string(),
     k_creator_conversion_ratio: v.number(),
     k_revenue: v.number(),
@@ -64,9 +69,8 @@ export const getAllProducts = query({
   handler: async (ctx) => {
     const products = await ctx.db.query('products').order('asc').collect()
 
-    const resultsDto: { products: IProductsWithCategory[] } = new TopProductsDto(
-      products
-    )
+    const resultsDto: { products: IProductsWithCategory[] } =
+      new TopProductsDto(products)
 
     // Add the image url to the product
     const productsWithImages = await Promise.all(
@@ -100,9 +104,8 @@ export const getProducts = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { products: IProductsWithCategory[] } = new TopProductsDto(
-      products?.page
-    )
+    const resultsDto: { products: IProductsWithCategory[] } =
+      new TopProductsDto(products?.page)
 
     const productsWithImages = await Promise.all(
       resultsDto?.products?.map(async (product) => {
@@ -151,15 +154,83 @@ export const getProductByName = query({
       (product) => normalizeUrl(product.name) === name
     )
 
-    const productDto: { product: IProductsWithCategory | null } = new ProductDto(
+    const productDto: { product: IProductWithCategory | null } = new ProductDto(
       getProduct
     )
+
+    if (!productDto?.product) {
+      return null
+    }
 
     if (productDto?.product?.image) {
       productDto.product.image = await ctx.storage.getUrl(
         productDto.product.image
       )
     }
+
+    const getTopCreators: ICreatorDto[] = []
+    if (
+      productDto.product?.top_creators &&
+      productDto.product?.top_creators?.length > 0
+    ) {
+      await Promise.all(
+        productDto.product?.top_creators?.map(async (creator) => {
+          const getCreator = await ctx.db
+            .query('creators')
+            .filter((q) => q.eq(q.field('k_id'), creator as string))
+            .first()
+
+          if (getCreator) {
+            const creatorDto: { creator: ICreatorDto | null } = new CreatorDto(
+              getCreator
+            )
+            let image = null
+            if (creatorDto.creator?.storage_id) {
+              image = await ctx.storage.getUrl(creatorDto.creator.storage_id)
+            }
+            delete creatorDto.creator?.storage_id
+            getTopCreators.push({
+              ...creatorDto.creator!,
+              image,
+            })
+          }
+        })
+      )
+    }
+
+    const getTopVideos: IVideoDto[] = []
+    if (
+      productDto.product?.top_videos &&
+      productDto.product?.top_videos?.length > 0
+    ) {
+      await Promise.all(
+        productDto.product?.top_videos?.map(async (video) => {
+          const getVideo = await ctx.db
+            .query('videos')
+            .filter((q) => q.eq(q.field('k_id'), video as string))
+            .first()
+
+          if (getVideo) {
+            const videoDto: { video: IVideoDto | null } = new VideoDto(getVideo)
+            let image = null
+            if (videoDto.video?.storage_id) {
+              image = await ctx.storage.getUrl(videoDto.video.storage_id)
+            }
+            delete videoDto.video?.storage_id
+            getTopVideos.push({
+              ...videoDto.video!,
+              image,
+            })
+          }
+        })
+      )
+    }
+
+    delete productDto.product?.top_creators
+    productDto.product.top_creators = getTopCreators
+
+    delete productDto.product?.top_videos
+    productDto.product.top_videos = getTopVideos
 
     return productDto.product
   },

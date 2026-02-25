@@ -165,7 +165,7 @@ export const getStoreByName = query({
       storeDto.store.image = await ctx.storage.getUrl(storeDto.store.image)
     }
 
-    let getTopCreators: ICreatorDto[] = []
+    const getTopCreators: ICreatorDto[] = []
     if (
       storeDto.store?.top_creators &&
       storeDto.store?.top_creators?.length > 0
@@ -195,7 +195,7 @@ export const getStoreByName = query({
       )
     }
 
-    let getTopProducts: IProductDto[] = []
+    const getTopProducts: IProductDto[] = []
     if (
       storeDto.store?.top_products &&
       storeDto.store?.top_products?.length > 0
@@ -225,7 +225,7 @@ export const getStoreByName = query({
       )
     }
 
-    let getTopVideos: IVideoDto[] = []
+    const getTopVideos: IVideoDto[] = []
     if (storeDto.store?.top_videos && storeDto.store?.top_videos?.length > 0) {
       await Promise.all(
         storeDto.store?.top_videos?.map(async (video) => {

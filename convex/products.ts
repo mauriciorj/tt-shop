@@ -15,6 +15,7 @@ import { normalizeUrl } from '@/utils/string'
 export const addProduct = mutation({
   args: {
     country: v.string(),
+    image: v.optional(v.string()),
     k_id: v.string(),
     k_creator_conversion_ratio: v.number(),
     k_revenue: v.number(),

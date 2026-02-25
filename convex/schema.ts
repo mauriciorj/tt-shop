@@ -16,6 +16,7 @@ export default defineSchema({
   creators: defineTable({
     k_id: v.string(),
     storage_id: v.optional(v.string()),
+    image: v.optional(v.string()),
     tt_account: v.string(),
     tt_nickname: v.string(),
     tt_followers: v.number(),
@@ -31,6 +32,7 @@ export default defineSchema({
     name: v.string(),
     name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
+    image: v.optional(v.string()),
     launch_date: v.string(),
     product_rating: v.number(),
     main_category: v.string(),
@@ -57,6 +59,7 @@ export default defineSchema({
     name: v.string(),
     name_url: v.optional(v.string()),
     storage_id: v.optional(v.string()),
+    image: v.optional(v.string()),
     type: v.string(),
     main_category: v.string(),
     second_category: v.optional(v.string()),
@@ -80,6 +83,7 @@ export default defineSchema({
   videos: defineTable({
     tt_account: v.optional(v.string()),
     storage_id: v.optional(v.string()),
+    image: v.optional(v.string()),
     description: v.string(),
     views: v.number(),
     duration: v.string(),
