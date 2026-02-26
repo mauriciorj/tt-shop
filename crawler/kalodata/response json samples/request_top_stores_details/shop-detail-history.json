@@ -1,0 +1,278 @@
+{
+    "success": true,
+    "data": [
+        {
+            "sale": 5168,
+            "revenue": 37260.92,
+            "self_promotion_revenue": 1138.68,
+            "affiliate_revenue": 35462.63,
+            "partition_day": "2026-01-27",
+            "shopping_mall_revenue": 659.61,
+            "unit_price": 7.21
+        },
+        {
+            "sale": 5340,
+            "revenue": 39515.91,
+            "self_promotion_revenue": 702.75,
+            "affiliate_revenue": 38435.96,
+            "partition_day": "2026-01-28",
+            "shopping_mall_revenue": 377.19,
+            "unit_price": 7.4
+        },
+        {
+            "sale": 7706,
+            "revenue": 49943.52,
+            "self_promotion_revenue": 1486.93,
+            "affiliate_revenue": 48257.16,
+            "partition_day": "2026-01-29",
+            "shopping_mall_revenue": 199.43,
+            "unit_price": 6.48
+        },
+        {
+            "sale": 6278,
+            "revenue": 42397.01,
+            "self_promotion_revenue": 1224.03,
+            "affiliate_revenue": 41141.9,
+            "partition_day": "2026-01-30",
+            "shopping_mall_revenue": 31.08,
+            "unit_price": 6.75
+        },
+        {
+            "sale": 5767,
+            "revenue": 38114.91,
+            "self_promotion_revenue": 254.85,
+            "affiliate_revenue": 37799.92,
+            "partition_day": "2026-01-31",
+            "shopping_mall_revenue": 60.14,
+            "unit_price": 6.61
+        },
+        {
+            "sale": 7284,
+            "revenue": 46838.97,
+            "self_promotion_revenue": 1296.78,
+            "affiliate_revenue": 45437.97,
+            "partition_day": "2026-02-01",
+            "shopping_mall_revenue": 104.22,
+            "unit_price": 6.43
+        },
+        {
+            "sale": 7119,
+            "revenue": 46919.26,
+            "self_promotion_revenue": 1555.67,
+            "affiliate_revenue": 44968.65,
+            "partition_day": "2026-02-02",
+            "shopping_mall_revenue": 394.94,
+            "unit_price": 6.59
+        },
+        {
+            "sale": 6820,
+            "revenue": 44842.57,
+            "self_promotion_revenue": 627.96,
+            "affiliate_revenue": 44100.12,
+            "partition_day": "2026-02-03",
+            "shopping_mall_revenue": 114.49,
+            "unit_price": 6.58
+        },
+        {
+            "sale": 8271,
+            "revenue": 55311.63,
+            "self_promotion_revenue": 842.36,
+            "affiliate_revenue": 54396.79,
+            "partition_day": "2026-02-04",
+            "shopping_mall_revenue": 72.49,
+            "unit_price": 6.69
+        },
+        {
+            "sale": 7126,
+            "revenue": 50457.31,
+            "self_promotion_revenue": 1075.28,
+            "affiliate_revenue": 49021.55,
+            "partition_day": "2026-02-05",
+            "shopping_mall_revenue": 360.48,
+            "unit_price": 7.08
+        },
+        {
+            "sale": 5737,
+            "revenue": 44170.38,
+            "self_promotion_revenue": 1953.83,
+            "affiliate_revenue": 42177.31,
+            "partition_day": "2026-02-06",
+            "shopping_mall_revenue": 39.24,
+            "unit_price": 7.7
+        },
+        {
+            "sale": 5537,
+            "revenue": 40699.52,
+            "self_promotion_revenue": 888.09,
+            "affiliate_revenue": 39778.25,
+            "partition_day": "2026-02-07",
+            "shopping_mall_revenue": 33.18,
+            "unit_price": 7.35
+        },
+        {
+            "sale": 5880,
+            "revenue": 44003.76,
+            "self_promotion_revenue": 933.51,
+            "affiliate_revenue": 41196.67,
+            "partition_day": "2026-02-08",
+            "shopping_mall_revenue": 1873.58,
+            "unit_price": 7.48
+        },
+        {
+            "sale": 5694,
+            "revenue": 41117.92,
+            "self_promotion_revenue": 1872.68,
+            "affiliate_revenue": 39235.55,
+            "partition_day": "2026-02-09",
+            "shopping_mall_revenue": 9.7,
+            "unit_price": 7.22
+        },
+        {
+            "sale": 5661,
+            "revenue": 41011.35,
+            "self_promotion_revenue": 1367.35,
+            "affiliate_revenue": 39355.77,
+            "partition_day": "2026-02-10",
+            "shopping_mall_revenue": 288.23,
+            "unit_price": 7.24
+        },
+        {
+            "sale": 4876,
+            "revenue": 37321.82,
+            "self_promotion_revenue": 1914.11,
+            "affiliate_revenue": 35407.72,
+            "partition_day": "2026-02-11",
+            "shopping_mall_revenue": 0,
+            "unit_price": 7.65
+        },
+        {
+            "sale": 4909,
+            "revenue": 39456.41,
+            "self_promotion_revenue": 2196.45,
+            "affiliate_revenue": 36837.98,
+            "partition_day": "2026-02-12",
+            "shopping_mall_revenue": 421.97,
+            "unit_price": 8.04
+        },
+        {
+            "sale": 3815,
+            "revenue": 30287.54,
+            "self_promotion_revenue": 1154.29,
+            "affiliate_revenue": 29075.27,
+            "partition_day": "2026-02-13",
+            "shopping_mall_revenue": 57.98,
+            "unit_price": 7.94
+        },
+        {
+            "sale": 3532,
+            "revenue": 27918.09,
+            "self_promotion_revenue": 1066.88,
+            "affiliate_revenue": 26835.71,
+            "partition_day": "2026-02-14",
+            "shopping_mall_revenue": 15.5,
+            "unit_price": 7.9
+        },
+        {
+            "sale": 3007,
+            "revenue": 23729.01,
+            "self_promotion_revenue": 974.44,
+            "affiliate_revenue": 22599.32,
+            "partition_day": "2026-02-15",
+            "shopping_mall_revenue": 155.25,
+            "unit_price": 7.89
+        },
+        {
+            "sale": 3898,
+            "revenue": 30357.9,
+            "self_promotion_revenue": 1449.02,
+            "affiliate_revenue": 28853.5,
+            "partition_day": "2026-02-16",
+            "shopping_mall_revenue": 55.37,
+            "unit_price": 7.79
+        },
+        {
+            "sale": 4511,
+            "revenue": 35190.64,
+            "self_promotion_revenue": 1307.02,
+            "affiliate_revenue": 33850.32,
+            "partition_day": "2026-02-17",
+            "shopping_mall_revenue": 33.3,
+            "unit_price": 7.8
+        },
+        {
+            "sale": 4297,
+            "revenue": 33601.97,
+            "self_promotion_revenue": 1329.12,
+            "affiliate_revenue": 32251.07,
+            "partition_day": "2026-02-18",
+            "shopping_mall_revenue": 21.77,
+            "unit_price": 7.82
+        },
+        {
+            "sale": 5114,
+            "revenue": 41636.73,
+            "self_promotion_revenue": 1645.86,
+            "affiliate_revenue": 39909.34,
+            "partition_day": "2026-02-19",
+            "shopping_mall_revenue": 81.52,
+            "unit_price": 8.14
+        },
+        {
+            "sale": 5022,
+            "revenue": 40953.26,
+            "self_promotion_revenue": 1390.42,
+            "affiliate_revenue": 39562.84,
+            "partition_day": "2026-02-20",
+            "shopping_mall_revenue": 0,
+            "unit_price": 8.15
+        },
+        {
+            "sale": 5116,
+            "revenue": 42518.65,
+            "self_promotion_revenue": 1201.91,
+            "affiliate_revenue": 41316.74,
+            "partition_day": "2026-02-21",
+            "shopping_mall_revenue": 0,
+            "unit_price": 8.31
+        },
+        {
+            "sale": 5867,
+            "revenue": 47632.72,
+            "self_promotion_revenue": 3062.66,
+            "affiliate_revenue": 44570.06,
+            "partition_day": "2026-02-22",
+            "shopping_mall_revenue": 0,
+            "unit_price": 8.12
+        },
+        {
+            "sale": 5580,
+            "revenue": 45806.52,
+            "self_promotion_revenue": 1462.43,
+            "affiliate_revenue": 44344.1,
+            "partition_day": "2026-02-23",
+            "shopping_mall_revenue": 0,
+            "unit_price": 8.21
+        },
+        {
+            "sale": 4875,
+            "revenue": 40292.83,
+            "self_promotion_revenue": 404.66,
+            "affiliate_revenue": 39888.17,
+            "partition_day": "2026-02-24",
+            "shopping_mall_revenue": 0,
+            "unit_price": 8.27
+        },
+        {
+            "sale": 6241,
+            "revenue": 50867.02,
+            "self_promotion_revenue": 1706.18,
+            "affiliate_revenue": 49138.45,
+            "partition_day": "2026-02-25",
+            "shopping_mall_revenue": 22.39,
+            "unit_price": 8.15
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

@@ -21,25 +21,16 @@ from utils.save_error import save_error
 from selenium_utils import selenium_fetch
 
 def main(driver, id):
-    print('')
-    print('[ SELENIUM ] Requesting top creators...')
+    print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES REQUEST API ]')
 
-    search_url = 'https://www.kalodata.com/product/detail/creator/queryList'
+    search_url = 'https://www.kalodata.com/product/detail/total'
 
     # Prepare the payload (same as before)
     body = {
         "id": id,
         "startDate": "2026-01-25",
         "endDate": "2026-02-23",
-        "cateIds": [],
-        "pageNo": 1,
-        "pageSize": 10,
-        "sort": [
-            {
-                "field": "revenue",
-                "type": "DESC"
-            }
-        ],
+        "authority": True,
     }
     
     headers = {
@@ -56,11 +47,11 @@ def main(driver, id):
         # Use our new helper function
         data = selenium_fetch(driver, search_url, method="POST", headers=headers, json_data=body)
 
-        print('[ SELENIUM ] Request data done')
+        print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES REQUEST API ] Request data done')
         return data
 
     except Exception as e:
-        save_error(source='request_top_products_details/top_products_sales/request/main', error=e)
+        save_error(source='request_top_products_details-top_products_sales-request_api', error=e)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,21 @@
+curl 'https://www.kalodata.com/shop/detail/searchCooperativeCreators' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en-CA,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,en-GB;q=0.6,en-US;q=0.5' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -b 'appVersion=2.0; deviceType=pc; _ga=GA1.1.814077482.1771978320; _fbp=fb.1.1771978319706.344985339503388737; Hm_lvt_8aa1693861618ac63989ae373e684811=1771978320; smidV2=2026022419115991d652c0f5bf82ac589c9bb7a5c5a40400dba3dc2cc973de0; _c_WBKFRo=DyKJ51hRIK6RoPEfsWrPKLUNwjDTqX8st8g8Slko; _tt_enable_cookie=1; _ttp=01KJ926TGZJPVTV451Z9CG6J9E_.tt.1; deviceId=31cd713ebcb09ff6f31e95f6c02a6f4f; SESSION=OTZmZDkzMjktMjYwNS00MTA0LWE3YWMtYmYyOGUzZjRmNDYx; _gcl_au=1.1.1460331686.1771978320.222654761.1771996742.1771996741; page_session=2487c518-71e2-411c-bad4-2114ee28cae5; cf_clearance=IjMPsLeWg.IHF7Ugxt8.otpd0Y2C_L7KpMuxZAVi.PA-1772121798-1.2.1.1-mh7.NbB7JTTsPZLEsKn3zCedSo.CRS9vLu_eXUely3JWqVxvGKwdOxifmWGCRq5RRN1Cts0watvZspC4hVGOiIU71yhvwsNrnYideadApYqVEWYdEAwxqwXhPLj6rNOhCgPn.u7TV5k8pPgN9wOTnpLT5IxjX34yQqYSgGi9D8FjzQ3iD.Jm3_WgbPD5qKIjN_YkTQCnO7dJLv9fsFxPTqBztns2YgZT0G.n2RrLGEo; _clck=1kluc8d%5E2%5Eg3w%5E0%5E2247; _cfuvid=7kCJqaiv9V08FhFM.M6mQPyaGXINQiC0bWguVwf72_A-1772121798.7739217-1.0.1.1-ognATHYSTEqFPUAediPDE4Xa.YLo1Q.jW4F93KnuIhw; _bl_uid=sqmInmIp3LpnvtkUqcOm2kqithnI; _uetsid=aae833c0132c11f1af52d7f14aa25787; _uetvid=9acb435011de11f1b03fc7ff6a15ed51; _clsk=15cx6or%5E1772121807715%5E2%5E1%5Ee.clarity.ms%2Fcollect; .thumbcache_211a882976e013454a0403b9c1967076=mSlRIAYL34ue4Plej4W70H5lC5rzBjpqL6iRpqMfg+faytZWmdfozScyKcbyu80WRaCcyL5E/S3QiaJmvG52Bg%3D%3D; _ga_Q21FRKKG88=GS2.1.s1772121798$o6$g1$t1772122143$j60$l0$h0; ttcsid_CM9SHDBC77U4KJBR96OG=1772121799351::abXKQWcRbWh3zaH15Q0g.5.1772122143383.1; ttcsid=1772121799351::V9FcfpAcbPEk27tukwIZ.5.1772122143384.0' \
+  -H 'country: BR' \
+  -H 'currency: USD' \
+  -H 'language: en-US' \
+  -H 'origin: https://www.kalodata.com' \
+  -H 'pragma: no-cache' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://www.kalodata.com/shop/detail?id=7496216394903488730&language=en-US&currency=USD&region=BR&dateRange=%5B%222026-01-27%22%2C%222026-02-25%22%5D&cateValue=%5B%5D' \
+  -H 'sec-ch-ua: "Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36' \
+  --data-raw '{"id":"7496216394903488730","startDate":"2026-01-27","endDate":"2026-02-25","cateIds":[],"authority":true,"pageNo":1,"pageSize":10,"sort":[{"field":"revenue","type":"DESC"}],"creatorType":""}'

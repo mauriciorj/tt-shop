@@ -13,7 +13,7 @@ CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 def main(data):
     print('')
-    print('[ SELENIUM ] Saving Top Creators to DB...')
+    print('[ PRODUCTS DETAILS - TOP CREATORS - CONVEX ] Saving Top Creators to DB...')
 
     try:
         client = ConvexClient(CONVEX_URL)
@@ -33,20 +33,16 @@ def main(data):
             # STEP 04 - Add / Update store
             creator_id = client.mutation("creators:updateCreator", item)
 
-            print("[ CONVEX ] Updated creator...")
-
             # STEP 05 - Delete images from /images local folder
             delete_images()
     
-        print('[ SELENIUM ] Top Creators saved successfully')
-        print("")
+        print('[ PRODUCTS DETAILS - TOP CREATORS - CONVEX ] Top Creators saved successfully')
             
 
     except Exception as e:
-        save_error(source='request_top_products_details/top_creators/convex/main', error=e)
+        save_error(source='request_top_products_details-top_creators-convex', error=e)
 
     finally:
-        print("[ SELENIUM ] Closing connection...")
         return True
 
 if __name__ == "__main__":

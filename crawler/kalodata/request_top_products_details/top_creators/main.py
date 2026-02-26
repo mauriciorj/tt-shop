@@ -17,12 +17,15 @@ from request_top_products_details.top_creators.convex.main import main as convex
 #     return data
 
 def main(driver, k_id, page):
+    print("")
+    print('[ PRODUCTS DETAILS - TOP CREATORS ]')
+    
     # STEP 01 - Request the list of the top creators
     request_api_result = request_api(driver, k_id)
     
     if request_api_result['data'] is None:
         print('')
-        print('[ SELENIUM ] Request top creators is None')
+        print('[ PRODUCTS DETAILS - TOP CREATORS ] Request top creators is None')
         return
 
     # STEP 03 - Save the response to a JSON file

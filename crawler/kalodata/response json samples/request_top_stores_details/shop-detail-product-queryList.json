@@ -1,0 +1,88 @@
+{
+    "success": true,
+    "data": [
+        {
+            "revenue": "$240.19k",
+            "sale": "44.24k",
+            "id": "1731763206746768602",
+            "unit_price": "$5.43",
+            "collect_day": "2025-07-15",
+            "product_title": "Pro3Magnésio - L-Treonina, Quelato e Dimalato - 60 Cápsulas"
+        },
+        {
+            "revenue": "$173.50k",
+            "sale": "16.28k",
+            "id": "1732390895662892250",
+            "unit_price": "$10.66",
+            "collect_day": "2025-09-06",
+            "product_title": "Kit Pro3Magnesio + FitS36 + Picolinato de Cromo"
+        },
+        {
+            "revenue": "$118.11k",
+            "sale": "16.55k",
+            "id": "1733981371318633690",
+            "unit_price": "$7.14",
+            "collect_day": "2026-01-12",
+            "product_title": "Complexo B – Forma Ativa B9 (Metilfolato) e B12 (Metilcobalamina) Contém todas as vitaminas do complexo B, incluindo Biotina, Niacina e Piridoxina Fórmula completa com dose alta - Always Fit"
+        },
+        {
+            "revenue": "$104.51k",
+            "sale": "12.84k",
+            "id": "1732896043772839130",
+            "unit_price": "$8.14",
+            "collect_day": "2025-10-19",
+            "product_title": "Kit Pro3Magnésio + FitS36"
+        },
+        {
+            "revenue": "$80.01k",
+            "sale": "14.76k",
+            "id": "1731772880785605850",
+            "unit_price": "$5.42",
+            "collect_day": "2025-07-22",
+            "product_title": "N-Acetil L-Cisteína NAC - 600mg Vegano Sem Corantes Antioxidante Selênio Molibdênio 30 Cápsulas"
+        },
+        {
+            "revenue": "$79.18k",
+            "sale": "11.68k",
+            "id": "1731763679165777114",
+            "unit_price": "$6.78",
+            "collect_day": "2025-07-05",
+            "product_title": "FitS36 - Laranja Moro, Cafeína, Carnitina, Psyllium, Cromo e Spirulina - 60 Cápsulas"
+        },
+        {
+            "revenue": "$61.68k",
+            "sale": "9.58k",
+            "id": "1731770826763437274",
+            "unit_price": "$6.44",
+            "collect_day": "2025-07-18",
+            "product_title": "Composto Meno - Óleos de Prímula, Borragem, Linhaça e Vitamina E"
+        },
+        {
+            "revenue": "$55.76k",
+            "sale": "1.72k",
+            "id": "1732760621060752602",
+            "unit_price": "$32.38",
+            "collect_day": "2025-10-12",
+            "product_title": "Kit Fit S36 + Pro3Magnesio + Picolinato de Cromo + NAC"
+        },
+        {
+            "revenue": "$49.85k",
+            "sale": "8.93k",
+            "id": "1731762429845734618",
+            "unit_price": "$5.58",
+            "collect_day": "2025-07-21",
+            "product_title": "Óleo de Semente de Abóbora Gotas com Vitamina D3 e Vitamina E"
+        },
+        {
+            "revenue": "$49.72k",
+            "sale": "10.52k",
+            "id": "1731763709227795674",
+            "unit_price": "$4.73",
+            "collect_day": "2025-07-23",
+            "product_title": "Picolinato de Cromo 250mcg - 60 Cápsulas - Always Fit"
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

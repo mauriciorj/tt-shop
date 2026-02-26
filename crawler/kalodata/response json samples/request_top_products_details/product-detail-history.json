@@ -1,0 +1,278 @@
+{
+    "success": true,
+    "data": [
+        {
+            "revenue": 23107.929033204367,
+            "sale": 4513,
+            "creatorConversionRatio": 0.2296211251435132,
+            "video_revenue": 21530.875600404142,
+            "partition_day": "2026-01-27",
+            "unit_price": 5.120303353247103,
+            "live_revenue": 1577.0534328001072
+        },
+        {
+            "revenue": 26363.71267549626,
+            "sale": 5075,
+            "creatorConversionRatio": 0.20520833333333333,
+            "video_revenue": 25454.619134962013,
+            "partition_day": "2026-01-28",
+            "unit_price": 5.194820231624916,
+            "live_revenue": 909.0935405343596
+        },
+        {
+            "revenue": 27254.435389746333,
+            "sale": 5261,
+            "creatorConversionRatio": 0.21078921078921078,
+            "video_revenue": 25938.59684403347,
+            "partition_day": "2026-01-29",
+            "unit_price": 5.180466715405133,
+            "live_revenue": 1315.8385457129036
+        },
+        {
+            "revenue": 21903.508701363393,
+            "sale": 4248,
+            "creatorConversionRatio": 0.2595494613124388,
+            "video_revenue": 20382.43170821315,
+            "partition_day": "2026-01-30",
+            "unit_price": 5.156193197119427,
+            "live_revenue": 1521.0769931502311
+        },
+        {
+            "revenue": 23527.13514533596,
+            "sale": 4594,
+            "creatorConversionRatio": 0.23049001814882034,
+            "video_revenue": 21534.959357017455,
+            "partition_day": "2026-01-31",
+            "unit_price": 5.121274520099291,
+            "live_revenue": 1992.1757883186253
+        },
+        {
+            "revenue": 19962.72807934682,
+            "sale": 3898,
+            "creatorConversionRatio": 0.2560763888888889,
+            "video_revenue": 16782.4166023653,
+            "partition_day": "2026-02-01",
+            "unit_price": 5.121274520099291,
+            "live_revenue": 3180.3114769816684
+        },
+        {
+            "revenue": 22777.250310189156,
+            "sale": 4438,
+            "creatorConversionRatio": 0.21114369501466276,
+            "video_revenue": 20400.98467395262,
+            "partition_day": "2026-02-02",
+            "unit_price": 5.132323188415745,
+            "live_revenue": 2376.2656362364924
+        },
+        {
+            "revenue": 23608.142752277334,
+            "sale": 4590,
+            "creatorConversionRatio": 0.19414703783012136,
+            "video_revenue": 21674.229533354304,
+            "partition_day": "2026-02-03",
+            "unit_price": 5.143386220539688,
+            "live_revenue": 1933.9132189229226
+        },
+        {
+            "revenue": 22769.125514815023,
+            "sale": 4416,
+            "creatorConversionRatio": 0.18745785569790965,
+            "video_revenue": 20691.236569509263,
+            "partition_day": "2026-02-04",
+            "unit_price": 5.156051973463571,
+            "live_revenue": 2077.8889453058205
+        },
+        {
+            "revenue": 22523.18165002983,
+            "sale": 4408,
+            "creatorConversionRatio": 0.19081967213114753,
+            "video_revenue": 20177.86849727032,
+            "partition_day": "2026-02-05",
+            "unit_price": 5.109614711894223,
+            "live_revenue": 2345.3131527594524
+        },
+        {
+            "revenue": 24133.24300207589,
+            "sale": 4506,
+            "creatorConversionRatio": 0.17583081570996978,
+            "video_revenue": 22226.577554064523,
+            "partition_day": "2026-02-06",
+            "unit_price": 5.355801820256501,
+            "live_revenue": 1906.6654480113107
+        },
+        {
+            "revenue": 22336.14264871953,
+            "sale": 4329,
+            "creatorConversionRatio": 0.1807073954983923,
+            "video_revenue": 20643.776100144813,
+            "partition_day": "2026-02-07",
+            "unit_price": 5.1596541115083285,
+            "live_revenue": 1692.3665485747292
+        },
+        {
+            "revenue": 26850.839996289313,
+            "sale": 5204,
+            "creatorConversionRatio": 0.1998658618376928,
+            "video_revenue": 24879.852125693145,
+            "partition_day": "2026-02-08",
+            "unit_price": 5.1596541115083285,
+            "live_revenue": 1970.9878705961792
+        },
+        {
+            "revenue": 24631.67811831924,
+            "sale": 5101,
+            "creatorConversionRatio": 0.19696117051209905,
+            "video_revenue": 22342.829769351625,
+            "partition_day": "2026-02-09",
+            "unit_price": 4.828793985163516,
+            "live_revenue": 2288.8483489675023
+        },
+        {
+            "revenue": 27342.84011840221,
+            "sale": 5362,
+            "creatorConversionRatio": 0.2032520325203252,
+            "video_revenue": 24573.880367508493,
+            "partition_day": "2026-02-10",
+            "unit_price": 5.099373390227963,
+            "live_revenue": 2768.9597508937854
+        },
+        {
+            "revenue": 26741.58578040434,
+            "sale": 4877,
+            "creatorConversionRatio": 0.2273166023166023,
+            "video_revenue": 23106.221545750388,
+            "partition_day": "2026-02-11",
+            "unit_price": 5.483203973837285,
+            "live_revenue": 3635.364234654119
+        },
+        {
+            "revenue": 29510.511892526458,
+            "sale": 5379,
+            "creatorConversionRatio": 0.22204125950054288,
+            "video_revenue": 26438.214688619795,
+            "partition_day": "2026-02-12",
+            "unit_price": 5.486245006976527,
+            "live_revenue": 3072.297203906857
+        },
+        {
+            "revenue": 18820.82068927593,
+            "sale": 3457,
+            "creatorConversionRatio": 0.1813031161473088,
+            "video_revenue": 17334.536614016404,
+            "partition_day": "2026-02-13",
+            "unit_price": 5.4442640119398344,
+            "live_revenue": 1486.284075259573
+        },
+        {
+            "revenue": 30465.145062539275,
+            "sale": 5595,
+            "creatorConversionRatio": 0.2542955326460481,
+            "video_revenue": 26925.852070466146,
+            "partition_day": "2026-02-14",
+            "unit_price": 5.445066141651423,
+            "live_revenue": 3539.2929920734314
+        },
+        {
+            "revenue": 24312.22032247323,
+            "sale": 4465,
+            "creatorConversionRatio": 0.2291296625222025,
+            "video_revenue": 21627.802714639405,
+            "partition_day": "2026-02-15",
+            "unit_price": 5.445066141651423,
+            "live_revenue": 2684.4176078341557
+        },
+        {
+            "revenue": 17667.324086607856,
+            "sale": 3250,
+            "creatorConversionRatio": 0.2368573079145003,
+            "video_revenue": 15139.537717293302,
+            "partition_day": "2026-02-16",
+            "unit_price": 5.4360997189563225,
+            "live_revenue": 2527.7863693147024
+        },
+        {
+            "revenue": 23273.859602833465,
+            "sale": 4277,
+            "creatorConversionRatio": 0.23997803404722678,
+            "video_revenue": 20623.784871344207,
+            "partition_day": "2026-02-17",
+            "unit_price": 5.44163189217527,
+            "live_revenue": 2650.074731489356
+        },
+        {
+            "revenue": 23819.82032343487,
+            "sale": 4378,
+            "creatorConversionRatio": 0.19844357976653695,
+            "video_revenue": 21741.434904624286,
+            "partition_day": "2026-02-18",
+            "unit_price": 5.440799525681743,
+            "live_revenue": 2078.3854188104283
+        },
+        {
+            "revenue": 47390.199688370165,
+            "sale": 8723,
+            "creatorConversionRatio": 0.22591181273816005,
+            "video_revenue": 44260.91446304595,
+            "partition_day": "2026-02-19",
+            "unit_price": 5.43278684952079,
+            "live_revenue": 3129.285225323979
+        },
+        {
+            "revenue": 34604.46565470734,
+            "sale": 6353,
+            "creatorConversionRatio": 0.20231822971549,
+            "video_revenue": 32393.004446488874,
+            "partition_day": "2026-02-20",
+            "unit_price": 5.446948788715118,
+            "live_revenue": 2211.4612082183453
+        },
+        {
+            "revenue": 46180.76218399992,
+            "sale": 8414,
+            "creatorConversionRatio": 0.22112894873122735,
+            "video_revenue": 42733.94513484935,
+            "partition_day": "2026-02-21",
+            "unit_price": 5.488562180175863,
+            "live_revenue": 3446.817049150434
+        },
+        {
+            "revenue": 45972.19682115329,
+            "sale": 8376,
+            "creatorConversionRatio": 0.2481789802289282,
+            "video_revenue": 41713.07256933665,
+            "partition_day": "2026-02-22",
+            "unit_price": 5.488562180175863,
+            "live_revenue": 4259.124251816458
+        },
+        {
+            "revenue": 30418.888971431574,
+            "sale": 5547,
+            "creatorConversionRatio": 0.21334632245494398,
+            "video_revenue": 27868.90098302077,
+            "partition_day": "2026-02-23",
+            "unit_price": 5.483845136367714,
+            "live_revenue": 2549.9879884109896
+        },
+        {
+            "revenue": 29289.07577764818,
+            "sale": 5335,
+            "creatorConversionRatio": 0.19416547106647536,
+            "video_revenue": 26269.583429437047,
+            "partition_day": "2026-02-24",
+            "unit_price": 5.489986087656649,
+            "live_revenue": 3019.4923482111494
+        },
+        {
+            "revenue": 31731.16943088482,
+            "sale": 5723,
+            "creatorConversionRatio": 0.2337006427915519,
+            "video_revenue": 27517.34997125321,
+            "partition_day": "2026-02-25",
+            "unit_price": 5.544499288989175,
+            "live_revenue": 4208.274960342783
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

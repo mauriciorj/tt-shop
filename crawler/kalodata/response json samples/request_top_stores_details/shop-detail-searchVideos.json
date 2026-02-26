@@ -1,0 +1,168 @@
+{
+    "success": true,
+    "data": [
+        {
+            "duration": "1m 31s",
+            "uid": "7545659247280161848",
+            "revenue": "$26.09k",
+            "sale": 4334,
+            "ad": 1,
+            "product_ids": [
+                "1733981371318633690"
+            ],
+            "create_time": "2026/01/29 02:24:49",
+            "content_type": "video",
+            "description": "",
+            "handle": "ricardo.tts",
+            "id": "7600650195906399509",
+            "views": "6.18m"
+        },
+        {
+            "duration": "1m 31s",
+            "uid": "7522622451465995269",
+            "revenue": "$20.24k",
+            "sale": 3748,
+            "ad": 1,
+            "product_ids": [
+                "1731763206746768602"
+            ],
+            "create_time": "2026/01/26 14:29:15",
+            "content_type": "video",
+            "description": "Meu combo 3 em 1 FAVORITO!!!",
+            "handle": "sososhoppyz",
+            "id": "7599723649637125394",
+            "views": "5.96m"
+        },
+        {
+            "duration": "1m 15s",
+            "uid": "7523787123733496837",
+            "revenue": "$18.05k",
+            "sale": 1626,
+            "ad": 1,
+            "product_ids": [
+                "1732390895662892250"
+            ],
+            "create_time": "2026/02/02 17:40:59",
+            "content_type": "video",
+            "description": "",
+            "handle": "aaninharrr",
+            "id": "7602370641379036436",
+            "views": "2.31m"
+        },
+        {
+            "duration": "45s",
+            "uid": "7102837850765034502",
+            "revenue": "$14.18k",
+            "sale": 2612,
+            "ad": 1,
+            "product_ids": [
+                "1731763206746768602"
+            ],
+            "create_time": "2026/01/19 19:13:01",
+            "content_type": "video",
+            "description": "Eu comecei a tomar o Pro3 Magnésio, da Always Fit, e tive muitos benefícios! 🤩 Ele tem 3 tipos de magnésio na mesma fórmula: Dimalato, Quelato e Treonato. #magnesio #inchaco #cortisol #estresse #suplementos ",
+            "handle": "camishop02",
+            "id": "7597199083522116884",
+            "views": "4.08m"
+        },
+        {
+            "duration": "1m 42s",
+            "uid": "7523970650542851078",
+            "revenue": "$14.03k",
+            "sale": 1226,
+            "ad": 1,
+            "product_ids": [
+                "1732684728853365978"
+            ],
+            "create_time": "2026/01/14 13:43:51",
+            "content_type": "video",
+            "description": "Respondendo a @Ana Você precisa cuidar de dentro pra fora ✨ #magnesio #cortisol #saudedamulher #nac #suplementonatural ",
+            "handle": "bellashop.br",
+            "id": "7595258937214110984",
+            "views": "2.09m"
+        },
+        {
+            "duration": "1m 28s",
+            "uid": "7486090591102108678",
+            "revenue": "$11.26k",
+            "sale": 2074,
+            "ad": 1,
+            "product_ids": [
+                "1731763206746768602"
+            ],
+            "create_time": "2025/12/21 06:27:52",
+            "content_type": "video",
+            "description": "",
+            "handle": "achadosdepoderosa",
+            "id": "7586240537691229458",
+            "views": "2.89m"
+        },
+        {
+            "duration": "1m 8s",
+            "uid": "7486090591102108678",
+            "revenue": "$9.86k",
+            "sale": 1342,
+            "ad": 1,
+            "product_ids": [
+                "1733981371318633690"
+            ],
+            "create_time": "2026/01/30 12:25:03",
+            "content_type": "video",
+            "description": "Respondendo a @vanessa.ambrozio1 ",
+            "handle": "achadosdepoderosa",
+            "id": "7601175992710761746",
+            "views": "1.87m"
+        },
+        {
+            "duration": "1m 37s",
+            "uid": "7536005868464374790",
+            "revenue": "$9.54k",
+            "sale": 900,
+            "ad": 1,
+            "product_ids": [
+                "1732390895662892250"
+            ],
+            "create_time": "2026/01/28 17:36:36",
+            "content_type": "video",
+            "description": "#fyp ",
+            "handle": "daillydaeve",
+            "id": "7600514103957835026",
+            "views": "1.1m"
+        },
+        {
+            "duration": "1m 10s",
+            "uid": "7102837850765034502",
+            "revenue": "$9.53k",
+            "sale": 1752,
+            "ad": 1,
+            "product_ids": [
+                "1731763206746768602"
+            ],
+            "create_time": "2025/10/13 22:42:21",
+            "content_type": "video",
+            "description": "Respondendo a @janeluziapreste  O Magnésio é um mineral muito importante para o nosso corpo. O Pro3 Magnésio tem 3 tipos de magnésio na mesma fórmula: Dimalato, Treonato e Quelato. #magnesio #inchaco #cortisol #ansiedade #mulher ",
+            "handle": "camishop02",
+            "id": "7560886777578376459",
+            "views": "2.85m"
+        },
+        {
+            "duration": "54s",
+            "uid": "7486090591102108678",
+            "revenue": "$8.94k",
+            "sale": 848,
+            "ad": 1,
+            "product_ids": [
+                "1732390895662892250"
+            ],
+            "create_time": "2026/01/23 07:27:08",
+            "content_type": "video",
+            "description": "E ainda de forma NATURAL 😍💚 E o melhor é que esse combo dura 3 meses 🤭",
+            "handle": "achadosdepoderosa",
+            "id": "7598501628664122632",
+            "views": "966.19k"
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

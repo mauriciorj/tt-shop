@@ -1,0 +1,108 @@
+{
+    "success": true,
+    "data": [
+        {
+            "revenue": "$223.70k",
+            "sale": "41.5k",
+            "video_revenue": "$223.70k",
+            "followers": 2500000,
+            "nickname": "Pedro Vitor",
+            "handle": "pedrovitoroficial_",
+            "id": "6792288022567142406",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$66.27k",
+            "sale": "12.65k",
+            "video_revenue": "$66.27k",
+            "followers": 80100,
+            "nickname": "Talita Baliza",
+            "handle": "talitabalizaa",
+            "id": "6816690567930954757",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$62.95k",
+            "sale": "12.09k",
+            "video_revenue": "$62.95k",
+            "followers": 62500,
+            "nickname": "Giu",
+            "handle": "giuliaalvesx",
+            "id": "7541272596329219078",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$60.84k",
+            "sale": "11.68k",
+            "video_revenue": "$60.84k",
+            "followers": 131300,
+            "nickname": "athaisfavero",
+            "handle": "athaisfavero",
+            "id": "6799255906372273157",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$48.53k",
+            "sale": "9.35k",
+            "video_revenue": "$48.53k",
+            "followers": 18100,
+            "nickname": "Ale",
+            "handle": "alesilva0520",
+            "id": "7434706209921549368",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$30.79k",
+            "sale": "5.61k",
+            "video_revenue": "$30.79k",
+            "followers": 82000,
+            "nickname": "Feminices da Taty",
+            "handle": "eutatypedrosa",
+            "id": "6690987083315708933",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$21.67k",
+            "sale": "3.97k",
+            "video_revenue": "$21.67k",
+            "followers": 40400,
+            "nickname": "Camila",
+            "handle": "achadosdakami",
+            "id": "7550773564481209349",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$17.71k",
+            "sale": "3.37k",
+            "video_revenue": "$17.71k",
+            "followers": 18900,
+            "nickname": "Daye Fidelis",
+            "handle": "dayeonlive",
+            "id": "7545187345739203589",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$15.02k",
+            "sale": "2.83k",
+            "video_revenue": "$15.02k",
+            "followers": 19500,
+            "nickname": "Malu",
+            "handle": "mariamalu999",
+            "id": "7523611677032547334",
+            "live_revenue": "$0.00"
+        },
+        {
+            "revenue": "$11.98k",
+            "sale": "2.3k",
+            "video_revenue": "$11.97k",
+            "followers": 174200,
+            "nickname": "anna🇧🇷",
+            "handle": "marlelu00",
+            "id": "7532908429645513784",
+            "live_revenue": "$10.51"
+        }
+    ],
+    "message": null,
+    "cached": true,
+    "code": null
+}

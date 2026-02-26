@@ -16,12 +16,15 @@ from request_top_products_details.top_products_sales.request_api.dto import dto 
 #     return data
 
 def main(driver, k_id, page): 
+    print("")
+    print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES ]')
+    
     # STEP 01 - Request the store total sales
     request_api_result = request_api(driver, k_id)
     
     if request_api_result['data'] is None:
         print('')
-        print('[ SELENIUM ] Request store total sales is None')
+        print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES ] Request store total sales is None')
         return
     
     # STEP 03 - Save the response to a JSON file

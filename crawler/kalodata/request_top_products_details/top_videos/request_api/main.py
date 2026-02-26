@@ -4,10 +4,9 @@ from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
 def main(driver, id):
-    print('')
-    print('[ SELENIUM ] Requesting top creators...')
+    print('[ PRODUCTS DETAILS - TOP VIDEOS REQUEST API ]')
 
-    search_url = 'https://www.kalodata.com/shop/detail/searchCooperativeCreators'
+    search_url = 'https://www.kalodata.com/product/detail/video/queryList'
 
     # Prepare the payload (same as before)
     body = {
@@ -40,11 +39,11 @@ def main(driver, id):
         # Use our new helper function
         data = selenium_fetch(driver, search_url, method="POST", headers=headers, json_data=body)
 
-        print('[ SELENIUM ] Request data done')
+        print('[ PRODUCTS DETAILS - TOP VIDEOS REQUEST API ] Request data done')
         return data
 
     except Exception as e:
-        save_error(source='request_top_products_details/top_videos/request/main', error=e)
+        save_error(source='request_top_products_details-top_videos-request_api', error=e)
 
 if __name__ == "__main__":
     main()

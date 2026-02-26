@@ -17,17 +17,20 @@ from request_top_products_details.top_videos.convex.main import main as convex
 #     return data
 
 def main(driver, k_id, page, main_category):
+    print("")
+    print('[ PRODUCTS DETAILS - TOP VIDEOS ]')
+    
     # STEP 01 - Request the list of the top products
     request_api_result = request_api(driver, k_id)
     
     # STEP 02 - Check if the request was successful
     if request_api_result['data'] is None:
         print('')
-        print('[ SELENIUM ] Request top products is None')
+        print('[ PRODUCTS DETAILS - TOP VIDEOS ] Request top products is None')
         return
 
     # STEP 03 - Save the response to a JSON file
-    save_json(data=request_api_result, file_name=f'request_top_products_details/top_videos/request_api/main_{page}.json')
+    save_json(data=request_api_result, file_name=f'request_top_products_details-top_videos_{page}.json')
 
     # STEP 04 - Convert the response to a DTO
     dto_result = dto(request_api_result, main_category)

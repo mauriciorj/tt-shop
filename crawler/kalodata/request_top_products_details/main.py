@@ -1,4 +1,3 @@
-# import json
 import os
 
 import time
@@ -34,7 +33,7 @@ def main():
     while not done:
         print("")
         print("========================= PRODUCTS DETAILS =========================")
-        print(f"[ SELENIUM ] Page {page}")
+        print(f"[ PRODUCTS DETAILS ] Page {page}")
 
         try:
             client = ConvexClient(CONVEX_URL)
@@ -46,7 +45,7 @@ def main():
 
             # STEP 02 - Check if the request was successful
             if request_db_result is None or request_db_result['page'] is None:
-                print('[ SELENIUM ] No more stores to process or error occurred.')
+                print('[ PRODUCTS DETAILS ] No more stores to process or error occurred.')
                 break
 
             # STEP 03 - Save the response to a JSON file
@@ -62,7 +61,7 @@ def main():
             page += 1
 
         except Exception as e:
-            save_error(source='request_top_products_details/main', error=e)
+            save_error(source='request_top_products_details-main', error=e)
 
 if __name__ == "__main__":
     main()

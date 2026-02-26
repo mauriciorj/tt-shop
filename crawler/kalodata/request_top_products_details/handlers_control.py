@@ -1,24 +1,19 @@
 from request_top_products_details.top_creators.main import main as top_creators
 from request_top_products_details.top_videos.main import main as top_videos
 from request_top_products_details.top_products_sales.main import main as top_products_sales
+
 from request_top_products_details.convex import convex
 
 def handlers_control(driver, data, page):
-    print('[ SELENIUM ] Requesting product by product...')
+    print("")
+    print('[ PRODUCTS DETAILS - HANDLERS CONTROL ] Requesting product by product...')
 
     for product in data:
-        print('')
-        print('')
-        print('product => ', product)
-
+        print("")
+        print('[ PRODUCTS DETAILS - HANDLERS CONTROL ] Product: ', product['name'])
         id = product['_id']
         k_id = product['k_id']
         main_category = product['main_category']
-
-        print('')
-        print('id => ', id)
-        print('k_id => ', k_id)
-        print('main_category => ', main_category)
 
         # Top creators
         top_creators_result = top_creators(driver, k_id, page)
@@ -31,6 +26,9 @@ def handlers_control(driver, data, page):
 
 
 
+        print("")
+        print('[ PRODUCTS DETAILS - HANDLERS CONTROL - MAPPING ]')
+    
         # Mapping top_creators_result
         top_creators_list = [str(item['k_id']) for item in top_creators_result if 'k_id' in item]
         top_videos_list = [str(item['k_id']) for item in top_videos_result if 'k_id' in item]

@@ -1,0 +1,25 @@
+{
+    "success": true,
+    "data": {
+        "video_revenue": "$744.93k",
+        "related_creator_count": 10708,
+        "day_live_revenue": "$2.48k",
+        "original_live_revenue": 74355.1,
+        "day_video_revenue": "$24.83k",
+        "unit_price": "$5.32",
+        "sale": "154.09k",
+        "revenue": "$819.29k",
+        "original_shopping_mall_revenue": 5.54,
+        "original_video_revenue": 744929.29,
+        "creatorConversionRatio": 0.2951874650251819,
+        "day_sale": "5.14k",
+        "original_revenue": 819289.94,
+        "day_revenue": "$27.31k",
+        "shopping_mall_revenue": "$5.54",
+        "day_shopping_mall_revenue": "$0.18",
+        "live_revenue": "$74.36k"
+    },
+    "message": null,
+    "cached": true,
+    "code": null
+}

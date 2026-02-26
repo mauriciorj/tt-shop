@@ -10,7 +10,7 @@ CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 def convex(data):
     print('')
-    print('[ SELENIUM ] Updating product in DB...')
+    print('[ PRODUCTS DETAILS - CONVEX ] Updating product in DB...')
 
     try:
         client = ConvexClient(CONVEX_URL)
@@ -21,10 +21,10 @@ def convex(data):
         client.mutation("products:updateProduct", data)
 
         print('')
-        print(f"[ SELENIUM ] Processed items successfully.")
+        print(f"[ PRODUCTS DETAILS - CONVEX ] Processed items successfully.")
 
     except Exception as e:
-        save_error(source='request_top_products_details/convex', error=e)
+        save_error(source='request_top_products_details-convex', error=e)
 
     finally:
         return True
