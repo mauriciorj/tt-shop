@@ -2,8 +2,15 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import { useConvexAuth } from 'convex/react'
-import { House, TrendingUp, Store, PackageSearch, Video } from 'lucide-react'
+import {
+  Menu,
+  Store,
+  PackageSearch,
+  TrendingUp,
+  Video,
+} from 'lucide-react'
 import {
   SignedIn,
   SignUpButton,
@@ -11,14 +18,21 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from '@/components/ui/sheet'
 
 const Header = () => {
   const pathname = usePathname()
 
   const { isAuthenticated } = useConvexAuth()
 
+  const [open, setOpen] = useState(false)
+
   const navLinks = [
-    { path: '/', label: 'Inicio', icon: House },
     { path: '/stores', label: 'Lojas', icon: Store },
     { path: '/products', label: 'Produtos', icon: PackageSearch },
     { path: '/videos', label: 'Vídeos', icon: Video },
@@ -75,6 +89,37 @@ const Header = () => {
           <SignedIn>
             <UserButton />
           </SignedIn>
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <button className="md:hidden flex items-center justify-center h-9 w-9 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors">
+                <Menu className="h-5 w-5" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[280px] bg-background">
+              <SheetTitle className="sr-only">Navigation</SheetTitle>
+              <nav className="flex flex-col gap-2 mt-8">
+                {navLinks.map((link) => {
+                  const Icon = link.icon
+                  const isActive = pathname === link.path
+                  return (
+                    <Link
+                      key={link.path}
+                      href={link.path}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {link.label}
+                    </Link>
+                  )
+                })}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
