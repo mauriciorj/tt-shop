@@ -7,7 +7,7 @@ import Hero from '@/components/homepage/hero'
 const Page = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
+      <main className="flex flex-col justify-center items-center">
         <Hero />
 
         <Stats />

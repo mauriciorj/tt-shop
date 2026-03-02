@@ -4,13 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useConvexAuth } from 'convex/react'
-import {
-  Menu,
-  Store,
-  PackageSearch,
-  TrendingUp,
-  Video,
-} from 'lucide-react'
+import { Menu, Store, PackageSearch, TrendingUp, Video } from 'lucide-react'
 import {
   SignedIn,
   SignUpButton,
@@ -46,7 +40,7 @@ const Header = () => {
             <TrendingUp className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-xl font-bold">
-            TikTok<span className="gradient-text">Rank</span>
+            Use Shop<span className="gradient-text">Radar</span>
           </span>
         </Link>
 

@@ -12,8 +12,8 @@ const CallToAction = () => {
               Ready to Dominate TikTok Shop?
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of sellers using TikTokRank to stay ahead of the
-              competition.
+              Join thousands of sellers using Use Shop Radar to stay ahead of
+              the competition.
             </p>
             <Link
               href="/stores"

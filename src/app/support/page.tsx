@@ -145,7 +145,8 @@ const Support = () => {
               Perguntas <span className="gradient-text">Frequentes</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Encontre respostas rápidas para perguntas comuns sobre TikTokRank
+              Encontre respostas rápidas para perguntas comuns sobre Use Shop
+              Radar
             </p>
           </div>
 
