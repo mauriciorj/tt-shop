@@ -70,6 +70,7 @@
     "react-resizable-panels": "^2.1.9",
     "react-scan": "^0.4.3",
     "recharts": "^3.6.0",
+    "resend": "^6.9.3",
     "sonner": "^2.0.7",
     "stripe": "^20.1.0",
     "tailwind-merge": "^3.4.0",

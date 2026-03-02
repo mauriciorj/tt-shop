@@ -23,6 +23,7 @@
       "@/*": ["./*"],
       "@/actions/*": ["./src/app/actions/*"],
       "@/components/*": ["./src/features/common/components/*"],
+      "@/contact/*": ["./src/features/contact/*"],
       "@/convex/*": ["./convex/*"],
       "@/db/*": ["./src/features/db/*"],
       "@/dtos/*": ["./src/features/common/dtos/*"],

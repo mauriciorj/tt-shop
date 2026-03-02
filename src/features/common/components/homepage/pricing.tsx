@@ -5,7 +5,10 @@ import { Zap } from 'lucide-react'
 
 const Pricing = () => {
   return (
-    <section className="py-24 border-t border-border/40 flex justify-center">
+    <section
+      id="price"
+      className="py-24 border-t border-border/40 flex justify-center"
+    >
       <div className="container">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold mb-4">

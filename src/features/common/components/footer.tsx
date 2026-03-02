@@ -3,14 +3,14 @@ import { TrendingUp } from 'lucide-react'
 
 const Footer = () => {
   const footerLinks = {
-    Produto: [{ label: 'Preço', href: '#' }],
+    Produto: [{ label: 'Preço', href: '/#price' }],
     Recursos: [
       { label: 'Documentação', href: '#' },
       { label: 'Suporte', href: '#' },
     ],
     Empresa: [
-      { label: 'Sobre', href: '#' },
-      { label: 'Contato', href: '#' },
+      { label: 'Sobre', href: '/about' },
+      { label: 'Contato', href: '/contact' },
     ],
     Legal: [
       { label: 'Privacidade', href: '#' },
