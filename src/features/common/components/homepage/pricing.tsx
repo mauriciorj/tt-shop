@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Zap } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 
 const Pricing = () => {
   return (
@@ -12,12 +12,12 @@ const Pricing = () => {
       <div className="container">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold mb-4">
-            Simple, Transparent
-            <span className="gradient-text"> Pricing</span>
+            <span className="gradient-text">Preço </span>
+            Simples e transparente
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits your needs. Start free and upgrade as you
-            grow.
+            Escolha o plano que atende às suas necessidades. Comece grátis e
+            suba conforme cresce.
           </p>
         </div>
 
@@ -28,36 +28,41 @@ const Pricing = () => {
             style={{ animationDelay: '100ms' }}
           >
             <div className="mb-6">
-              <h3 className="text-2xl font-bold mb-2">Free</h3>
-              <p className="text-muted-foreground">
-                Perfect for getting started
-              </p>
+              <h3 className="text-2xl font-bold mb-2">Grátis</h3>
+              <p className="text-muted-foreground">Perfeito para começar</p>
             </div>
             <div className="mb-6">
               <span className="text-5xl font-extrabold">$0</span>
-              <span className="text-muted-foreground">/month</span>
+              <span className="text-muted-foreground">/mês</span>
             </div>
             <ul className="space-y-4 mb-8">
-              {[
-                'Track up to 10 stores',
-                'Basic analytics dashboard',
-                'Daily ranking updates',
-                'Email support',
-              ].map((feature) => (
-                <li key={feature} className="flex items-center gap-3">
-                  <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Zap className="h-3 w-3 text-primary" />
-                  </div>
-                  <span className="text-muted-foreground">{feature}</span>
-                </li>
-              ))}
+              {['Top 10 lojas', 'Top 10 produtos', 'Top 10 vídeos'].map(
+                (feature) => (
+                  <li key={feature} className="flex items-center gap-3">
+                    <div className="h-5 w-5 rounded-full bg-green-500/20 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-green-500" />
+                    </div>
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                )
+              )}
+              <li className="flex items-center gap-3 mb-16">
+                <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
+                  <X className="h-3 w-3 text-primary" />
+                </div>
+                <span className="text-muted-foreground">
+                  Transcrição de vídeos
+                </span>
+              </li>
             </ul>
-            <Link
-              href="/stores"
-              className="block w-full text-center px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 transition-colors"
-            >
-              Get Started
-            </Link>
+            <div className="w-[180px] absolute bottom-5 left-[calc(50%-90px)]">
+              <Link
+                href="/stores"
+                className="block w-full text-center px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 transition-colors"
+              >
+                Get Started
+              </Link>
+            </div>
           </div>
 
           {/* Pro Plan */}
@@ -66,41 +71,43 @@ const Pricing = () => {
             style={{ animationDelay: '200ms' }}
           >
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-primary-foreground text-sm font-medium">
-              Most Popular
+              Mais Popular
             </div>
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <p className="text-muted-foreground">
-                For serious sellers & analysts
-              </p>
+              <p className="text-muted-foreground">Tudo que você precisa</p>
             </div>
             <div className="mb-6">
-              <span className="text-5xl font-extrabold">$29</span>
-              <span className="text-muted-foreground">/month</span>
+              <span className="text-5xl font-extrabold">$47</span>
+              <span className="text-muted-foreground">/mês</span>
             </div>
-            <ul className="space-y-4 mb-8">
+            <ul className="space-y-4 mb-5">
               {[
-                'Unlimited store tracking',
-                'Advanced analytics & insights',
-                'Real-time ranking updates',
-                'Custom alerts & notifications',
-                'API access',
-                'Priority support',
+                'Top lojas',
+                'Top produtos',
+                'Top vídeos',
+                'Transcrição de vídeos',
+                'Filtros avançados',
               ].map((feature) => (
                 <li key={feature} className="flex items-center gap-3">
-                  <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Zap className="h-3 w-3 text-primary" />
+                  <div className="h-5 w-5 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Check className="h-3 w-3 text-green-500" />
                   </div>
                   <span className="text-muted-foreground">{feature}</span>
                 </li>
               ))}
             </ul>
-            <Link
-              href="/stores"
-              className="block w-full text-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
-            >
-              Start Free Trial
-            </Link>
+            <div className="mb-16">
+              <span className="italic gradient-text">Sem limites</span>
+            </div>
+            <div className="w-[180px] absolute bottom-5 left-[calc(50%-90px)]">
+              <Link
+                href="/stores"
+                className="block w-full text-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
+              >
+                Start Free Trial
+              </Link>
+            </div>
           </div>
         </div>
       </div>
