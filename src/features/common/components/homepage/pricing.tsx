@@ -60,7 +60,7 @@ const Pricing = () => {
                 href="/stores"
                 className="block w-full text-center px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 transition-colors"
               >
-                Get Started
+                Acesse Agora
               </Link>
             </div>
           </div>
@@ -105,7 +105,7 @@ const Pricing = () => {
                 href="/stores"
                 className="block w-full text-center px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
               >
-                Start Free Trial
+                Test Grátis
               </Link>
             </div>
           </div>
