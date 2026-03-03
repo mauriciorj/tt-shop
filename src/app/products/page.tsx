@@ -1,65 +1,38 @@
-'use client'
+import type { Metadata } from 'next'
+import ProductsContainer from '@/products/container'
 
-import Breadcrumb from '@/components/breadcrumb'
-import Categories from '@/components/categories'
-import SearchBar from '@/components/search'
-import useProducts from '@/products/hooks/useProducts'
-import ProductsTable from '@/products/components/productsTable'
-import ProductTableSkeleton from '@/products/components/productTableSkeleton'
+export const metadata: Metadata = {
+  title: 'ShopRadar – Produtos virais e vendas do TikTok Shop',
+  description:
+    'Descubra produtos que estão faturando no TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
+  keywords: ['TikTok Shop', 'Produtos virais', 'Vendas', 'Afiliados'],
+  openGraph: {
+    title: 'ShopRadar – Produtos virais e vendas do TikTok Shop',
+    description:
+      'Descubra produtos que estão faturando no TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
+    url: 'https://shopradar.com.br',
+    siteName: 'ShopRadar',
+    images: [],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 const Products = () => {
-  const {
-    categories,
-    currentPage,
-    data: products,
-    isLoading,
-    itemsPerPage,
-    onPageChange,
-    selectedCategory,
-    setCurrentPage,
-    setSelectedCategory,
-    setSortKey,
-    setSortOrder,
-    sortKey,
-    sortOrder,
-    totalPages,
-  } = useProducts()
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
-        <Breadcrumb
-          description="Descubra os melhores produtos"
-          title="Produtos"
-        />
-        <Categories
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setCurrentPage={setCurrentPage}
-        />
-        <SearchBar
-          data={products}
-          isStore={false}
-          placeholder="Procurar por um produto..."
-        />
-        {isLoading ? (
-          <ProductTableSkeleton rows={itemsPerPage} />
-        ) : (
-          <ProductsTable
-            currentPage={currentPage}
-            items={products}
-            onPageChange={onPageChange}
-            setSortKey={setSortKey}
-            setSortOrder={setSortOrder}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-            totalPages={totalPages}
-          />
-        )}
-      </main>
-    </div>
-  )
+  return <ProductsContainer />
 }
 
 export default Products

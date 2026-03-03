@@ -10,7 +10,7 @@ const Footer = () => {
     ],
     Empresa: [
       { label: 'Sobre', href: '/about' },
-      { label: 'Contato', href: '/contact' },
+      { label: 'Contato', href: '/contato' },
     ],
     Legal: [
       { label: 'Privacidade', href: '#' },

@@ -21,14 +21,14 @@ const useProduct = () => {
       (category) => category.id === getProduct?.category_id
     )?.label
 
-    const storeWithCategory: IProductWithCategory | null = getProduct?.name
+    const productWithCategory: IProductWithCategory | null = getProduct?.name
       ? {
           ...getProduct,
           category_name: getCategory,
         }
       : null
 
-    return storeWithCategory
+    return productWithCategory
   }, [name, getProduct, categories])
 
   return { isLoading, setName, product }
