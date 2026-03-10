@@ -51,13 +51,37 @@ http.route({
         (email) => email.id === evt.data.primary_email_address_id
       )
 
-      await ctx.runMutation(internal.clients.upsertClient, {
+      const result = await ctx.runMutation(internal.clients.upsertClient, {
         clerk_id: id,
         email: primaryEmail?.email_address ?? '',
         first_name: first_name ?? undefined,
         last_name: last_name ?? undefined,
         image_url: image_url ?? undefined,
       })
+
+      // If we linked a Stripe customer to a new Clerk account, sync subscription status to Clerk
+      if (result.status === 'linked' && result.subscription_status) {
+        const clerkSecretKey = process.env.CLERK_SECRET_KEY
+        if (clerkSecretKey) {
+          try {
+            await fetch(`https://api.clerk.com/v1/users/${id}/metadata`, {
+              method: 'PATCH',
+              headers: {
+                Authorization: `Bearer ${clerkSecretKey}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                public_metadata: {
+                  subscriptionStatus: result.subscription_status,
+                },
+              }),
+            })
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to sync subscription status to Clerk:', err)
+          }
+        }
+      }
     }
 
     if (eventType === 'user.deleted') {
