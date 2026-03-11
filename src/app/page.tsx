@@ -1,10 +1,14 @@
 import type { Metadata } from 'next'
-import Pricing from '@/components/homepage/pricing'
-// import Features from '@/components/homepage/features'
+import BenefitsSection from '@/components/homepage/benefits'
 import CallToAction from '@/components/homepage/callToAction'
-// import Stats from '@/components/homepage/stats'
+import ComparisonSection from '@/components/homepage/comparison'
 import Hero from '@/components/homepage/hero'
+import HowItWorksSection from '@/components/homepage/howItWorks'
 import ProblemSection from '@/components/homepage/problem'
+import SalesDataSection from '@/components/homepage/salesData'
+import SocialProofSection from '@/components/homepage/socialProofSection'
+import SolutionSection from '@/components/homepage/solution'
+import Pricing from '@/components/homepage/pricing'
 
 export const metadata: Metadata = {
   title: 'ShopRadar – Produtos e vídeos virais que vendem muito no TikTok Shop',
@@ -44,6 +48,18 @@ const Page = () => {
         <Hero />
 
         <ProblemSection />
+
+        <SolutionSection />
+
+        <HowItWorksSection />
+
+        <SalesDataSection />
+
+        <BenefitsSection />
+
+        <SocialProofSection />
+
+        <ComparisonSection />
 
         <Pricing />
 

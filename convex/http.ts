@@ -51,7 +51,7 @@ http.route({
         (email) => email.id === evt.data.primary_email_address_id
       )
 
-      const result = await ctx.runMutation(internal.clients.upsertClient, {
+      const result = await ctx.runMutation(internal.clients.upsertClient!, {
         clerk_id: id,
         email: primaryEmail?.email_address ?? '',
         first_name: first_name ?? undefined,

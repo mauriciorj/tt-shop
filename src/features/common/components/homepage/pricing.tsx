@@ -7,7 +7,7 @@ const Pricing = () => {
   return (
     <section
       id="price"
-      className="py-24 border-t border-border/40 flex justify-center"
+      className="w-full relative flex items-center justify-center flex-col py-20 md:py-24 px-4"
     >
       <div className="container">
         <div className="text-center mb-16 animate-fade-in">
