@@ -4,7 +4,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useConvexAuth } from 'convex/react'
-import { Menu, Store, PackageSearch, TrendingUp, Video } from 'lucide-react'
+import {
+  CircleDollarSign,
+  HandCoins,
+  Menu,
+  Store,
+  PackageSearch,
+  TrendingUp,
+  Video,
+} from 'lucide-react'
 import {
   SignedIn,
   SignUpButton,
@@ -90,7 +98,22 @@ const Header = () => {
             )}
           </SignedOut>
           <SignedIn>
-            <UserButton />
+            <UserButton>
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  label="Assinatura"
+                  labelIcon={<HandCoins className="h-4 w-4" />}
+                  href="/subscription"
+                />
+              </UserButton.MenuItems>
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  label="Faturamento"
+                  labelIcon={<CircleDollarSign className="h-4 w-4" />}
+                  href="/billing"
+                />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
           {isAuthenticated && (
             <Sheet open={open} onOpenChange={setOpen}>
