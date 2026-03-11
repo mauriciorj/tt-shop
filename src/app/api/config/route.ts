@@ -3,7 +3,7 @@ import { stripe } from '@/payment/utils/stripe'
 
 export async function GET() {
   try {
-    const price = await stripe.prices.retrieve(process.env.PRICE!)
+    const price = await stripe().prices.retrieve(process.env.PRICE!)
 
     return NextResponse.json({
       publicKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,

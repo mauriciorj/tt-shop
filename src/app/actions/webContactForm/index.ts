@@ -5,7 +5,7 @@ import { ContactFormData } from '@/contact/types'
 
 export async function WebContactFormAction(values: ContactFormData) {
   try {
-    const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_KEY)
+    const resend = new Resend(process.env.NEXT_PUBLIC_RESEND)
 
     const { data, error } = await resend.emails.send({
       from: 'Use Shop Radar <noreply@useshopradar.com>',

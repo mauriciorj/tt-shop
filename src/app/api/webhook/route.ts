@@ -9,7 +9,9 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 type SubscriptionStatus = 'active' | 'inactive' | 'canceled' | 'past_due'
 
-function mapStripeStatus(status: Stripe.Subscription.Status): SubscriptionStatus {
+function mapStripeStatus(
+  status: Stripe.Subscription.Status
+): SubscriptionStatus {
   switch (status) {
     case 'active':
     case 'trialing':
@@ -24,7 +26,10 @@ function mapStripeStatus(status: Stripe.Subscription.Status): SubscriptionStatus
   }
 }
 
-async function updateClerkMetadata(clerkId: string, subscriptionStatus: SubscriptionStatus) {
+async function updateClerkMetadata(
+  clerkId: string,
+  subscriptionStatus: SubscriptionStatus
+) {
   try {
     const client = await clerkClient()
     await client.users.updateUserMetadata(clerkId, {
@@ -40,7 +45,7 @@ async function updateClerkMetadata(clerkId: string, subscriptionStatus: Subscrip
 
 async function getCustomerEmail(customerId: string): Promise<string | null> {
   try {
-    const customer = await stripe.customers.retrieve(customerId)
+    const customer = await stripe().customers.retrieve(customerId)
     if (customer.deleted) return null
     return customer.email || null
   } catch {
@@ -48,16 +53,21 @@ async function getCustomerEmail(customerId: string): Promise<string | null> {
   }
 }
 
-async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
+async function handleCheckoutSessionCompleted(
+  session: Stripe.Checkout.Session
+) {
   const clerkId = session.metadata?.clerk_id
   const customerId = session.customer as string
   const subscriptionId = session.subscription as string
 
   // Get subscription details
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription
+  const subscription = (await stripe().subscriptions.retrieve(
+    subscriptionId
+  )) as Stripe.Subscription
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number }).current_period_end
+  const currentPeriodEnd = (subscription as { current_period_end?: number })
+    .current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
@@ -99,7 +109,8 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number }).current_period_end
+  const currentPeriodEnd = (subscription as { current_period_end?: number })
+    .current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
@@ -140,7 +151,8 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number }).current_period_end
+  const currentPeriodEnd = (subscription as { current_period_end?: number })
+    .current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
@@ -193,7 +205,7 @@ export async function POST(request: NextRequest) {
 
   try {
     if (process.env.STRIPE_WEBHOOK_SECRET && signature) {
-      event = stripe.webhooks.constructEvent(
+      event = stripe().webhooks.constructEvent(
         body,
         signature,
         process.env.STRIPE_WEBHOOK_SECRET

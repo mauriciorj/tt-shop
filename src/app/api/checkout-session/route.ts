@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    const session = await stripe().checkout.sessions.retrieve(sessionId)
     return NextResponse.json(session)
   } catch (error) {
     // eslint-disable-next-line no-console

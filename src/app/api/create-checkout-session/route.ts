@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const session = await stripe.checkout.sessions.create(sessionOptions)
+    const session = await stripe().checkout.sessions.create(sessionOptions)
 
     return NextResponse.redirect(session.url!, 303)
   } catch (error) {
