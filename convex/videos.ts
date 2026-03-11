@@ -122,3 +122,20 @@ export const getVideosCount = query({
     return videos.map((row) => row.k_id)
   },
 })
+
+export const getVideoById = query({
+  args: { id: v.id('videos') },
+  handler: async (ctx, { id }) => {
+    return await ctx.db.get(id)
+  },
+})
+
+export const updateTranscription = mutation({
+  args: { id: v.id('videos'), transcription: v.string() },
+  handler: async (ctx, { id, transcription }) => {
+    await ctx.db.patch(id, {
+      transcription,
+      updated_at: new Date().toISOString(),
+    })
+  },
+})

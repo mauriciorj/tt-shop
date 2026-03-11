@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 from utils.image.get_file_url import get_file_url
 
-load_dotenv(".env.local")
+load_dotenv(".env")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 from utils.save_error import save_error

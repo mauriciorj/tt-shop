@@ -8,7 +8,7 @@ from utils.delete_images import delete_images
 
 from utils.save_error import save_error
 
-load_dotenv(".env.local")
+load_dotenv(".env")
 CONVEX_URL = os.getenv("NEXT_PUBLIC_CONVEX_URL")
 
 def main(data):

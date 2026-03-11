@@ -1,4 +1,9 @@
-import { mutation, query } from './_generated/server'
+import {
+  internalMutation,
+  internalQuery,
+  mutation,
+  query,
+} from './_generated/server'
 import { v } from 'convex/values'
 import { paginationOptsValidator } from 'convex/server'
 import { getUpdatedValues } from './utils'
@@ -120,5 +125,22 @@ export const getVideosCount = query({
   handler: async (ctx) => {
     const videos = await ctx.db.query('videos').collect()
     return videos.map((row) => row.k_id)
+  },
+})
+
+export const getVideoById = internalQuery({
+  args: { id: v.id('videos') },
+  handler: async (ctx, { id }) => {
+    return await ctx.db.get(id)
+  },
+})
+
+export const updateTranscription = internalMutation({
+  args: { id: v.id('videos'), transcription: v.string() },
+  handler: async (ctx, { id, transcription }) => {
+    await ctx.db.patch(id, {
+      transcription,
+      updated_at: new Date().toISOString(),
+    })
   },
 })

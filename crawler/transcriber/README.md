@@ -43,7 +43,22 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install yt-dlp
 ```
 
-### Now it's ready to run any crawler
+### Install the Convex Python client
+
+#### pip install convex
+
+### Set the CONVEX_URL environment variable
+
+#### export CONVEX_URL=https://your-deployment.convex.cloud
+
+### Now it's ready to run
+
+#### python transcribe_tiktok.py <convex_video_id>
+
+Example:
+```
+python transcribe_tiktok.py jd7abc123def456
+```
 
 ### Stop the virtual environment
 

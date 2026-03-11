@@ -95,4 +95,28 @@ export default defineSchema({
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }).index('by_k_revenue', ['k_revenue']),
+  clients: defineTable({
+    clerk_id: v.optional(v.string()),
+    email: v.string(),
+    first_name: v.optional(v.string()),
+    last_name: v.optional(v.string()),
+    image_url: v.optional(v.string()),
+    // Stripe subscription fields
+    stripe_customer_id: v.optional(v.string()),
+    subscription_status: v.optional(
+      v.union(
+        v.literal('active'),
+        v.literal('inactive'),
+        v.literal('canceled'),
+        v.literal('past_due')
+      )
+    ),
+    subscription_plan: v.optional(v.string()),
+    subscription_end_date: v.optional(v.string()),
+    created_at: v.optional(v.string()),
+    updated_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_email', ['email'])
+    .index('by_stripe_customer_id', ['stripe_customer_id']),
 })
