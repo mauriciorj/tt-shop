@@ -1,5 +1,9 @@
 'use client'
 
+import { toast } from 'sonner'
+import { useUser } from '@clerk/nextjs'
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import SearchBar from '@/components/search'
@@ -8,6 +12,31 @@ import ProductsTable from '@/products/components/productsTable'
 import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const ProductsContainer = () => {
+  const { user } = useUser()
+  const clerkId = user?.id ?? ''
+
+  const savedProductIds = useQuery(
+    api.savedProducts.getSavedProductIds,
+    clerkId ? { clerk_id: clerkId } : 'skip'
+  )
+  const toggleSaved = useMutation(api.savedProducts.toggleSavedProduct)
+
+  const handleToggleSave = async (productKId: string) => {
+    if (!clerkId) {
+      toast.error('Faça login para salvar produtos.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: clerkId,
+      product_k_id: productKId,
+    })
+    if (result.saved) {
+      toast.success('Produto salvo!')
+    } else {
+      toast.success('Produto removido dos salvos.')
+    }
+  }
+
   const {
     categories,
     currentPage,
@@ -50,6 +79,8 @@ const ProductsContainer = () => {
             currentPage={currentPage}
             items={products}
             onPageChange={onPageChange}
+            onToggleSave={handleToggleSave}
+            savedProductIds={savedProductIds ?? []}
             setSortKey={setSortKey}
             setSortOrder={setSortOrder}
             sortKey={sortKey}

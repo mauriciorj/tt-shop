@@ -36,6 +36,7 @@ export interface IStoresWithCategory {
   country: string
   category_id: string
   category_name?: string | null
+  k_id?: string
   name: string
   image: string | null | undefined
   type: string

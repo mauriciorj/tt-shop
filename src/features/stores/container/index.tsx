@@ -1,5 +1,9 @@
 'use client'
 
+import { toast } from 'sonner'
+import { useUser } from '@clerk/nextjs'
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import SearchBar from '@/components/search'
@@ -8,6 +12,31 @@ import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
 const StoresContainer = () => {
+  const { user } = useUser()
+  const clerkId = user?.id ?? ''
+
+  const savedStoreIds = useQuery(
+    api.savedStores.getSavedStoreIds,
+    clerkId ? { clerk_id: clerkId } : 'skip'
+  )
+  const toggleSaved = useMutation(api.savedStores.toggleSavedStore)
+
+  const handleToggleSave = async (storeKId: string) => {
+    if (!clerkId) {
+      toast.error('Faça login para salvar lojas.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: clerkId,
+      store_k_id: storeKId,
+    })
+    if (result.saved) {
+      toast.success('Loja salva!')
+    } else {
+      toast.success('Loja removida dos salvos.')
+    }
+  }
+
   const {
     categories,
     currentPage,
@@ -49,6 +78,8 @@ const StoresContainer = () => {
             currentPage={currentPage}
             items={stores}
             onPageChange={onPageChange}
+            onToggleSave={handleToggleSave}
+            savedStoreIds={savedStoreIds ?? []}
             setSortKey={setSortKey}
             setSortOrder={setSortOrder}
             sortKey={sortKey}

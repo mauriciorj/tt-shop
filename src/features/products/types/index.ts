@@ -36,6 +36,7 @@ export interface IProductsWithCategory {
   country: string
   category_id: string
   category_name?: string | null
+  k_id?: string
   name: string
   image: string | null | undefined
   unit_price: number
