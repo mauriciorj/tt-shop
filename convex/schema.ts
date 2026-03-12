@@ -116,7 +116,7 @@ export default defineSchema({
   })
     .index('by_clerk_id', ['clerk_id'])
     .index('by_clerk_id_store_k_id', ['clerk_id', 'store_k_id']),
-  clients: defineTable({
+  users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),
     first_name: v.optional(v.string()),

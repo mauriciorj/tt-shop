@@ -74,7 +74,7 @@ async function handleCheckoutSessionCompleted(
 
   if (clerkId) {
     // Authenticated user - update existing client
-    await convex.mutation(api.clients.updateClientSubscription, {
+    await convex.mutation(api.users.updateUserSubscription, {
       clerk_id: clerkId,
       stripe_customer_id: customerId,
       subscription_status: status,
@@ -94,7 +94,7 @@ async function handleCheckoutSessionCompleted(
       return
     }
 
-    await convex.mutation(api.clients.upsertClientFromStripe, {
+    await convex.mutation(api.users.upsertUserFromStripe, {
       email,
       stripe_customer_id: customerId,
       subscription_status: status,
@@ -117,7 +117,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 
   if (clerkId) {
     // Authenticated user
-    await convex.mutation(api.clients.updateClientSubscription, {
+    await convex.mutation(api.users.updateUserSubscription, {
       clerk_id: clerkId,
       stripe_customer_id: customerId,
       subscription_status: status,
@@ -136,7 +136,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       return
     }
 
-    await convex.mutation(api.clients.upsertClientFromStripe, {
+    await convex.mutation(api.users.upsertUserFromStripe, {
       email,
       stripe_customer_id: customerId,
       subscription_status: status,
@@ -161,7 +161,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const email = !clerkId ? await getCustomerEmail(customerId) : undefined
 
   // Update Convex (will find by clerk_id, stripe_customer_id, or email)
-  await convex.mutation(api.clients.updateClientSubscription, {
+  await convex.mutation(api.users.updateUserSubscription, {
     clerk_id: clerkId || undefined,
     email: email || undefined,
     stripe_customer_id: customerId,
@@ -184,7 +184,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   const email = !clerkId ? await getCustomerEmail(customerId) : undefined
 
   // Update Convex
-  await convex.mutation(api.clients.updateClientSubscription, {
+  await convex.mutation(api.users.updateUserSubscription, {
     clerk_id: clerkId || undefined,
     email: email || undefined,
     stripe_customer_id: customerId,

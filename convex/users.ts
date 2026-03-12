@@ -2,7 +2,7 @@ import { v } from 'convex/values'
 import { internalMutation, mutation, query } from './_generated/server'
 import { getUpdatedValues } from './utils'
 
-export const upsertClient = internalMutation({
+export const upsertUser = internalMutation({
   args: {
     clerk_id: v.string(),
     email: v.string(),
@@ -11,55 +11,55 @@ export const upsertClient = internalMutation({
     image_url: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    // First check if client exists by clerk_id
+    // First check if user exists by clerk_id
     const clerkId = args.clerk_id
-    let existingClient = await ctx.db
-      .query('clients')
+    let existingUser = await ctx.db
+      .query('users')
       .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerkId))
       .first()
 
     // If not found by clerk_id, check by email (for linking Stripe customers who later sign up)
-    if (!existingClient) {
+    if (!existingUser) {
       const email = args.email
-      existingClient = await ctx.db
-        .query('clients')
+      existingUser = await ctx.db
+        .query('users')
         .withIndex('by_email', (q) => q.eq('email', email))
         .first()
     }
 
-    if (existingClient) {
+    if (existingUser) {
       const updates = getUpdatedValues({
-        currentData: existingClient,
+        currentData: existingUser,
         newData: args,
       })
 
       // Check if we're linking a Stripe customer to a new Clerk account
-      const isLinking = !existingClient.clerk_id && args.clerk_id
+      const isLinking = !existingUser.clerk_id && args.clerk_id
 
       if (isLinking) {
         updates.clerk_id = args.clerk_id
       }
 
       if (Object.keys(updates).length > 0) {
-        await ctx.db.patch(existingClient._id, {
+        await ctx.db.patch(existingUser._id, {
           ...updates,
           updated_at: new Date().toISOString(),
         })
         return {
-          id: existingClient._id,
+          id: existingUser._id,
           status: isLinking ? 'linked' : 'updated',
-          subscription_status: existingClient.subscription_status,
+          subscription_status: existingUser.subscription_status,
         }
       }
 
       return {
-        id: existingClient._id,
+        id: existingUser._id,
         status: 'no_changes',
-        subscription_status: existingClient.subscription_status,
+        subscription_status: existingUser.subscription_status,
       }
     }
 
-    const id = await ctx.db.insert('clients', {
+    const id = await ctx.db.insert('users', {
       ...args,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -69,18 +69,18 @@ export const upsertClient = internalMutation({
   },
 })
 
-export const deleteClient = internalMutation({
+export const deleteUser = internalMutation({
   args: {
     clerk_id: v.string(),
   },
   handler: async (ctx, args) => {
-    const existingClient = await ctx.db
-      .query('clients')
+    const existingUser = await ctx.db
+      .query('users')
       .withIndex('by_clerk_id', (q) => q.eq('clerk_id', args.clerk_id))
       .first()
 
-    if (existingClient) {
-      await ctx.db.delete(existingClient._id)
+    if (existingUser) {
+      await ctx.db.delete(existingUser._id)
       return { status: 'deleted' }
     }
 
@@ -88,19 +88,19 @@ export const deleteClient = internalMutation({
   },
 })
 
-export const getClientByClerkId = query({
+export const getUserByClerkId = query({
   args: {
     clerk_id: v.string(),
   },
   handler: async (ctx, args) => {
     return await ctx.db
-      .query('clients')
+      .query('users')
       .withIndex('by_clerk_id', (q) => q.eq('clerk_id', args.clerk_id))
       .first()
   },
 })
 
-export const updateClientSubscription = mutation({
+export const updateUserSubscription = mutation({
   args: {
     clerk_id: v.optional(v.string()),
     email: v.optional(v.string()),
@@ -117,22 +117,22 @@ export const updateClientSubscription = mutation({
     subscription_end_date: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    let client = null
+    let user = null
 
-    // Try to find client by clerk_id first
+    // Try to find user by clerk_id first
     if (args.clerk_id) {
       const clerkId = args.clerk_id
-      client = await ctx.db
-        .query('clients')
+      user = await ctx.db
+        .query('users')
         .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerkId))
         .first()
     }
 
     // Then try by stripe_customer_id
-    if (!client && args.stripe_customer_id) {
+    if (!user && args.stripe_customer_id) {
       const stripeCustomerId = args.stripe_customer_id
-      client = await ctx.db
-        .query('clients')
+      user = await ctx.db
+        .query('users')
         .withIndex('by_stripe_customer_id', (q) =>
           q.eq('stripe_customer_id', stripeCustomerId)
         )
@@ -140,15 +140,15 @@ export const updateClientSubscription = mutation({
     }
 
     // Finally try by email
-    if (!client && args.email) {
+    if (!user && args.email) {
       const email = args.email
-      client = await ctx.db
-        .query('clients')
+      user = await ctx.db
+        .query('users')
         .withIndex('by_email', (q) => q.eq('email', email))
         .first()
     }
 
-    if (!client) {
+    if (!user) {
       return { status: 'not_found' }
     }
 
@@ -169,14 +169,14 @@ export const updateClientSubscription = mutation({
       updates.subscription_end_date = args.subscription_end_date
     }
 
-    await ctx.db.patch(client._id, updates)
+    await ctx.db.patch(user._id, updates)
 
-    return { id: client._id, status: 'updated' }
+    return { id: user._id, status: 'updated' }
   },
 })
 
-// Create or update client from Stripe webhook (no clerk_id required)
-export const upsertClientFromStripe = mutation({
+// Create or update user from Stripe webhook (no clerk_id required)
+export const upsertUserFromStripe = mutation({
   args: {
     email: v.string(),
     stripe_customer_id: v.string(),
@@ -192,25 +192,25 @@ export const upsertClientFromStripe = mutation({
     subscription_end_date: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    // Try to find existing client by email or stripe_customer_id
+    // Try to find existing user by email or stripe_customer_id
     const email = args.email
-    let existingClient = await ctx.db
-      .query('clients')
+    let existingUser = await ctx.db
+      .query('users')
       .withIndex('by_email', (q) => q.eq('email', email))
       .first()
 
-    if (!existingClient) {
+    if (!existingUser) {
       const stripeCustomerId = args.stripe_customer_id
-      existingClient = await ctx.db
-        .query('clients')
+      existingUser = await ctx.db
+        .query('users')
         .withIndex('by_stripe_customer_id', (q) =>
           q.eq('stripe_customer_id', stripeCustomerId)
         )
         .first()
     }
 
-    if (existingClient) {
-      // Update existing client
+    if (existingUser) {
+      // Update existing user
       const updates: Record<string, unknown> = {
         stripe_customer_id: args.stripe_customer_id,
         updated_at: new Date().toISOString(),
@@ -226,12 +226,12 @@ export const upsertClientFromStripe = mutation({
         updates.subscription_end_date = args.subscription_end_date
       }
 
-      await ctx.db.patch(existingClient._id, updates)
-      return { id: existingClient._id, status: 'updated' }
+      await ctx.db.patch(existingUser._id, updates)
+      return { id: existingUser._id, status: 'updated' }
     }
 
-    // Create new client without clerk_id
-    const id = await ctx.db.insert('clients', {
+    // Create new user without clerk_id
+    const id = await ctx.db.insert('users', {
       email: args.email,
       stripe_customer_id: args.stripe_customer_id,
       subscription_status: args.subscription_status,
