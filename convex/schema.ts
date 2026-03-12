@@ -95,6 +95,27 @@ export default defineSchema({
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }).index('by_k_revenue', ['k_revenue']),
+  savedVideos: defineTable({
+    clerk_id: v.string(),
+    video_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_video_k_id', ['clerk_id', 'video_k_id']),
+  savedProducts: defineTable({
+    clerk_id: v.string(),
+    product_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_product_k_id', ['clerk_id', 'product_k_id']),
+  savedStores: defineTable({
+    clerk_id: v.string(),
+    store_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_store_k_id', ['clerk_id', 'store_k_id']),
   clients: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),

@@ -7,6 +7,7 @@ import { useConvexAuth } from 'convex/react'
 import {
   CircleDollarSign,
   HandCoins,
+  Heart,
   Menu,
   Store,
   PackageSearch,
@@ -38,6 +39,7 @@ const Header = () => {
     { path: '/stores', label: 'Lojas', icon: Store },
     { path: '/products', label: 'Produtos', icon: PackageSearch },
     { path: '/videos', label: 'Vídeos', icon: Video },
+    { path: '/saved', label: 'Salvos', icon: Heart },
   ]
 
   return (

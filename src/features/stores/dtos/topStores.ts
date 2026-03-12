@@ -17,7 +17,6 @@ export default class TopStoresDto {
       delete item.created_at
       delete item.k_day_sales
       delete item.k_day_revenue
-      delete item.k_id
       delete item.k_top_creators
       delete item.k_top_products
       delete item.k_top_videos
@@ -27,6 +26,7 @@ export default class TopStoresDto {
       return {
         country: item.country,
         category_id: item.main_category,
+        k_id: item.k_id,
         name: item.name,
         image: item.storage_id,
         type: item.type,

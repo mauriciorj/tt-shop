@@ -16,7 +16,6 @@ export default class TopProductsDto {
       delete item._creationTime
       delete item.created_at
       delete item.k_creator_conversion_ratio
-      delete item.k_id
       delete item.launch_date
       delete item.second_category
       delete item.third_category
@@ -25,6 +24,7 @@ export default class TopProductsDto {
       return {
         country: item.country,
         category_id: item.main_category,
+        k_id: item.k_id,
         name: item.name,
         image: item.storage_id,
         revenue: item.k_revenue,

@@ -10,9 +10,13 @@ import {
   DollarSign,
   Eye,
   FileText,
+  Heart,
   Play,
   ShoppingCart,
 } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import TablePagination from '@/components/tablePagination'
@@ -34,10 +38,35 @@ const formatNumber = (n: number) => {
 }
 
 const VideosContainer = () => {
+  const { user } = useUser()
+  const clerkId = user?.id ?? ''
+
+  const savedVideoIds = useQuery(
+    api.savedVideos.getSavedVideoIds,
+    clerkId ? { clerk_id: clerkId } : 'skip'
+  )
+  const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
+
   const [selectedVideo, setSelectedVideo] =
     useState<ITopVideosWithCategory | null>(null)
 
   const [copied, setCopied] = useState(false)
+
+  const handleToggleSave = async (videoKId: string) => {
+    if (!clerkId) {
+      toast.error('Faça login para salvar vídeos.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: clerkId,
+      video_k_id: videoKId,
+    })
+    if (result.saved) {
+      toast.success('Vídeo salvo!')
+    } else {
+      toast.success('Vídeo removido dos salvos.')
+    }
+  }
 
   const {
     categories,
@@ -104,9 +133,28 @@ const VideosContainer = () => {
 
               <CardContent className="p-4 space-y-3">
                 <div>
-                  <h3 className="flex font-semibold text-sm text-foreground line-clamp-2 leading-tight">
-                    {video.description}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-semibold text-sm text-foreground line-clamp-2 leading-tight flex-1">
+                      {video.description}
+                    </h3>
+                    <button
+                      onClick={() => handleToggleSave(video.video_id)}
+                      className="shrink-0 p-1 rounded-md hover:bg-secondary transition-colors"
+                      title={
+                        savedVideoIds?.includes(video.video_id)
+                          ? 'Remover dos salvos'
+                          : 'Salvar vídeo'
+                      }
+                    >
+                      <Heart
+                        className={`h-6 w-6 transition-colors ${
+                          savedVideoIds?.includes(video.video_id)
+                            ? 'text-primary fill-primary'
+                            : 'text-muted-foreground'
+                        }`}
+                      />
+                    </button>
+                  </div>
                   <div className="grid grid-cols-2 gap-2 text-sm mt-7 mb-17">
                     <div className="flex items-center gap-1.5 text-muted-foreground">
                       <Eye className="h-3.5 w-3.5" />

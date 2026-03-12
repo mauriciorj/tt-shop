@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from 'lucide-react'
+import { ArrowDown, ArrowUp, Heart, TrendingDown, TrendingUp } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
 import { IStoresWithCategory, TSortKey, TSortOrder } from '@/stores/types'
@@ -10,6 +10,8 @@ export interface TableProps {
   currentPage: number
   items: IStoresWithCategory[]
   onPageChange: (page: number) => void
+  onToggleSave?: (storeKId: string) => void
+  savedStoreIds?: string[]
   setSortKey: (key: TSortKey) => void
   setSortOrder: (order: TSortOrder) => void
   sortKey: TSortKey
@@ -38,6 +40,8 @@ const StoresTable = ({
   currentPage,
   items,
   onPageChange,
+  onToggleSave,
+  savedStoreIds,
   setSortKey,
   setSortOrder,
   sortKey,
@@ -126,6 +130,11 @@ const StoresTable = ({
                       />
                     </button>
                   </th>
+                  {onToggleSave && (
+                    <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
+                      Salvar
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -213,6 +222,30 @@ const StoresTable = ({
                         </span>
                       </div>
                     </td>
+                    {onToggleSave && (
+                      <td
+                        className="p-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          onClick={() => item.k_id && onToggleSave(item.k_id)}
+                          className="p-1 rounded-md hover:bg-secondary transition-colors"
+                          title={
+                            savedStoreIds?.includes(item.k_id ?? '')
+                              ? 'Remover dos salvos'
+                              : 'Salvar loja'
+                          }
+                        >
+                          <Heart
+                            className={`h-5 w-5 transition-colors ${
+                              savedStoreIds?.includes(item.k_id ?? '')
+                                ? 'text-primary fill-primary'
+                                : 'text-muted-foreground'
+                            }`}
+                          />
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

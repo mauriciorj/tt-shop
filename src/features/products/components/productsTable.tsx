@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import {
   ArrowDown,
   ArrowUp,
+  Heart,
   Star,
   TrendingDown,
   TrendingUp,
@@ -16,6 +17,8 @@ export interface TableProps {
   currentPage: number
   items: IProductsWithCategory[]
   onPageChange: (page: number) => void
+  onToggleSave?: (productKId: string) => void
+  savedProductIds?: string[]
   setSortKey: (key: TSortKey) => void
   setSortOrder: (order: TSortOrder) => void
   sortKey: TSortKey
@@ -44,6 +47,8 @@ const ProductsTable = ({
   currentPage,
   items,
   onPageChange,
+  onToggleSave,
+  savedProductIds,
   setSortKey,
   setSortOrder,
   sortKey,
@@ -158,6 +163,11 @@ const ProductsTable = ({
                       />
                     </button>
                   </th>
+                  {onToggleSave && (
+                    <th className="text-left p-4 text-sm font-semibold text-muted-foreground">
+                      Salvar
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -265,6 +275,30 @@ const ProductsTable = ({
                         </span>
                       </div>
                     </td>
+                    {onToggleSave && (
+                      <td
+                        className="p-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          onClick={() => item.k_id && onToggleSave(item.k_id)}
+                          className="p-1 rounded-md hover:bg-secondary transition-colors"
+                          title={
+                            savedProductIds?.includes(item.k_id ?? '')
+                              ? 'Remover dos salvos'
+                              : 'Salvar produto'
+                          }
+                        >
+                          <Heart
+                            className={`h-5 w-5 transition-colors ${
+                              savedProductIds?.includes(item.k_id ?? '')
+                                ? 'text-primary fill-primary'
+                                : 'text-muted-foreground'
+                            }`}
+                          />
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
