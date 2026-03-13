@@ -32,13 +32,15 @@ const VideoCard = ({
     >
       {/* Thumbnail */}
       <div className="relative aspect-[9/16] overflow-hidden">
-        <Image
-          src={video.image}
-          alt={video.description}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          loading="lazy"
-          fill
-        />
+        {video.image && (
+          <Image
+            src={video.image}
+            alt={video.description}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+            fill
+          />
+        )}
         <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur-sm text-foreground text-xs font-medium px-2 py-1 rounded-md flex items-center gap-1">
           <Clock className="h-3 w-3" />
           {video.duration}
