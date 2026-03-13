@@ -51,12 +51,13 @@ http.route({
         (email) => email.id === evt.data.primary_email_address_id
       )
 
-      const result = await ctx.runMutation(internal.clients.upsertClient!, {
+      const result = await ctx.runMutation(internal.users.upsertUser!, {
         clerk_id: id,
         email: primaryEmail?.email_address ?? '',
         first_name: first_name ?? undefined,
         last_name: last_name ?? undefined,
         image_url: image_url ?? undefined,
+        ...(eventType === 'user.created' && { subscription_plan: 'free' }),
       })
 
       // If we linked a Stripe customer to a new Clerk account, sync subscription status to Clerk
@@ -88,7 +89,7 @@ http.route({
       const { id } = evt.data
 
       if (id) {
-        await ctx.runMutation(internal.clients.deleteClient, {
+        await ctx.runMutation(internal.users.deleteUser, {
           clerk_id: id,
         })
       }

@@ -95,7 +95,7 @@ export default defineSchema({
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }).index('by_k_revenue', ['k_revenue']),
-  clients: defineTable({
+  users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),
     first_name: v.optional(v.string()),

@@ -1,13 +1,20 @@
 import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
+import UseUser from '@/hooks/useUser'
 import { TSortKey, TSortOrder } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 
 type TCategory = { id: string; label: string | null | undefined }
 
 const useStores = () => {
-  const ITEMS_PER_PAGE = 5
+  const ITEMS_PER_PAGE = 10
+  const { id } = UseUser()
+
+  const { data: dbUser, isLoading: isLoadingDbUser } = useQuery({
+    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
+  })
+  const userSubscriptionPlan = dbUser?.subscription_plan
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -62,7 +69,8 @@ const useStores = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     const end = currentPage * ITEMS_PER_PAGE
 
-    let result = getAllStores
+    let result =
+      userSubscriptionPlan === 'free' ? getAllStores.slice(0, 10) : getAllStores
 
     // Filter by category
     if (selectedCategory && selectedCategory !== 'all') {
@@ -119,6 +127,7 @@ const useStores = () => {
     selectedCategory,
     sortKey,
     sortOrder,
+    userSubscriptionPlan,
   ])
 
   // Function related to pagination
@@ -130,7 +139,7 @@ const useStores = () => {
     categories,
     currentPage,
     data: storesPaginated,
-    isLoading: isLoadingAllStores,
+    isLoading: Boolean(isLoadingAllStores && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,
@@ -141,6 +150,8 @@ const useStores = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId: id,
+    userSubscriptionPlan,
   }
 }
 

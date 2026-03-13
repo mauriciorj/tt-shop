@@ -1,42 +1,17 @@
 'use client'
 
 import { toast } from 'sonner'
-import { useUser } from '@clerk/nextjs'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
+import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import SearchBar from '@/components/search'
 import useProducts from '@/products/hooks/useProducts'
 import ProductsTable from '@/products/components/productsTable'
 import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const ProductsContainer = () => {
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
-
-  const savedProductIds = useQuery(
-    api.savedProducts.getSavedProductIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
-  )
-  const toggleSaved = useMutation(api.savedProducts.toggleSavedProduct)
-
-  const handleToggleSave = async (productKId: string) => {
-    if (!clerkId) {
-      toast.error('Faça login para salvar produtos.')
-      return
-    }
-    const result = await toggleSaved({
-      clerk_id: clerkId,
-      product_k_id: productKId,
-    })
-    if (result.saved) {
-      toast.success('Produto salvo!')
-    } else {
-      toast.success('Produto removido dos salvos.')
-    }
-  }
-
   const {
     categories,
     currentPage,
@@ -52,7 +27,31 @@ const ProductsContainer = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId,
+    userSubscriptionPlan,
   } = useProducts()
+
+  const savedProductIds = useQuery(
+    api.savedProducts.getSavedProductIds,
+    userId ? { clerk_id: userId } : 'skip'
+  )
+  const toggleSaved = useMutation(api.savedProducts.toggleSavedProduct)
+
+  const handleToggleSave = async (productKId: string) => {
+    if (!userId) {
+      toast.error('Faça login para salvar produtos.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: userId,
+      product_k_id: productKId,
+    })
+    if (result.saved) {
+      toast.success('Produto salvo!')
+    } else {
+      toast.success('Produto removido dos salvos.')
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -61,12 +60,17 @@ const ProductsContainer = () => {
           description="Descubra os melhores produtos"
           title="Produtos"
         />
-        <Categories
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setCurrentPage={setCurrentPage}
-        />
+        {isLoading ? (
+          <CategoriesSkeleton />
+        ) : (
+          <Categories
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+            userSubscriptionPlan={userSubscriptionPlan!}
+          />
+        )}
         <SearchBar
           data={products}
           isStore={false}

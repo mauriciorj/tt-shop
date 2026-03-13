@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
+import UseUser from '@/hooks/useUser'
 import { TSortKey, TSortOrder } from '@/products/types'
 import { useQuery } from '@tanstack/react-query'
 
@@ -8,6 +9,12 @@ type TCategory = { id: string; label: string | null | undefined }
 
 const useProducts = () => {
   const ITEMS_PER_PAGE = 5
+  const { id } = UseUser()
+
+  const { data: dbUser } = useQuery({
+    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
+  })
+  const userSubscriptionPlan = dbUser?.subscription_plan
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -153,6 +160,8 @@ const useProducts = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId: id,
+    userSubscriptionPlan,
   }
 }
 

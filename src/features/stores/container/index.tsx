@@ -1,42 +1,17 @@
 'use client'
 
 import { toast } from 'sonner'
-import { useUser } from '@clerk/nextjs'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
+import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
 const StoresContainer = () => {
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
-
-  const savedStoreIds = useQuery(
-    api.savedStores.getSavedStoreIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
-  )
-  const toggleSaved = useMutation(api.savedStores.toggleSavedStore)
-
-  const handleToggleSave = async (storeKId: string) => {
-    if (!clerkId) {
-      toast.error('Faça login para salvar lojas.')
-      return
-    }
-    const result = await toggleSaved({
-      clerk_id: clerkId,
-      store_k_id: storeKId,
-    })
-    if (result.saved) {
-      toast.success('Loja salva!')
-    } else {
-      toast.success('Loja removida dos salvos.')
-    }
-  }
-
   const {
     categories,
     currentPage,
@@ -52,7 +27,31 @@ const StoresContainer = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId,
+    userSubscriptionPlan,
   } = useStores()
+
+  const savedStoreIds = useQuery(
+    api.savedStores.getSavedStoreIds,
+    userId ? { clerk_id: userId } : 'skip'
+  )
+  const toggleSaved = useMutation(api.savedStores.toggleSavedStore)
+
+  const handleToggleSave = async (storeKId: string) => {
+    if (!userId) {
+      toast.error('Faça login para salvar lojas.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: userId,
+      store_k_id: storeKId,
+    })
+    if (result.saved) {
+      toast.success('Loja salva!')
+    } else {
+      toast.success('Loja removida dos salvos.')
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -61,12 +60,17 @@ const StoresContainer = () => {
           description="Descubra as melhores lojas no TikTok Shop"
           title="Lojas"
         />
-        <Categories
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setCurrentPage={setCurrentPage}
-        />
+        {isLoading ? (
+          <CategoriesSkeleton />
+        ) : (
+          <Categories
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+            userSubscriptionPlan={userSubscriptionPlan!}
+          />
+        )}
         <SearchBar
           data={stores}
           placeholder="Procuar por uma loja ou produto..."

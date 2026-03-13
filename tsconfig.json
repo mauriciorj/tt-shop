@@ -32,6 +32,7 @@
       "@/product/*": ["./src/features/product/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],
+      "@/saved/*": ["./src/features/saved/*"],
       "@/store/*": ["./src/features/store/*"],
       "@/stores/*": ["./src/features/stores/*"],
       "@/types/*": ["./src/features/common/types/*"],
