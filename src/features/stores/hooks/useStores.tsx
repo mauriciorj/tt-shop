@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useUser } from '@clerk/nextjs'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import { TSortKey, TSortOrder } from '@/stores/types'
@@ -7,7 +8,18 @@ import { useQuery } from '@tanstack/react-query'
 type TCategory = { id: string; label: string | null | undefined }
 
 const useStores = () => {
-  const ITEMS_PER_PAGE = 5
+  const ITEMS_PER_PAGE = 10
+  const { user } = useUser()
+
+  const clerkId = user?.id ?? ''
+
+  const { data: dbUser, isLoading: isLoadingDbUser } = useQuery({
+    ...convexQuery(
+      api.users.getUserByClerkId,
+      clerkId ? { clerk_id: clerkId } : 'skip'
+    ),
+  })
+  const userSubscriptionPlan = dbUser?.subscription_plan
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -62,7 +74,8 @@ const useStores = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     const end = currentPage * ITEMS_PER_PAGE
 
-    let result = getAllStores
+    let result =
+      userSubscriptionPlan === 'free' ? getAllStores.slice(0, 10) : getAllStores
 
     // Filter by category
     if (selectedCategory && selectedCategory !== 'all') {
@@ -119,6 +132,7 @@ const useStores = () => {
     selectedCategory,
     sortKey,
     sortOrder,
+    userSubscriptionPlan,
   ])
 
   // Function related to pagination
@@ -128,9 +142,10 @@ const useStores = () => {
 
   return {
     categories,
+    clerkId,
     currentPage,
     data: storesPaginated,
-    isLoading: isLoadingAllStores,
+    isLoading: Boolean(isLoadingAllStores && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,
@@ -141,6 +156,7 @@ const useStores = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userSubscriptionPlan,
   }
 }
 

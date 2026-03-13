@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useUser } from '@clerk/nextjs'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import { useQuery } from '@tanstack/react-query'
@@ -7,6 +8,17 @@ type TCategory = { id: string | null; label: string | null | undefined }
 
 const useVideos = () => {
   const ITEMS_PER_PAGE = 12
+  const { user } = useUser()
+
+  const clerkId = user?.id ?? ''
+
+  const { data: dbUser } = useQuery({
+    ...convexQuery(
+      api.users.getUserByClerkId,
+      clerkId ? { clerk_id: clerkId } : 'skip'
+    ),
+  })
+  const userSubscriptionPlan = dbUser?.subscription_plan
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -91,6 +103,7 @@ const useVideos = () => {
     setCurrentPage,
     setSelectedCategory,
     totalPages,
+    userSubscriptionPlan,
   }
 }
 

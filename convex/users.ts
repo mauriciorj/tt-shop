@@ -9,6 +9,7 @@ export const upsertUser = internalMutation({
     first_name: v.optional(v.string()),
     last_name: v.optional(v.string()),
     image_url: v.optional(v.string()),
+    subscription_plan: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     // First check if user exists by clerk_id

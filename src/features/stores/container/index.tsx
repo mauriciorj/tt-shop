@@ -1,7 +1,6 @@
 'use client'
 
 import { toast } from 'sonner'
-import { useUser } from '@clerk/nextjs'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
@@ -12,8 +11,24 @@ import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
 const StoresContainer = () => {
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
+  const {
+    categories,
+    clerkId,
+    currentPage,
+    data: stores,
+    isLoading,
+    itemsPerPage,
+    onPageChange,
+    selectedCategory,
+    setSelectedCategory,
+    setCurrentPage,
+    setSortKey,
+    setSortOrder,
+    sortKey,
+    sortOrder,
+    totalPages,
+    userSubscriptionPlan,
+  } = useStores()
 
   const savedStoreIds = useQuery(
     api.savedStores.getSavedStoreIds,
@@ -37,23 +52,6 @@ const StoresContainer = () => {
     }
   }
 
-  const {
-    categories,
-    currentPage,
-    data: stores,
-    isLoading,
-    itemsPerPage,
-    onPageChange,
-    selectedCategory,
-    setSelectedCategory,
-    setCurrentPage,
-    setSortKey,
-    setSortOrder,
-    sortKey,
-    sortOrder,
-    totalPages,
-  } = useStores()
-
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
@@ -61,12 +59,15 @@ const StoresContainer = () => {
           description="Descubra as melhores lojas no TikTok Shop"
           title="Lojas"
         />
-        <Categories
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setCurrentPage={setCurrentPage}
-        />
+        {!isLoading && (
+          <Categories
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+            userSubscriptionPlan={userSubscriptionPlan!}
+          />
+        )}
         <SearchBar
           data={stores}
           placeholder="Procuar por uma loja ou produto..."

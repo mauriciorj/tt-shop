@@ -72,13 +72,12 @@ const VideosContainer = () => {
     categories,
     currentPage,
     data: videos,
-    isLoading: isLoadingAllVideos,
-    itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,
     setCurrentPage,
     setSelectedCategory,
     totalPages,
+    userSubscriptionPlan,
   } = useVideos()
 
   const handleCopy = async () => {
@@ -102,6 +101,7 @@ const VideosContainer = () => {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           setCurrentPage={setCurrentPage}
+          userSubscriptionPlan={userSubscriptionPlan!}
         />
 
         <div

@@ -52,6 +52,7 @@ const ProductsContainer = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userSubscriptionPlan,
   } = useProducts()
 
   return (
@@ -66,6 +67,7 @@ const ProductsContainer = () => {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           setCurrentPage={setCurrentPage}
+          userSubscriptionPlan={userSubscriptionPlan!}
         />
         <SearchBar
           data={products}
