@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  CheckCircle,
-  XCircle,
-  RotateCcw,
-  Download,
-} from 'lucide-react'
+import { CheckCircle, XCircle, RotateCcw, Download } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,8 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import Header from '@/components/header'
-import Footer from '@/components/footer'
 
 type BillStatus = 'paid' | 'cancelled' | 'refunded'
 
@@ -122,8 +115,6 @@ const BillingHistory = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header />
-
       <main className="container max-w-5xl py-16 md:py-24 px-4">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
@@ -209,8 +200,6 @@ const BillingHistory = () => {
           </Table>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }

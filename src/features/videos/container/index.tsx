@@ -14,7 +14,6 @@ import {
   Play,
   ShoppingCart,
 } from 'lucide-react'
-import { useUser } from '@clerk/nextjs'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
@@ -28,6 +27,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import UseUser from '@/hooks/useUser'
 import { ITopVideosWithCategory } from '@/videos/types'
 import useVideos from '@/videos/hooks/useVideos'
 
@@ -38,12 +38,11 @@ const formatNumber = (n: number) => {
 }
 
 const VideosContainer = () => {
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
+  const { id } = UseUser()
 
   const savedVideoIds = useQuery(
     api.savedVideos.getSavedVideoIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
+    id ? { clerk_id: id } : 'skip'
   )
   const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
 
@@ -53,12 +52,12 @@ const VideosContainer = () => {
   const [copied, setCopied] = useState(false)
 
   const handleToggleSave = async (videoKId: string) => {
-    if (!clerkId) {
+    if (!id) {
       toast.error('Faça login para salvar vídeos.')
       return
     }
     const result = await toggleSaved({
-      clerk_id: clerkId,
+      clerk_id: id,
       video_k_id: videoKId,
     })
     if (result.saved) {

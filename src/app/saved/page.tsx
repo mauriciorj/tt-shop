@@ -13,11 +13,11 @@ import {
   TrendingUp,
   TrendingDown,
 } from 'lucide-react'
-import { useUser } from '@clerk/nextjs'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
+import UseUser from '@/hooks/useUser'
 import { normalizeUrl } from '@/utils/string'
 
 const formatNumber = (n: number) => {
@@ -28,26 +28,21 @@ const formatNumber = (n: number) => {
 
 const Saved = () => {
   const router = useRouter()
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
+  const { id } = UseUser()
 
   const savedVideos =
-    useQuery(
-      api.savedVideos.getSavedVideos,
-      clerkId ? { clerk_id: clerkId } : 'skip'
-    ) ?? []
+    useQuery(api.savedVideos.getSavedVideos, id ? { clerk_id: id } : 'skip') ??
+    []
 
   const savedProducts =
     useQuery(
       api.savedProducts.getSavedProducts,
-      clerkId ? { clerk_id: clerkId } : 'skip'
+      id ? { clerk_id: id } : 'skip'
     ) ?? []
 
   const savedStores =
-    useQuery(
-      api.savedStores.getSavedStores,
-      clerkId ? { clerk_id: clerkId } : 'skip'
-    ) ?? []
+    useQuery(api.savedStores.getSavedStores, id ? { clerk_id: id } : 'skip') ??
+    []
 
   return (
     <div className="min-h-screen flex flex-col">

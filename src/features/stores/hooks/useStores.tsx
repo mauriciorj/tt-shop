@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
-import { useUser } from '@clerk/nextjs'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
+import UseUser from '@/hooks/useUser'
 import { TSortKey, TSortOrder } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 
@@ -9,15 +9,10 @@ type TCategory = { id: string; label: string | null | undefined }
 
 const useStores = () => {
   const ITEMS_PER_PAGE = 10
-  const { user } = useUser()
-
-  const clerkId = user?.id ?? ''
+  const { id } = UseUser()
 
   const { data: dbUser, isLoading: isLoadingDbUser } = useQuery({
-    ...convexQuery(
-      api.users.getUserByClerkId,
-      clerkId ? { clerk_id: clerkId } : 'skip'
-    ),
+    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
   })
   const userSubscriptionPlan = dbUser?.subscription_plan
 
@@ -142,7 +137,6 @@ const useStores = () => {
 
   return {
     categories,
-    clerkId,
     currentPage,
     data: storesPaginated,
     isLoading: Boolean(isLoadingAllStores && isLoadingDbUser),
@@ -156,6 +150,7 @@ const useStores = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId: id,
     userSubscriptionPlan,
   }
 }

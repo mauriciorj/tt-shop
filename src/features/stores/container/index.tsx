@@ -13,7 +13,6 @@ import useStores from '@/stores/hooks/useStores'
 const StoresContainer = () => {
   const {
     categories,
-    clerkId,
     currentPage,
     data: stores,
     isLoading,
@@ -27,22 +26,23 @@ const StoresContainer = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId,
     userSubscriptionPlan,
   } = useStores()
 
   const savedStoreIds = useQuery(
     api.savedStores.getSavedStoreIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
+    userId ? { clerk_id: userId } : 'skip'
   )
   const toggleSaved = useMutation(api.savedStores.toggleSavedStore)
 
   const handleToggleSave = async (storeKId: string) => {
-    if (!clerkId) {
+    if (!userId) {
       toast.error('Faça login para salvar lojas.')
       return
     }
     const result = await toggleSaved({
-      clerk_id: clerkId,
+      clerk_id: userId,
       store_k_id: storeKId,
     })
     if (result.saved) {

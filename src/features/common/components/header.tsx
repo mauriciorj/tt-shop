@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { useConvexAuth } from 'convex/react'
 import {
   CircleDollarSign,
   HandCoins,
@@ -27,11 +26,12 @@ import {
   SheetTrigger,
   SheetTitle,
 } from '@/components/ui/sheet'
+import UseUser from '@/hooks/useUser'
 
 const Header = () => {
   const pathname = usePathname()
 
-  const { isAuthenticated } = useConvexAuth()
+  const { isAuthenticated, userSubscriptionPlan } = UseUser()
 
   const [open, setOpen] = useState(false)
 
@@ -108,13 +108,15 @@ const Header = () => {
                   href="/subscription"
                 />
               </UserButton.MenuItems>
-              <UserButton.MenuItems>
-                <UserButton.Link
-                  label="Faturamento"
-                  labelIcon={<CircleDollarSign className="h-4 w-4" />}
-                  href="/billing"
-                />
-              </UserButton.MenuItems>
+              {userSubscriptionPlan !== 'free' && (
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="Faturamento"
+                    labelIcon={<CircleDollarSign className="h-4 w-4" />}
+                    href="/billing"
+                  />
+                </UserButton.MenuItems>
+              )}
             </UserButton>
           </SignedIn>
           {isAuthenticated && (

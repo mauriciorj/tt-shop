@@ -1,33 +1,32 @@
 'use client'
 
 import { toast } from 'sonner'
-import { useUser } from '@clerk/nextjs'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import SearchBar from '@/components/search'
+import UseUser from '@/hooks/useUser'
 import useProducts from '@/products/hooks/useProducts'
 import ProductsTable from '@/products/components/productsTable'
 import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const ProductsContainer = () => {
-  const { user } = useUser()
-  const clerkId = user?.id ?? ''
+  const { id } = UseUser()
 
   const savedProductIds = useQuery(
     api.savedProducts.getSavedProductIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
+    id ? { clerk_id: id } : 'skip'
   )
   const toggleSaved = useMutation(api.savedProducts.toggleSavedProduct)
 
   const handleToggleSave = async (productKId: string) => {
-    if (!clerkId) {
+    if (!id) {
       toast.error('Faça login para salvar produtos.')
       return
     }
     const result = await toggleSaved({
-      clerk_id: clerkId,
+      clerk_id: id,
       product_k_id: productKId,
     })
     if (result.saved) {
