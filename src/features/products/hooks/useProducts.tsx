@@ -160,6 +160,7 @@ const useProducts = () => {
     sortKey,
     sortOrder,
     totalPages,
+    userId: id,
     userSubscriptionPlan,
   }
 }

@@ -5,6 +5,7 @@ import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
+import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
@@ -59,7 +60,9 @@ const StoresContainer = () => {
           description="Descubra as melhores lojas no TikTok Shop"
           title="Lojas"
         />
-        {!isLoading && (
+        {isLoading ? (
+          <CategoriesSkeleton />
+        ) : (
           <Categories
             categories={categories}
             selectedCategory={selectedCategory}

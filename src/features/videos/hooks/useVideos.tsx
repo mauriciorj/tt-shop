@@ -98,6 +98,7 @@ const useVideos = () => {
     setCurrentPage,
     setSelectedCategory,
     totalPages,
+    userId: id,
     userSubscriptionPlan,
   }
 }

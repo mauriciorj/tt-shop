@@ -114,8 +114,8 @@ const BillingHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <main className="container max-w-5xl py-16 md:py-24 px-4">
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
             Histórico de Cobranças
@@ -123,28 +123,6 @@ const BillingHistory = () => {
           <p className="text-muted-foreground">
             Visualize todas as suas faturas e pagamentos
           </p>
-        </div>
-
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          <div className="p-4 rounded-lg border border-border bg-card text-center">
-            <p className="text-muted-foreground text-sm mb-1">Total Pago</p>
-            <p className="text-2xl font-bold text-primary">R${totals.paid}</p>
-          </div>
-          <div className="p-4 rounded-lg border border-border bg-card text-center">
-            <p className="text-muted-foreground text-sm mb-1">
-              Total Reembolsado
-            </p>
-            <p className="text-2xl font-bold text-muted-foreground">
-              R${totals.refunded}
-            </p>
-          </div>
-          <div className="p-4 rounded-lg border border-border bg-card text-center">
-            <p className="text-muted-foreground text-sm mb-1">Cancelados</p>
-            <p className="text-2xl font-bold text-destructive">
-              {totals.cancelled}
-            </p>
-          </div>
         </div>
 
         {/* Bills Table */}

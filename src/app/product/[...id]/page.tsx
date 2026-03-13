@@ -49,7 +49,7 @@ const ProductDetail = () => {
   const { id } = useParams()
   const router = useRouter()
 
-  const { product, setName } = useProduct()
+  const { isLoading, product, setName } = useProduct()
 
   useEffect(() => {
     if (id?.[0]) {
@@ -58,7 +58,7 @@ const ProductDetail = () => {
   }, [id])
 
   // TODO: Add loading state
-  if (!product) {
+  if (isLoading && !product) {
     return <NotFoundProduct />
   }
 
@@ -76,19 +76,19 @@ const ProductDetail = () => {
           </Button>
 
           {/* Product Header */}
-          <Header product={product} />
+          <Header product={product!} />
 
           {/* Stats Grid */}
-          <CardsStats product={product} />
+          <CardsStats product={product!} />
 
           {/* Line Chart */}
-          <LineChart product={product} />
+          <LineChart product={product!} />
 
           {/* Creators Table */}
-          <CreatorsTable data={product.top_creators as ICreatorDto[]} />
+          <CreatorsTable data={product!.top_creators as ICreatorDto[]} />
 
           {/* Videos Table */}
-          <VideosTable data={product.top_videos as IVideoDto[]} />
+          <VideosTable data={product!.top_videos as IVideoDto[]} />
         </div>
       </main>
     </div>

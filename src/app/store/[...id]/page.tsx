@@ -18,7 +18,7 @@ const StoreDetail = () => {
   const { id } = useParams()
   const router = useRouter()
 
-  const { store, setName } = useStore()
+  const { isLoading, store, setName } = useStore()
 
   useEffect(() => {
     if (id?.[0]) {
@@ -27,7 +27,7 @@ const StoreDetail = () => {
   }, [id])
 
   // TODO: Add loading state
-  if (!store) {
+  if (isLoading && !store) {
     return <NotFoundStore />
   }
 
@@ -46,22 +46,22 @@ const StoreDetail = () => {
           </Button>
 
           {/* Store Header */}
-          <Header store={store} />
+          <Header store={store!} />
 
           {/* Stats Grid */}
-          <CardsStats store={store} />
+          <CardsStats store={store!} />
 
           {/* Line Chart */}
-          <LineChart store={store} />
+          <LineChart store={store!} />
 
           {/* Products Table */}
-          <ProductsTable data={store.top_products as IProductDto[]} />
+          <ProductsTable data={store!.top_products as IProductDto[]} />
 
           {/* Creators Table */}
-          <CreatorsTable data={store.top_creators as ICreatorDto[]} />
+          <CreatorsTable data={store!.top_creators as ICreatorDto[]} />
 
           {/* Videos Table */}
-          <VideosTable data={store.top_videos as IVideoDto[]} />
+          <VideosTable data={store!.top_videos as IVideoDto[]} />
         </div>
       </main>
     </div>

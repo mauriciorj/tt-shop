@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
-import { api } from '@/convex/_generated/api'
-import { convexQuery } from '@convex-dev/react-query'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,19 +15,12 @@ import {
 import UseUser from '@/hooks/useUser'
 import plansInfos from '@/payment/plansInfos'
 import PricingCard from '@/payment/components/pricingCard'
-import { useQuery } from '@tanstack/react-query'
 
 const Subscription = () => {
-  const { id } = UseUser()
+  const { userSubscriptionPlan } = UseUser()
 
   const [showCancelDialog, setShowCancelDialog] = useState(false)
   const [showCancelEmailDialog, setShowCancelEmailDialog] = useState(false)
-
-  const { data: dbUser } = useQuery({
-    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
-  })
-
-  const userSubscriptionPlan = dbUser?.subscription_plan
 
   return (
     <div className="min-h-screen flex flex-col">
