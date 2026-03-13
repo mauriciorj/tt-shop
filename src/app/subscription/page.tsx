@@ -39,13 +39,13 @@ const Subscription = () => {
             {...plansInfos.free}
             setShowCancelDialog={setShowCancelDialog}
             isAuthFlow
-            isCurrentPlan={Boolean(userSubscriptionPlan !== 'free')}
+            isCurrentPlan={Boolean(userSubscriptionPlan === 'free')}
             isMostPopular={false}
           />
           <PricingCard
             {...plansInfos.pro}
             isAuthFlow
-            isCurrentPlan={Boolean(userSubscriptionPlan === 'free')}
+            isCurrentPlan={Boolean(userSubscriptionPlan !== 'free')}
             isMostPopular={false}
           />
         </div>

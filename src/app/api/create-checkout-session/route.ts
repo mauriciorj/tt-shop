@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       mode: 'subscription',
       line_items: [
         {
-          price: process.env.PRICE_FREE!,
+          price: process.env.PRICE!,
           quantity: quantity,
         },
       ],
