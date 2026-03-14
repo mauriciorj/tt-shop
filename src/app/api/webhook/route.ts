@@ -66,8 +66,7 @@ async function handleCheckoutSessionCompleted(
   )) as Stripe.Subscription
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number })
-    .current_period_end
+  const currentPeriodEnd = subscription.items.data[0]?.current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
@@ -109,8 +108,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number })
-    .current_period_end
+  const currentPeriodEnd = subscription.items.data[0]?.current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
@@ -151,8 +149,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string
   const status = mapStripeStatus(subscription.status)
   const plan = subscription.items.data[0]?.price?.nickname || 'Pro'
-  const currentPeriodEnd = (subscription as { current_period_end?: number })
-    .current_period_end
+  const currentPeriodEnd = subscription.items.data[0]?.current_period_end
   const endDate = currentPeriodEnd
     ? new Date(currentPeriodEnd * 1000).toISOString()
     : undefined
