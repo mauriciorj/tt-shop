@@ -113,7 +113,7 @@ const Header = () => {
                   <UserButton.Link
                     label="Faturamento"
                     labelIcon={<CircleDollarSign className="h-4 w-4" />}
-                    href="/billing"
+                    href="/api/customer-portal"
                   />
                 </UserButton.MenuItems>
               )}

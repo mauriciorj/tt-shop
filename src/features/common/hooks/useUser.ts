@@ -16,11 +16,13 @@ const UseUser = () => {
     ),
   })
   const userSubscriptionPlan = dbUser?.subscription_plan || null
+  const userSubscriptionStatus = dbUser?.subscription_status || null
 
   return {
     id: clerkId,
     isAuthenticated,
     isLoading: Boolean(isLoadingAuth || isLoadingDbUser),
+    isSubscriptionActive: Boolean(userSubscriptionStatus === 'active'),
     userSubscriptionPlan,
   }
 }

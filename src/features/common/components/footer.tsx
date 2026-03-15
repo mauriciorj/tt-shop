@@ -6,15 +6,17 @@ const Footer = () => {
     Produto: [{ label: 'Preço', href: '/#price' }],
     Recursos: [
       { label: 'Documentação', href: '#' },
-      { label: 'Suporte', href: '#' },
+      { label: 'Suporte', href: '/support' },
     ],
     Empresa: [
       { label: 'Sobre', href: '/about' },
       { label: 'Contato', href: '/contato' },
     ],
     Legal: [
-      { label: 'Privacidade', href: '#' },
-      { label: 'Termos', href: '#' },
+      { label: 'Termos de Serviço', href: '/termos-de-servico' },
+      { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
+      { label: 'Disclaimer', href: '/disclaimer' },
+      { label: 'Produto em Beta', href: '/produto-em-beta' },
     ],
   }
 
@@ -33,6 +35,9 @@ const Footer = () => {
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
               Descubra e rastreie as melhores lojas no TikTok Shop.
+            </p>
+            <p className="text-sm text-muted-foreground mb-4 italic">
+              Importante: UseShopRadar não é afiliado ao TikTok.
             </p>
             {/* <div className="flex gap-3">
               <a
