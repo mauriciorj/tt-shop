@@ -1,4 +1,5 @@
 from utils.parse_value import parse_value
+from utils.random_multiply import random_multiply
 
 def dto(data):
     formated_data =  []
@@ -8,9 +9,9 @@ def dto(data):
             'tt_account': data['handle'],
             'tt_nickname': data['nickname'],
             'tt_followers': int(data['followers']),
-            'k_revenue': parse_value(data['revenue']),
-            'k_video_revenue': parse_value(data['video_revenue']),
-            'k_live_revenue': parse_value(data['live_revenue']),
-            'k_sales': int(parse_value(data['sale'])),
+            'k_revenue': random_multiply(parse_value(data['revenue'])),
+            'k_video_revenue': random_multiply(parse_value(data['video_revenue'])),
+            'k_live_revenue': random_multiply(parse_value(data['live_revenue'])),
+            'k_sales': random_multiply(int(parse_value(data['sale']))),
         })
     return formated_data

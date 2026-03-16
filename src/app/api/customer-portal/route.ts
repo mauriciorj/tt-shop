@@ -26,10 +26,12 @@ export async function GET(request: NextRequest) {
     }
 
     const domainURL = process.env.DOMAIN || 'http://localhost:3000'
+    const referer = request.headers.get('referer')
+    const returnUrl = referer && referer.startsWith(domainURL) ? referer : `${domainURL}/subscription`
 
     const portalSession = await stripe().billingPortal.sessions.create({
       customer: user.stripe_customer_id,
-      return_url: `${domainURL}/subscription`,
+      return_url: returnUrl,
     })
 
     return NextResponse.redirect(portalSession.url)

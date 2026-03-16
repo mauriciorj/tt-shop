@@ -14,21 +14,18 @@ def dto(data):
         revenue_history, revenue_history_14_days, revenue_history_7_days = revenue_history_periods_with_random_multiply(data['revenue_trend'])
 
         formated_data.append({
-            'name': data['name'],
-            'name_url': normalize_url(data['name']),
-            'country': "br",
-            'type': data['seller_type'].lower(),
-            'main_category': str(pri_cat),
-            'second_category': str(sec_cat),
-            'third_category': str(ter_cat),
-            'unit_price': parse_value(data['unit_price']),
+            'description': data['description'],
             'k_id': str(data['id']),
             'k_revenue': random_multiply(parse_value(data['revenue'])),
             'k_revenue_history': revenue_history,
-            'k_revenue_history_14_days': revenue_history_14_days,
             'k_revenue_history_7_days': revenue_history_7_days,
+            'k_revenue_history_14_days': revenue_history_14_days,
             'k_revenue_growth_rate': random_multiply(parse_value(data['revenue_grouping_rate'])),
             'k_sales': random_multiply(int(parse_value(data['sale']))),
+            'views': int(parse_value(data['views'])),
+            'tt_account': data['handle'],
+            'duration': data['duration'],
+            'publish_date': data['publish_date'],
         })
     print('[ SELENIUM ] Data formatted successfully')
     return formated_data

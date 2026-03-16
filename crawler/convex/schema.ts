@@ -89,12 +89,36 @@ export default defineSchema({
     duration: v.string(),
     k_id: v.string(),
     k_revenue: v.number(),
+    k_revenue_history_14_days: v.optional(v.array(v.number())),
+    k_revenue_history_7_days: v.optional(v.array(v.number())),
     k_sales: v.number(),
     main_category: v.optional(v.string()),
     transcription: v.optional(v.string()),
+    publish_date: v.optional(v.string()),
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
   }).index('by_k_revenue', ['k_revenue']),
+  savedVideos: defineTable({
+    clerk_id: v.string(),
+    video_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_video_k_id', ['clerk_id', 'video_k_id']),
+  savedProducts: defineTable({
+    clerk_id: v.string(),
+    product_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_product_k_id', ['clerk_id', 'product_k_id']),
+  savedStores: defineTable({
+    clerk_id: v.string(),
+    store_k_id: v.string(),
+    created_at: v.optional(v.string()),
+  })
+    .index('by_clerk_id', ['clerk_id'])
+    .index('by_clerk_id_store_k_id', ['clerk_id', 'store_k_id']),
   users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),

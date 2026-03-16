@@ -12,7 +12,7 @@ export const updateVideos = mutation({
     tt_account: v.optional(v.string()),
     storage_id: v.optional(v.string()),
     description: v.string(),
-    main_category: v.string(),
+    main_category: v.optional(v.string()),
     views: v.number(),
     duration: v.string(),
     k_id: v.string(),
@@ -45,6 +45,19 @@ export const updateVideos = mutation({
     })
 
     return { id: result, status: 'added' }
+  },
+})
+
+export const updateVideoCategory = mutation({
+  args: {
+    id: v.id('videos'),
+    main_category: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, {
+      main_category: args.main_category,
+      updated_at: new Date().toISOString(),
+    })
   },
 })
 
@@ -127,6 +140,26 @@ export const getVideoById = query({
   args: { id: v.id('videos') },
   handler: async (ctx, { id }) => {
     return await ctx.db.get(id)
+  },
+})
+
+export const getVideoByIdWithPagination = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const { paginationOpts } = args
+
+    const videos = await ctx.db
+      .query('videos')
+      .order('asc')
+      .paginate(paginationOpts)
+
+    return {
+      page: videos?.page,
+      isDone: videos?.isDone,
+      continueCursor: videos?.continueCursor,
+      splitCursor: videos?.splitCursor,
+      pageStatus: videos?.pageStatus,
+    }
   },
 })
 
