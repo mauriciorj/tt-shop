@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
-import BenefitsSection from '@/components/homepage/benefits'
+import Benefits from '@/components/homepage/benefits'
 import CallToAction from '@/components/homepage/callToAction'
-import ComparisonSection from '@/components/homepage/comparison'
+import Comparison from '@/components/homepage/comparison'
+import Faq from '../features/common/components/homepage/faq'
 import Hero from '@/components/homepage/hero'
-import HowItWorksSection from '@/components/homepage/howItWorks'
+import HowItWorks from '@/components/homepage/howItWorks'
 import ProblemSection from '@/components/homepage/problem'
-import SalesDataSection from '@/components/homepage/salesData'
-import SocialProofSection from '@/components/homepage/socialProofSection'
-import SolutionSection from '@/components/homepage/solution'
+import SalesData from '@/components/homepage/salesData'
+import SocialProof from '@/components/homepage/socialProof'
+import Solution from '@/components/homepage/solution'
 import Pricing from '@/components/homepage/pricing'
 
 export const metadata: Metadata = {
@@ -49,19 +50,21 @@ const Page = () => {
 
         <ProblemSection />
 
-        <SolutionSection />
+        <Solution />
 
-        <HowItWorksSection />
+        <HowItWorks />
 
-        <SalesDataSection />
+        <SalesData />
 
-        <BenefitsSection />
+        <Benefits />
 
-        <SocialProofSection />
+        <SocialProof />
 
-        <ComparisonSection />
+        <Comparison />
 
         <Pricing />
+
+        <Faq />
 
         <CallToAction />
       </main>
