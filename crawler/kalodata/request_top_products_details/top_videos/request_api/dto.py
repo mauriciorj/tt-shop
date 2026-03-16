@@ -1,4 +1,5 @@
 from utils.parse_value import parse_value
+from utils.random_multiply import random_multiply
 
 def dto(data, main_category):
     formated_data =  []
@@ -10,7 +11,7 @@ def dto(data, main_category):
             'views': int(parse_value(data['views'])),
             'main_category': main_category,
             'duration': data['duration'],
-            'k_revenue': parse_value(data['revenue']),
-            'k_sales': int(parse_value(data['sale'])),
+            'k_revenue': random_multiply(parse_value(data['revenue'])),
+            'k_sales': random_multiply(int(parse_value(data['sale']))),
         })
     return formated_data
