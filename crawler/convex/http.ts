@@ -57,6 +57,7 @@ http.route({
         first_name: first_name ?? undefined,
         last_name: last_name ?? undefined,
         image_url: image_url ?? undefined,
+        ...(eventType === 'user.created' && { subscription_plan: 'free' }),
       })
 
       // If we linked a Stripe customer to a new Clerk account, sync subscription status to Clerk
