@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import {
   ArrowRight,
   TrendingUp,
@@ -160,6 +163,20 @@ const TrendBadge = ({ value }: { value: number }) => (
 )
 
 const SalesDataSection = () => {
+  const tabs = ['videos', 'products', 'stores']
+  const [activeTab, setActiveTab] = useState('products')
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTab((current) => {
+        const currentIndex = tabs.indexOf(current)
+        const nextIndex = (currentIndex + 1) % tabs.length
+        return tabs[nextIndex]
+      })
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [])
   return (
     <section className="w-full relative flex items-center justify-center flex-col py-20 md:py-24 px-4">
       <div className="container">
@@ -174,7 +191,8 @@ const SalesDataSection = () => {
         </div>
 
         <Tabs
-          defaultValue="products"
+          value={activeTab}
+          onValueChange={setActiveTab}
           className="max-w-4xl mx-auto animate-slide-up"
         >
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8 h-12 rounded-xl bg-muted/60 p-1">
