@@ -1,46 +1,46 @@
 import type { MetadataRoute } from 'next'
+import { fetchQuery } from 'convex/nextjs'
+import { api } from '@/convex/_generated/api'
+import { normalizeUrl } from '@/utils/string'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://shopradar.com.br',
+const BASE_URL = 'https://shopradar.com.br'
+
+const staticRoutes: MetadataRoute.Sitemap = [
+  { url: BASE_URL, lastModified: new Date() },
+  { url: `${BASE_URL}/stores`, lastModified: new Date() },
+  { url: `${BASE_URL}/products`, lastModified: new Date() },
+  { url: `${BASE_URL}/videos`, lastModified: new Date() },
+  { url: `${BASE_URL}/docs`, lastModified: new Date() },
+  { url: `${BASE_URL}/suporte`, lastModified: new Date() },
+  { url: `${BASE_URL}/sobre`, lastModified: new Date() },
+  { url: `${BASE_URL}/contato`, lastModified: new Date() },
+  { url: `${BASE_URL}/privacidade`, lastModified: new Date() },
+  { url: `${BASE_URL}/termos`, lastModified: new Date() },
+]
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [stores, products, videos] = await Promise.all([
+    fetchQuery(api.stores.getAllStores),
+    fetchQuery(api.products.getAllProducts),
+    fetchQuery(api.videos.getAllVideos),
+  ])
+
+  const storeRoutes: MetadataRoute.Sitemap = stores.map((store) => ({
+    url: `${BASE_URL}/blog/store/${normalizeUrl(store.name)}`,
+    lastModified: new Date(),
+  }))
+
+  const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
+    url: `${BASE_URL}/blog/product/${normalizeUrl(product.name)}`,
+    lastModified: new Date(),
+  }))
+
+  const videoRoutes: MetadataRoute.Sitemap = videos
+    .filter((video) => !!video.video_id)
+    .map((video) => ({
+      url: `${BASE_URL}/blog/video/${video.video_id}`,
       lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/stores',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/products',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/videos',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/docs',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/suporte',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/sobre',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/contato',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/privacidade',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://shopradar.com.br/termos',
-      lastModified: new Date(),
-    },
-  ]
+    }))
+
+  return [...staticRoutes, ...storeRoutes, ...productRoutes, ...videoRoutes]
 }
