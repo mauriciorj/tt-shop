@@ -12,6 +12,49 @@ import { normalizeUrl } from '@/utils/string'
 
 export const revalidate = false
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const product = await getProductByName(id)
+
+  if (!product) {
+    return {
+      title: 'Produto não encontrado',
+    }
+  }
+
+  return {
+    title: `${product.name} no TikTok Shop: vendas e tendência`,
+    description:
+      'Descubra os melhores produtos do TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
+    openGraph: {
+      description:
+        'Descubra os melhores produtos do TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
+      images: [product.image],
+      locale: 'pt_BR',
+      title: `${product.name} no TikTok Shop`,
+      type: 'article',
+      siteName: 'UseShopRadar',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: false,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  }
+}
+
 export async function generateStaticParams() {
   const products = await fetchQuery(api.products.getAllProducts)
   return products.map((product) => ({
