@@ -1,7 +1,13 @@
 import Image from 'next/image'
 import { ICreatorDto } from '@/types/index'
 
-const CreatorsTable = ({ data }: { data: ICreatorDto[] }) => {
+const CreatorsTable = ({
+  data,
+  isBlog,
+}: {
+  data: ICreatorDto[]
+  isBlog?: boolean
+}) => {
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -59,50 +65,62 @@ const CreatorsTable = ({ data }: { data: ICreatorDto[] }) => {
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div className="w-[50px]">
-                            {item?.image && (
-                              <Image
-                                src={item.image}
-                                alt={item?.tt_account}
-                                width={40}
-                                height={40}
-                                style={{
-                                  borderRadius: '10px',
-                                }}
-                              />
-                            )}
+                            {isBlog && index < 7
+                              ? 'n/a'
+                              : item?.image && (
+                                  <Image
+                                    src={item.image}
+                                    alt={item?.tt_account}
+                                    width={40}
+                                    height={40}
+                                    style={{
+                                      borderRadius: '10px',
+                                    }}
+                                  />
+                                )}
                           </div>
                           <span className="font-semibold">
-                            @{item?.tt_account}
+                            {isBlog && index < 7
+                              ? 'n/a'
+                              : `@${item?.tt_account}`}
                           </span>
                         </div>
                       </td>
                       <td className="p-4">
-                        {item?.tt_nickname && (
-                          <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
-                            {item?.tt_nickname}
-                          </span>
-                        )}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : item?.tt_nickname && (
+                              <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
+                                {item?.tt_nickname}
+                              </span>
+                            )}
                       </td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR').format(
-                          item?.tt_followers
-                        )}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR').format(
+                              item?.tt_followers
+                            )}
                       </td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item?.revenue)}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item?.revenue)}
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-1">
-                          {item?.sales && (
-                            <span className="font-medium">
-                              {new Intl.NumberFormat('pt-BR').format(
-                                item?.sales
+                          {isBlog && index < 7
+                            ? 'n/a'
+                            : item?.sales && (
+                                <span className="font-medium">
+                                  {new Intl.NumberFormat('pt-BR').format(
+                                    item?.sales
+                                  )}
+                                </span>
                               )}
-                            </span>
-                          )}
                         </div>
                       </td>
                     </tr>

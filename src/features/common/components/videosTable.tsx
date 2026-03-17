@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -11,7 +13,13 @@ import {
 } from '@/components/ui/dialog'
 import { IVideoDto } from '@/types/index'
 
-const VideosTable = ({ data }: { data: IVideoDto[] }) => {
+const VideosTable = ({
+  data,
+  isBlog,
+}: {
+  data: IVideoDto[]
+  isBlog?: boolean
+}) => {
   const [selectedVideo, setSelectedVideo] = useState<IVideoDto | null>(null)
 
   const [copied, setCopied] = useState(false)
@@ -86,58 +94,74 @@ const VideosTable = ({ data }: { data: IVideoDto[] }) => {
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div className="w-[50px]">
-                            {item?.image && (
-                              <Image
-                                src={item.image}
-                                alt={item.id}
-                                width={40}
-                                height={40}
-                                style={{
-                                  borderRadius: '10px',
-                                }}
-                              />
-                            )}
+                            {isBlog && index < 7
+                              ? 'n/a'
+                              : item?.image && (
+                                  <Image
+                                    src={item.image}
+                                    alt={item.id}
+                                    width={40}
+                                    height={40}
+                                    style={{
+                                      borderRadius: '10px',
+                                    }}
+                                  />
+                                )}
                           </div>
                           <span className="font-semibold">
-                            @{item?.tt_account}
+                            {isBlog && index < 7
+                              ? 'n/a'
+                              : `@${item?.tt_account}`}
                           </span>
                         </div>
                       </td>
                       <td className="p-4">
-                        {item?.views && (
-                          <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
-                            {new Intl.NumberFormat('pt-BR').format(item?.views)}
-                          </span>
-                        )}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : item?.views && (
+                              <span className="px-3 py-1 rounded-full bg-secondary text-sm text-secondary-foreground">
+                                {new Intl.NumberFormat('pt-BR').format(
+                                  item?.views
+                                )}
+                              </span>
+                            )}
                       </td>
-                      <td className="p-4 font-medium">{item?.duration}</td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item?.revenue)}
+                        {isBlog && index < 7 ? 'n/a' : item?.duration}
+                      </td>
+                      <td className="p-4 font-medium">
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item?.revenue)}
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-1">
-                          {item?.sales && (
-                            <span className="font-medium">
-                              {new Intl.NumberFormat('pt-BR').format(
-                                item?.sales
+                          {isBlog && index < 7
+                            ? 'n/a'
+                            : item?.sales && (
+                                <span className="font-medium">
+                                  {new Intl.NumberFormat('pt-BR').format(
+                                    item?.sales
+                                  )}
+                                </span>
                               )}
-                            </span>
-                          )}
                         </div>
                       </td>
                       <td className="p-4">
-                        {item.transcription && (
-                          <button
-                            onClick={() => setSelectedVideo(item)}
-                            className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
-                          >
-                            <FileText className="h-3.5 w-3.5" />
-                            Transcrição do vídeo
-                          </button>
-                        )}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : item.transcription && (
+                              <button
+                                onClick={() => setSelectedVideo(item)}
+                                className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
+                              >
+                                <FileText className="h-3.5 w-3.5" />
+                                Transcrição do vídeo
+                              </button>
+                            )}
                       </td>
                     </tr>
                   ))}
