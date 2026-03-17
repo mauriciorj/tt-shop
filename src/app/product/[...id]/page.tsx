@@ -1,10 +1,8 @@
 'use client'
 
-// import type { Metadata, ResolvingMetadata } from 'next'
 import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-// import { getProductByName } from '@/actions/product'
 import CreatorsTable from '@/components/creatorsTable'
 import VideosTable from '@/components/videosTable'
 import { Button } from '@/components/ui/button'
@@ -14,36 +12,6 @@ import NotFoundProduct from '@/product/components/notFoundProduct'
 import useProduct from '@/product/hooks/useProduct'
 import Header from '@/product/components/header'
 import { ICreatorDto, IVideoDto } from '@/types/index'
-
-type Props = {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-// export async function generateMetadata(
-//   { params, searchParams }: Props,
-//   parent: ResolvingMetadata
-// ): Promise<Metadata> {
-//   const { id } = await params
-
-//   const product = await getProductByName(id[0])
-
-//   const metaObj: Metadata = {}
-
-//   if (product?.name) {
-//     metaObj.title = product.name
-//   }
-
-//   if (product?.image) {
-//     metaObj.openGraph = {
-//       images: [product.image],
-//     }
-//   }
-
-//   return {
-//     ...metaObj,
-//   }
-// }
 
 const ProductDetail = () => {
   const { id } = useParams()
