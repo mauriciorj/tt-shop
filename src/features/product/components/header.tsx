@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ExternalLink } from 'lucide-react'
+import { ExternalLink, MoveUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { IProductsWithCategory } from '@/products/types'
@@ -50,7 +50,7 @@ const Header = ({
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
             >
               Começar agora
-              <ArrowRight className="h-5 w-5" />
+              <MoveUpRight className="h-5 w-5" />
             </Link>
           </div>
         ) : (

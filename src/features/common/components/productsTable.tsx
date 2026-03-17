@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import RevenueSparkline from '@/components/revenueSparkline'
 import { IProductDto } from '@/types/index'
@@ -41,7 +43,7 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                 <tbody>
                   {data.map((item, index) => (
                     <tr
-                      key={item.name}
+                      key={item?.name}
                       className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
@@ -84,7 +86,7 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                         {new Intl.NumberFormat('pt-BR', {
                           style: 'currency',
                           currency: 'BRL',
-                        }).format(item.unit_price)}
+                        }).format(item?.unit_price)}
                       </td>
                       <td className="p-4 font-medium">
                         {new Intl.NumberFormat('pt-BR', {

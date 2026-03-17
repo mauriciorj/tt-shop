@@ -55,13 +55,13 @@ const StoreDetail = () => {
           <LineChart store={store!} />
 
           {/* Products Table */}
-          <ProductsTable data={store!.top_products as IProductDto[]} />
+          <ProductsTable data={store?.top_products as IProductDto[]} />
 
           {/* Creators Table */}
-          <CreatorsTable data={store!.top_creators as ICreatorDto[]} />
+          <CreatorsTable data={store?.top_creators as ICreatorDto[]} />
 
           {/* Videos Table */}
-          <VideosTable data={store!.top_videos as IVideoDto[]} />
+          <VideosTable data={store?.top_videos as IVideoDto[]} />
         </div>
       </main>
     </div>
