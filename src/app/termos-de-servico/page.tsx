@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -12,9 +11,9 @@ const About = () => {
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>Última atualização: 15 de março de 2026</p>
                 <p>
-                  Bem-vindo ao ShopRadar. Estes Termos de Serviço (“Termos”)
-                  regulam o acesso e uso da plataforma ShopRadar disponível em
-                  useshopradar.com (“Serviço”).
+                  Bem-vindo ao UseShopRadar. Estes Termos de Serviço (“Termos”)
+                  regulam o acesso e uso da plataforma UseShopRadar disponível
+                  em useshopradar.com (“Serviço”).
                 </p>
                 <p>
                   Ao acessar ou utilizar o Serviço, você concorda com estes
@@ -37,10 +36,10 @@ const About = () => {
                 </h2>
                 <div className="space-y-6 ml-4">
                   <p>
-                    O ShopRadar é uma plataforma de análise de dados que fornece
-                    informações sobre produtos, vídeos, lojas e tendências
-                    relacionadas ao TikTok Shop e outras fontes públicas de
-                    dados.
+                    O UseShopRadar é uma plataforma de análise de dados que
+                    fornece informações sobre produtos, vídeos, lojas e
+                    tendências relacionadas ao TikTok Shop e outras fontes
+                    públicas de dados.
                   </p>
                   <p>
                     O objetivo da plataforma é auxiliar afiliados e criadores de
@@ -48,9 +47,9 @@ const About = () => {
                     mercado.
                   </p>
                   <p>
-                    O ShopRadar fornece informações e análises apenas para fins
-                    informativos, não constituindo aconselhamento financeiro,
-                    comercial ou garantia de resultados.
+                    O UseShopRadar fornece informações e análises apenas para
+                    fins informativos, não constituindo aconselhamento
+                    financeiro, comercial ou garantia de resultados.
                   </p>
                 </div>
               </div>
@@ -63,7 +62,7 @@ const About = () => {
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <h2 className="text-xl font-semibold mt-2">2. Versão Beta</h2>
                 <div className="space-y-6 ml-4">
-                  <p>O ShopRadar encontra-se atualmente em versão Beta.</p>
+                  <p>O UseShopRadar encontra-se atualmente em versão Beta.</p>
                   <p>Isso significa que:</p>
                   <ul className="list-disc ml-4 pl-4">
                     <li>
@@ -105,7 +104,7 @@ const About = () => {
                     <li>todas as atividades realizadas em sua conta</li>
                   </ul>
                   <p>
-                    O ShopRadar reserva-se o direito de suspender ou encerrar
+                    O UseShopRadar reserva-se o direito de suspender ou encerrar
                     contas que violem estes Termos.
                   </p>
                 </div>
@@ -122,7 +121,7 @@ const About = () => {
                 </h2>
                 <div className="space-y-6 ml-4">
                   <p>
-                    Algumas funcionalidades do ShopRadar estão disponíveis
+                    Algumas funcionalidades do UseShopRadar estão disponíveis
                     mediante assinatura paga.
                   </p>
                   <p>
@@ -136,7 +135,7 @@ const About = () => {
                       Stripe
                     </li>
                     <li>
-                      o ShopRadar não armazena dados completos de cartões de
+                      o UseShopRadar não armazena dados completos de cartões de
                       crédito
                     </li>
                     <li>
@@ -188,7 +187,7 @@ const About = () => {
                   6. Alteração de Preços e Funcionalidades
                 </h2>
                 <div className="space-y-6 ml-4">
-                  <p>O ShopRadar reserva-se o direito de:</p>
+                  <p>O UseShopRadar reserva-se o direito de:</p>
                   <ul className="list-disc ml-4 pl-4">
                     <li>alterar preços de assinatura</li>
                     <li>modificar funcionalidades</li>
@@ -217,8 +216,8 @@ const About = () => {
                 </h2>
                 <div className="space-y-6 ml-4">
                   <p>
-                    O ShopRadar coleta e processa dados provenientes de diversas
-                    fontes públicas e de terceiros.
+                    O UseShopRadar coleta e processa dados provenientes de
+                    diversas fontes públicas e de terceiros.
                   </p>
                   <p>Isso pode incluir:</p>
                   <ul className="list-disc ml-4 pl-4">
@@ -247,7 +246,9 @@ const About = () => {
                   8. Nenhuma Garantia de Resultados
                 </h2>
                 <div className="space-y-6 ml-4">
-                  <p>O uso do ShopRadar não garante resultados financeiros.</p>
+                  <p>
+                    O uso do UseShopRadar não garante resultados financeiros.
+                  </p>
                   <p>O Serviço fornece apenas dados e insights informativos.</p>
                   <p>
                     O desempenho de vendas, comissões ou ganhos depende de
@@ -255,7 +256,7 @@ const About = () => {
                     condições de mercado.
                   </p>
                   <p>
-                    O ShopRadar não garante que você obterá vendas, lucro ou
+                    O UseShopRadar não garante que você obterá vendas, lucro ou
                     qualquer tipo de resultado financeiro.
                   </p>
                 </div>
@@ -273,7 +274,7 @@ const About = () => {
                 <div className="space-y-6 ml-4">
                   <p>
                     Na máxima extensão permitida pela legislação brasileira, o
-                    ShopRadar não será responsável por:
+                    UseShopRadar não será responsável por:
                   </p>
                   <ul className="list-disc ml-4 pl-4">
                     <li>perdas financeiras</li>
@@ -307,7 +308,7 @@ const About = () => {
                     <li>marca</li>
                     <li>interface</li>
                   </ul>
-                  <p>é propriedade do ShopRadar ou de seus licenciadores.</p>
+                  <p>é propriedade do UseShopRadar ou de seus licenciadores.</p>
                   <p>É proibido:</p>
                   <ul className="list-disc ml-4 pl-4">
                     <li>copiar a plataforma</li>

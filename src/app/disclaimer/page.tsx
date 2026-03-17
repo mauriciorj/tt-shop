@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -12,14 +11,14 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>
-                  O ShopRadar coleta e analisa informações provenientes de
+                  O UseShopRadar coleta e analisa informações provenientes de
                   diversas fontes públicas disponíveis na internet.
                 </p>
                 <p>
                   Os dados apresentados na plataforma são utilizados apenas para
                   fins informativos e analíticos.
                 </p>
-                <p>O ShopRadar:</p>
+                <p>O UseShopRadar:</p>
                 <ul className="list-disc ml-4 pl-4">
                   <li>não é afiliado</li>
                   <li>não é endossado</li>
@@ -37,7 +36,7 @@ const About = () => {
                   representam necessariamente valores oficiais.
                 </p>
                 <p>
-                  O ShopRadar não garante precisão absoluta dos dados
+                  O UseShopRadar não garante precisão absoluta dos dados
                   apresentados.
                 </p>
               </div>

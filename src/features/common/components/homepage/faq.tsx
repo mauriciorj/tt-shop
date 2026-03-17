@@ -7,9 +7,9 @@ import {
 
 const faqList = [
   {
-    question: 'O que é o ShopRadar?',
+    question: 'O que é o UseShopRadar?',
     answer:
-      'ShopRadar é uma plataforma de inteligência de mercado para afiliados do TikTok Shop. Nossa ferramenta analisa milhares de produtos, lojas e vídeos para mostrar quais estão vendendo mais, quais nichos estão em alta e quais produtos você deve promover para maximizar suas comissões.',
+      'UseShopRadar é uma plataforma de inteligência de mercado para afiliados do TikTok Shop. Nossa ferramenta analisa milhares de produtos, lojas e vídeos para mostrar quais estão vendendo mais, quais nichos estão em alta e quais produtos você deve promover para maximizar suas comissões.',
   },
   {
     question: 'Como recebo o meu acesso?',
@@ -19,10 +19,10 @@ const faqList = [
   {
     question: 'Preciso ter conta no TikTok Shop para usar?',
     answer:
-      'Não! Você pode explorar todos os produtos e dados do ShopRadar sem ter uma conta no TikTok Shop. No entanto, para começar a vender e ganhar comissões, você precisará se cadastrar como afiliado na plataforma do TikTok.',
+      'Não! Você pode explorar todos os produtos e dados do UseShopRadar sem ter uma conta no TikTok Shop. No entanto, para começar a vender e ganhar comissões, você precisará se cadastrar como afiliado na plataforma do TikTok.',
   },
   {
-    question: 'O ShopRadar é pago?',
+    question: 'O UseShopRadar é pago?',
     answer:
       'Oferecemos um plano gratuito com acesso limitado aos produtos e dados. Para acesso ilimitado, dados em tempo real, filtros avançados e relatórios exclusivos, temos o plano Pro por R$ 39/mês com 14 dias de teste grátis.',
   },
@@ -39,7 +39,7 @@ const faqList = [
   {
     question: 'Consigo acessar do meu celular ou tablet ?',
     answer:
-      'Sim! O ShopRadar é uma plataforma web e pode ser acessada de qualquer dispositivo com acesso à internet.',
+      'Sim! O UseShopRadar é uma plataforma web e pode ser acessada de qualquer dispositivo com acesso à internet.',
   },
   {
     question: 'Tem suporte se eu tiver dúvidas?',
@@ -57,8 +57,8 @@ const Faq = () => {
             Perguntas <span className="gradient-text">Frequentes</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Tire suas dúvidas sobre o ShopRadar e comece a vender mais no TikTok
-            Shop
+            Tire suas dúvidas sobre o UseShopRadar e comece a vender mais no
+            TikTok Shop
           </p>
         </div>
         <div className="max-w-3xl mx-auto">

@@ -186,7 +186,7 @@ const Support = () => {
           <div className="text-center mt-12">
             <p className="text-muted-foreground mb-4">Ainda tem perguntas?</p>
             <Link
-              href="/contato"
+              href="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
             >
               <MessageCircle className="h-5 w-5" />

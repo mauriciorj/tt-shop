@@ -35,7 +35,7 @@ const ComparisonSection = () => {
                     <Badge className="bg-primary/20 text-primary border-primary/30 hover:bg-primary/20">
                       Recomendado
                     </Badge>
-                    <span className="font-bold text-lg">ShopRadar</span>
+                    <span className="font-bold text-lg">UseShopRadar</span>
                   </div>
                 </th>
                 <th className="p-5 text-center">
@@ -92,7 +92,7 @@ const ComparisonSection = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex items-center gap-2 bg-primary/10 rounded-lg px-3 py-2">
                   <Check className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium">ShopRadar</span>
+                  <span className="text-sm font-medium">UseShopRadar</span>
                 </div>
                 <div
                   className={`flex items-center gap-2 rounded-lg px-3 py-2 ${

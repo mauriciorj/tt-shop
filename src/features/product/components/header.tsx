@@ -1,12 +1,19 @@
 'use client'
 
 import Image from 'next/image'
-import { ExternalLink } from 'lucide-react'
+import Link from 'next/link'
+import { ExternalLink, MoveUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { IProductsWithCategory } from '@/products/types'
 
-const Header = ({ product }: { product: IProductsWithCategory }) => {
+const Header = ({
+  product,
+  isBlog,
+}: {
+  product: IProductsWithCategory
+  isBlog?: boolean
+}) => {
   return (
     <div className="glass-card rounded-2xl p-2 mb-8 animate-fade-in">
       <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -36,18 +43,30 @@ const Header = ({ product }: { product: IProductsWithCategory }) => {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
-          {/* <Button variant="outline" size="icon">
+        {isBlog ? (
+          <div className="flex gap-3">
+            <Link
+              href="/stores"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-effect"
+            >
+              Começar agora
+              <MoveUpRight className="h-5 w-5" />
+            </Link>
+          </div>
+        ) : (
+          <div className="flex gap-3">
+            {/* <Button variant="outline" size="icon">
                   <Heart className="w-4 h-4" />
                 </Button>
                 <Button variant="outline" size="icon">
                   <Share2 className="w-4 h-4" />
                 </Button> */}
-          <Button className="bg-primary hover:bg-primary/90">
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Visit Product
-          </Button>
-        </div>
+            <Button className="bg-primary hover:bg-primary/90">
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Visit Product
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )

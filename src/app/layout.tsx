@@ -19,8 +19,12 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Store Management',
-  description: 'View and manage your stores',
+  title: {
+    template: '%s | UseShopRadar',
+    default: 'UseShopRadar',
+  },
+  description:
+    'Descubra produtos e vídeos virais que estão vendendo muito no TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
 }
 
 export default function RootLayout({

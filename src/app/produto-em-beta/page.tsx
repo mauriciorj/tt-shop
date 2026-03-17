@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -11,7 +10,7 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>Última atualização: 15 de março de 2026</p>
-                <p>O ShopRadar encontra-se atualmente em fase Beta.</p>
+                <p>O UseShopRadar encontra-se atualmente em fase Beta.</p>
                 <p>
                   Isso significa que o produto ainda está em desenvolvimento e
                   pode apresentar:

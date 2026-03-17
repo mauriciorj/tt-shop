@@ -12,17 +12,20 @@ import Solution from '@/components/homepage/solution'
 import Pricing from '@/components/homepage/pricing'
 
 export const metadata: Metadata = {
-  title: 'ShopRadar – Produtos e vídeos virais que vendem muito no TikTok Shop',
+  title: {
+    absolute:
+      'UseShopRadar – Produtos e vídeos virais que vendem muito no TikTok Shop',
+  },
   description:
     'Descubra produtos e vídeos virais que estão vendendo muito no TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
   keywords: ['TikTok Shop', 'Produtos virais', 'Vendas', 'Afiliados'],
   openGraph: {
     title:
-      'ShopRadar – Produtos e vídeos virais que vendem muito no TikTok Shop',
+      'UseShopRadar – Produtos e vídeos virais que vendem muito no TikTok Shop',
     description:
       'Descubra produtos e vídeos virais que estão vendendo muito no TikTok Shop. Veja vendas, vídeos virais e tendências para afiliados.',
-    url: 'https://shopradar.com.br',
-    siteName: 'ShopRadar',
+    url: 'https://useshopradar.com.br',
+    siteName: 'UseShopRadar',
     images: [],
     locale: 'pt_BR',
     type: 'website',

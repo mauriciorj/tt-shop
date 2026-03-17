@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -12,9 +11,9 @@ const About = () => {
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>Última atualização: 15 de março de 2026</p>
                 <p>
-                  Esta Política de Privacidade descreve como o ShopRadar coleta,
-                  utiliza e protege as informações dos usuários que acessam o
-                  site useshopradar.com.
+                  Esta Política de Privacidade descreve como o UseShopRadar
+                  coleta, utiliza e protege as informações dos usuários que
+                  acessam o site useshopradar.com.
                 </p>
                 <p>
                   Ao utilizar o Serviço, você concorda com as práticas descritas
@@ -55,7 +54,7 @@ const About = () => {
                   <p className="font-bold">Informações de pagamento</p>
                   <p>Pagamentos são processados por Stripe.</p>
                   <p>
-                    O ShopRadar não armazena dados completos de cartão de
+                    O UseShopRadar não armazena dados completos de cartão de
                     crédito.
                   </p>
                   <p>

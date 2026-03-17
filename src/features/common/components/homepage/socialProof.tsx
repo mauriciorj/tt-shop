@@ -15,7 +15,7 @@ import {
 const testimonials = [
   {
     quote:
-      'Encontrei um produto no ShopRadar e fiz minhas primeiras vendas no TikTok.',
+      'Encontrei um produto no UseShopRadar e fiz minhas primeiras vendas no TikTok.',
     author: 'João',
     role: 'Afiliado iniciante',
     initials: 'JO',
@@ -28,7 +28,7 @@ const testimonials = [
   },
   {
     quote:
-      'O ShopRadar me ajudou a encontrar nichos lucrativos que ninguém estava explorando.',
+      'O UseShopRadar me ajudou a encontrar nichos lucrativos que ninguém estava explorando.',
     author: 'Carlos',
     role: 'Empreendedor digital',
     initials: 'CA',
@@ -49,7 +49,7 @@ const SocialProof = () => {
         <div className="text-center mb-14 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Afiliados já estão usando{' '}
-            <span className="gradient-text">ShopRadar</span>
+            <span className="gradient-text">UseShopRadar</span>
           </h2>
         </div>
 
@@ -87,7 +87,7 @@ const SocialProof = () => {
 
         <div className="text-center mt-12 animate-fade-in">
           <p className="text-sm text-muted-foreground mb-6">
-            Seja um dos primeiros afiliados a usar o ShopRadar.
+            Seja um dos primeiros afiliados a usar o UseShopRadar.
           </p>
           <Link
             href="/stores"
