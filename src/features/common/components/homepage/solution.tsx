@@ -20,11 +20,11 @@ const SolutionSection = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-            O ShopRadar mostra exatamente o que está{' '}
+            O UseShopRadar mostra exatamente o que está{' '}
             <span className="gradient-text">vendendo.</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Com o ShopRadar você descobre:
+            Com o UseShopRadar você descobre:
           </p>
         </div>
 

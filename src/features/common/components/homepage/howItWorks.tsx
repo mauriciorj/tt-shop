@@ -1,9 +1,4 @@
-import {
-  Search,
-  Play,
-  TrendingUp,
-  DollarSign,
-} from 'lucide-react'
+import { Search, Play, TrendingUp, DollarSign } from 'lucide-react'
 
 const steps = [
   {
@@ -42,7 +37,7 @@ const HowItWorksSection = () => {
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-            Como afiliados usam o ShopRadar para encontrar produtos{' '}
+            Como afiliados usam o UseShopRadar para encontrar produtos{' '}
             <span className="gradient-text">vencedores</span>
           </h2>
         </div>

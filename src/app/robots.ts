@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://shopradar.com.br'
+const BASE_URL = 'https://useshopradar.com.br'
 
 // Keep in sync with isProtectedRoute in src/proxy.ts
 const disallowedPaths = [

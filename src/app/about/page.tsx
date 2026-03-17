@@ -10,7 +10,7 @@ const About = () => {
           <div className="container relative">
             <div className="max-w-3xl mx-auto text-center animate-fade-in">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Sobre o <span className="gradient-text">ShopRadar</span>
+                Sobre o <span className="gradient-text">UseShopRadar</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
                 Somos a plataforma líder de inteligência de mercado para
@@ -33,7 +33,7 @@ const About = () => {
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   Acreditamos que todos os criadores de conteúdo merecem acesso
                   às mesmas ferramentas e dados que os grandes players do
-                  mercado. Por isso, desenvolvemos o ShopRadar.
+                  mercado. Por isso, desenvolvemos o UseShopRadar.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   Nossa tecnologia analisa milhões de dados em tempo real para
@@ -96,10 +96,11 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>
-                  O ShopRadar nasceu da frustração de dois criadores de conteúdo
-                  que passavam horas tentando descobrir quais produtos promover
-                  no TikTok Shop. Testávamos dezenas de produtos diferentes,
-                  muitas vezes sem sucesso, desperdiçando tempo e dinheiro.
+                  O UseShopRadar nasceu da frustração de dois criadores de
+                  conteúdo que passavam horas tentando descobrir quais produtos
+                  promover no TikTok Shop. Testávamos dezenas de produtos
+                  diferentes, muitas vezes sem sucesso, desperdiçando tempo e
+                  dinheiro.
                 </p>
                 <p>
                   Foi então que percebemos: se tivéssemos acesso aos dados
@@ -109,7 +110,7 @@ const About = () => {
                 </p>
                 <p>
                   Decidimos criar a ferramenta que gostaríamos de ter tido desde
-                  o início. Hoje, o ShopRadar ajuda milhares de afiliados a
+                  o início. Hoje, o UseShopRadar ajuda milhares de afiliados a
                   encontrar produtos vencedores, economizar tempo e multiplicar
                   suas comissões no TikTok Shop.
                 </p>
