@@ -10,8 +10,10 @@ import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
+import UseUser from '@/hooks/useUser'
 
 const Stores = () => {
+  const { isFreeUser } = UseUser()
   const {
     categories,
     currentPage,
@@ -72,7 +74,9 @@ const Stores = () => {
           />
         )}
         <SearchBar
+          clerkId={userId}
           data={stores}
+          isFreeUser={isFreeUser}
           placeholder="Procuar por uma loja ou produto..."
         />
         {isLoading ? (

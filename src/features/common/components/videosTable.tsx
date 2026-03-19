@@ -34,6 +34,9 @@ const VideosTable = ({
     toast.success('Transcrição copiada para a área de transferência.')
     setTimeout(() => setCopied(false), 2000)
   }
+
+  if (!data) return null
+
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -70,9 +73,9 @@ const VideosTable = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {data?.map((item, index) => (
                     <tr
-                      key={item.id}
+                      key={item?.id}
                       className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
@@ -98,8 +101,8 @@ const VideosTable = ({
                               ? 'n/a'
                               : item?.image && (
                                   <Image
-                                    src={item.image}
-                                    alt={item.id}
+                                    src={item?.image}
+                                    alt={item?.id}
                                     width={40}
                                     height={40}
                                     style={{
@@ -153,7 +156,7 @@ const VideosTable = ({
                       <td className="p-4">
                         {isBlog && index < 7
                           ? 'n/a'
-                          : item.transcription && (
+                          : item?.transcription && (
                               <button
                                 onClick={() => setSelectedVideo(item)}
                                 className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"

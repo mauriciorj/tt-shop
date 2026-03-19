@@ -176,6 +176,33 @@ export const updateUserSubscription = mutation({
   },
 })
 
+export const recordSearchAndCheckLimit = mutation({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const DAILY_LIMIT = 3
+    const today = new Date().toISOString().slice(0, 10)
+
+    const existing = await ctx.db
+      .query('searchLogs')
+      .withIndex('by_clerk_id_date', (q) =>
+        q.eq('clerk_id', clerk_id).eq('date', today)
+      )
+      .collect()
+
+    if (existing.length >= DAILY_LIMIT) {
+      return { allowed: false, remaining: 0 }
+    }
+
+    await ctx.db.insert('searchLogs', {
+      clerk_id,
+      date: today,
+      created_at: new Date().toISOString(),
+    })
+
+    return { allowed: true, remaining: DAILY_LIMIT - existing.length - 1 }
+  },
+})
+
 // Create or update user from Stripe webhook (no clerk_id required)
 export const upsertUserFromStripe = mutation({
   args: {

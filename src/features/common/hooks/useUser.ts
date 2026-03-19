@@ -18,11 +18,16 @@ const UseUser = () => {
   const userSubscriptionPlan = dbUser?.subscription_plan || null
   const userSubscriptionStatus = dbUser?.subscription_status || null
 
+  const isFreeUser = Boolean(userSubscriptionPlan === 'free')
+
+  const isSubscriptionActive = Boolean(userSubscriptionStatus === 'active')
+
   return {
     id: clerkId,
     isAuthenticated,
+    isFreeUser: isFreeUser,
     isLoading: Boolean(isLoadingAuth || isLoadingDbUser),
-    isSubscriptionActive: Boolean(userSubscriptionStatus === 'active'),
+    isSubscriptionActive,
     userSubscriptionPlan,
   }
 }

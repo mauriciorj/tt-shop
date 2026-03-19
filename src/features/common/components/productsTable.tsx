@@ -1,10 +1,14 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import RevenueSparkline from '@/components/revenueSparkline'
 import { IProductDto } from '@/types/index'
+import { normalizeUrl } from '@/utils/string'
 
 const ProductsTable = ({ data }: { data: IProductDto[] }) => {
+  const router = useRouter()
+  if (!data) return null
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -41,9 +45,12 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {data?.map((item, index) => (
                     <tr
                       key={item?.name}
+                      onClick={() =>
+                        router.push(`/product/${normalizeUrl(item.name)}`)
+                      }
                       className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
@@ -66,7 +73,7 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                         <div className="flex items-center gap-3">
                           {item?.image && (
                             <Image
-                              src={item.image}
+                              src={item?.image}
                               alt={item?.name}
                               width={100}
                               height={100}

@@ -11,6 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { IStoresWithCategory } from '@/stores/types'
 
 const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
+  if (!store) return null
+
   const getTrendIcon = () => {
     if (store.revenue_growth_rate >= 0)
       return <TrendingUp className="w-5 h-5 text-green-500" />
@@ -33,7 +35,7 @@ const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {new Intl.NumberFormat('pt-BR').format(store.revenue)}
+            {new Intl.NumberFormat('pt-BR').format(store?.revenue)}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated monthly revenue
@@ -52,7 +54,7 @@ const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {store.revenue_growth_rate} %
+            {store?.revenue_growth_rate} %
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated growth rate
@@ -71,7 +73,7 @@ const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {new Intl.NumberFormat('pt-BR').format(store.sales)}
+            {new Intl.NumberFormat('pt-BR').format(store?.sales)}
           </div>
           <p className="text-xs text-muted-foreground mt-1">Estimated sales</p>
         </CardContent>
@@ -88,7 +90,7 @@ const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {store.unit_price}
+            {store?.unit_price}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated unit price

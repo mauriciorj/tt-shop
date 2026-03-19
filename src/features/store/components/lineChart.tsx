@@ -10,8 +10,8 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { IStoresWithCategory } from '@/stores/types'
 
 const LineChart = ({ store }: { store: IStoresWithCategory }) => {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const chartData = store.revenue_history.map((value: number, i: number) => ({
+  if (!store) return null
+  const chartData = store?.revenue_history?.map((value: number, i: number) => ({
     day: i + 1,
     revenue: value,
   }))
@@ -19,9 +19,9 @@ const LineChart = ({ store }: { store: IStoresWithCategory }) => {
     revenue: {
       label: 'Revenue',
       color:
-        store.revenue_growth_rate >= 0
+        store?.revenue_growth_rate >= 0
           ? 'hsl(142, 71%, 45%)'
-          : store.revenue_growth_rate < 0
+          : store?.revenue_growth_rate < 0
             ? 'hsl(0, 84%, 60%)'
             : 'hsl(var(--muted-foreground))',
     },

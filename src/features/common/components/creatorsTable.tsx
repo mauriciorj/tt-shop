@@ -8,6 +8,7 @@ const CreatorsTable = ({
   data: ICreatorDto[]
   isBlog?: boolean
 }) => {
+  if (!data) return null
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -41,9 +42,9 @@ const CreatorsTable = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {data?.map((item, index) => (
                     <tr
-                      key={item.tt_account}
+                      key={item?.tt_account}
                       className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
