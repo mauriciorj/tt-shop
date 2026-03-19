@@ -25,8 +25,7 @@ const ProductDetail = () => {
     }
   }, [id])
 
-  // TODO: Add loading state
-  if (isLoading && !product) {
+  if (!isLoading && !product) {
     return <NotFoundProduct />
   }
 

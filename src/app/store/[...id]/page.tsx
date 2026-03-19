@@ -27,7 +27,7 @@ const StoreDetail = () => {
   }, [id])
 
   // TODO: Add loading state
-  if (isLoading && !store) {
+  if (!isLoading && !store) {
     return <NotFoundStore />
   }
 

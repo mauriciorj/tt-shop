@@ -14,6 +14,7 @@ const Header = ({
   product: IProductsWithCategory
   isBlog?: boolean
 }) => {
+  if (!product) return null
   return (
     <div className="glass-card rounded-2xl p-2 mb-8 animate-fade-in">
       <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -21,8 +22,8 @@ const Header = ({
         {product?.image && (
           <div className="relative">
             <Image
-              src={product.image}
-              alt={product.name}
+              src={product?.image}
+              alt={product?.name}
               className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-primary/20"
               width={128}
               height={128}
@@ -34,10 +35,10 @@ const Header = ({
         <div className="flex-1">
           <div className="flex flex-wrap justify-between gap-3 mb-2">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              {product.name}
+              {product?.name}
             </h1>
             <Badge variant="secondary" className="text-sm">
-              {product.category_name}
+              {product?.category_name}
             </Badge>
           </div>
         </div>

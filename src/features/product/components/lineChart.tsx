@@ -10,22 +10,26 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { IProductsWithCategory } from '@/products/types'
 
 const LineChart = ({ product }: { product: IProductsWithCategory }) => {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const chartData = product.revenue_history.map((value: number, i: number) => ({
-    day: i + 1,
-    revenue: value,
-  }))
+  if (!product) return null
+
+  const chartData = product?.revenue_history.map(
+    (value: number, i: number) => ({
+      day: i + 1,
+      revenue: value,
+    })
+  )
   const chartConfig = {
     revenue: {
       label: 'Revenue',
       color:
-        product.revenue_growth_rate >= 0
+        product?.revenue_growth_rate >= 0
           ? 'hsl(142, 71%, 45%)'
-          : product.revenue_growth_rate < 0
+          : product?.revenue_growth_rate < 0
             ? 'hsl(0, 84%, 60%)'
             : 'hsl(var(--muted-foreground))',
     },
   }
+
   return (
     <div>
       <Card
