@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 import { Check, Copy } from 'lucide-react'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
@@ -22,6 +23,7 @@ import { ITopVideosWithCategory } from '@/videos/types'
 import useVideos from '@/videos/hooks/useVideos'
 
 const Videos = () => {
+  const router = useRouter()
   const {
     categories,
     currentPage,
@@ -36,11 +38,16 @@ const Videos = () => {
     userSubscriptionPlan,
   } = useVideos()
 
+  const isFreeUser = userSubscriptionPlan === 'free'
+
   const savedVideoIds = useQuery(
     api.savedVideos.getSavedVideoIds,
     userId ? { clerk_id: userId } : 'skip'
   )
   const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
+  const recordTranscription = useMutation(
+    api.users.recordTranscriptionAndCheckLimit
+  )
 
   const [selectedVideo, setSelectedVideo] =
     useState<ITopVideosWithCategory | null>(null)
@@ -61,6 +68,29 @@ const Videos = () => {
     } else {
       toast.success('Vídeo removido dos salvos.')
     }
+  }
+
+  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
+    if (isFreeUser && userId) {
+      const result = await recordTranscription({
+        clerk_id: userId,
+        video_k_id: video.video_id!,
+      })
+      if (!result.allowed) {
+        toast.error(
+          'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
+          {
+            action: {
+              label: 'Ver planos',
+              onClick: () => router.push('/subscription'),
+            },
+            duration: 6000,
+          }
+        )
+        return
+      }
+    }
+    setSelectedVideo(video)
   }
 
   const handleCopy = async () => {
@@ -100,7 +130,7 @@ const Videos = () => {
               <VideoCard
                 key={video.video_id}
                 handleToggleSave={handleToggleSave}
-                setSelectedVideo={setSelectedVideo}
+                setSelectedVideo={handleOpenTranscription}
                 savedVideoIds={savedVideoIds ?? []}
                 video={video}
               />

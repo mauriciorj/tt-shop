@@ -11,6 +11,7 @@ import LineChart from '@/product/components/lineChart'
 import NotFoundProduct from '@/product/components/notFoundProduct'
 import ProductDetailSkeleton from '@/product/components/productDetailSkeleton'
 import useProduct from '@/product/hooks/useProduct'
+import UseUser from '@/hooks/useUser'
 import Header from '@/product/components/header'
 import { ICreatorDto, IVideoDto } from '@/types/index'
 
@@ -19,6 +20,7 @@ const ProductDetail = () => {
   const router = useRouter()
 
   const { isLoading, product, setName } = useProduct()
+  const { isFreeUser, id: clerkId } = UseUser()
 
   useEffect(() => {
     if (id?.[0]) {
@@ -60,7 +62,11 @@ const ProductDetail = () => {
               <CreatorsTable data={product?.top_creators as ICreatorDto[]} />
 
               {/* Videos Table */}
-              <VideosTable data={product?.top_videos as IVideoDto[]} />
+              <VideosTable
+                data={product?.top_videos as IVideoDto[]}
+                isFreeUser={isFreeUser}
+                clerkId={clerkId}
+              />
             </>
           )}
         </div>

@@ -124,6 +124,14 @@ export default defineSchema({
     date: v.string(),
     created_at: v.string(),
   }).index('by_clerk_id_date', ['clerk_id', 'date']),
+  transcriptionLogs: defineTable({
+    clerk_id: v.string(),
+    video_k_id: v.string(),
+    date: v.string(),
+    created_at: v.string(),
+  })
+    .index('by_clerk_id_date', ['clerk_id', 'date'])
+    .index('by_clerk_id_video', ['clerk_id', 'video_k_id']),
   users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),

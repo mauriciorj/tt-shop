@@ -176,6 +176,73 @@ export const updateUserSubscription = mutation({
   },
 })
 
+export const recordSearchAndCheckLimit = mutation({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const DAILY_LIMIT = 3
+    const today = new Date().toISOString().slice(0, 10)
+
+    const existing = await ctx.db
+      .query('searchLogs')
+      .withIndex('by_clerk_id_date', (q) =>
+        q.eq('clerk_id', clerk_id).eq('date', today)
+      )
+      .collect()
+
+    if (existing.length >= DAILY_LIMIT) {
+      return { allowed: false, remaining: 0 }
+    }
+
+    await ctx.db.insert('searchLogs', {
+      clerk_id,
+      date: today,
+      created_at: new Date().toISOString(),
+    })
+
+    return { allowed: true, remaining: DAILY_LIMIT - existing.length - 1 }
+  },
+})
+
+export const recordTranscriptionAndCheckLimit = mutation({
+  args: { clerk_id: v.string(), video_k_id: v.string() },
+  handler: async (ctx, { clerk_id, video_k_id }) => {
+    const DAILY_LIMIT = 1
+    const today = new Date().toISOString().slice(0, 10)
+
+    // Allow re-viewing the same video without counting against the limit
+    const alreadySeen = await ctx.db
+      .query('transcriptionLogs')
+      .withIndex('by_clerk_id_video', (q) =>
+        q.eq('clerk_id', clerk_id).eq('video_k_id', video_k_id)
+      )
+      .first()
+
+    if (alreadySeen) {
+      return { allowed: true, remaining: 0 }
+    }
+
+    const todayLogs = await ctx.db
+      .query('transcriptionLogs')
+      .withIndex('by_clerk_id_date', (q) =>
+        q.eq('clerk_id', clerk_id).eq('date', today)
+      )
+      .collect()
+
+    if (todayLogs.length >= DAILY_LIMIT) {
+      return { allowed: false, remaining: 0 }
+    }
+
+    await ctx.db.insert('transcriptionLogs', {
+      clerk_id,
+      video_k_id,
+      date: today,
+      created_at: new Date().toISOString(),
+    })
+
+    return { allowed: true, remaining: DAILY_LIMIT - todayLogs.length - 1 }
+  },
+})
+
 // Create or update user from Stripe webhook (no clerk_id required)
 export const upsertUserFromStripe = mutation({
   args: {
