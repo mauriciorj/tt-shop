@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import CardsStats from '@/product/components/cardsStats'
 import LineChart from '@/product/components/lineChart'
 import NotFoundProduct from '@/product/components/notFoundProduct'
+import ProductDetailSkeleton from '@/product/components/productDetailSkeleton'
 import useProduct from '@/product/hooks/useProduct'
 import Header from '@/product/components/header'
 import { ICreatorDto, IVideoDto } from '@/types/index'
@@ -42,20 +43,26 @@ const ProductDetail = () => {
             Back to Stores
           </Button>
 
-          {/* Product Header */}
-          <Header product={product!} />
+          {isLoading ? (
+            <ProductDetailSkeleton />
+          ) : (
+            <>
+              {/* Product Header */}
+              <Header product={product!} />
 
-          {/* Stats Grid */}
-          <CardsStats product={product!} />
+              {/* Stats Grid */}
+              <CardsStats product={product!} />
 
-          {/* Line Chart */}
-          <LineChart product={product!} />
+              {/* Line Chart */}
+              <LineChart product={product!} />
 
-          {/* Creators Table */}
-          <CreatorsTable data={product?.top_creators as ICreatorDto[]} />
+              {/* Creators Table */}
+              <CreatorsTable data={product?.top_creators as ICreatorDto[]} />
 
-          {/* Videos Table */}
-          <VideosTable data={product?.top_videos as IVideoDto[]} />
+              {/* Videos Table */}
+              <VideosTable data={product?.top_videos as IVideoDto[]} />
+            </>
+          )}
         </div>
       </main>
     </div>
