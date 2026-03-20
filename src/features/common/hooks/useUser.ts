@@ -5,6 +5,8 @@ import { convexQuery } from '@convex-dev/react-query'
 import { useQuery } from '@tanstack/react-query'
 
 const UseUser = () => {
+  const FREE_USER_ITEMS_PER_PAGE = 10
+
   const { isAuthenticated, isLoading: isLoadingAuth } = useConvexAuth()
   const { user } = useClerkUser()
   const clerkId = user?.id ?? ''
@@ -18,11 +20,19 @@ const UseUser = () => {
   const userSubscriptionPlan = dbUser?.subscription_plan || null
   const userSubscriptionStatus = dbUser?.subscription_status || null
 
+  const isFreeUser = Boolean(userSubscriptionPlan === 'free')
+
+  const isSubscriptionActive = Boolean(
+    userSubscriptionStatus === 'active' || userSubscriptionPlan === 'tester'
+  )
+
   return {
+    FREE_USER_ITEMS_PER_PAGE,
     id: clerkId,
     isAuthenticated,
+    isFreeUser: isFreeUser,
     isLoading: Boolean(isLoadingAuth || isLoadingDbUser),
-    isSubscriptionActive: Boolean(userSubscriptionStatus === 'active'),
+    isSubscriptionActive,
     userSubscriptionPlan,
   }
 }

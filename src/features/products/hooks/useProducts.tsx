@@ -8,13 +8,13 @@ import { useQuery } from '@tanstack/react-query'
 type TCategory = { id: string; label: string | null | undefined }
 
 const useProducts = () => {
-  const ITEMS_PER_PAGE = 5
-  const { id } = UseUser()
-
-  const { data: dbUser } = useQuery({
-    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
-  })
-  const userSubscriptionPlan = dbUser?.subscription_plan
+  const ITEMS_PER_PAGE = 10
+  const {
+    FREE_USER_ITEMS_PER_PAGE,
+    id,
+    isLoading: isLoadingDbUser,
+    userSubscriptionPlan,
+  } = UseUser()
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -81,6 +81,11 @@ const useProducts = () => {
         (product) => product.category_name === categoryByName
       )
     }
+
+    result =
+      userSubscriptionPlan === 'free'
+        ? result.slice(0, FREE_USER_ITEMS_PER_PAGE)
+        : result
 
     // Sort by key and order
     result = [...result].sort((a, b) => {
@@ -149,7 +154,7 @@ const useProducts = () => {
     categories,
     currentPage,
     data: productsPaginated,
-    isLoading: isLoadingAllProducts,
+    isLoading: Boolean(isLoadingAllProducts || isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,

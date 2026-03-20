@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 import { Check, Copy, FileText } from 'lucide-react'
 import {
   Dialog,
@@ -11,16 +12,27 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useMutation } from '@tanstack/react-query'
+import { useConvexMutation } from '@convex-dev/react-query'
+import { api } from '@/convex/_generated/api'
 import { IVideoDto } from '@/types/index'
 
 const VideosTable = ({
   data,
   isBlog,
+  isFreeUser,
+  clerkId,
 }: {
   data: IVideoDto[]
   isBlog?: boolean
+  isFreeUser?: boolean
+  clerkId?: string
 }) => {
+  const router = useRouter()
   const [selectedVideo, setSelectedVideo] = useState<IVideoDto | null>(null)
+  const { mutateAsync: recordTranscription } = useMutation({
+    mutationFn: useConvexMutation(api.users.recordTranscriptionAndCheckLimit),
+  })
 
   const [copied, setCopied] = useState(false)
 
@@ -34,6 +46,9 @@ const VideosTable = ({
     toast.success('Transcrição copiada para a área de transferência.')
     setTimeout(() => setCopied(false), 2000)
   }
+
+  if (!data) return null
+
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -70,10 +85,10 @@ const VideosTable = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {data?.map((item, index) => (
                     <tr
-                      key={item.id}
-                      className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
+                      key={item?.id}
+                      className="table-row-hover border-b border-border/30 last:border-0"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
                       <td className="p-4">
@@ -98,8 +113,8 @@ const VideosTable = ({
                               ? 'n/a'
                               : item?.image && (
                                   <Image
-                                    src={item.image}
-                                    alt={item.id}
+                                    src={item?.image}
+                                    alt={item?.id}
                                     width={40}
                                     height={40}
                                     style={{
@@ -153,9 +168,31 @@ const VideosTable = ({
                       <td className="p-4">
                         {isBlog && index < 7
                           ? 'n/a'
-                          : item.transcription && (
+                          : item?.transcription && (
                               <button
-                                onClick={() => setSelectedVideo(item)}
+                                onClick={async () => {
+                                  if (isFreeUser && clerkId) {
+                                    const result = await recordTranscription({
+                                      clerk_id: clerkId,
+                                      video_k_id: item.id,
+                                    })
+                                    if (!result.allowed) {
+                                      toast.error(
+                                        'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
+                                        {
+                                          action: {
+                                            label: 'Ver planos',
+                                            onClick: () =>
+                                              router.push('/subscription'),
+                                          },
+                                          duration: 6000,
+                                        }
+                                      )
+                                      return
+                                    }
+                                  }
+                                  setSelectedVideo(item)
+                                }}
                                 className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
                               >
                                 <FileText className="h-3.5 w-3.5" />

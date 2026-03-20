@@ -11,7 +11,9 @@ import CardsStats from '@/store/components/cardsStats'
 import Header from '@/store/components/header'
 import LineChart from '@/store/components/lineChart'
 import NotFoundStore from '@/store/components/notFoundStore'
+import StoreDetailSkeleton from '@/store/components/storeDetailSkeleton'
 import useStore from '@/store/hooks/useStore'
+import UseUser from '@/hooks/useUser'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 
 const StoreDetail = () => {
@@ -19,6 +21,7 @@ const StoreDetail = () => {
   const router = useRouter()
 
   const { isLoading, store, setName } = useStore()
+  const { isFreeUser, id: clerkId } = UseUser()
 
   useEffect(() => {
     if (id?.[0]) {
@@ -26,8 +29,7 @@ const StoreDetail = () => {
     }
   }, [id])
 
-  // TODO: Add loading state
-  if (isLoading && !store) {
+  if (!isLoading && !store) {
     return <NotFoundStore />
   }
 
@@ -42,26 +44,36 @@ const StoreDetail = () => {
             className="mb-6 hover:bg-secondary"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Stores
+            Voltar para lojas
           </Button>
 
-          {/* Store Header */}
-          <Header store={store!} />
+          {isLoading ? (
+            <StoreDetailSkeleton />
+          ) : (
+            <>
+              {/* Store Header */}
+              <Header store={store!} />
 
-          {/* Stats Grid */}
-          <CardsStats store={store!} />
+              {/* Stats Grid */}
+              <CardsStats store={store!} />
 
-          {/* Line Chart */}
-          <LineChart store={store!} />
+              {/* Line Chart */}
+              <LineChart store={store!} />
 
-          {/* Products Table */}
-          <ProductsTable data={store?.top_products as IProductDto[]} />
+              {/* Products Table */}
+              <ProductsTable data={store?.top_products as IProductDto[]} />
 
-          {/* Creators Table */}
-          <CreatorsTable data={store?.top_creators as ICreatorDto[]} />
+              {/* Creators Table */}
+              <CreatorsTable data={store?.top_creators as ICreatorDto[]} />
 
-          {/* Videos Table */}
-          <VideosTable data={store?.top_videos as IVideoDto[]} />
+              {/* Videos Table */}
+              <VideosTable
+                data={store?.top_videos as IVideoDto[]}
+                isFreeUser={isFreeUser}
+                clerkId={clerkId}
+              />
+            </>
+          )}
         </div>
       </main>
     </div>

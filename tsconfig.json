@@ -22,6 +22,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/actions/*": ["./src/app/actions/*"],
+      "@/blog/*": ["./src/features/blog/*"],
       "@/components/*": ["./src/features/common/components/*"],
       "@/contact/*": ["./src/features/contact/*"],
       "@/convex/*": ["./convex/*"],

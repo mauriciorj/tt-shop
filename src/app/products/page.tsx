@@ -8,10 +8,12 @@ import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import SearchBar from '@/components/search'
 import useProducts from '@/products/hooks/useProducts'
+import UseUser from '@/hooks/useUser'
 import ProductsTable from '@/products/components/productsTable'
 import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const Products = () => {
+  const { isFreeUser } = UseUser()
   const {
     categories,
     currentPage,
@@ -72,7 +74,9 @@ const Products = () => {
           />
         )}
         <SearchBar
+          clerkId={userId}
           data={products}
+          isFreeUser={isFreeUser}
           isStore={false}
           placeholder="Procurar por um produto..."
         />

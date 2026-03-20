@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc:*)",
-      "WebFetch(domain:docs.stripe.com)"
+      "WebFetch(domain:docs.stripe.com)",
+      "Bash(find /Users/mdeoliveiramesquitafreedommobile.ca/Documents/mauricio/code/tt-shop/src/app/store -type f -name *.ts*)",
+      "Bash(find /Users/mdeoliveiramesquitafreedommobile.ca/Documents/mauricio/code/tt-shop/src/features/common/components -name *Table* -o -name *Table*)"
     ]
   }
 }

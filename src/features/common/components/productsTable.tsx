@@ -1,10 +1,20 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import RevenueSparkline from '@/components/revenueSparkline'
 import { IProductDto } from '@/types/index'
+import { normalizeUrl } from '@/utils/string'
 
-const ProductsTable = ({ data }: { data: IProductDto[] }) => {
+const ProductsTable = ({
+  data,
+  isBlog,
+}: {
+  data: IProductDto[]
+  isBlog?: boolean
+}) => {
+  const router = useRouter()
+  if (!data) return null
   return (
     <>
       <div className="text-lg font-semibold text-foreground mt-10 mb-3">
@@ -41,9 +51,12 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {data?.map((item, index) => (
                     <tr
                       key={item?.name}
+                      onClick={() =>
+                        router.push(`/product/${normalizeUrl(item.name)}`)
+                      }
                       className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
@@ -64,44 +77,58 @@ const ProductsTable = ({ data }: { data: IProductDto[] }) => {
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          {item?.image && (
-                            <Image
-                              src={item.image}
-                              alt={item?.name}
-                              width={100}
-                              height={100}
-                              style={{
-                                borderRadius: '10px',
-                              }}
-                            />
-                          )}
+                          {isBlog && index < 7
+                            ? 'n/a'
+                            : item?.image && (
+                                <Image
+                                  src={item?.image}
+                                  alt={item?.name}
+                                  width={100}
+                                  height={100}
+                                  style={{
+                                    borderRadius: '10px',
+                                  }}
+                                />
+                              )}
                         </div>
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <span className="font-semibold">{item?.name}</span>
+                          <span className="font-semibold">
+                            {isBlog && index < 7 ? 'n/a' : item?.name}
+                          </span>
                         </div>
                       </td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item?.unit_price)}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item?.unit_price)}
                       </td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item?.revenue)}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item?.revenue)}
                       </td>
                       <td className="p-4 font-medium">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item?.sales || 0)}
+                        {isBlog && index < 7
+                          ? 'n/a'
+                          : new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item?.sales || 0)}
                       </td>
                       <td className="p-4 font-medium">
-                        <RevenueSparkline data={item?.revenue_history} />
+                        {isBlog && index < 7 ? (
+                          'n/a'
+                        ) : (
+                          <RevenueSparkline data={item?.revenue_history} />
+                        )}
                       </td>
                     </tr>
                   ))}

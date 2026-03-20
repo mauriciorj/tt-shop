@@ -119,6 +119,19 @@ export default defineSchema({
   })
     .index('by_clerk_id', ['clerk_id'])
     .index('by_clerk_id_store_k_id', ['clerk_id', 'store_k_id']),
+  searchLogs: defineTable({
+    clerk_id: v.string(),
+    date: v.string(),
+    created_at: v.string(),
+  }).index('by_clerk_id_date', ['clerk_id', 'date']),
+  transcriptionLogs: defineTable({
+    clerk_id: v.string(),
+    video_k_id: v.string(),
+    date: v.string(),
+    created_at: v.string(),
+  })
+    .index('by_clerk_id_date', ['clerk_id', 'date'])
+    .index('by_clerk_id_video', ['clerk_id', 'video_k_id']),
   users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),

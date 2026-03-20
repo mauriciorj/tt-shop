@@ -12,6 +12,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { IProductsWithCategory } from '@/products/types'
 
 const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
+  if (!product) return null
+
   const getTrendIcon = () => {
     if (product.revenue_growth_rate >= 0)
       return <TrendingUp className="w-5 h-5 text-green-500" />
@@ -34,7 +36,7 @@ const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {new Intl.NumberFormat('pt-BR').format(product.revenue)}
+            {new Intl.NumberFormat('pt-BR').format(product?.revenue)}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated monthly revenue
@@ -53,7 +55,7 @@ const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {product.revenue_growth_rate} %
+            {product?.revenue_growth_rate} %
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated growth rate
@@ -72,7 +74,7 @@ const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {new Intl.NumberFormat('pt-BR').format(product.sales)}
+            {new Intl.NumberFormat('pt-BR').format(product?.sales)}
           </div>
           <p className="text-xs text-muted-foreground mt-1">Estimated sales</p>
         </CardContent>
@@ -89,7 +91,7 @@ const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {product.unit_price}
+            {product?.unit_price}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Estimated unit price
@@ -108,7 +110,7 @@ const CardsStats = ({ product }: { product: IProductsWithCategory }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-foreground">
-            {product.product_rating}
+            {product?.product_rating}
           </div>
         </CardContent>
       </Card>

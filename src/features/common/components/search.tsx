@@ -6,19 +6,27 @@ import { Search } from 'lucide-react'
 import { IStoresWithCategory } from '@/stores/types'
 import { IProductsWithCategory } from '@/products/types'
 import Image from 'next/image'
+import { useMutation } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+import { toast } from 'sonner'
 
 interface SearchBarProps {
   data: IStoresWithCategory[] | IProductsWithCategory[]
   isStore?: boolean
   placeholder?: string
+  clerkId?: string
+  isFreeUser?: boolean
 }
 
 const SearchBar = ({
   data,
   isStore = true,
   placeholder = 'Search data...',
+  clerkId,
+  isFreeUser = false,
 }: SearchBarProps) => {
   const router = useRouter()
+  const recordSearch = useMutation(api.users.recordSearchAndCheckLimit)
 
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -49,6 +57,33 @@ const SearchBar = ({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleSearchSubmit = async (
+    item: IStoresWithCategory | IProductsWithCategory
+  ) => {
+    if (isFreeUser && clerkId) {
+      const result = await recordSearch({ clerk_id: clerkId })
+      if (!result.allowed) {
+        toast.error(
+          'Você atingiu o limite de 3 pesquisas por dia. Faça upgrade para pesquisar sem limites.',
+          {
+            action: {
+              label: 'Ver planos',
+              onClick: () => router.push('/subscription'),
+            },
+            duration: 6000,
+          }
+        )
+        setIsOpen(false)
+        return
+      }
+    }
+    router.push(
+      `${isStore ? '/store' : '/product'}/${item.name.toLowerCase().replace(/\s/g, '-')}`
+    )
+    setQuery('')
+    setIsOpen(false)
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen || suggestions.length === 0) return
 
@@ -64,22 +99,10 @@ const SearchBar = ({
       )
     } else if (e.key === 'Enter' && highlightedIndex >= 0) {
       e.preventDefault()
-      router.push(
-        `${isStore ? '/store' : '/products'}/${suggestions[highlightedIndex].name}`
-      )
-      setQuery('')
-      setIsOpen(false)
+      handleSearchSubmit(suggestions[highlightedIndex])
     } else if (e.key === 'Escape') {
       setIsOpen(false)
     }
-  }
-
-  const handleSelect = (item: IStoresWithCategory | IProductsWithCategory) => {
-    router.push(
-      `${isStore ? '/store' : '/products'}/${item.name.toLowerCase().replace(/\s/g, '-')}`
-    )
-    setQuery('')
-    setIsOpen(false)
   }
 
   return (
@@ -117,7 +140,7 @@ const SearchBar = ({
                   }`}
                   key={item.name}
                   onClick={() =>
-                    handleSelect(
+                    handleSearchSubmit(
                       item as IStoresWithCategory | IProductsWithCategory
                     )
                   }
