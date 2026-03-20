@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { api } from '@/convex/_generated/api'
 import { fetchQuery } from 'convex/nextjs'
 import { normalizeUrl } from '@/utils/string'
@@ -82,6 +84,13 @@ export default async function Page({
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 mb-6 px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Voltar para blog
+        </Link>
         <div className="container mx-auto px-4 py-8">
           <Header store={store} isBlog={true} />
           <CardsStats store={store} />

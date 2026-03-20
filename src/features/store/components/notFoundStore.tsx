@@ -17,7 +17,7 @@ const NotFoundStore = () => {
           </p>
           <Button onClick={() => router.push('/stores')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Stores
+            Voltar para lojas
           </Button>
         </div>
       </main>

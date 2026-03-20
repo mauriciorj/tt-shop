@@ -5,7 +5,7 @@ const Footer = () => {
   const footerLinks = {
     Produto: [{ label: 'Preço', href: '/#price' }],
     Recursos: [
-      { label: 'Documentação', href: '#' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Suporte', href: '/support' },
     ],
     Empresa: [

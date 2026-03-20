@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
             protocol: 'https',
             hostname: new URL(process.env.NEXT_PUBLIC_CONVEX_URL).hostname,
           },
+          {
+            protocol: 'https',
+            hostname: 'savory-ram-126.convex.cloud',
+          },
         ]
       : [],
   },
