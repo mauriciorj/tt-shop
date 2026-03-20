@@ -9,12 +9,12 @@ type TCategory = { id: string; label: string | null | undefined }
 
 const useStores = () => {
   const ITEMS_PER_PAGE = 10
-  const { id } = UseUser()
-
-  const { data: dbUser, isLoading: isLoadingDbUser } = useQuery({
-    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
-  })
-  const userSubscriptionPlan = dbUser?.subscription_plan
+  const {
+    FREE_USER_ITEMS_PER_PAGE,
+    id,
+    isLoading: isLoadingDbUser,
+    userSubscriptionPlan,
+  } = UseUser()
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -69,8 +69,7 @@ const useStores = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     const end = currentPage * ITEMS_PER_PAGE
 
-    let result =
-      userSubscriptionPlan === 'free' ? getAllStores.slice(0, 10) : getAllStores
+    let result = getAllStores
 
     // Filter by category
     if (selectedCategory && selectedCategory !== 'all') {
@@ -79,6 +78,11 @@ const useStores = () => {
       )?.label
       result = result?.filter((store) => store.category_name === categoryByName)
     }
+
+    result =
+      userSubscriptionPlan === 'free'
+        ? result.slice(0, FREE_USER_ITEMS_PER_PAGE)
+        : result
 
     // Sort by key and order
     result = [...result].sort((a, b) => {

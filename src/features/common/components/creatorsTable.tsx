@@ -45,7 +45,7 @@ const CreatorsTable = ({
                   {data?.map((item, index) => (
                     <tr
                       key={item?.tt_account}
-                      className="table-row-hover border-b border-border/30 last:border-0 cursor-pointer"
+                      className="table-row-hover border-b border-border/30 last:border-0"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
                       <td className="p-4">

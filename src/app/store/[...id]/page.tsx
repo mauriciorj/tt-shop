@@ -11,6 +11,7 @@ import CardsStats from '@/store/components/cardsStats'
 import Header from '@/store/components/header'
 import LineChart from '@/store/components/lineChart'
 import NotFoundStore from '@/store/components/notFoundStore'
+import StoreDetailSkeleton from '@/store/components/storeDetailSkeleton'
 import useStore from '@/store/hooks/useStore'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 
@@ -26,7 +27,6 @@ const StoreDetail = () => {
     }
   }, [id])
 
-  // TODO: Add loading state
   if (!isLoading && !store) {
     return <NotFoundStore />
   }
@@ -45,23 +45,29 @@ const StoreDetail = () => {
             Back to Stores
           </Button>
 
-          {/* Store Header */}
-          <Header store={store!} />
+          {isLoading ? (
+            <StoreDetailSkeleton />
+          ) : (
+            <>
+              {/* Store Header */}
+              <Header store={store!} />
 
-          {/* Stats Grid */}
-          <CardsStats store={store!} />
+              {/* Stats Grid */}
+              <CardsStats store={store!} />
 
-          {/* Line Chart */}
-          <LineChart store={store!} />
+              {/* Line Chart */}
+              <LineChart store={store!} />
 
-          {/* Products Table */}
-          <ProductsTable data={store?.top_products as IProductDto[]} />
+              {/* Products Table */}
+              <ProductsTable data={store?.top_products as IProductDto[]} />
 
-          {/* Creators Table */}
-          <CreatorsTable data={store?.top_creators as ICreatorDto[]} />
+              {/* Creators Table */}
+              <CreatorsTable data={store?.top_creators as ICreatorDto[]} />
 
-          {/* Videos Table */}
-          <VideosTable data={store?.top_videos as IVideoDto[]} />
+              {/* Videos Table */}
+              <VideosTable data={store?.top_videos as IVideoDto[]} />
+            </>
+          )}
         </div>
       </main>
     </div>

@@ -86,7 +86,10 @@ export default async function Page({
           <Header store={store} isBlog={true} />
           <CardsStats store={store} />
           <LineChart store={store} />
-          <ProductsTable data={store?.top_products as IProductDto[]} />
+          <ProductsTable
+            data={store?.top_products as IProductDto[]}
+            isBlog={true}
+          />
           <CreatorsTable
             data={store?.top_creators as ICreatorDto[]}
             isBlog={true}

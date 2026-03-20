@@ -52,10 +52,10 @@ const ProductDetail = () => {
           <LineChart product={product!} />
 
           {/* Creators Table */}
-          <CreatorsTable data={product!.top_creators as ICreatorDto[]} />
+          <CreatorsTable data={product?.top_creators as ICreatorDto[]} />
 
           {/* Videos Table */}
-          <VideosTable data={product!.top_videos as IVideoDto[]} />
+          <VideosTable data={product?.top_videos as IVideoDto[]} />
         </div>
       </main>
     </div>
