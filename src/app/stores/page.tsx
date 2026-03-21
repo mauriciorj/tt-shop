@@ -10,14 +10,13 @@ import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
-import UseUser from '@/hooks/useUser'
 
 const Stores = () => {
-  const { isFreeUser } = UseUser()
   const {
     categories,
     currentPage,
     data: stores,
+    isFreeUser,
     isLoading,
     itemsPerPage,
     onPageChange,
@@ -30,7 +29,6 @@ const Stores = () => {
     sortOrder,
     totalPages,
     userId,
-    userSubscriptionPlan,
   } = useStores()
 
   const savedStoreIds = useQuery(
@@ -67,10 +65,10 @@ const Stores = () => {
         ) : (
           <Categories
             categories={categories}
+            isFreeUser={isFreeUser}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             setCurrentPage={setCurrentPage}
-            userSubscriptionPlan={userSubscriptionPlan!}
           />
         )}
         <SearchBar

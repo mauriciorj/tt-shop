@@ -17,7 +17,7 @@ import plansInfos from '@/payment/plansInfos'
 import PricingCard from '@/payment/components/pricingCard'
 
 const Subscription = () => {
-  const { userSubscriptionPlan } = UseUser()
+  const { isFreeUser, userSubscriptionPlan } = UseUser()
 
   const [showCancelDialog, setShowCancelDialog] = useState(false)
   const [showCancelEmailDialog, setShowCancelEmailDialog] = useState(false)
@@ -39,13 +39,13 @@ const Subscription = () => {
             {...plansInfos.free}
             setShowCancelDialog={setShowCancelDialog}
             isAuthFlow
-            isCurrentPlan={Boolean(userSubscriptionPlan === 'free')}
+            isCurrentPlan={isFreeUser}
             isMostPopular={false}
           />
           <PricingCard
             {...plansInfos.pro}
             isAuthFlow
-            isCurrentPlan={Boolean(userSubscriptionPlan !== 'free')}
+            isCurrentPlan={!isFreeUser}
             isMostPopular={false}
           />
         </div>

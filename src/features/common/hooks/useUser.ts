@@ -34,6 +34,7 @@ const UseUser = () => {
     isLoading: Boolean(isLoadingAuth || isLoadingDbUser),
     isSubscriptionActive,
     userSubscriptionPlan,
+    userSubscriptionStatus,
   }
 }
 

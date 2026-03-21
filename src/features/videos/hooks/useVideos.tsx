@@ -8,12 +8,13 @@ type TCategory = { id: string | null; label: string | null | undefined }
 
 const useVideos = () => {
   const ITEMS_PER_PAGE = 12
-  const { id } = UseUser()
-
-  const { data: dbUser } = useQuery({
-    ...convexQuery(api.users.getUserByClerkId, id ? { clerk_id: id } : 'skip'),
-  })
-  const userSubscriptionPlan = dbUser?.subscription_plan
+  const {
+    id,
+    isFreeUser,
+    isLoading: isLoadingDbUser,
+    FREE_USER_ITEMS_PER_PAGE,
+    userSubscriptionPlan,
+  } = UseUser()
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -79,6 +80,8 @@ const useVideos = () => {
       rank: index + 1,
     }))
 
+    result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
+
     return result.slice(start, end)
   }, [getAllVideos, categories, currentPage, selectedCategory])
 
@@ -91,7 +94,8 @@ const useVideos = () => {
     categories,
     currentPage,
     data: videosPaginated,
-    isLoading: isLoadingAllVideos,
+    isFreeUser,
+    isLoading: Boolean(isLoadingAllVideos && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,

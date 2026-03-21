@@ -6,6 +6,7 @@ import './globals.css'
 import './app.css'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
+import PastDueGuard from '@/components/pastDueGuard'
 import { Providers } from '@/providers/index'
 
 const geistSans = Geist({
@@ -49,6 +50,7 @@ export default function RootLayout({
         <Providers>
           <div className="min-h-screen flex flex-col">
             <Header />
+            <PastDueGuard />
             {children}
             <Footer />
           </div>

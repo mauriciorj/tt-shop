@@ -7,7 +7,6 @@ const disallowedPaths = [
   '/billing',
   '/store',
   '/stores',
-  '/payment',
   '/product',
   '/products',
   '/saved',
