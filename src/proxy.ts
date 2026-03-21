@@ -31,7 +31,7 @@ export default clerkMiddleware(async (auth, req) => {
   if (!userId) return
 
   const CACHE_COOKIE = 'x-sub-status'
-  const CACHE_TTL_SECONDS = 60 * 30 // 30 minutes
+  const CACHE_TTL_SECONDS = 60 * 5 // 5 minutes
 
   let subscriptionStatus = req.cookies.get(CACHE_COOKIE)?.value
 

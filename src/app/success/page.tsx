@@ -12,6 +12,10 @@ function SuccessContent() {
   const [session, setSession] = useState<object | null>(null)
 
   useEffect(() => {
+    fetch('/api/clear-sub-cache', { method: 'POST' })
+  }, [])
+
+  useEffect(() => {
     if (sessionId) {
       fetch(`/api/checkout-session?sessionId=${sessionId}`)
         .then((res) => res.json())
