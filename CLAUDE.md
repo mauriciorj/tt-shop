@@ -118,7 +118,6 @@ src/
     saved/          # User saved items
     product/        # Single product detail
     store/          # Single store detail
-    payment/        # Stripe/subscription UI & utils
     contact/        # Contact form
     db/             # DB utilities
   providers/        # React context providers (Clerk, Convex)
@@ -134,7 +133,6 @@ public/             # Static assets
 @/components/* → src/features/common/components/*
 @/hooks/*     → src/features/common/hooks/*
 @/ui/*        → src/features/common/components/ui/*
-@/payment/*   → src/features/payment/*
 @/product/*   → src/features/product/*
 @/products/*  → src/features/products/*
 @/stores/*    → src/features/stores/*
@@ -286,7 +284,6 @@ NEXT_PUBLIC_URL=http://localhost:3000/
 | `/products`                                                     | Browse products                           |
 | `/videos`                                                       | Browse viral videos                       |
 | `/saved`                                                        | User's saved items (protected)            |
-| `/payment`                                                      | Subscription plans                        |
 | `/success`, `/canceled`                                         | Post-payment pages                        |
 | `/blog`                                                         | Blog (product & store sub-pages)          |
 | `/about`, `/contact`                                            | Static pages                              |
