@@ -28,6 +28,7 @@ const Videos = () => {
     categories,
     currentPage,
     data: videos,
+    isFreeUser,
     isLoading,
     onPageChange,
     selectedCategory,
@@ -37,8 +38,6 @@ const Videos = () => {
     userId,
     userSubscriptionPlan,
   } = useVideos()
-
-  const isFreeUser = userSubscriptionPlan === 'free'
 
   const savedVideoIds = useQuery(
     api.savedVideos.getSavedVideoIds,
@@ -113,10 +112,10 @@ const Videos = () => {
         ) : (
           <Categories
             categories={categories}
+            isFreeUser={isFreeUser}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             setCurrentPage={setCurrentPage}
-            userSubscriptionPlan={userSubscriptionPlan!}
           />
         )}
         {isLoading ? (

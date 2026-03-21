@@ -8,16 +8,15 @@ import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import SearchBar from '@/components/search'
 import useProducts from '@/products/hooks/useProducts'
-import UseUser from '@/hooks/useUser'
 import ProductsTable from '@/products/components/productsTable'
 import ProductTableSkeleton from '@/products/components/productTableSkeleton'
 
 const Products = () => {
-  const { isFreeUser } = UseUser()
   const {
     categories,
     currentPage,
     data: products,
+    isFreeUser,
     isLoading,
     itemsPerPage,
     onPageChange,
@@ -30,7 +29,6 @@ const Products = () => {
     sortOrder,
     totalPages,
     userId,
-    userSubscriptionPlan,
   } = useProducts()
 
   const savedProductIds = useQuery(
@@ -67,10 +65,10 @@ const Products = () => {
         ) : (
           <Categories
             categories={categories}
+            isFreeUser={isFreeUser}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             setCurrentPage={setCurrentPage}
-            userSubscriptionPlan={userSubscriptionPlan!}
           />
         )}
         <SearchBar

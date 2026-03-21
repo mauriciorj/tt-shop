@@ -12,6 +12,7 @@ const useStores = () => {
   const {
     FREE_USER_ITEMS_PER_PAGE,
     id,
+    isFreeUser,
     isLoading: isLoadingDbUser,
     userSubscriptionPlan,
   } = UseUser()
@@ -79,10 +80,7 @@ const useStores = () => {
       result = result?.filter((store) => store.category_name === categoryByName)
     }
 
-    result =
-      userSubscriptionPlan === 'free'
-        ? result.slice(0, FREE_USER_ITEMS_PER_PAGE)
-        : result
+    result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
 
     // Sort by key and order
     result = [...result].sort((a, b) => {
@@ -143,6 +141,7 @@ const useStores = () => {
     categories,
     currentPage,
     data: storesPaginated,
+    isFreeUser,
     isLoading: Boolean(isLoadingAllStores && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
