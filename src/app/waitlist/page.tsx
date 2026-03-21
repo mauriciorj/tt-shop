@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-import { CheckCircle, Loader2 } from 'lucide-react'
+import { CheckCircle2, Loader2, Rocket } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -70,34 +70,39 @@ export default function WaitlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1 container py-8 px-10 mx-auto max-w-[700px]">
         {submitted ? (
-          <div className="glass-card rounded-2xl p-10 flex flex-col items-center text-center gap-4 animate-fade-in">
-            <CheckCircle className="h-14 w-14 text-primary" />
-            <h2 className="text-2xl font-bold text-foreground">
-              Você está na lista!
-            </h2>
-            <p className="text-muted-foreground">
-              Obrigado por se inscrever. Vamos te avisar assim que sua vaga
-              estiver disponível.
+          <div className="text-center space-y-6 animate-fade-in">
+            <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10 text-primary" />
+            </div>
+            <h1 className="text-4xl font-bold text-foreground">
+              Você está na lista! 🎉
+            </h1>
+            <p className="text-muted-foreground text-lg max-w-md mx-auto">
+              Obrigado por se cadastrar. Entraremos em contato assim que uma
+              vaga estiver disponível.
             </p>
           </div>
         ) : (
           <div className="glass-card rounded-2xl p-8 animate-slide-up">
-            <div className="mb-8 text-center">
-              <h1 className="text-3xl font-bold text-foreground mb-2">
-                Lista de espera
+            <div className="text-center mb-10 space-y-4">
+              <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto">
+                <Rocket className="w-7 h-7 text-primary" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+                Entre na <span className="gradient-text">Waitlist</span>
               </h1>
-              <p className="text-muted-foreground">
-                Garanta seu acesso antecipado ao UseShopRadar.
+              <p className="text-muted-foreground text-lg">
+                Garanta acesso antecipado à plataforma e saia na frente.
               </p>
             </div>
 
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-5"
+                className="glass-card p-8 rounded-2xl space-y-6"
               >
                 <FormField
                   control={form.control}
@@ -171,7 +176,7 @@ export default function WaitlistPage() {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <FormControl>
+                        <FormControl className="w-full">
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione uma faixa" />
                           </SelectTrigger>
@@ -210,7 +215,7 @@ export default function WaitlistPage() {
             </Form>
           </div>
         )}
-      </div>
+      </main>
     </div>
   )
 }
