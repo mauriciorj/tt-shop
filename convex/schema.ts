@@ -124,6 +124,17 @@ export default defineSchema({
     date: v.string(),
     created_at: v.string(),
   }).index('by_clerk_id_date', ['clerk_id', 'date']),
+  waitlist: defineTable({
+    name: v.string(),
+    email: v.string(),
+    sells_on_tiktok: v.boolean(),
+    monthly_revenue: v.union(
+      v.literal('$0-$1000'),
+      v.literal('$1001-$5000'),
+      v.literal('+$5000')
+    ),
+    created_at: v.string(),
+  }).index('by_email', ['email']),
   transcriptionLogs: defineTable({
     clerk_id: v.string(),
     video_k_id: v.string(),

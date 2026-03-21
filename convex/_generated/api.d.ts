@@ -20,6 +20,7 @@ import type * as stores from "../stores.js";
 import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 import type * as videos from "../videos.js";
+import type * as waitlist from "../waitlist.js";
 
 import type {
   ApiFromModules,
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   users: typeof users;
   utils: typeof utils;
   videos: typeof videos;
+  waitlist: typeof waitlist;
 }>;
 
 /**
