@@ -20,7 +20,7 @@ sys.path.append(parent_parent_parent)
 from utils.save_error import save_error
 from selenium_utils import selenium_fetch
 
-def main(driver, id):
+def main(driver, id, start_date, end_date):
     print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES REQUEST API ]')
 
     search_url = 'https://www.kalodata.com/product/detail/total'
@@ -28,8 +28,8 @@ def main(driver, id):
     # Prepare the payload (same as before)
     body = {
         "id": id,
-        "startDate": "2026-01-25",
-        "endDate": "2026-02-23",
+        "startDate": start_date,
+        "endDate": end_date,
         "authority": True,
     }
     

@@ -15,9 +15,9 @@ from request_top_stores_details.top_store_sales.request_api.dto import dto as dt
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, page): 
+def main(driver, k_id, page, start_date, end_date):
     # STEP 01 - Request the store total sales
-    request_api_result = request_api(driver, k_id)
+    request_api_result = request_api(driver, k_id, start_date, end_date)
     
     
     if request_api_result['data'] is None:

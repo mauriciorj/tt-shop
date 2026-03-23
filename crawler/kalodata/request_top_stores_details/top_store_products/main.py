@@ -15,9 +15,9 @@ from request_top_stores_details.top_store_products.request_api.dto import dto as
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, page): 
+def main(driver, k_id, page, start_date, end_date):
     # STEP 01 - Request the list of the top products
-    request_api_result = request_api(driver, k_id)
+    request_api_result = request_api(driver, k_id, start_date, end_date)
     
     # STEP 02 - Check if the request was successful
     if request_api_result['data'] is None:

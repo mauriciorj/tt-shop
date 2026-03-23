@@ -4,7 +4,7 @@ from request_video_details.request_api.dto import dto
 from request_video_details.convex import convex
 
 
-def handlers_control(driver, data):
+def handlers_control(driver, data, start_date, end_date):
     print('[ SELENIUM ] Starting the requests...')
 
     for store in data:
@@ -12,7 +12,7 @@ def handlers_control(driver, data):
         k_id = store['k_id']
 
         # Video details
-        video_details_result = request_api(driver, k_id)
+        video_details_result = request_api(driver, k_id, start_date, end_date)
         dto_result = dto(video_details_result)
 
 

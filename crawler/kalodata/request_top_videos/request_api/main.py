@@ -1,7 +1,7 @@
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
-def main(driver, page):
+def main(driver, page, start_date, end_date):
     print('')
     print('[ SELENIUM ] Requesting data...')
 
@@ -10,8 +10,8 @@ def main(driver, page):
     # Prepare the payload (same as before)
     body = {
         "country": "BR",
-        "startDate": "2026-01-25",
-        "endDate": "2026-02-23",
+        "startDate": start_date,
+        "endDate": end_date,
         "cateIds": [],
         "showCateIds": [],
         "pageNo": page,

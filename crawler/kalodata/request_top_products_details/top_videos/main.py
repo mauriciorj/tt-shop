@@ -16,12 +16,12 @@ from request_top_products_details.top_videos.convex.main import main as convex
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, page, main_category):
+def main(driver, k_id, page, main_category, start_date, end_date):
     print("")
     print('[ PRODUCTS DETAILS - TOP VIDEOS ]')
-    
+
     # STEP 01 - Request the list of the top products
-    request_api_result = request_api(driver, k_id)
+    request_api_result = request_api(driver, k_id, start_date, end_date)
     
     # STEP 02 - Check if the request was successful
     if request_api_result['data'] is None:
