@@ -59,14 +59,58 @@ def extract_audio(video_path: str, audio_path="audio/audio.wav"):
     return audio_path
 
 
-def transcribe_audio(audio_path: str, model_size="small") -> str:
+def transcribe_audio(audio_path: str, model_size="small") -> dict:
     model = whisper.load_model(model_size)
     result = model.transcribe(audio_path, language="pt")
-    return result["text"]
+    return result
 
 
-def clean_transcript(text: str) -> str:
-    return text.replace("\n", " ").strip()
+def format_block(text: str) -> str:
+    """Capitalize first letter and add paragraph breaks at sentence boundaries."""
+    import re
+    text = text.strip()
+    if not text:
+        return text
+    text = text[0].upper() + text[1:]
+    # Insert line break after sentence-ending punctuation followed by more text
+    text = re.sub(r'([.?!])\s+(?=[A-Za-zÀ-ÿ])', r'\1\n', text)
+    return text
+
+
+def format_transcript_blocks(segments: list, min_block_sec: float = 5.0, max_block_sec: float = 10.0) -> str:
+    """
+    Groups Whisper segments into blocks of 5-10 seconds each.
+    Each block starts with a capital letter.
+    Sentence boundaries within a block become paragraph breaks.
+    """
+    blocks = []
+    current_texts = []
+    block_start = None
+
+    for segment in segments:
+        seg_start = float(segment["start"])
+        seg_end = float(segment["end"])
+        seg_text = segment["text"].strip()
+
+        if not seg_text:
+            continue
+
+        if block_start is None:
+            block_start = seg_start
+
+        current_texts.append(seg_text)
+        duration = seg_end - block_start
+
+        # Close block when we hit min duration; force-close at max duration
+        if duration >= min_block_sec:
+            blocks.append(" ".join(current_texts))
+            current_texts = []
+            block_start = None
+
+    if current_texts:
+        blocks.append(" ".join(current_texts))
+
+    return "\n\n".join(format_block(b) for b in blocks if b.strip())
 
 
 def transcribe_tiktok(url: str, k_id: str) -> str:
@@ -79,9 +123,9 @@ def transcribe_tiktok(url: str, k_id: str) -> str:
     audio = extract_audio(video_path, audio_path)
 
     print("Transcribing (pt-BR)...")
-    text = transcribe_audio(audio)
+    result = transcribe_audio(audio)
 
-    return clean_transcript(text)
+    return format_transcript_blocks(result["segments"])
 
 
 def save_transcription(client: ConvexClient, convex_id: str, transcription: str):
