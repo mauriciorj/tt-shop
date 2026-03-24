@@ -4,7 +4,7 @@ from request_top_products_details.top_products_sales.main import main as top_pro
 
 from request_top_products_details.convex import convex
 
-def handlers_control(driver, data, page):
+def handlers_control(driver, data, page, start_date, end_date):
     print("")
     print('[ PRODUCTS DETAILS - HANDLERS CONTROL ] Requesting product by product...')
 
@@ -16,13 +16,13 @@ def handlers_control(driver, data, page):
         main_category = product['main_category']
 
         # Top creators
-        top_creators_result = top_creators(driver, k_id, page)
-        
+        top_creators_result = top_creators(driver, k_id, page, start_date, end_date)
+
         # Top videos
-        top_videos_result = top_videos(driver, k_id, page, main_category)
+        top_videos_result = top_videos(driver, k_id, page, main_category, start_date, end_date)
 
         # Request the total sales
-        top_products_sales_result = top_products_sales(driver, k_id, page)
+        top_products_sales_result = top_products_sales(driver, k_id, page, start_date, end_date)
 
 
 

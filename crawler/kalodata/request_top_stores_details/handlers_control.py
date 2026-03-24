@@ -6,7 +6,7 @@ from request_top_stores_details.top_store_sales.main import main as top_store_sa
 from request_top_stores_details.convex import convex
 
 
-def handlers_control(driver, data, page):
+def handlers_control(driver, data, page, start_date, end_date):
     print('[ SELENIUM ] Starting the requests...')
 
     for store in data:
@@ -15,16 +15,16 @@ def handlers_control(driver, data, page):
         main_category = store['main_category']
 
         # Top creators
-        top_creators_result = top_creators(driver, k_id, page)
+        top_creators_result = top_creators(driver, k_id, page, start_date, end_date)
 
         # Request products details
-        top_store_products_result = store_details_products(driver, k_id, page)
+        top_store_products_result = store_details_products(driver, k_id, page, start_date, end_date)
 
         # # Request the list of the top video
-        top_videos_result = top_videos(driver, k_id, page, main_category)
+        top_videos_result = top_videos(driver, k_id, page, main_category, start_date, end_date)
 
         # # Request the total sales
-        top_store_sales_result = top_store_sales(driver, k_id, page)
+        top_store_sales_result = top_store_sales(driver, k_id, page, start_date, end_date)
 
 
 

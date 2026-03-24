@@ -22,7 +22,7 @@ from request_video_details.convex.main import main as convex
 #         data = json.load(f)
 #     return data
 
-def main(): 
+def main(start_date, end_date):
     driver = chrome()
     login(driver)
 
@@ -35,7 +35,7 @@ def main():
         print(f"[ SELENIUM ] Page {page}")
 
         # STEP 01 - Request the top videos from API
-        request_api_result = request_api(driver, page)
+        request_api_result = request_api(driver, page, start_date, end_date)
 
         # STEP 02 - Check if the request was successful
         if request_api_result['data'] is None:

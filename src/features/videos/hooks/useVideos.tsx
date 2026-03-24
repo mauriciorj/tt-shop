@@ -52,13 +52,6 @@ const useVideos = () => {
     }
   }, [getAllVideos])
 
-  // Calculate the total number of pages loaded based on the number of stores and items per page
-  const totalPages = useMemo(
-    () =>
-      getAllVideos?.length && Math.ceil(getAllVideos?.length / ITEMS_PER_PAGE),
-    [getAllVideos]
-  )
-
   const videosPaginated = useMemo(() => {
     if (!getAllVideos) return []
 
@@ -84,6 +77,14 @@ const useVideos = () => {
 
     return result.slice(start, end)
   }, [getAllVideos, categories, currentPage, selectedCategory])
+
+  // Calculate the total number of pages loaded based on the number of stores and items per page
+  const totalPages = useMemo(
+    () =>
+      videosPaginated?.length &&
+      Math.ceil(videosPaginated?.length / ITEMS_PER_PAGE),
+    [videosPaginated]
+  )
 
   // Function related to pagination
   const onPageChange = (page: number) => {

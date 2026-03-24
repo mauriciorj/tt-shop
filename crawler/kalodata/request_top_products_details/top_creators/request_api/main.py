@@ -3,7 +3,7 @@ import sys
 from selenium_utils import selenium_fetch
 from utils.save_error import save_error
 
-def main(driver, id):
+def main(driver, id, start_date, end_date):
     print('[ PRODUCTS DETAILS - TOP CREATORS REQUEST API ]')
 
     search_url = 'https://www.kalodata.com/product/detail/creator/queryList'
@@ -11,8 +11,8 @@ def main(driver, id):
     # Prepare the payload (same as before)
     body = {
         "id": id,
-        "startDate": "2026-01-25",
-        "endDate": "2026-02-23",
+        "startDate": start_date,
+        "endDate": end_date,
         "cateIds": [],
         "pageNo": 1,
         "pageSize": 10,

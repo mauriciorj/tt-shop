@@ -18,7 +18,7 @@ from utils.save_error import save_error
 
 from request_video_details.handlers_control import handlers_control
 
-def main(): 
+def main(start_date, end_date):
     driver = chrome()
     login(driver)
 
@@ -52,7 +52,7 @@ def main():
             save_json(data=request_db_result, file_name=f'request_top_stores_details_{page}.json')
         
             # STEP 04 - Send the request result to handler
-            handlers_control(driver, request_db_result['page'], page)
+            handlers_control(driver, request_db_result['page'], start_date, end_date)
 
             # STEP 05 - Extract the page data, cursor, and completion status
             cursor = request_db_result['continueCursor']

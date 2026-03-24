@@ -12,11 +12,14 @@ from request_top_stores_details.main import main as run_request_top_stores_detai
 from request_top_products.main import main as run_request_top_products
 from request_top_products_details.main import main as run_request_top_products_details
 
+start_date = "2026-02-22"
+end_date = "2026-03-22"
+
 def run_crawler_convext_menu():
     options = [" - Categories", " - Top Stores", "  -- Top Stores Details", " - Top Products", "  -- Top Products Details", "   << Return", "   <<< Quit"]
     terminal_menu = TerminalMenu(options, title="Select an option")
     menu_entry_index = terminal_menu.show()
-    
+
     selection = options[menu_entry_index]
     print(f"You selected: {selection}")
 
@@ -27,15 +30,15 @@ def run_crawler_convext_menu():
     elif selection == options[0]:
         run_request_categories()
     elif selection == options[1]:
-        run_request_top_stores()
+        run_request_top_stores(start_date, end_date)
     elif selection == options[2]:
-        run_request_top_stores_details()
+        run_request_top_stores_details(start_date, end_date)
     elif selection == options[3]:
-        run_request_top_products()
+        run_request_top_products(start_date, end_date)
     elif selection == options[4]:
-        run_request_top_products_details()
+        run_request_top_products_details(start_date, end_date)
 
-def main(): 
+def main():
     options = ["Run Crawler", " * Quit"]
     terminal_menu = TerminalMenu(options, title="Select an option")
     menu_entry_index = terminal_menu.show()

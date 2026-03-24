@@ -15,12 +15,12 @@ from request_top_products_details.top_products_sales.request_api.dto import dto 
 #         data = json.load(f)
 #     return data
 
-def main(driver, k_id, page): 
+def main(driver, k_id, page, start_date, end_date):
     print("")
     print('[ PRODUCTS DETAILS - TOP PRODUCTS SALES ]')
-    
+
     # STEP 01 - Request the store total sales
-    request_api_result = request_api(driver, k_id)
+    request_api_result = request_api(driver, k_id, start_date, end_date)
     
     if request_api_result['data'] is None:
         print('')

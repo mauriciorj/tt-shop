@@ -56,14 +56,6 @@ const useProducts = () => {
     }
   }, [getAllProducts])
 
-  // Calculate the total number of pages loaded based on the number of stores and items per page
-  const totalPages = useMemo(
-    () =>
-      getAllProducts?.length &&
-      Math.ceil(getAllProducts?.length / ITEMS_PER_PAGE),
-    [getAllProducts]
-  )
-
   // Function to get the stores for the current page
   const productsPaginated = useMemo(() => {
     if (!getAllProducts) return []
@@ -141,6 +133,14 @@ const useProducts = () => {
     sortKey,
     sortOrder,
   ])
+
+  // Calculate the total number of pages loaded based on the number of stores and items per page
+  const totalPages = useMemo(
+    () =>
+      productsPaginated?.length &&
+      Math.ceil(productsPaginated?.length / ITEMS_PER_PAGE),
+    [productsPaginated]
+  )
 
   // Function to load more stores when the user clicks on the next page
   // It should only load more stores if the user request a non fetched page
