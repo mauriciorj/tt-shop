@@ -19,7 +19,7 @@ const securityHeaders = [
   {
     key: 'Content-Security-Policy',
     value: [
-      "default-src 'self'",
+      "default-src 'self' data: 'unsafe-inline' 'unsafe-eval' blob:",
       // Next.js requires unsafe-inline for its runtime scripts; unsafe-eval for dev HMR
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://*.clerk.com https://*.clerk.accounts.dev https://clerk.useshopradar.com",
       // Tailwind/Radix inline styles
@@ -29,15 +29,15 @@ const securityHeaders = [
       // Fonts
       "font-src 'self'",
       // API/WS connections: Convex (https + wss), Clerk, Stripe
-      `connect-src 'self' https://${convexHost} wss://${convexHost} https://savory-ram-126.convex.cloud wss://savory-ram-126.convex.cloud https://*.clerk.com https://*.clerk.accounts.dev https://api.stripe.com https://accounts.useshopradar.com`,
+      `connect-src 'self' https://${convexHost} wss://${convexHost} https://savory-ram-126.convex.cloud wss://savory-ram-126.convex.cloud https://*.clerk.com https://*.clerk.accounts.dev https://api.stripe.com https://*.useshopradar.com`,
       // Stripe checkout iframe
       'frame-src https://js.stripe.com https://hooks.stripe.com',
       // Deny all plugins (Flash, etc.)
       "object-src 'none'",
       // Restrict base tag
       "base-uri 'self'",
-      // Only send referrer to same origin
-      'referrer-policy strict-origin-when-cross-origin',
+      // Workers
+      "worker-src 'self' blob:",
     ]
       .join('; ')
       .trim(),
