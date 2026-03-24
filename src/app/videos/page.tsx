@@ -36,7 +36,6 @@ const Videos = () => {
     setSelectedCategory,
     totalPages,
     userId,
-    userSubscriptionPlan,
   } = useVideos()
 
   const savedVideoIds = useQuery(

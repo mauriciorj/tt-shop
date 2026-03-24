@@ -56,13 +56,6 @@ const useStores = () => {
     }
   }, [getAllStores])
 
-  // Calculate the total number of pages loaded based on the number of stores and items per page
-  const totalPages = useMemo(
-    () =>
-      getAllStores?.length && Math.ceil(getAllStores?.length / ITEMS_PER_PAGE),
-    [getAllStores]
-  )
-
   // Function to get the stores for the current page
   const storesPaginated = useMemo(() => {
     if (!getAllStores) return []
@@ -131,6 +124,14 @@ const useStores = () => {
     sortOrder,
     userSubscriptionPlan,
   ])
+
+  // Calculate the total number of pages loaded based on the number of stores and items per page
+  const totalPages = useMemo(
+    () =>
+      storesPaginated?.length &&
+      Math.ceil(storesPaginated?.length / ITEMS_PER_PAGE),
+    [storesPaginated]
+  )
 
   // Function related to pagination
   const onPageChange = (page: number) => {
