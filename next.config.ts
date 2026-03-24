@@ -25,7 +25,7 @@ const securityHeaders = [
       // Tailwind/Radix inline styles
       "style-src 'self' 'unsafe-inline'",
       // Images: self + Convex storage + data URIs + blob
-      `img-src 'self' data: blob: https://${convexHost} https://savory-ram-126.convex.cloud https://*.tiktokcdn.com https://*.tiktok.com https://images.unsplash.com`,
+      `img-src 'self' data: blob: https://${convexHost} https://savory-ram-126.convex.cloud https://*.tiktokcdn.com https://*.tiktok.com https://images.unsplash.com https://*.clerk.com`,
       // Fonts
       "font-src 'self'",
       // API/WS connections: Convex (https + wss), Clerk, Stripe
