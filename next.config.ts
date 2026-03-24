@@ -21,23 +21,23 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // Next.js requires unsafe-inline for its runtime scripts; unsafe-eval for dev HMR
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://*.clerk.com https://*.clerk.accounts.dev",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://*.clerk.com https://*.clerk.accounts.dev https://clerk.useshopradar.com",
       // Tailwind/Radix inline styles
       "style-src 'self' 'unsafe-inline'",
       // Images: self + Convex storage + data URIs + blob
-      `img-src 'self' data: blob: https://${convexHost} https://savory-ram-126.convex.cloud https://*.tiktokcdn.com https://*.tiktok.com`,
+      `img-src 'self' data: blob: https://${convexHost} https://savory-ram-126.convex.cloud https://*.tiktokcdn.com https://*.tiktok.com https://images.unsplash.com`,
       // Fonts
       "font-src 'self'",
       // API/WS connections: Convex (https + wss), Clerk, Stripe
-      `connect-src 'self' https://${convexHost} wss://${convexHost} https://savory-ram-126.convex.cloud wss://savory-ram-126.convex.cloud https://*.clerk.com https://*.clerk.accounts.dev https://api.stripe.com`,
+      `connect-src 'self' https://${convexHost} wss://${convexHost} https://savory-ram-126.convex.cloud wss://savory-ram-126.convex.cloud https://*.clerk.com https://*.clerk.accounts.dev https://api.stripe.com https://accounts.useshopradar.com`,
       // Stripe checkout iframe
-      "frame-src https://js.stripe.com https://hooks.stripe.com",
+      'frame-src https://js.stripe.com https://hooks.stripe.com',
       // Deny all plugins (Flash, etc.)
       "object-src 'none'",
       // Restrict base tag
       "base-uri 'self'",
       // Only send referrer to same origin
-      "referrer-policy strict-origin-when-cross-origin",
+      'referrer-policy strict-origin-when-cross-origin',
     ]
       .join('; ')
       .trim(),
