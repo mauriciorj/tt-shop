@@ -11,4 +11,7 @@ def revenue_history_periods_with_random_multiply(revenue_trend):
     if len(revenue_history) > 7:
         revenue_history_7_days = revenue_history[:7]
 
-    return revenue_history, revenue_history_14_days, revenue_history_7_days
+    revenue_14_days = sum(revenue_history_14_days)
+    revenue_7_days = sum(revenue_history_7_days)
+
+    return revenue_14_days, revenue_7_days, revenue_history, revenue_history_14_days, revenue_history_7_days
