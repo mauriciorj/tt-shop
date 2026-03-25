@@ -19,6 +19,8 @@ export const addProduct = mutation({
     k_id: v.string(),
     k_creator_conversion_ratio: v.number(),
     k_revenue: v.number(),
+    k_revenue_14_days: v.optional(v.number()),
+    k_revenue_7_days: v.optional(v.number()),
     k_revenue_growth_rate: v.number(),
     k_revenue_history: v.array(v.number()),
     k_revenue_history_14_days: v.optional(v.array(v.number())),
