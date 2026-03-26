@@ -6,6 +6,7 @@ import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
+import PeriodFilter from '@/components/periodFilter'
 import SearchBar from '@/components/search'
 import useProducts from '@/products/hooks/useProducts'
 import ProductsTable from '@/products/components/productsTable'
@@ -21,8 +22,10 @@ const Products = () => {
     itemsPerPage,
     onPageChange,
     selectedCategory,
+    selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
+    setSelectedPeriod,
     setSortKey,
     setSortOrder,
     sortKey,
@@ -63,13 +66,20 @@ const Products = () => {
         {isLoading ? (
           <CategoriesSkeleton />
         ) : (
-          <Categories
-            categories={categories}
-            isFreeUser={isFreeUser}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            setCurrentPage={setCurrentPage}
-          />
+          <>
+            <Categories
+              categories={categories}
+              isFreeUser={isFreeUser}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              setCurrentPage={setCurrentPage}
+            />
+            <PeriodFilter
+              selectedPeriod={selectedPeriod}
+              setSelectedPeriod={setSelectedPeriod}
+              setCurrentPage={setCurrentPage}
+            />
+          </>
         )}
         <SearchBar
           clerkId={userId}

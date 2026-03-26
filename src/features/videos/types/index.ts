@@ -8,6 +8,8 @@ export interface ITopVideos {
   duration: string
   k_id?: string
   k_revenue: number
+  k_revenue_7_days?: number | undefined
+  k_revenue_14_days?: number | undefined
   k_sales: number
   main_category?: string | null | undefined
   storage_id?: string | undefined
@@ -24,6 +26,8 @@ export interface ITopVideosWithCategory {
   duration: string
   image: string | null | undefined
   revenue: number
+  revenue_7_days?: number | undefined
+  revenue_14_days?: number | undefined
   sales: number
   transcription?: string | undefined
   tt_account?: string | null | undefined

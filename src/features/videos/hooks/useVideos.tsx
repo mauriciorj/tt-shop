@@ -3,6 +3,7 @@ import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import UseUser from '@/hooks/useUser'
 import { useQuery } from '@tanstack/react-query'
+import { TPeriod } from '@/components/periodFilter'
 
 type TCategory = { id: string | null; label: string | null | undefined }
 
@@ -18,6 +19,7 @@ const useVideos = () => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
 
   // Get ALL stores from the database
   // TODO: check if this is the best to fetch all information needed
@@ -71,12 +73,18 @@ const useVideos = () => {
     result = result.map((store, index) => ({
       ...store,
       rank: index + 1,
+      revenue:
+        selectedPeriod === '7'
+          ? (store.revenue_7_days ?? store.revenue)
+          : selectedPeriod === '14'
+            ? (store.revenue_14_days ?? store.revenue)
+            : store.revenue,
     }))
 
     result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
 
     return result.slice(start, end)
-  }, [getAllVideos, categories, currentPage, selectedCategory])
+  }, [getAllVideos, categories, currentPage, selectedCategory, selectedPeriod])
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
@@ -100,8 +108,10 @@ const useVideos = () => {
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,
+    selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
+    setSelectedPeriod,
     totalPages,
     userId: id,
     userSubscriptionPlan,

@@ -9,6 +9,7 @@ import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
+import PeriodFilter from '@/components/periodFilter'
 import TablePagination from '@/components/tablePagination'
 import {
   Dialog,
@@ -32,8 +33,10 @@ const Videos = () => {
     isLoading,
     onPageChange,
     selectedCategory,
+    selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
+    setSelectedPeriod,
     totalPages,
     userId,
   } = useVideos()
@@ -109,13 +112,20 @@ const Videos = () => {
         {isLoading ? (
           <CategoriesSkeleton />
         ) : (
-          <Categories
-            categories={categories}
-            isFreeUser={isFreeUser}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            setCurrentPage={setCurrentPage}
-          />
+          <>
+            <Categories
+              categories={categories}
+              isFreeUser={isFreeUser}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              setCurrentPage={setCurrentPage}
+            />
+            <PeriodFilter
+              selectedPeriod={selectedPeriod}
+              setSelectedPeriod={setSelectedPeriod}
+              setCurrentPage={setCurrentPage}
+            />
+          </>
         )}
         {isLoading ? (
           <VideoCardSkeleton cards={12} />

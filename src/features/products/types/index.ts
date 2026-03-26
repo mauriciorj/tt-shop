@@ -18,6 +18,8 @@ export interface ITopProducts {
   k_creator_conversion_ratio?: number
   k_id?: string
   k_revenue: number
+  k_revenue_7_days?: number | undefined
+  k_revenue_14_days?: number | undefined
   k_revenue_growth_rate: number
   k_revenue_history: number[]
   k_sales: number
@@ -43,6 +45,8 @@ export interface IProductsWithCategory {
   product_rating: number
   rank?: number
   revenue: number
+  revenue_7_days?: number | undefined
+  revenue_14_days?: number | undefined
   revenue_growth_rate: number
   revenue_history: number[]
   sales: number
