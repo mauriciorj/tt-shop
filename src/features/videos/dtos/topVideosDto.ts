@@ -22,6 +22,8 @@ export default class TopVideosDto {
         duration: item.duration,
         image: item.storage_id,
         revenue: item.k_revenue,
+        revenue_7_days: item.k_revenue_7_days,
+        revenue_14_days: item.k_revenue_14_days,
         sales: item.k_sales,
         transcription: item?.transcription,
         tt_account: item.tt_account,

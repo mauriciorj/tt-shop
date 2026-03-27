@@ -4,6 +4,7 @@ import { convexQuery } from '@convex-dev/react-query'
 import UseUser from '@/hooks/useUser'
 import { TSortKey, TSortOrder } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
+import { TPeriod } from '@/components/periodFilter'
 
 type TCategory = { id: string; label: string | null | undefined }
 
@@ -19,6 +20,7 @@ const useStores = () => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
 
   const [sortKey, setSortKey] = useState<TSortKey>('revenue')
   const [sortOrder, setSortOrder] = useState<TSortOrder>('desc')
@@ -82,8 +84,18 @@ const useStores = () => {
 
       switch (sortKey) {
         case 'revenue':
-          aValue = a.revenue
-          bValue = b.revenue
+          aValue =
+            selectedPeriod === '7'
+              ? (a.revenue_7_days ?? a.revenue)
+              : selectedPeriod === '14'
+                ? (a.revenue_14_days ?? a.revenue)
+                : a.revenue
+          bValue =
+            selectedPeriod === '7'
+              ? (b.revenue_7_days ?? b.revenue)
+              : selectedPeriod === '14'
+                ? (b.revenue_14_days ?? b.revenue)
+                : b.revenue
           break
         case 'revenueHistory':
           // Assuming we want to sort by the latest revenue in the history
@@ -112,6 +124,12 @@ const useStores = () => {
     result = result.map((store, index) => ({
       ...store,
       rank: index + 1,
+      revenue:
+        selectedPeriod === '7'
+          ? (store.revenue_7_days ?? store.revenue)
+          : selectedPeriod === '14'
+            ? (store.revenue_14_days ?? store.revenue)
+            : store.revenue,
     }))
 
     return result.slice(start, end)
@@ -120,6 +138,7 @@ const useStores = () => {
     categories,
     currentPage,
     selectedCategory,
+    selectedPeriod,
     sortKey,
     sortOrder,
     userSubscriptionPlan,
@@ -147,8 +166,10 @@ const useStores = () => {
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,
+    selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
+    setSelectedPeriod,
     setSortKey,
     setSortOrder,
     sortKey,

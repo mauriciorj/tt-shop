@@ -24,6 +24,35 @@ export const joinWaitlist = mutation({
 
     await ctx.db.insert('waitlist', {
       ...args,
+      type: 'waitlist',
+      created_at: new Date().toISOString(),
+    })
+
+    return { success: true, alreadyRegistered: false }
+  },
+})
+
+export const joinTesterInvite = mutation({
+  args: {
+    name: v.string(),
+    email: v.string(),
+    tiktok_account: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query('waitlist')
+      .withIndex('by_email', (q) => q.eq('email', args.email))
+      .first()
+
+    if (existing) {
+      return { success: true, alreadyRegistered: true }
+    }
+
+    await ctx.db.insert('waitlist', {
+      name: args.name,
+      email: args.email,
+      tiktok_account: args.tiktok_account,
+      type: 'tester',
       created_at: new Date().toISOString(),
     })
 

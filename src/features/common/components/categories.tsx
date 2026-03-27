@@ -22,9 +22,12 @@ const Categories = ({
 }) => {
   return (
     <div
-      className="space-y-3 mb-6 animate-slide-up"
+      className="space-y-3 animate-slide-up mb-10"
       style={{ animationDelay: '200ms' }}
     >
+      <div className="mb-5">
+        <span className="text-md font-bold text-primary">Categorias:</span>
+      </div>
       <div className="flex flex-wrap gap-2">
         {categories?.map(
           (category) =>

@@ -28,6 +28,8 @@ export default class TopProductsDto {
         name: item.name,
         image: item.storage_id,
         revenue: item.k_revenue,
+        revenue_7_days: item.k_revenue_7_days,
+        revenue_14_days: item.k_revenue_14_days,
         revenue_growth_rate: item.k_revenue_growth_rate,
         revenue_history: item.k_revenue_history,
         sales: item.k_sales,
