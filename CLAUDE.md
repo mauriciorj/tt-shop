@@ -8,6 +8,16 @@
 - **Package manager:** pnpm
 - **Branches:** `develop` (active development) → `production` (main/release)
 
+## Documentation Vault
+
+The `docs/` folder is an **Obsidian vault**. Before starting any task, check it for existing specs, decisions, or API contracts relevant to your work.
+
+| Path | Purpose |
+| --- | --- |
+| `docs/api/` | API endpoint specs (request/response shape, data source) |
+
+When a new API route, feature, or architectural decision is made, add or update the matching doc in `docs/`.
+
 ---
 
 ## Workflow Orchestration

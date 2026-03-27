@@ -1,6 +1,12 @@
 import { mutation } from './_generated/server'
 import { v } from 'convex/values'
 
+const toTitleCase = (str: string) =>
+  str
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+
 export const joinWaitlist = mutation({
   args: {
     name: v.string(),
@@ -13,9 +19,11 @@ export const joinWaitlist = mutation({
     ),
   },
   handler: async (ctx, args) => {
+    const email = args.email.trim().toLowerCase()
+
     const existing = await ctx.db
       .query('waitlist')
-      .withIndex('by_email', (q) => q.eq('email', args.email))
+      .withIndex('by_email', (q) => q.eq('email', email))
       .first()
 
     if (existing) {
@@ -24,6 +32,8 @@ export const joinWaitlist = mutation({
 
     await ctx.db.insert('waitlist', {
       ...args,
+      name: toTitleCase(args.name),
+      email,
       type: 'waitlist',
       created_at: new Date().toISOString(),
     })
@@ -39,9 +49,11 @@ export const joinTesterInvite = mutation({
     tiktok_account: v.string(),
   },
   handler: async (ctx, args) => {
+    const email = args.email.trim().toLowerCase()
+
     const existing = await ctx.db
       .query('waitlist')
-      .withIndex('by_email', (q) => q.eq('email', args.email))
+      .withIndex('by_email', (q) => q.eq('email', email))
       .first()
 
     if (existing) {
@@ -49,9 +61,9 @@ export const joinTesterInvite = mutation({
     }
 
     await ctx.db.insert('waitlist', {
-      name: args.name,
-      email: args.email,
-      tiktok_account: args.tiktok_account,
+      name: toTitleCase(args.name),
+      email,
+      tiktok_account: args.tiktok_account.trim().toLowerCase(),
       type: 'tester',
       created_at: new Date().toISOString(),
     })
