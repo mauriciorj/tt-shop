@@ -148,3 +148,7 @@ __pycache__/
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# Obsidian — track config but ignore noisy workspace state
+docs/.obsidian/workspace.json
+docs/.obsidian/workspace-mobile.json

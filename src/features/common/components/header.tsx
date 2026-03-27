@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import {
   SignedIn,
-  SignUpButton,
   SignInButton,
   SignedOut,
   UserButton,
@@ -84,20 +83,25 @@ const Header = () => {
                 Entrar
               </button>
             </SignInButton>
-            {!isAuthenticated && (
+            {/* {!isAuthenticated && (
               <SignUpButton forceRedirectUrl="/stores">
                 <button className="cursor-pointer hidden md:block px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity glow-effect">
                   Comece Agora
                 </button>
               </SignUpButton>
-            )}
-            {!isAuthenticated && (
+            )} */}
+            {/* {!isAuthenticated && (
               <SignUpButton forceRedirectUrl="/stores">
                 <button className="cursor-pointer block md:hidden px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity glow-effect">
                   Começar
                 </button>
               </SignUpButton>
-            )}
+            )} */}
+            <Link href="/waitlist">
+              <div className="cursor-pointer block px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity glow-effect">
+                Lista de Espera
+              </div>
+            </Link>
           </SignedOut>
           <SignedIn>
             <UserButton>
