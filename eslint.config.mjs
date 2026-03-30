@@ -20,6 +20,22 @@ const eslintConfig = defineConfig([
     'convex/_generated/**',
   ]),
   {
+    files: ['**/__tests__/**/*', '**/tests/**/*', '**/*.test.*', '**/*.spec.*'],
+    languageOptions: {
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        jest: 'readonly',
+      },
+    },
+  },
+  {
     plugins: {
       'unused-imports': unusedImports,
     },

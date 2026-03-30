@@ -283,6 +283,8 @@ NEXT_PUBLIC_URL=http://localhost:3000/
 
 **Data fetching:** Always use Convex queries/mutations via React Query integration. Do not add direct API calls unless going through a Next.js API route.
 
+**Testing:** Place test files in a `tests/` subfolder relative to the file under test. Example: `src/features/videos/components/tests/videoCard.test.tsx`. Never place test files alongside source files in the same directory.
+
 ---
 
 ## App Routes

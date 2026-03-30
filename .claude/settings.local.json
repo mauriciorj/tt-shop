@@ -6,7 +6,16 @@
       "Bash(find /Users/mdeoliveiramesquitafreedommobile.ca/Documents/mauricio/code/tt-shop/src/app/store -type f -name *.ts*)",
       "Bash(find /Users/mdeoliveiramesquitafreedommobile.ca/Documents/mauricio/code/tt-shop/src/features/common/components -name *Table* -o -name *Table*)",
       "Bash(grep -E \"\\\\.tsx?$\")",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "Bash(pnpm add:*)",
+      "Bash(find node_modules/jest-config -name *.js)",
+      "Bash(node -e \"const {defineConfig} = require\\(''jest''\\); console.log\\(typeof defineConfig\\)\")",
+      "Bash(node -p \"require\\(''jest''\\).getVersion\\(\\)\")",
+      "Bash(node -e \"const {defineConfig} = require\\(''''jest''''\\); const c = defineConfig\\({setupFilesAfterFramework: [''''test'''']}\\); console.log\\(c\\)\")",
+      "Bash(node -e \"const {defineConfig} = require\\(''jest''\\); const c = defineConfig\\({setupFilesAfterFramework: [''test'']}\\); console.log\\(c\\)\")",
+      "Bash(find node_modules -path */jest-config/build/index.js)",
+      "Bash(pnpm test:*)",
+      "Bash(npx jest:*)"
     ]
   }
 }
