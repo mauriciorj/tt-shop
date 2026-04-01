@@ -1,14 +1,21 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { ConvexHttpClient } from 'convex/browser'
 import { api } from '@/convex/_generated/api'
+import { data as categories } from '@/hooks/useCategories'
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
-export async function GET() {
-  try {
-    const videos = await convex.query(api.videos.getAllVideos)
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl
+  const limit = Math.min(Math.max(Number(searchParams.get('limit') ?? 10), 1), 100)
+  const cursor = searchParams.get('cursor') ?? null
 
-    const top10 = videos.slice(0, 10).map((video) => ({
+  try {
+    const result = await convex.query(api.videos.getVideos, {
+      paginationOpts: { numItems: limit, cursor },
+    })
+
+    const data = result.page.map((video) => ({
       video_id: video.video_id,
       description: video.description,
       revenue: video.revenue,
@@ -16,11 +23,16 @@ export async function GET() {
       views: video.views,
       duration: video.duration,
       image: video.image,
-      category: video.category_name ?? null,
+      category: categories.find((c) => c.id === video.category_id)?.label ?? null,
       tt_account: video.tt_account ?? null,
     }))
 
-    return NextResponse.json({ data: top10, total: top10.length })
+    return NextResponse.json({
+      data,
+      total: data.length,
+      cursor: result.continueCursor,
+      isDone: result.isDone,
+    })
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error fetching videos:', error)
