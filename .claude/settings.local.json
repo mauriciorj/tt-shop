@@ -15,7 +15,8 @@
       "Bash(node -e \"const {defineConfig} = require\\(''jest''\\); const c = defineConfig\\({setupFilesAfterFramework: [''test'']}\\); console.log\\(c\\)\")",
       "Bash(find node_modules -path */jest-config/build/index.js)",
       "Bash(pnpm test:*)",
-      "Bash(npx jest:*)"
+      "Bash(npx jest:*)",
+      "Bash(openssl rand:*)"
     ]
   }
 }

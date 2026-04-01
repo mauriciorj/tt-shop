@@ -17,6 +17,7 @@ import type * as savedProducts from "../savedProducts.js";
 import type * as savedStores from "../savedStores.js";
 import type * as savedVideos from "../savedVideos.js";
 import type * as stores from "../stores.js";
+import type * as userApiKeys from "../userApiKeys.js";
 import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 import type * as videos from "../videos.js";
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   savedStores: typeof savedStores;
   savedVideos: typeof savedVideos;
   stores: typeof stores;
+  userApiKeys: typeof userApiKeys;
   users: typeof users;
   utils: typeof utils;
   videos: typeof videos;
