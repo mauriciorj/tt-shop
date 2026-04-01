@@ -1,14 +1,21 @@
 # GET /api/videos
 
-Returns the top 10 videos sorted by revenue (descending).
+Returns videos sorted by revenue (descending) with cursor-based pagination.
 
 ## Request
 
 ```
-GET /api/videos
+GET /api/videos?limit=10&cursor=<cursor>
 ```
 
-No authentication required. No query parameters.
+No authentication required.
+
+### Query parameters
+
+| Parameter | Type   | Default | Description                                              |
+| --------- | ------ | ------- | -------------------------------------------------------- |
+| `limit`   | number | `10`    | Number of items per page (1–100)                         |
+| `cursor`  | string | —       | Continuation cursor from a previous response (omit for first page) |
 
 ## Response
 
@@ -27,11 +34,15 @@ No authentication required. No query parameters.
       "tt_account": "string | null"
     }
   ],
-  "total": 10
+  "total": 10,
+  "cursor": "string",
+  "isDone": false
 }
 ```
 
 ## Field descriptions
+
+### Data fields
 
 | Field         | Type            | Description                        |
 | ------------- | --------------- | ---------------------------------- |
@@ -45,6 +56,14 @@ No authentication required. No query parameters.
 | `category`    | string \| null  | Category name                      |
 | `tt_account`  | string \| null  | TikTok account handle              |
 
+### Pagination fields
+
+| Field    | Type    | Description                                                       |
+| -------- | ------- | ----------------------------------------------------------------- |
+| `total`  | number  | Number of items in this page                                      |
+| `cursor` | string  | Pass as `cursor` param to fetch the next page                     |
+| `isDone` | boolean | `true` when there are no more pages                               |
+
 ## Errors
 
 | Status | Reason                         |
@@ -53,4 +72,4 @@ No authentication required. No query parameters.
 
 ## Data source
 
-Convex `videos` table, sorted by `k_revenue` index (desc), first 10 results.
+Convex `videos` table via `getVideos` query, sorted by `by_k_revenue` index (desc), paginated with Convex cursor pagination.
