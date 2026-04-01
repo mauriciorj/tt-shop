@@ -8,13 +8,21 @@ Returns videos sorted by revenue (descending) with cursor-based pagination.
 GET /api/videos?limit=10&cursor=<cursor>
 ```
 
+### Initial Request - without cursor
+
+```
+postman request 'http://localhost:3000/api/videos?limit=10' \
+  --header 'Authorization: Bearer usr_user_3ArbfGjA1HjWyplIDBIqG6h4SXp_8fed39bb0905889b5e1ca663b2e798e856989cf8532999ca1f08a96b62d6e430' \
+  --auth-bearer-token 'usr_user_3ArbfGjA1HjWyplIDBIqG6h4SXp_8fed39bb0905889b5e1ca663b2e798e856989cf8532999ca1f08a96b62d6e430'
+```
+
 No authentication required.
 
 ### Query parameters
 
-| Parameter | Type   | Default | Description                                              |
-| --------- | ------ | ------- | -------------------------------------------------------- |
-| `limit`   | number | `10`    | Number of items per page (1–100)                         |
+| Parameter | Type   | Default | Description                                                        |
+| --------- | ------ | ------- | ------------------------------------------------------------------ |
+| `limit`   | number | `10`    | Number of items per page (1–100)                                   |
 | `cursor`  | string | —       | Continuation cursor from a previous response (omit for first page) |
 
 ## Response
@@ -44,31 +52,31 @@ No authentication required.
 
 ### Data fields
 
-| Field         | Type            | Description                        |
-| ------------- | --------------- | ---------------------------------- |
-| `video_id`    | string          | Unique video identifier (k_id)     |
-| `description` | string          | Video title / caption              |
-| `revenue`     | number          | Total revenue (BRL)                |
-| `sales`       | number          | Total units sold                   |
-| `views`       | number          | Total view count                   |
-| `duration`    | string          | Video length (e.g. "0:45")         |
-| `image`       | string \| null  | Thumbnail URL (from Convex storage)|
-| `category`    | string \| null  | Category name                      |
-| `tt_account`  | string \| null  | TikTok account handle              |
+| Field         | Type           | Description                         |
+| ------------- | -------------- | ----------------------------------- |
+| `video_id`    | string         | Unique video identifier (k_id)      |
+| `description` | string         | Video title / caption               |
+| `revenue`     | number         | Total revenue (BRL)                 |
+| `sales`       | number         | Total units sold                    |
+| `views`       | number         | Total view count                    |
+| `duration`    | string         | Video length (e.g. "0:45")          |
+| `image`       | string \| null | Thumbnail URL (from Convex storage) |
+| `category`    | string \| null | Category name                       |
+| `tt_account`  | string \| null | TikTok account handle               |
 
 ### Pagination fields
 
-| Field    | Type    | Description                                                       |
-| -------- | ------- | ----------------------------------------------------------------- |
-| `total`  | number  | Number of items in this page                                      |
-| `cursor` | string  | Pass as `cursor` param to fetch the next page                     |
-| `isDone` | boolean | `true` when there are no more pages                               |
+| Field    | Type    | Description                                   |
+| -------- | ------- | --------------------------------------------- |
+| `total`  | number  | Number of items in this page                  |
+| `cursor` | string  | Pass as `cursor` param to fetch the next page |
+| `isDone` | boolean | `true` when there are no more pages           |
 
 ## Errors
 
-| Status | Reason                         |
-| ------ | ------------------------------ |
-| 500    | Failed to fetch from Convex    |
+| Status | Reason                      |
+| ------ | --------------------------- |
+| 500    | Failed to fetch from Convex |
 
 ## Data source
 

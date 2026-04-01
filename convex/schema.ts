@@ -162,6 +162,7 @@ export default defineSchema({
       iv: v.string(),
       tag: v.string(),
     }),
+    usage: v.optional(v.number()),
     created_at: v.string(),
     updated_at: v.optional(v.string()),
   }).index('by_clerk_id', ['clerk_id']),

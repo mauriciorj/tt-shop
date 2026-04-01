@@ -12,6 +12,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  const limitReached = await convex.query(api.userApiKeys.hasReachedLimit, {
+    clerk_id: clerkId,
+  })
+  if (limitReached) {
+    return NextResponse.json(
+      { error: 'API call limit reached (1,000 requests)' },
+      { status: 429 }
+    )
+  }
+
   const { searchParams } = request.nextUrl
   const limit = Math.min(
     Math.max(Number(searchParams.get('limit') ?? 10), 1),
@@ -36,6 +46,8 @@ export async function GET(request: NextRequest) {
         categories.find((c) => c.id === video.category_id)?.label ?? null,
       tt_account: video.tt_account ?? null,
     }))
+
+    await convex.mutation(api.userApiKeys.incrementUsage, { clerk_id: clerkId })
 
     return NextResponse.json({
       data,

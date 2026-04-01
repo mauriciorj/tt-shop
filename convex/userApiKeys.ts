@@ -43,6 +43,37 @@ export const createApiKey = mutation({
   },
 })
 
+const USAGE_LIMIT = 1_000
+
+export const hasReachedLimit = query({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const record = await ctx.db
+      .query('userApiKeys')
+      .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerk_id))
+      .first()
+
+    if (!record) return true
+    return (record.usage ?? 0) >= USAGE_LIMIT
+  },
+})
+
+export const incrementUsage = mutation({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const record = await ctx.db
+      .query('userApiKeys')
+      .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerk_id))
+      .first()
+
+    if (!record) return
+
+    await ctx.db.patch(record._id, {
+      usage: (record.usage ?? 0) + 1,
+    })
+  },
+})
+
 export const deleteApiKey = mutation({
   args: { clerk_id: v.string() },
   handler: async (ctx, { clerk_id }) => {
