@@ -23,7 +23,10 @@ export async function POST() {
       )
     }
 
-    const rawKey = `usr_${randomBytes(32).toString('hex')}`
+    // Key format: usr_<clerkId>_<64 random hex chars>
+    // The clerkId embedded in the key allows O(1) lookup during validation.
+    const rawKey = `usr_${userId}_${randomBytes(32).toString('hex')}`
+
     const secret = Buffer.from(secretHex, 'hex')
     const iv = randomBytes(12)
     const cipher = createCipheriv('aes-256-gcm', secret, iv)
