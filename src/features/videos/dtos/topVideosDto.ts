@@ -12,9 +12,9 @@ export default class TopVideosDto {
 
   getVideos(data: ITopVideos[]): ITopVideosWithCategory[] {
     return data.map((item: ITopVideos) => {
-      delete item._id
       delete item._creationTime
       delete item.created_at
+      delete item._id
       delete item.updated_at
       return {
         category_id: item?.main_category || null,

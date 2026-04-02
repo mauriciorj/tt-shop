@@ -16,6 +16,7 @@ import { normalizeUrl } from '@/utils/string'
 export interface TableProps {
   currentPage: number
   items: IProductsWithCategory[]
+  isFreeUser: boolean
   onPageChange: (page: number) => void
   onToggleSave?: (productKId: string) => void
   savedProductIds?: string[]
@@ -46,6 +47,7 @@ const SortIcon = ({
 const ProductsTable = ({
   currentPage,
   items,
+  isFreeUser,
   onPageChange,
   onToggleSave,
   savedProductIds,
@@ -276,10 +278,7 @@ const ProductsTable = ({
                       </div>
                     </td>
                     {onToggleSave && (
-                      <td
-                        className="p-4"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <td className="p-4" onClick={(e) => e.stopPropagation()}>
                         <button
                           onClick={() => item.k_id && onToggleSave(item.k_id)}
                           className="p-1 rounded-md hover:bg-secondary transition-colors"
@@ -309,6 +308,7 @@ const ProductsTable = ({
         {/* Pagination */}
         <TablePagination
           currentPage={currentPage}
+          isFreeUser={isFreeUser}
           onPageChange={onPageChange}
           totalPages={totalPages}
         />

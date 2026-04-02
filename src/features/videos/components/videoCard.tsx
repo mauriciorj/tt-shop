@@ -11,8 +11,8 @@ import {
   ShoppingCart,
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { formatNumber } from '@/utils/number'
 import { ITopVideosWithCategory } from '@/videos/types'
+import { formatNumber } from '@/utils/number'
 
 const VideoCard = ({
   handleToggleSave,

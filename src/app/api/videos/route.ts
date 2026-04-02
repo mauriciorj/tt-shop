@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ConvexHttpClient } from 'convex/browser'
 import { api } from '@/convex/_generated/api'
-import { data as categories } from '@/hooks/useCategories'
 import { verifyApiKey } from '@/src/features/api-keys/lib/verifyApiKey'
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
@@ -30,28 +29,15 @@ export async function GET(request: NextRequest) {
   const cursor = searchParams.get('cursor') ?? null
 
   try {
-    const result = await convex.query(api.videos.getVideos, {
+    const result = await convex.query(api.videos.getVideosWithPagination, {
       paginationOpts: { numItems: limit, cursor },
     })
-
-    const data = result.page.map((video) => ({
-      video_id: video.video_id,
-      description: video.description,
-      revenue: video.revenue,
-      sales: video.sales,
-      views: video.views,
-      duration: video.duration,
-      image: video.image,
-      category:
-        categories.find((c) => c.id === video.category_id)?.label ?? null,
-      tt_account: video.tt_account ?? null,
-    }))
 
     await convex.mutation(api.userApiKeys.incrementUsage, { clerk_id: clerkId })
 
     return NextResponse.json({
-      data,
-      total: data.length,
+      data: result.page,
+      total: result.page.length,
       cursor: result.continueCursor,
       isDone: result.isDone,
     })

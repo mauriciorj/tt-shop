@@ -1,4 +1,5 @@
 import { cn } from '@/utils/utils'
+import HoverCardUpgradePlan from '@/components/hoverCardUpgradePlan'
 
 export type TPeriod = '7' | '14' | '30'
 
@@ -9,10 +10,12 @@ const PERIODS: { id: TPeriod; label: string }[] = [
 ]
 
 const PeriodFilter = ({
+  isFreeUser,
   selectedPeriod,
   setSelectedPeriod,
   setCurrentPage,
 }: {
+  isFreeUser: boolean
   selectedPeriod: TPeriod
   setSelectedPeriod: (period: TPeriod) => void
   setCurrentPage: (page: number) => void
@@ -27,21 +30,26 @@ const PeriodFilter = ({
       </div>
       <div className="flex flex-wrap gap-2">
         {PERIODS.map((period) => (
-          <button
+          <HoverCardUpgradePlan
             key={period.id}
-            onClick={() => {
-              setCurrentPage(1)
-              setSelectedPeriod(period.id)
-            }}
-            className={cn(
-              'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
-              selectedPeriod === period.id
-                ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                : 'bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground'
-            )}
+            isToShowTheHoverCard={isFreeUser}
           >
-            {period.label}
-          </button>
+            <button
+              key={period.id}
+              onClick={() => {
+                setCurrentPage(1)
+                setSelectedPeriod(period.id)
+              }}
+              className={cn(
+                'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
+                selectedPeriod === period.id
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                  : 'bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground'
+              )}
+            >
+              {period.label}
+            </button>
+          </HoverCardUpgradePlan>
         ))}
       </div>
     </div>

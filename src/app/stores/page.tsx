@@ -93,6 +93,7 @@ const Stores = () => {
           <StoresTable
             currentPage={currentPage}
             items={stores}
+            isFreeUser={isFreeUser}
             onPageChange={onPageChange}
             onToggleSave={handleToggleSave}
             savedStoreIds={savedStoreIds ?? []}

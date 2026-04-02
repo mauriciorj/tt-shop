@@ -8,6 +8,7 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/actions/(.*)$': '<rootDir>/src/app/actions/$1',
+    '^@/categories/(.*)$': '<rootDir>/src/features/categories/$1',
     '^@/blog/(.*)$': '<rootDir>/src/features/blog/$1',
     '^@/components/(.*)$': '<rootDir>/src/features/common/components/$1',
     '^@/contact/(.*)$': '<rootDir>/src/features/contact/$1',

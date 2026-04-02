@@ -16,7 +16,8 @@
       "Bash(find node_modules -path */jest-config/build/index.js)",
       "Bash(pnpm test:*)",
       "Bash(npx jest:*)",
-      "Bash(openssl rand:*)"
+      "Bash(openssl rand:*)",
+      "Bash(pnpm jest:*)"
     ]
   }
 }

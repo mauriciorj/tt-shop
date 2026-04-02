@@ -94,6 +94,7 @@ const Products = () => {
           <ProductsTable
             currentPage={currentPage}
             items={products}
+            isFreeUser={isFreeUser}
             onPageChange={onPageChange}
             onToggleSave={handleToggleSave}
             savedProductIds={savedProductIds ?? []}

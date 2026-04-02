@@ -3,22 +3,22 @@ import HoverCardUpgradePlan from '@/components/hoverCardUpgradePlan'
 
 const Categories = ({
   categories,
+  isFreeUser,
   selectedCategory,
   setSelectedCategory,
   setCurrentPage,
-  isFreeUser,
 }: {
   categories:
     | {
-        id: string | null
+        id: string | null | undefined
         label: string | null | undefined
       }[]
     | null
     | undefined
+  isFreeUser: boolean
   selectedCategory: string | null
   setSelectedCategory: (category: string) => void
   setCurrentPage: (page: number) => void
-  isFreeUser: boolean
 }) => {
   return (
     <div
