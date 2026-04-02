@@ -133,14 +133,20 @@ export default defineSchema({
   waitlist: defineTable({
     name: v.string(),
     email: v.string(),
-    sells_on_tiktok: v.boolean(),
-    monthly_revenue: v.union(
-      v.literal('$0-$1000'),
-      v.literal('$1001-$5000'),
-      v.literal('+$5000')
+    type: v.optional(v.union(v.literal('waitlist'), v.literal('tester'))),
+    sells_on_tiktok: v.optional(v.boolean()),
+    monthly_revenue: v.optional(
+      v.union(
+        v.literal('$0-$1000'),
+        v.literal('$1001-$5000'),
+        v.literal('+$5000')
+      )
     ),
+    tiktok_account: v.optional(v.string()),
     created_at: v.string(),
-  }).index('by_email', ['email']),
+  })
+    .index('by_email', ['email'])
+    .index('by_type', ['type']),
   transcriptionLogs: defineTable({
     clerk_id: v.string(),
     video_k_id: v.string(),
@@ -149,6 +155,17 @@ export default defineSchema({
   })
     .index('by_clerk_id_date', ['clerk_id', 'date'])
     .index('by_clerk_id_video', ['clerk_id', 'video_k_id']),
+  userApiKeys: defineTable({
+    clerk_id: v.string(),
+    api_key: v.object({
+      content: v.string(),
+      iv: v.string(),
+      tag: v.string(),
+    }),
+    usage: v.optional(v.number()),
+    created_at: v.string(),
+    updated_at: v.optional(v.string()),
+  }).index('by_clerk_id', ['clerk_id']),
   users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),
