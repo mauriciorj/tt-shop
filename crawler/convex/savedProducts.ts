@@ -52,8 +52,9 @@ export const getSavedProducts = query({
     const products = await ctx.db.query('products').collect()
     const filteredProducts = products.filter((p) => productIds.includes(p.k_id))
 
-    const resultsDto: { products: IProductWithCategory[] } =
-      new TopProductsDto(filteredProducts)
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+      filteredProducts
+    )
 
     const productsWithImages = await Promise.all(
       resultsDto.products.map(async (product) => {

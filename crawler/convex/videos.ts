@@ -61,6 +61,17 @@ export const updateVideoCategory = mutation({
   },
 })
 
+const fetchVideosSince = async (ctx: any, daysAgo: number) => {
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - daysAgo)
+  return ctx.db
+    .query('videos')
+    .withIndex('by_k_revenue')
+    .filter((q: any) => q.gte(q.field('updated_at'), cutoff.toISOString()))
+    .order('desc')
+    .collect()
+}
+
 export const getVideosWithPagination = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
@@ -106,11 +117,16 @@ export const getVideosWithPagination = query({
 
 export const getAllVideos = query({
   handler: async (ctx) => {
-    const videos = await ctx.db
-      .query('videos')
-      .withIndex('by_k_revenue')
-      .order('desc')
-      .collect()
+    let videos: any[] = []
+    let days = 14
+    const MAX_DAYS = 45
+    const STEP = 14
+
+    while (videos.length === 0) {
+      videos = await fetchVideosSince(ctx, days)
+      if (videos.length > 0 || days >= MAX_DAYS) break
+      days = Math.min(days + STEP, MAX_DAYS)
+    }
 
     const resultsDto: { videos: ITopVideosWithCategory[] } = new TopVideosDto(
       videos
@@ -152,15 +168,30 @@ export const getVideoById = query({
   },
 })
 
+const fetchVideosByIdSince = async (ctx: any, daysAgo: number, paginationOpts: any) => {
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - daysAgo)
+  return ctx.db
+    .query('videos')
+    .filter((q: any) => q.gte(q.field('updated_at'), cutoff.toISOString()))
+    .order('asc')
+    .paginate(paginationOpts)
+}
+
 export const getVideoByIdWithPagination = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const { paginationOpts } = args
+    let videos: any = null
+    let days = 14
+    const MAX_DAYS = 45
+    const STEP = 14
 
-    const videos = await ctx.db
-      .query('videos')
-      .order('asc')
-      .paginate(paginationOpts)
+    while (true) {
+      videos = await fetchVideosByIdSince(ctx, days, paginationOpts)
+      if (videos?.page?.length > 0 || days >= MAX_DAYS) break
+      days = Math.min(days + STEP, MAX_DAYS)
+    }
 
     return {
       page: videos?.page,
