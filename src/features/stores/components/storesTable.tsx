@@ -9,20 +9,24 @@ import {
 } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IStoresWithCategory, TSortKey, TSortOrder } from '@/stores/types'
+import {
+  IStoreWithCategory,
+  TStoreSortKey,
+  TStoreSortOrder,
+} from '@/stores/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   currentPage: number
-  items: IStoresWithCategory[]
+  items: IStoreWithCategory[]
   isFreeUser: boolean
   onPageChange: (page: number) => void
   onToggleSave?: (storeKId: string) => void
   savedStoreIds?: string[]
-  setSortKey: (key: TSortKey) => void
-  setSortOrder: (order: TSortOrder) => void
-  sortKey: TSortKey
-  sortOrder: TSortOrder
+  setSortKey: (key: TStoreSortKey) => void
+  setSortOrder: (order: TStoreSortOrder) => void
+  sortKey: TStoreSortKey
+  sortOrder: TStoreSortOrder
   totalPages: number | undefined
 }
 
@@ -31,9 +35,9 @@ const SortIcon = ({
   sortKey,
   sortOrder,
 }: {
-  columnKey: TSortKey
-  sortKey: TSortKey
-  sortOrder: TSortOrder
+  columnKey: TStoreSortKey
+  sortKey: TStoreSortKey
+  sortOrder: TStoreSortOrder
 }) => {
   if (sortKey !== columnKey) return null
   return sortOrder === 'asc' ? (
@@ -58,7 +62,7 @@ const StoresTable = ({
 }: TableProps) => {
   const router = useRouter()
 
-  const handleSort = (key: TSortKey) => {
+  const handleSort = (key: TStoreSortKey) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {

@@ -1,17 +1,17 @@
-import { ITopStores, IStoresWithCategory } from '@/stores/types'
+import { IStore, IStoreWithCategory } from '@/stores/types'
 
 export default class TopStoresDto {
-  stores: IStoresWithCategory[]
+  stores: IStoreWithCategory[]
 
-  constructor(data: ITopStores[] | undefined | null) {
+  constructor(data: IStore[] | undefined | null) {
     if (!data || data?.length === 0) {
       this.stores = []
     }
     this.stores = this.getStores(data!)
   }
 
-  getStores(data: ITopStores[]): IStoresWithCategory[] {
-    return data.map((item: ITopStores) => {
+  getStores(data: IStore[]): IStoreWithCategory[] {
+    return data.map((item: IStore) => {
       delete item._id
       delete item._creationTime
       delete item.created_at

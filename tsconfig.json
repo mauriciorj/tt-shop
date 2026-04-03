@@ -36,7 +36,6 @@
       "@/providers/*": ["./src/providers/*"],
       "@/public/*": ["./public/*"],
       "@/saved/*": ["./src/features/saved/*"],
-      "@/store/*": ["./src/features/store/*"],
       "@/stores/*": ["./src/features/stores/*"],
       "@/types/*": ["./src/features/common/types/*"],
       "@/utils/*": ["./src/features/common/utils/*"],

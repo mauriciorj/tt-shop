@@ -21,7 +21,6 @@ const config: Config = {
     '^@/products/(.*)$': '<rootDir>/src/features/products/$1',
     '^@/providers/(.*)$': '<rootDir>/src/providers/$1',
     '^@/saved/(.*)$': '<rootDir>/src/features/saved/$1',
-    '^@/store/(.*)$': '<rootDir>/src/features/store/$1',
     '^@/stores/(.*)$': '<rootDir>/src/features/stores/$1',
     '^@/types/(.*)$': '<rootDir>/src/features/common/types/$1',
     '^@/utils/(.*)$': '<rootDir>/src/features/common/utils/$1',

@@ -7,21 +7,19 @@ import CreatorsTable from '@/components/creatorsTable'
 import ProductsTable from '@/components/productsTable'
 import VideosTable from '@/components/videosTable'
 import { Button } from '@/components/ui/button'
-import CardsStats from '@/store/components/cardsStats'
-import Header from '@/store/components/header'
-import LineChart from '@/store/components/lineChart'
-import NotFoundStore from '@/store/components/notFoundStore'
-import StoreDetailSkeleton from '@/store/components/storeDetailSkeleton'
-import useStore from '@/store/hooks/useStore'
-import UseUser from '@/hooks/useUser'
+import CardsStats from '@/stores/components/cardsStats'
+import Header from '@/stores/components/header'
+import LineChart from '@/stores/components/lineChart'
+import NotFoundStore from '@/stores/components/storeNotFound'
+import StoreDetailSkeleton from '@/stores/components/storeSkeleton'
+import useStore from '@/stores/hooks/useStore'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 
 const StoreDetail = () => {
   const { id } = useParams()
   const router = useRouter()
 
-  const { isLoading, store, setName } = useStore()
-  const { isFreeUser, id: clerkId } = UseUser()
+  const { clerkId, isFreeUser, isLoading, store, setName } = useStore()
 
   useEffect(() => {
     if (id?.[0]) {
