@@ -33,7 +33,9 @@ const ApiPage = () => {
                 <Lock className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="font-semibold">Recurso exclusivo para assinantes</p>
+                <p className="font-semibold">
+                  Recurso exclusivo para assinantes
+                </p>
                 <p className="text-sm text-muted-foreground mt-1">
                   Faça upgrade do seu plano para acessar a API do UseShopRadar.
                 </p>
