@@ -75,6 +75,7 @@ const Products = () => {
               setCurrentPage={setCurrentPage}
             />
             <PeriodFilter
+              isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
