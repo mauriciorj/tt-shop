@@ -6,10 +6,9 @@ import CreatorDto from '@/dtos/creator'
 import ProductDto from '@/dtos/product'
 import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
-import StoreDto from '@/store/dtos/store'
-import { IStoreWithCategory } from '@/store/types'
+import StoreDto from '@/stores/dtos/store'
 import TopStoresDto from '@/stores/dtos/topStores'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
@@ -69,7 +68,7 @@ export const getAllStores = query({
   handler: async (ctx) => {
     const stores = await ctx.db.query('stores').order('asc').collect()
 
-    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores
     )
 
@@ -105,7 +104,7 @@ export const getStores = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores?.page
     )
 

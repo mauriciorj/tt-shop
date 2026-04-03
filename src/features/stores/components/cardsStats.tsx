@@ -8,9 +8,9 @@ import {
   TrendingUp,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 
-const CardsStats = ({ store }: { store: IStoresWithCategory }) => {
+const CardsStats = ({ store }: { store: IStoreWithCategory }) => {
   if (!store) return null
 
   const getTrendIcon = () => {

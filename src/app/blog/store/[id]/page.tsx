@@ -8,9 +8,9 @@ import CallToAction from '@/components/homepage/callToAction'
 import CreatorsTable from '@/components/creatorsTable'
 import ProductsTable from '@/components/productsTable'
 import VideosTable from '@/components/videosTable'
-import CardsStats from '@/store/components/cardsStats'
-import Header from '@/store/components/header'
-import LineChart from '@/store/components/lineChart'
+import CardsStats from '@/stores/components/cardsStats'
+import Header from '@/stores/components/header'
+import LineChart from '@/stores/components/lineChart'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 
 export const revalidate = false

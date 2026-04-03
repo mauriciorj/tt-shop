@@ -4,14 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MoveUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 
 const Header = ({
-  store,
   isBlog,
+  store,
 }: {
-  store: IStoresWithCategory
   isBlog?: boolean
+  store: IStoreWithCategory
 }) => {
   if (!store) return null
 

@@ -1,0 +1,178 @@
+import { render, screen, fireEvent } from '@testing-library/react'
+import VideoCard from '../videoCard'
+import { ITopVideosWithCategory } from '@/videos/types'
+
+const mockVideo: ITopVideosWithCategory = {
+  video_id: 'vid-123',
+  description: 'Amazing TikTok product review',
+  duration: '0:45',
+  image: 'https://example.com/thumbnail.jpg',
+  views: 1_250_000,
+  sales: 3_400,
+  revenue: 85_000,
+  category_id: 'cat-1',
+  category_name: 'Beauty',
+  transcription: undefined,
+  tt_account: '@tiktokshop',
+}
+
+const mockVideoWithTranscription: ITopVideosWithCategory = {
+  ...mockVideo,
+  video_id: 'vid-456',
+  transcription: 'This is a full video transcription text.',
+}
+
+describe('VideoCard', () => {
+  const handleToggleSave = jest.fn()
+  const setSelectedVideo = jest.fn()
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('renders video description', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(
+      screen.getByText('Amazing TikTok product review')
+    ).toBeInTheDocument()
+  })
+
+  it('renders formatted views, sales, and revenue', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(screen.getByText('1.3M')).toBeInTheDocument() // views
+    expect(screen.getByText('3.4K')).toBeInTheDocument() // sales
+    expect(screen.getByText('$85.0K')).toBeInTheDocument() // revenue
+  })
+
+  it('renders video duration', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    // duration appears in overlay badge and in stats grid
+    const durations = screen.getAllByText('0:45')
+    expect(durations.length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows save button with unsaved state when video is not saved', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    const saveButton = screen.getByTitle('Salvar vídeo')
+    expect(saveButton).toBeInTheDocument()
+  })
+
+  it('shows save button with saved state when video is in savedVideoIds', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={['vid-123']}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(screen.getByTitle('Remover dos salvos')).toBeInTheDocument()
+  })
+
+  it('calls handleToggleSave with video_id when save button is clicked', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    fireEvent.click(screen.getByTitle('Salvar vídeo'))
+    expect(handleToggleSave).toHaveBeenCalledTimes(1)
+    expect(handleToggleSave).toHaveBeenCalledWith('vid-123')
+  })
+
+  it('does not render transcription button when transcription is absent', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(screen.queryByText('Transcrição do vídeo')).not.toBeInTheDocument()
+  })
+
+  it('renders transcription button when transcription is present', () => {
+    render(
+      <VideoCard
+        video={mockVideoWithTranscription}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(screen.getByText('Transcrição do vídeo')).toBeInTheDocument()
+  })
+
+  it('calls setSelectedVideo with the video when transcription button is clicked', () => {
+    render(
+      <VideoCard
+        video={mockVideoWithTranscription}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    fireEvent.click(screen.getByText('Transcrição do vídeo'))
+    expect(setSelectedVideo).toHaveBeenCalledTimes(1)
+    expect(setSelectedVideo).toHaveBeenCalledWith(mockVideoWithTranscription)
+  })
+
+  it('renders thumbnail image when image url is provided', () => {
+    render(
+      <VideoCard
+        video={mockVideo}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    const img = screen.getByAltText('Amazing TikTok product review')
+    expect(img).toBeInTheDocument()
+  })
+
+  it('does not render thumbnail image when image is null', () => {
+    render(
+      <VideoCard
+        video={{ ...mockVideo, image: null }}
+        savedVideoIds={[]}
+        handleToggleSave={handleToggleSave}
+        setSelectedVideo={setSelectedVideo}
+      />
+    )
+    expect(
+      screen.queryByAltText('Amazing TikTok product review')
+    ).not.toBeInTheDocument()
+  })
+})

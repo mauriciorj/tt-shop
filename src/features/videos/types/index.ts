@@ -20,7 +20,7 @@ export interface ITopVideos {
 }
 
 export interface ITopVideosWithCategory {
-  category_id: string | null
+  category_id?: string | null
   category_name?: string | null
   description: string
   duration: string

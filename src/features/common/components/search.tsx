@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 import { IProductsWithCategory } from '@/products/types'
 import Image from 'next/image'
 import { useMutation } from 'convex/react'
@@ -11,7 +11,7 @@ import { api } from '@/convex/_generated/api'
 import { toast } from 'sonner'
 
 interface SearchBarProps {
-  data: IStoresWithCategory[] | IProductsWithCategory[]
+  data: IStoreWithCategory[] | IProductsWithCategory[]
   isStore?: boolean
   placeholder?: string
   clerkId?: string
@@ -38,7 +38,7 @@ const SearchBar = ({
   const suggestions =
     query.length > 0
       ? data
-          .filter((item: IStoresWithCategory | IProductsWithCategory) =>
+          .filter((item: IStoreWithCategory | IProductsWithCategory) =>
             item.name.toLowerCase().includes(query.toLowerCase())
           )
           .slice(0, 6)
@@ -58,7 +58,7 @@ const SearchBar = ({
   }, [])
 
   const handleSearchSubmit = async (
-    item: IStoresWithCategory | IProductsWithCategory
+    item: IStoreWithCategory | IProductsWithCategory
   ) => {
     if (isFreeUser && clerkId) {
       const result = await recordSearch({ clerk_id: clerkId })
@@ -141,7 +141,7 @@ const SearchBar = ({
                   key={item.name}
                   onClick={() =>
                     handleSearchSubmit(
-                      item as IStoresWithCategory | IProductsWithCategory
+                      item as IStoreWithCategory | IProductsWithCategory
                     )
                   }
                   onMouseEnter={() => setHighlightedIndex(index)}

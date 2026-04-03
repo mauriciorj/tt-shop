@@ -4,10 +4,13 @@ import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import { data as categories } from '@/hooks/useCategories'
-import { IStoreWithCategory } from '@/store/types'
+import UseUser from '@/hooks/useUser'
+import { IStoreWithCategory } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 
 const useStore = () => {
+  const { isFreeUser, id: clerkId } = UseUser()
+
   const [name, setName] = useState<string | null>(null)
 
   const { data: getStore, isLoading } = useQuery({
@@ -31,7 +34,7 @@ const useStore = () => {
     return storeWithCategory
   }, [name, getStore, categories])
 
-  return { isLoading, setName, store }
+  return { clerkId, isFreeUser, isLoading, setName, store }
 }
 
 export default useStore

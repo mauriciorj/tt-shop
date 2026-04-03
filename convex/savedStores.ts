@@ -1,7 +1,7 @@
 import { mutation, query } from './_generated/server'
 import { v } from 'convex/values'
 import TopStoresDto from '@/stores/dtos/topStores'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 import { data as categories } from '@/hooks/useCategories'
 
 export const getSavedStoreIds = query({
@@ -52,7 +52,7 @@ export const getSavedStores = query({
     const stores = await ctx.db.query('stores').collect()
     const filteredStores = stores.filter((s) => storeIds.includes(s.k_id))
 
-    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       filteredStores
     )
 

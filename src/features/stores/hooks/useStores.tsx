@@ -2,11 +2,10 @@ import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import UseUser from '@/hooks/useUser'
-import { TSortKey, TSortOrder } from '@/stores/types'
+import { TStoreSortKey, TStoreSortOrder } from '@/stores/types'
 import { useQuery } from '@tanstack/react-query'
 import { TPeriod } from '@/components/periodFilter'
-
-type TCategory = { id: string; label: string | null | undefined }
+import { TCategory } from '@/categories/types'
 
 const useStores = () => {
   const ITEMS_PER_PAGE = 10
@@ -22,8 +21,8 @@ const useStores = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
 
-  const [sortKey, setSortKey] = useState<TSortKey>('revenue')
-  const [sortOrder, setSortOrder] = useState<TSortOrder>('desc')
+  const [sortKey, setSortKey] = useState<TStoreSortKey>('revenue')
+  const [sortOrder, setSortOrder] = useState<TStoreSortOrder>('desc')
 
   // Get ALL stores from the database
   // TODO: check if this is the best to fetch all information needed

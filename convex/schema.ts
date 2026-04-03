@@ -155,6 +155,17 @@ export default defineSchema({
   })
     .index('by_clerk_id_date', ['clerk_id', 'date'])
     .index('by_clerk_id_video', ['clerk_id', 'video_k_id']),
+  userApiKeys: defineTable({
+    clerk_id: v.string(),
+    api_key: v.object({
+      content: v.string(),
+      iv: v.string(),
+      tag: v.string(),
+    }),
+    usage: v.optional(v.number()),
+    created_at: v.string(),
+    updated_at: v.optional(v.string()),
+  }).index('by_clerk_id', ['clerk_id']),
   users: defineTable({
     clerk_id: v.optional(v.string()),
     email: v.string(),

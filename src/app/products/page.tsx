@@ -75,6 +75,7 @@ const Products = () => {
               setCurrentPage={setCurrentPage}
             />
             <PeriodFilter
+              isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
@@ -94,6 +95,7 @@ const Products = () => {
           <ProductsTable
             currentPage={currentPage}
             items={products}
+            isFreeUser={isFreeUser}
             onPageChange={onPageChange}
             onToggleSave={handleToggleSave}
             savedProductIds={savedProductIds ?? []}

@@ -6,10 +6,9 @@ import CreatorDto from '@/dtos/creator'
 import ProductDto from '@/dtos/product'
 import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
-import StoreDto from '@/store/dtos/store'
-import { IStoreWithCategory } from '@/store/types'
+import StoreDto from '@/stores/dtos/store'
 import TopStoresDto from '@/stores/dtos/topStores'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
@@ -17,14 +16,6 @@ export const addStore = mutation({
   args: {
     country: v.string(),
     image: v.optional(v.string()),
-    name: v.string(),
-    name_url: v.optional(v.string()),
-    storage_id: v.optional(v.string()),
-    type: v.string(),
-    main_category: v.string(),
-    second_category: v.string(),
-    third_category: v.string(),
-    unit_price: v.number(),
     k_id: v.string(),
     k_revenue: v.number(),
     k_revenue_14_days: v.optional(v.number()),
@@ -34,6 +25,14 @@ export const addStore = mutation({
     k_revenue_history_14_days: v.optional(v.array(v.number())),
     k_revenue_history_7_days: v.optional(v.array(v.number())),
     k_sales: v.number(),
+    main_category: v.string(),
+    name: v.string(),
+    name_url: v.optional(v.string()),
+    second_category: v.string(),
+    storage_id: v.optional(v.string()),
+    third_category: v.string(),
+    type: v.string(),
+    unit_price: v.number(),
   },
   handler: async (ctx, args) => {
     const queryResult = await ctx.db
@@ -69,7 +68,7 @@ export const getAllStores = query({
   handler: async (ctx) => {
     const stores = await ctx.db.query('stores').order('asc').collect()
 
-    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores
     )
 
@@ -105,7 +104,7 @@ export const getStores = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { stores: IStoresWithCategory[] } = new TopStoresDto(
+    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores?.page
     )
 

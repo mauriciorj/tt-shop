@@ -5,8 +5,7 @@ import UseUser from '@/hooks/useUser'
 import { TSortKey, TSortOrder } from '@/products/types'
 import { useQuery } from '@tanstack/react-query'
 import { TPeriod } from '@/components/periodFilter'
-
-type TCategory = { id: string; label: string | null | undefined }
+import { TCategory } from '@/categories/types'
 
 const useProducts = () => {
   const ITEMS_PER_PAGE = 10

@@ -1,11 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
 import { Check, Copy } from 'lucide-react'
-import { useMutation, useQuery } from 'convex/react'
-import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
@@ -18,89 +13,34 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import useVideos from '@/videos/hooks/useVideos'
 import VideoCard from '@/videos/components/videoCard'
 import VideoCardSkeleton from '@/videos/components/videoCardSkeleton'
-import { ITopVideosWithCategory } from '@/videos/types'
-import useVideos from '@/videos/hooks/useVideos'
 
 const Videos = () => {
-  const router = useRouter()
   const {
     categories,
+    copied,
     currentPage,
     data: videos,
+    displayedTranscription,
+    handleCopy,
+    handleOpenTranscription,
+    handleToggleSave,
     isFreeUser,
     isLoading,
+    isTranscribing,
     onPageChange,
+    selectedVideo,
+    savedVideoIds,
     selectedCategory,
     selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
     setSelectedPeriod,
+    setSelectedVideo,
     totalPages,
-    userId,
   } = useVideos()
-
-  const savedVideoIds = useQuery(
-    api.savedVideos.getSavedVideoIds,
-    userId ? { clerk_id: userId } : 'skip'
-  )
-  const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
-  const recordTranscription = useMutation(
-    api.users.recordTranscriptionAndCheckLimit
-  )
-
-  const [selectedVideo, setSelectedVideo] =
-    useState<ITopVideosWithCategory | null>(null)
-
-  const [copied, setCopied] = useState(false)
-
-  const handleToggleSave = async (videoKId: string) => {
-    if (!userId) {
-      toast.error('Faça login para salvar vídeos.')
-      return
-    }
-    const result = await toggleSaved({
-      clerk_id: userId,
-      video_k_id: videoKId,
-    })
-    if (result.saved) {
-      toast.success('Vídeo salvo!')
-    } else {
-      toast.success('Vídeo removido dos salvos.')
-    }
-  }
-
-  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
-    if (isFreeUser && userId) {
-      const result = await recordTranscription({
-        clerk_id: userId,
-        video_k_id: video.video_id!,
-      })
-      if (!result.allowed) {
-        toast.error(
-          'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
-          {
-            action: {
-              label: 'Ver planos',
-              onClick: () => router.push('/subscription'),
-            },
-            duration: 6000,
-          }
-        )
-        return
-      }
-    }
-    setSelectedVideo(video)
-  }
-
-  const handleCopy = async () => {
-    if (!selectedVideo?.transcription) return
-    await navigator.clipboard.writeText(selectedVideo.transcription)
-    setCopied(true)
-    toast.success('Transcrição copiada para a área de transferência.')
-    setTimeout(() => setCopied(false), 2000)
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -121,6 +61,7 @@ const Videos = () => {
               setCurrentPage={setCurrentPage}
             />
             <PeriodFilter
+              isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
@@ -148,6 +89,7 @@ const Videos = () => {
         {/* Pagination */}
         <TablePagination
           currentPage={currentPage}
+          isFreeUser={isFreeUser}
           onPageChange={onPageChange}
           totalPages={totalPages}
         />
@@ -168,12 +110,16 @@ const Videos = () => {
           </DialogHeader>
           <div className="mt-2 max-h-[400px] overflow-y-auto pr-2">
             <p className="text-sm text-foreground/80 leading-relaxed">
-              {selectedVideo?.transcription}
+              {displayedTranscription}
+              {isTranscribing && (
+                <span className="inline-block w-0.5 h-[1em] bg-primary ml-0.5 align-middle animate-pulse" />
+              )}
             </p>
           </div>
           <button
             onClick={handleCopy}
-            className="flex justify-center items-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
+            disabled={isTranscribing}
+            className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {copied ? (
               <Check className="h-4 w-4" />

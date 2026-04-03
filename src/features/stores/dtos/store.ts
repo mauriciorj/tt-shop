@@ -1,16 +1,17 @@
-import { ITopStore, IStoreWithCategory } from '@/store/types'
+import { IStore, IStoreWithCategory } from '@/stores/types'
 
 export default class StoreDto {
   store: IStoreWithCategory | null
 
-  constructor(data: ITopStore | undefined | null) {
+  constructor(data: IStore | undefined | null) {
     if (!data) {
       this.store = null
+      return
     }
-    this.store = this.getStores(data!)
+    this.store = this.getStores(data)
   }
 
-  getStores(data: ITopStore): IStoreWithCategory {
+  getStores(data: IStore): IStoreWithCategory {
     delete data._id
     delete data._creationTime
     delete data.created_at

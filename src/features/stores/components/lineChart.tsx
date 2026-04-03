@@ -1,15 +1,15 @@
 'use client'
 
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { IStoresWithCategory } from '@/stores/types'
+import { IStoreWithCategory } from '@/stores/types'
 
-const LineChart = ({ store }: { store: IStoresWithCategory }) => {
+const LineChart = ({ store }: { store: IStoreWithCategory }) => {
   if (!store) return null
   const chartData = store?.revenue_history?.map((value: number, i: number) => ({
     day: i + 1,

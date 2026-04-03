@@ -1,34 +1,68 @@
-import { useState, useMemo } from 'react'
-import { api } from '@/convex/_generated/api'
-import { convexQuery } from '@convex-dev/react-query'
-import UseUser from '@/hooks/useUser'
-import { useQuery } from '@tanstack/react-query'
+import { useState, useMemo, useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { TCategory } from '@/categories/types'
 import { TPeriod } from '@/components/periodFilter'
-
-type TCategory = { id: string | null; label: string | null | undefined }
+import { api } from '@/convex/_generated/api'
+import { useMutation, useQuery } from 'convex/react'
+import UseUser from '@/hooks/useUser'
+import { ITopVideosWithCategory } from '@/videos/types'
 
 const useVideos = () => {
+  const router = useRouter()
+
   const ITEMS_PER_PAGE = 12
+
   const {
-    id,
+    FREE_USER_ITEMS_PER_PAGE,
+    id: userId,
     isFreeUser,
     isLoading: isLoadingDbUser,
-    FREE_USER_ITEMS_PER_PAGE,
     userSubscriptionPlan,
   } = UseUser()
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [copied, setCopied] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
+  const [selectedVideo, setSelectedVideo] =
+    useState<ITopVideosWithCategory | null>(null)
+  const [isTranscribing, setIsTranscribing] = useState<boolean>(false)
+  const [displayedTranscription, setDisplayedTranscription] =
+    useState<string>('')
+  const transcribeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
+    null
+  )
 
-  // Get ALL stores from the database
-  // TODO: check if this is the best to fetch all information needed
-  // maybe aggregation + pagination is better
-  const { data: getAllVideos, isLoading: isLoadingAllVideos } = useQuery({
-    ...convexQuery(api.videos.getAllVideos),
-  })
+  // Clean up animation when dialog closes
+  useEffect(() => {
+    if (!selectedVideo) {
+      if (transcribeIntervalRef.current) {
+        clearInterval(transcribeIntervalRef.current)
+        transcribeIntervalRef.current = null
+      }
+      setIsTranscribing(false)
+      setDisplayedTranscription('')
+    }
+  }, [selectedVideo])
 
-  // Show only unique categories from the stores
+  // Get saved videos from the database
+  const savedVideoIds = useQuery(
+    api.savedVideos.getSavedVideoIds,
+    userId ? { clerk_id: userId } : 'skip'
+  )
+
+  const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
+
+  // Increase transcription count in the database
+  const recordTranscription = useMutation(
+    api.users.recordTranscriptionAndCheckLimit
+  )
+
+  // Get ALL videos from the database
+  const getAllVideos = useQuery(api.videos.getAllVideos)
+
+  // Show only unique categories from videos
   const categories = useMemo(() => {
     if (getAllVideos) {
       const getUniqueCategoriesFromVideos: TCategory[] = Array.from(
@@ -54,6 +88,7 @@ const useVideos = () => {
     }
   }, [getAllVideos])
 
+  // Paginate videos
   const videosPaginated = useMemo(() => {
     if (!getAllVideos) return []
 
@@ -67,20 +102,22 @@ const useVideos = () => {
       const categoryByName = categories?.find(
         (category) => category.id === selectedCategory
       )?.label
-      result = result?.filter((store) => store.category_name === categoryByName)
+      result = result?.filter((video) => video.category_name === categoryByName)
     }
 
-    result = result.map((store, index) => ({
-      ...store,
+    // Add the correct revenue to the result
+    result = result.map((video, index) => ({
+      ...video,
       rank: index + 1,
       revenue:
         selectedPeriod === '7'
-          ? (store.revenue_7_days ?? store.revenue)
+          ? (video.revenue_7_days ?? video.revenue)
           : selectedPeriod === '14'
-            ? (store.revenue_14_days ?? store.revenue)
-            : store.revenue,
+            ? (video.revenue_14_days ?? video.revenue)
+            : video.revenue,
     }))
 
+    // Limit the number of videos if it's free user
     result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
 
     return result.slice(start, end)
@@ -99,21 +136,101 @@ const useVideos = () => {
     setCurrentPage(page)
   }
 
+  // Save or unsave a video
+  const handleToggleSave = async (videoKId: string) => {
+    if (!userId) {
+      toast.error('Faça login para salvar vídeos.')
+      return
+    }
+    const result = await toggleSaved({
+      clerk_id: userId,
+      video_k_id: videoKId,
+    })
+    if (result.saved) {
+      toast.success('Vídeo salvo!')
+    } else {
+      toast.success('Vídeo removido dos salvos.')
+    }
+  }
+
+  // Open transcription modal
+  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
+    if (isFreeUser && userId) {
+      const result = await recordTranscription({
+        clerk_id: userId,
+        video_k_id: video.video_id!,
+      })
+      if (!result.allowed) {
+        toast.error(
+          'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
+          {
+            action: {
+              label: 'Ver planos',
+              onClick: () => router.push('/subscription'),
+            },
+            duration: 6000,
+          }
+        )
+        return
+      }
+    }
+    setSelectedVideo(video)
+
+    // Typewriter animation — reveals text in chunks to simulate live transcription
+    const fullText = video.transcription ?? ''
+    const CHUNK = 4
+    const TICK_MS = 30
+    let i = 0
+    setIsTranscribing(true)
+    setDisplayedTranscription('')
+    transcribeIntervalRef.current = setInterval(() => {
+      i += CHUNK
+      if (i >= fullText.length) {
+        setDisplayedTranscription(fullText)
+        setIsTranscribing(false)
+        clearInterval(transcribeIntervalRef.current!)
+        transcribeIntervalRef.current = null
+      } else {
+        setDisplayedTranscription(fullText.slice(0, i))
+      }
+    }, TICK_MS)
+  }
+
+  // Copy transcription to clipboard
+  const handleCopy = async () => {
+    if (!selectedVideo?.transcription) return
+    await navigator.clipboard.writeText(selectedVideo.transcription)
+    setCopied(true)
+    toast.success('Transcrição copiada para a área de transferência.')
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return {
     categories,
+    copied,
+    displayedTranscription,
+    isTranscribing,
     currentPage,
     data: videosPaginated,
+    handleCopy,
+    handleOpenTranscription,
+    handleToggleSave,
     isFreeUser,
-    isLoading: Boolean(isLoadingAllVideos && isLoadingDbUser),
+    isLoading: Boolean(getAllVideos === null && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
+    recordTranscription,
+    selectedVideo,
+    savedVideoIds,
     selectedCategory,
     selectedPeriod,
+    setCopied,
     setCurrentPage,
     setSelectedCategory,
     setSelectedPeriod,
+    setSelectedVideo,
+    toggleSaved,
     totalPages,
-    userId: id,
     userSubscriptionPlan,
   }
 }

@@ -1,6 +1,6 @@
 import { mutation, query } from './_generated/server'
-import { v } from 'convex/values'
 import { paginationOptsValidator } from 'convex/server'
+import { v } from 'convex/values'
 import { getUpdatedValues } from './utils'
 import { data as categories } from '@/hooks/useCategories'
 import TopVideosDto from '@/videos/dtos/topVideosDto'
@@ -8,16 +8,16 @@ import { ITopVideosWithCategory } from '@/videos/types'
 
 export const updateVideos = mutation({
   args: {
-    image: v.optional(v.string()),
-    tt_account: v.optional(v.string()),
-    storage_id: v.optional(v.string()),
     description: v.string(),
-    main_category: v.optional(v.string()),
-    views: v.number(),
     duration: v.string(),
+    image: v.optional(v.string()),
     k_id: v.string(),
     k_revenue: v.number(),
     k_sales: v.number(),
+    main_category: v.optional(v.string()),
+    tt_account: v.optional(v.string()),
+    views: v.number(),
+    storage_id: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const existingVideo = await ctx.db
@@ -61,7 +61,7 @@ export const updateVideoCategory = mutation({
   },
 })
 
-export const getVideos = query({
+export const getVideosWithPagination = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const { paginationOpts } = args
@@ -85,8 +85,17 @@ export const getVideos = query({
       })
     )
 
+    // Add the category name to the store
+    const videosWithCategories = videosWithImages.map((video) => {
+      video['category_name'] =
+        categories.find((category) => category.id === video.category_id)
+          ?.label || null
+      delete video.category_id
+      return video
+    })
+
     return {
-      page: videosWithImages,
+      page: videosWithCategories,
       isDone: videos?.isDone,
       continueCursor: videos?.continueCursor,
       splitCursor: videos?.splitCursor,

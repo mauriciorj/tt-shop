@@ -8,7 +8,7 @@ import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import PeriodFilter from '@/components/periodFilter'
 import SearchBar from '@/components/search'
-import StoreTableSkeleton from '@/stores/components/storeTableSkeleton'
+import StoreTableSkeleton from '@/stores/components/storesTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
 import useStores from '@/stores/hooks/useStores'
 
@@ -75,6 +75,7 @@ const Stores = () => {
               setCurrentPage={setCurrentPage}
             />
             <PeriodFilter
+              isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
@@ -93,6 +94,7 @@ const Stores = () => {
           <StoresTable
             currentPage={currentPage}
             items={stores}
+            isFreeUser={isFreeUser}
             onPageChange={onPageChange}
             onToggleSave={handleToggleSave}
             savedStoreIds={savedStoreIds ?? []}
