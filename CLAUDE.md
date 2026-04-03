@@ -12,8 +12,8 @@
 
 The `docs/` folder is an **Obsidian vault**. Before starting any task, check it for existing specs, decisions, or API contracts relevant to your work.
 
-| Path | Purpose |
-| --- | --- |
+| Path        | Purpose                                                  |
+| ----------- | -------------------------------------------------------- |
 | `docs/api/` | API endpoint specs (request/response shape, data source) |
 
 When a new API route, feature, or architectural decision is made, add or update the matching doc in `docs/`.
@@ -128,7 +128,7 @@ src/
     saved/          # User saved items
     product/        # Single product detail
     store/          # Single store detail
-    contact/        # Contact form
+    contato/        # Contact form
     db/             # DB utilities
   providers/        # React context providers (Clerk, Convex)
 convex/             # Convex schema, queries, mutations, HTTP endpoints
@@ -143,7 +143,6 @@ public/             # Static assets
 @/components/* → src/features/common/components/*
 @/hooks/*     → src/features/common/hooks/*
 @/ui/*        → src/features/common/components/ui/*
-@/product/*   → src/features/product/*
 @/products/*  → src/features/products/*
 @/stores/*    → src/features/stores/*
 @/videos/*    → src/features/videos/*
@@ -298,7 +297,7 @@ NEXT_PUBLIC_URL=http://localhost:3000/
 | `/saved`                                                        | User's saved items (protected)            |
 | `/success`, `/canceled`                                         | Post-payment pages                        |
 | `/blog`                                                         | Blog (product & store sub-pages)          |
-| `/about`, `/contact`                                            | Static pages                              |
+| `/sobre`, `/contato`                                            | Static pages                              |
 | `/politica-de-privacidade`, `/termos-de-servico`, `/disclaimer` | Legal                                     |
 | `/producto-em-beta`                                             | Beta feature page                         |
 

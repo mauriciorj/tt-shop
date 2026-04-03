@@ -5,10 +5,9 @@ import { getUpdatedValues } from './utils'
 import CreatorDto from '@/dtos/creator'
 import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
-import ProductDto from '@/product/dtos/product'
-import { IProductWithCategory } from '@/product/types'
+import ProductDto from '@/src/features/products/dtos/product'
 import TopProductsDto from '@/products/dtos/topProducts'
-import { IProductsWithCategory } from '@/products/types'
+import { IProductWithCategory } from '@/products/types'
 import { ICreatorDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
@@ -71,7 +70,7 @@ export const getAllProducts = query({
   handler: async (ctx) => {
     const products = await ctx.db.query('products').order('asc').collect()
 
-    const resultsDto: { products: IProductsWithCategory[] } =
+    const resultsDto: { products: IProductWithCategory[] } =
       new TopProductsDto(products)
 
     // Add the image url to the product
@@ -106,7 +105,7 @@ export const getProducts = query({
       .order('asc')
       .paginate(paginationOpts)
 
-    const resultsDto: { products: IProductsWithCategory[] } =
+    const resultsDto: { products: IProductWithCategory[] } =
       new TopProductsDto(products?.page)
 
     const productsWithImages = await Promise.all(

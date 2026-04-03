@@ -1,16 +1,16 @@
-import { ITopProducts, IProductsWithCategory } from '@/products/types'
+import { IProduct, IProductWithCategory } from '@/products/types'
 
 export default class TopProductsDto {
-  products: IProductsWithCategory[]
+  products: IProductWithCategory[]
 
-  constructor(data: ITopProducts[] | undefined | null) {
+  constructor(data: IProduct[] | undefined | null) {
     if (!data || data?.length === 0) {
       this.products = []
     }
     this.products = this.getProducts(data!)
   }
 
-  getProducts(data: ITopProducts[]): IProductsWithCategory[] {
+  getProducts(data: IProduct[]): IProductWithCategory[] {
     return data.map((item) => {
       delete item._id
       delete item._creationTime

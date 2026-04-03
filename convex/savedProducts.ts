@@ -1,7 +1,7 @@
 import { mutation, query } from './_generated/server'
 import { v } from 'convex/values'
 import TopProductsDto from '@/products/dtos/topProducts'
-import { IProductsWithCategory } from '@/products/types'
+import { IProductWithCategory } from '@/products/types'
 import { data as categories } from '@/hooks/useCategories'
 
 export const getSavedProductIds = query({
@@ -52,8 +52,9 @@ export const getSavedProducts = query({
     const products = await ctx.db.query('products').collect()
     const filteredProducts = products.filter((p) => productIds.includes(p.k_id))
 
-    const resultsDto: { products: IProductsWithCategory[] } =
-      new TopProductsDto(filteredProducts)
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+      filteredProducts
+    )
 
     const productsWithImages = await Promise.all(
       resultsDto.products.map(async (product) => {

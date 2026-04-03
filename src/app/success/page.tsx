@@ -69,7 +69,7 @@ function SuccessContent() {
           <div className="mt-10 pt-8 border-t border-border/40">
             <p className="text-sm text-muted-foreground">
               Um email de confirmação foi enviado para sua caixa de entrada.{' '}
-              <Link href="/support" className="text-primary hover:underline">
+              <Link href="/suporte" className="text-primary hover:underline">
                 Precisa de ajuda?
               </Link>
             </p>

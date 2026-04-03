@@ -3,16 +3,16 @@
 import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import Loading from './loading'
 import CreatorsTable from '@/components/creatorsTable'
 import VideosTable from '@/components/videosTable'
 import { Button } from '@/components/ui/button'
-import CardsStats from '@/product/components/cardsStats'
-import LineChart from '@/product/components/lineChart'
-import NotFoundProduct from '@/product/components/notFoundProduct'
-import ProductDetailSkeleton from '@/product/components/productDetailSkeleton'
-import useProduct from '@/product/hooks/useProduct'
+import CardsStats from '@/src/features/products/components/cardsStats'
+import LineChart from '@/src/features/products/components/lineChart'
+import NotFoundProduct from '@/src/features/products/components/notFoundProduct'
+import useProduct from '@/src/features/products/hooks/useProduct'
 import UseUser from '@/hooks/useUser'
-import Header from '@/product/components/header'
+import Header from '@/src/features/products/components/header'
 import { ICreatorDto, IVideoDto } from '@/types/index'
 
 const ProductDetail = () => {
@@ -46,7 +46,7 @@ const ProductDetail = () => {
           </Button>
 
           {isLoading ? (
-            <ProductDetailSkeleton />
+            <Loading />
           ) : (
             <>
               {/* Product Header */}

@@ -10,12 +10,12 @@ import {
 } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IProductsWithCategory, TSortKey, TSortOrder } from '@/products/types'
+import { IProductWithCategory, TSortKey, TSortOrder } from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
   currentPage: number
-  items: IProductsWithCategory[]
+  items: IProductWithCategory[]
   isFreeUser: boolean
   onPageChange: (page: number) => void
   onToggleSave?: (productKId: string) => void

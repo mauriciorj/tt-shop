@@ -1,7 +1,7 @@
 import { api } from '@/convex/_generated/api'
 import { fetchQuery } from 'convex/nextjs'
 import { data as categories } from '@/hooks/useCategories'
-import { IProductWithCategory } from '@/product/types'
+import { IProductWithCategory } from '@/products/types'
 
 export const getProductByName = async (name: string) => {
   const getProduct = await fetchQuery(api.products.getProductByName, { name })

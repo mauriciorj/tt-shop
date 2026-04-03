@@ -1,6 +1,7 @@
 import { Id } from '@/convex/_generated/dataModel'
+import { ICreatorDto, IVideoDto } from '@/types/index'
 
-export type TSortKey =
+export type TProductSortKey =
   | 'revenue'
   | 'revenueHistory'
   | 'revenueGrowthRate'
@@ -8,9 +9,9 @@ export type TSortKey =
   | 'sales'
   | 'unitPrice'
 
-export type TSortOrder = 'asc' | 'desc'
+export type TProductSortOrder = 'asc' | 'desc'
 
-export interface ITopProducts {
+export interface IProduct {
   _id?: Id<'products'>
   _creationTime?: number
   country: string
@@ -23,6 +24,8 @@ export interface ITopProducts {
   k_revenue_growth_rate: number
   k_revenue_history: number[]
   k_sales: number
+  k_top_creators?: string[] | undefined
+  k_top_videos?: string[] | undefined
   launch_date?: string
   main_category: string
   name: string
@@ -34,7 +37,7 @@ export interface ITopProducts {
   updated_at?: string | undefined
 }
 
-export interface IProductsWithCategory {
+export interface IProductWithCategory {
   country: string
   category_id: string
   category_name?: string | null
@@ -50,5 +53,7 @@ export interface IProductsWithCategory {
   revenue_growth_rate: number
   revenue_history: number[]
   sales: number
+  top_creators?: string[] | ICreatorDto[] | undefined
+  top_videos?: string[] | IVideoDto[] | undefined
 }
 ;[]

@@ -13,7 +13,7 @@ const staticRoutes: MetadataRoute.Sitemap = [
   { url: `${BASE_URL}/docs`, lastModified: new Date() },
   { url: `${BASE_URL}/suporte`, lastModified: new Date() },
   { url: `${BASE_URL}/sobre`, lastModified: new Date() },
-  { url: `${BASE_URL}/contact`, lastModified: new Date() },
+  { url: `${BASE_URL}/contato`, lastModified: new Date() },
   { url: `${BASE_URL}/privacidade`, lastModified: new Date() },
   { url: `${BASE_URL}/termos`, lastModified: new Date() },
 ]
