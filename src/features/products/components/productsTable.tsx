@@ -10,7 +10,11 @@ import {
 } from 'lucide-react'
 import RevenueSparkline from '@/components/revenueSparkline'
 import TablePagination from '@/components/tablePagination'
-import { IProductWithCategory, TSortKey, TSortOrder } from '@/products/types'
+import {
+  IProductWithCategory,
+  TProductSortKey,
+  TProductSortOrder,
+} from '@/products/types'
 import { normalizeUrl } from '@/utils/string'
 
 export interface TableProps {
@@ -20,10 +24,10 @@ export interface TableProps {
   onPageChange: (page: number) => void
   onToggleSave?: (productKId: string) => void
   savedProductIds?: string[]
-  setSortKey: (key: TSortKey) => void
-  setSortOrder: (order: TSortOrder) => void
-  sortKey: TSortKey
-  sortOrder: TSortOrder
+  setSortKey: (key: TProductSortKey) => void
+  setSortOrder: (order: TProductSortOrder) => void
+  sortKey: TProductSortKey
+  sortOrder: TProductSortOrder
   totalPages: number | undefined
 }
 
@@ -32,9 +36,9 @@ const SortIcon = ({
   sortKey,
   sortOrder,
 }: {
-  columnKey: TSortKey
-  sortKey: TSortKey
-  sortOrder: TSortOrder
+  columnKey: TProductSortKey
+  sortKey: TProductSortKey
+  sortOrder: TProductSortOrder
 }) => {
   if (sortKey !== columnKey) return null
   return sortOrder === 'asc' ? (
@@ -59,7 +63,7 @@ const ProductsTable = ({
 }: TableProps) => {
   const router = useRouter()
 
-  const handleSort = (key: TSortKey) => {
+  const handleSort = (key: TProductSortKey) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {
