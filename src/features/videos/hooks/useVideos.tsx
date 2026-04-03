@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { TCategory } from '@/categories/types'
@@ -27,6 +27,24 @@ const useVideos = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
   const [selectedVideo, setSelectedVideo] =
     useState<ITopVideosWithCategory | null>(null)
+  const [isTranscribing, setIsTranscribing] = useState<boolean>(false)
+  const [displayedTranscription, setDisplayedTranscription] =
+    useState<string>('')
+  const transcribeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
+    null
+  )
+
+  // Clean up animation when dialog closes
+  useEffect(() => {
+    if (!selectedVideo) {
+      if (transcribeIntervalRef.current) {
+        clearInterval(transcribeIntervalRef.current)
+        transcribeIntervalRef.current = null
+      }
+      setIsTranscribing(false)
+      setDisplayedTranscription('')
+    }
+  }, [selectedVideo])
 
   // Get saved videos from the database
   const savedVideoIds = useQuery(
@@ -157,6 +175,25 @@ const useVideos = () => {
       }
     }
     setSelectedVideo(video)
+
+    // Typewriter animation — reveals text in chunks to simulate live transcription
+    const fullText = video.transcription ?? ''
+    const CHUNK = 4
+    const TICK_MS = 30
+    let i = 0
+    setIsTranscribing(true)
+    setDisplayedTranscription('')
+    transcribeIntervalRef.current = setInterval(() => {
+      i += CHUNK
+      if (i >= fullText.length) {
+        setDisplayedTranscription(fullText)
+        setIsTranscribing(false)
+        clearInterval(transcribeIntervalRef.current!)
+        transcribeIntervalRef.current = null
+      } else {
+        setDisplayedTranscription(fullText.slice(0, i))
+      }
+    }, TICK_MS)
   }
 
   // Copy transcription to clipboard
@@ -171,6 +208,8 @@ const useVideos = () => {
   return {
     categories,
     copied,
+    displayedTranscription,
+    isTranscribing,
     currentPage,
     data: videosPaginated,
     handleCopy,

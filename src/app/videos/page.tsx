@@ -23,11 +23,13 @@ const Videos = () => {
     copied,
     currentPage,
     data: videos,
+    displayedTranscription,
     handleCopy,
     handleOpenTranscription,
     handleToggleSave,
     isFreeUser,
     isLoading,
+    isTranscribing,
     onPageChange,
     selectedVideo,
     savedVideoIds,
@@ -108,12 +110,16 @@ const Videos = () => {
           </DialogHeader>
           <div className="mt-2 max-h-[400px] overflow-y-auto pr-2">
             <p className="text-sm text-foreground/80 leading-relaxed">
-              {selectedVideo?.transcription}
+              {displayedTranscription}
+              {isTranscribing && (
+                <span className="inline-block w-0.5 h-[1em] bg-primary ml-0.5 align-middle animate-pulse" />
+              )}
             </p>
           </div>
           <button
             onClick={handleCopy}
-            className="flex justify-center items-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
+            disabled={isTranscribing}
+            className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {copied ? (
               <Check className="h-4 w-4" />

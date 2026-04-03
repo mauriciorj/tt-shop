@@ -112,11 +112,13 @@ const defaultHook = {
   copied: false,
   currentPage: 1,
   data: [],
+  displayedTranscription: '',
   handleCopy: jest.fn(),
   handleOpenTranscription: jest.fn(),
   handleToggleSave: jest.fn(),
   isFreeUser: false,
   isLoading: false,
+  isTranscribing: false,
   onPageChange: jest.fn(),
   savedVideoIds: [],
   selectedCategory: 'all',
@@ -262,15 +264,49 @@ describe('Videos page', () => {
       expect(screen.getByText('Great product video')).toBeInTheDocument()
     })
 
-    it('displays the transcription text', () => {
+    it('displays the transcription text from displayedTranscription', () => {
       mockUseVideos.mockReturnValue({
         ...defaultHook,
         selectedVideo: videoWithTranscription,
+        displayedTranscription: 'This is the full transcription text.',
       })
       render(<Videos />)
       expect(
         screen.getByText('This is the full transcription text.')
       ).toBeInTheDocument()
+    })
+
+    it('shows partial text while transcribing', () => {
+      mockUseVideos.mockReturnValue({
+        ...defaultHook,
+        selectedVideo: videoWithTranscription,
+        displayedTranscription: 'This is',
+        isTranscribing: true,
+      })
+      render(<Videos />)
+      expect(screen.getByText(/This is/)).toBeInTheDocument()
+    })
+
+    it('disables the copy button while transcribing', () => {
+      mockUseVideos.mockReturnValue({
+        ...defaultHook,
+        selectedVideo: videoWithTranscription,
+        displayedTranscription: 'Partial...',
+        isTranscribing: true,
+      })
+      render(<Videos />)
+      expect(screen.getByText('Copy Text').closest('button')).toBeDisabled()
+    })
+
+    it('enables the copy button when transcription is complete', () => {
+      mockUseVideos.mockReturnValue({
+        ...defaultHook,
+        selectedVideo: videoWithTranscription,
+        displayedTranscription: 'This is the full transcription text.',
+        isTranscribing: false,
+      })
+      render(<Videos />)
+      expect(screen.getByText('Copy Text').closest('button')).not.toBeDisabled()
     })
 
     it('shows "Copy Text" button when not copied', () => {
