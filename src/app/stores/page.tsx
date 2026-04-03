@@ -6,7 +6,7 @@ import { api } from '@/convex/_generated/api'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
-import PeriodFilter from '@/components/periodFilter'
+// import PeriodFilter from '@/components/periodFilter'
 import SearchBar from '@/components/search'
 import StoreTableSkeleton from '@/stores/components/storesTableSkeleton'
 import StoresTable from '@/stores/components/storesTable'
@@ -74,12 +74,12 @@ const Stores = () => {
               setSelectedCategory={setSelectedCategory}
               setCurrentPage={setCurrentPage}
             />
-            <PeriodFilter
+            {/* <PeriodFilter
               isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
-            />
+            /> */}
           </>
         )}
         <SearchBar

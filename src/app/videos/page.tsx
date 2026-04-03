@@ -4,7 +4,7 @@ import { Check, Copy } from 'lucide-react'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
-import PeriodFilter from '@/components/periodFilter'
+// import PeriodFilter from '@/components/periodFilter'
 import TablePagination from '@/components/tablePagination'
 import {
   Dialog,
@@ -60,12 +60,12 @@ const Videos = () => {
               setSelectedCategory={setSelectedCategory}
               setCurrentPage={setCurrentPage}
             />
-            <PeriodFilter
+            {/* <PeriodFilter
               isFreeUser={isFreeUser}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
               setCurrentPage={setCurrentPage}
-            />
+            /> */}
           </>
         )}
         {isLoading ? (

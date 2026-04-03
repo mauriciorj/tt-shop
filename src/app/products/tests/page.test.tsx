@@ -33,7 +33,11 @@ jest.mock('sonner', () => ({
 jest.mock('@/components/breadcrumb', () => ({
   __esModule: true,
   default: ({ title, description }: { title: string; description: string }) => (
-    <div data-testid="breadcrumb" data-title={title} data-description={description} />
+    <div
+      data-testid="breadcrumb"
+      data-title={title}
+      data-description={description}
+    />
   ),
 }))
 
@@ -66,24 +70,24 @@ jest.mock('@/components/categoriesSkeleton', () => ({
   default: () => <div data-testid="categories-skeleton" />,
 }))
 
-jest.mock('@/components/periodFilter', () => ({
-  __esModule: true,
-  default: ({
-    selectedPeriod,
-    setSelectedPeriod,
-  }: {
-    isFreeUser: boolean
-    selectedPeriod: string
-    setSelectedPeriod: (v: string) => void
-    setCurrentPage: (p: number) => void
-  }) => (
-    <div
-      data-testid="period-filter"
-      data-period={selectedPeriod}
-      onClick={() => setSelectedPeriod('7')}
-    />
-  ),
-}))
+// jest.mock('@/components/periodFilter', () => ({
+//   __esModule: true,
+//   default: ({
+//     selectedPeriod,
+//     setSelectedPeriod,
+//   }: {
+//     isFreeUser: boolean
+//     selectedPeriod: string
+//     setSelectedPeriod: (v: string) => void
+//     setCurrentPage: (p: number) => void
+//   }) => (
+//     <div
+//       data-testid="period-filter"
+//       data-period={selectedPeriod}
+//       onClick={() => setSelectedPeriod('7')}
+//     />
+//   ),
+// }))
 
 jest.mock('@/components/search', () => ({
   __esModule: true,
@@ -200,7 +204,10 @@ describe('Products page', () => {
 
     it('passes the correct title to breadcrumb', () => {
       render(<Products />)
-      expect(screen.getByTestId('breadcrumb')).toHaveAttribute('data-title', 'Produtos')
+      expect(screen.getByTestId('breadcrumb')).toHaveAttribute(
+        'data-title',
+        'Produtos'
+      )
     })
 
     it('passes the correct description to breadcrumb', () => {
@@ -225,11 +232,11 @@ describe('Products page', () => {
       expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
     })
 
-    it('does not render PeriodFilter when loading', () => {
-      setupHook({ isLoading: true })
-      render(<Products />)
-      expect(screen.queryByTestId('period-filter')).not.toBeInTheDocument()
-    })
+    // it('does not render PeriodFilter when loading', () => {
+    //   setupHook({ isLoading: true })
+    //   render(<Products />)
+    //   expect(screen.queryByTestId('period-filter')).not.toBeInTheDocument()
+    // })
 
     it('renders ProductTableSkeleton when loading', () => {
       setupHook({ isLoading: true })
@@ -240,7 +247,10 @@ describe('Products page', () => {
     it('passes itemsPerPage as rows to ProductTableSkeleton', () => {
       setupHook({ isLoading: true, itemsPerPage: 10 })
       render(<Products />)
-      expect(screen.getByTestId('product-table-skeleton')).toHaveAttribute('data-rows', '10')
+      expect(screen.getByTestId('product-table-skeleton')).toHaveAttribute(
+        'data-rows',
+        '10'
+      )
     })
 
     it('does not render ProductsTable when loading', () => {
@@ -256,14 +266,16 @@ describe('Products page', () => {
       expect(screen.getByTestId('categories')).toBeInTheDocument()
     })
 
-    it('renders PeriodFilter when not loading', () => {
-      render(<Products />)
-      expect(screen.getByTestId('period-filter')).toBeInTheDocument()
-    })
+    // it('renders PeriodFilter when not loading', () => {
+    //   render(<Products />)
+    //   expect(screen.getByTestId('period-filter')).toBeInTheDocument()
+    // })
 
     it('does not render CategoriesSkeleton when not loading', () => {
       render(<Products />)
-      expect(screen.queryByTestId('categories-skeleton')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('categories-skeleton')
+      ).not.toBeInTheDocument()
     })
 
     it('renders ProductsTable when not loading', () => {
@@ -273,7 +285,9 @@ describe('Products page', () => {
 
     it('does not render ProductTableSkeleton when not loading', () => {
       render(<Products />)
-      expect(screen.queryByTestId('product-table-skeleton')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('product-table-skeleton')
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -286,18 +300,27 @@ describe('Products page', () => {
     it('passes userId as clerkId to SearchBar', () => {
       setupHook({ userId: 'clerk_xyz' })
       render(<Products />)
-      expect(screen.getByTestId('search-bar')).toHaveAttribute('data-clerk', 'clerk_xyz')
+      expect(screen.getByTestId('search-bar')).toHaveAttribute(
+        'data-clerk',
+        'clerk_xyz'
+      )
     })
 
     it('passes isFreeUser to SearchBar', () => {
       setupHook({ isFreeUser: true })
       render(<Products />)
-      expect(screen.getByTestId('search-bar')).toHaveAttribute('data-free', 'true')
+      expect(screen.getByTestId('search-bar')).toHaveAttribute(
+        'data-free',
+        'true'
+      )
     })
 
     it('passes isStore=false to SearchBar', () => {
       render(<Products />)
-      expect(screen.getByTestId('search-bar')).toHaveAttribute('data-is-store', 'false')
+      expect(screen.getByTestId('search-bar')).toHaveAttribute(
+        'data-is-store',
+        'false'
+      )
     })
 
     it('renders search bar even while loading', () => {
@@ -311,13 +334,19 @@ describe('Products page', () => {
     it('passes currentPage to ProductsTable', () => {
       setupHook({ currentPage: 3 })
       render(<Products />)
-      expect(screen.getByTestId('products-table')).toHaveAttribute('data-page', '3')
+      expect(screen.getByTestId('products-table')).toHaveAttribute(
+        'data-page',
+        '3'
+      )
     })
 
     it('passes totalPages to ProductsTable', () => {
       setupHook({ totalPages: 5 })
       render(<Products />)
-      expect(screen.getByTestId('products-table')).toHaveAttribute('data-total', '5')
+      expect(screen.getByTestId('products-table')).toHaveAttribute(
+        'data-total',
+        '5'
+      )
     })
 
     it('passes savedProductIds from Convex query to ProductsTable', () => {
@@ -332,7 +361,10 @@ describe('Products page', () => {
     it('passes empty array to ProductsTable when savedProductIds is undefined', () => {
       mockUseQuery.mockReturnValue(undefined)
       render(<Products />)
-      expect(screen.getByTestId('products-table')).toHaveAttribute('data-saved', '[]')
+      expect(screen.getByTestId('products-table')).toHaveAttribute(
+        'data-saved',
+        '[]'
+      )
     })
   })
 
@@ -351,7 +383,9 @@ describe('Products page', () => {
     })
 
     it('shows success toast when product is saved', async () => {
-      mockUseMutation.mockReturnValue(jest.fn().mockResolvedValue({ saved: true }))
+      mockUseMutation.mockReturnValue(
+        jest.fn().mockResolvedValue({ saved: true })
+      )
       render(<Products />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
@@ -360,11 +394,15 @@ describe('Products page', () => {
     })
 
     it('shows removal toast when product is unsaved', async () => {
-      mockUseMutation.mockReturnValue(jest.fn().mockResolvedValue({ saved: false }))
+      mockUseMutation.mockReturnValue(
+        jest.fn().mockResolvedValue({ saved: false })
+      )
       render(<Products />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
-        expect(mockToast.success).toHaveBeenCalledWith('Produto removido dos salvos.')
+        expect(mockToast.success).toHaveBeenCalledWith(
+          'Produto removido dos salvos.'
+        )
       })
     })
 
@@ -375,7 +413,9 @@ describe('Products page', () => {
       render(<Products />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('Faça login para salvar produtos.')
+        expect(mockToast.error).toHaveBeenCalledWith(
+          'Faça login para salvar produtos.'
+        )
       })
       expect(toggleSaved).not.toHaveBeenCalled()
     })
