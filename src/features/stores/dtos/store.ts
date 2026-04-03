@@ -6,8 +6,9 @@ export default class StoreDto {
   constructor(data: IStore | undefined | null) {
     if (!data) {
       this.store = null
+      return
     }
-    this.store = this.getStores(data!)
+    this.store = this.getStores(data)
   }
 
   getStores(data: IStore): IStoreWithCategory {

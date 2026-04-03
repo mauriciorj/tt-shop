@@ -6,8 +6,9 @@ export default class TopStoresDto {
   constructor(data: IStore[] | undefined | null) {
     if (!data || data?.length === 0) {
       this.stores = []
+      return
     }
-    this.stores = this.getStores(data!)
+    this.stores = this.getStores(data)
   }
 
   getStores(data: IStore[]): IStoreWithCategory[] {
