@@ -31,7 +31,6 @@
       "@/dtos/*": ["./src/features/common/dtos/*"],
       "@/hooks/*": ["./src/features/common/hooks/*"],
       "@/payment/*": ["./src/features/payment/*"],
-      "@/product/*": ["./src/features/product/*"],
       "@/products/*": ["./src/features/products/*"],
       "@/providers/*": ["./src/providers/*"],
       "@/public/*": ["./public/*"],

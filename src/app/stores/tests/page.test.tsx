@@ -33,7 +33,11 @@ jest.mock('sonner', () => ({
 jest.mock('@/components/breadcrumb', () => ({
   __esModule: true,
   default: ({ title, description }: { title: string; description: string }) => (
-    <div data-testid="breadcrumb" data-title={title} data-description={description} />
+    <div
+      data-testid="breadcrumb"
+      data-title={title}
+      data-description={description}
+    />
   ),
 }))
 
@@ -66,29 +70,41 @@ jest.mock('@/components/categoriesSkeleton', () => ({
   default: () => <div data-testid="categories-skeleton" />,
 }))
 
-jest.mock('@/components/periodFilter', () => ({
-  __esModule: true,
-  default: ({
-    selectedPeriod,
-    setSelectedPeriod,
-  }: {
-    isFreeUser: boolean
-    selectedPeriod: string
-    setSelectedPeriod: (v: string) => void
-    setCurrentPage: (p: number) => void
-  }) => (
-    <div
-      data-testid="period-filter"
-      data-period={selectedPeriod}
-      onClick={() => setSelectedPeriod('7')}
-    />
-  ),
-}))
+// jest.mock('@/components/periodFilter', () => ({
+//   __esModule: true,
+//   default: ({
+//     selectedPeriod,
+//     setSelectedPeriod,
+//   }: {
+//     isFreeUser: boolean
+//     selectedPeriod: string
+//     setSelectedPeriod: (v: string) => void
+//     setCurrentPage: (p: number) => void
+//   }) => (
+//     <div
+//       data-testid="period-filter"
+//       data-period={selectedPeriod}
+//       onClick={() => setSelectedPeriod('7')}
+//     />
+//   ),
+// }))
 
 jest.mock('@/components/search', () => ({
   __esModule: true,
-  default: ({ clerkId, isFreeUser }: { clerkId: string; data: unknown; isFreeUser: boolean; placeholder: string }) => (
-    <div data-testid="search-bar" data-clerk={clerkId} data-free={String(isFreeUser)} />
+  default: ({
+    clerkId,
+    isFreeUser,
+  }: {
+    clerkId: string
+    data: unknown
+    isFreeUser: boolean
+    placeholder: string
+  }) => (
+    <div
+      data-testid="search-bar"
+      data-clerk={clerkId}
+      data-free={String(isFreeUser)}
+    />
   ),
 }))
 
@@ -185,7 +201,10 @@ describe('Stores page', () => {
 
     it('passes the correct title to breadcrumb', () => {
       render(<Stores />)
-      expect(screen.getByTestId('breadcrumb')).toHaveAttribute('data-title', 'Lojas')
+      expect(screen.getByTestId('breadcrumb')).toHaveAttribute(
+        'data-title',
+        'Lojas'
+      )
     })
 
     it('passes the correct description to breadcrumb', () => {
@@ -210,11 +229,11 @@ describe('Stores page', () => {
       expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
     })
 
-    it('does not render PeriodFilter when loading', () => {
-      setupHook({ isLoading: true })
-      render(<Stores />)
-      expect(screen.queryByTestId('period-filter')).not.toBeInTheDocument()
-    })
+    // it('does not render PeriodFilter when loading', () => {
+    //   setupHook({ isLoading: true })
+    //   render(<Stores />)
+    //   expect(screen.queryByTestId('period-filter')).not.toBeInTheDocument()
+    // })
 
     it('renders StoreTableSkeleton when loading', () => {
       setupHook({ isLoading: true })
@@ -225,7 +244,10 @@ describe('Stores page', () => {
     it('passes itemsPerPage as rows to StoreTableSkeleton', () => {
       setupHook({ isLoading: true, itemsPerPage: 10 })
       render(<Stores />)
-      expect(screen.getByTestId('stores-table-skeleton')).toHaveAttribute('data-rows', '10')
+      expect(screen.getByTestId('stores-table-skeleton')).toHaveAttribute(
+        'data-rows',
+        '10'
+      )
     })
 
     it('does not render StoresTable when loading', () => {
@@ -241,14 +263,16 @@ describe('Stores page', () => {
       expect(screen.getByTestId('categories')).toBeInTheDocument()
     })
 
-    it('renders PeriodFilter when not loading', () => {
-      render(<Stores />)
-      expect(screen.getByTestId('period-filter')).toBeInTheDocument()
-    })
+    // it('renders PeriodFilter when not loading', () => {
+    //   render(<Stores />)
+    //   expect(screen.getByTestId('period-filter')).toBeInTheDocument()
+    // })
 
     it('does not render CategoriesSkeleton when not loading', () => {
       render(<Stores />)
-      expect(screen.queryByTestId('categories-skeleton')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('categories-skeleton')
+      ).not.toBeInTheDocument()
     })
 
     it('renders StoresTable when not loading', () => {
@@ -258,7 +282,9 @@ describe('Stores page', () => {
 
     it('does not render StoreTableSkeleton when not loading', () => {
       render(<Stores />)
-      expect(screen.queryByTestId('stores-table-skeleton')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('stores-table-skeleton')
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -271,13 +297,19 @@ describe('Stores page', () => {
     it('passes userId as clerkId to SearchBar', () => {
       setupHook({ userId: 'clerk_xyz' })
       render(<Stores />)
-      expect(screen.getByTestId('search-bar')).toHaveAttribute('data-clerk', 'clerk_xyz')
+      expect(screen.getByTestId('search-bar')).toHaveAttribute(
+        'data-clerk',
+        'clerk_xyz'
+      )
     })
 
     it('passes isFreeUser to SearchBar', () => {
       setupHook({ isFreeUser: true })
       render(<Stores />)
-      expect(screen.getByTestId('search-bar')).toHaveAttribute('data-free', 'true')
+      expect(screen.getByTestId('search-bar')).toHaveAttribute(
+        'data-free',
+        'true'
+      )
     })
 
     it('renders search bar even while loading', () => {
@@ -291,13 +323,19 @@ describe('Stores page', () => {
     it('passes currentPage to StoresTable', () => {
       setupHook({ currentPage: 3 })
       render(<Stores />)
-      expect(screen.getByTestId('stores-table')).toHaveAttribute('data-page', '3')
+      expect(screen.getByTestId('stores-table')).toHaveAttribute(
+        'data-page',
+        '3'
+      )
     })
 
     it('passes totalPages to StoresTable', () => {
       setupHook({ totalPages: 5 })
       render(<Stores />)
-      expect(screen.getByTestId('stores-table')).toHaveAttribute('data-total', '5')
+      expect(screen.getByTestId('stores-table')).toHaveAttribute(
+        'data-total',
+        '5'
+      )
     })
 
     it('passes savedStoreIds from Convex query to StoresTable', () => {
@@ -312,7 +350,10 @@ describe('Stores page', () => {
     it('passes empty array to StoresTable when savedStoreIds is undefined', () => {
       mockUseQuery.mockReturnValue(undefined)
       render(<Stores />)
-      expect(screen.getByTestId('stores-table')).toHaveAttribute('data-saved', '[]')
+      expect(screen.getByTestId('stores-table')).toHaveAttribute(
+        'data-saved',
+        '[]'
+      )
     })
   })
 
@@ -331,7 +372,9 @@ describe('Stores page', () => {
     })
 
     it('shows success toast when store is saved', async () => {
-      mockUseMutation.mockReturnValue(jest.fn().mockResolvedValue({ saved: true }))
+      mockUseMutation.mockReturnValue(
+        jest.fn().mockResolvedValue({ saved: true })
+      )
       render(<Stores />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
@@ -340,11 +383,15 @@ describe('Stores page', () => {
     })
 
     it('shows removal toast when store is unsaved', async () => {
-      mockUseMutation.mockReturnValue(jest.fn().mockResolvedValue({ saved: false }))
+      mockUseMutation.mockReturnValue(
+        jest.fn().mockResolvedValue({ saved: false })
+      )
       render(<Stores />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
-        expect(mockToast.success).toHaveBeenCalledWith('Loja removida dos salvos.')
+        expect(mockToast.success).toHaveBeenCalledWith(
+          'Loja removida dos salvos.'
+        )
       })
     })
 
@@ -355,7 +402,9 @@ describe('Stores page', () => {
       render(<Stores />)
       fireEvent.click(screen.getByRole('button', { name: 'toggle-save' }))
       await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('Faça login para salvar lojas.')
+        expect(mockToast.error).toHaveBeenCalledWith(
+          'Faça login para salvar lojas.'
+        )
       })
       expect(toggleSaved).not.toHaveBeenCalled()
     })

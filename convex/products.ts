@@ -5,10 +5,9 @@ import { getUpdatedValues } from './utils'
 import CreatorDto from '@/dtos/creator'
 import VideoDto from '@/dtos/video'
 import { data as categories } from '@/hooks/useCategories'
-import ProductDto from '@/product/dtos/product'
-import { IProductWithCategory } from '@/product/types'
+import ProductDto from '@/src/features/products/dtos/product'
 import TopProductsDto from '@/products/dtos/topProducts'
-import { IProductsWithCategory } from '@/products/types'
+import { IProductWithCategory } from '@/products/types'
 import { ICreatorDto, IVideoDto } from '@/types/index'
 import { normalizeUrl } from '@/utils/string'
 
@@ -67,12 +66,32 @@ export const addProduct = mutation({
   },
 })
 
+const fetchProductsSince = async (ctx: any, daysAgo: number) => {
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - daysAgo)
+  return ctx.db
+    .query('products')
+    .filter((q: any) => q.gte(q.field('updated_at'), cutoff.toISOString()))
+    .order('asc')
+    .collect()
+}
+
 export const getAllProducts = query({
   handler: async (ctx) => {
-    const products = await ctx.db.query('products').order('asc').collect()
+    let products: any[] = []
+    let days = 14
+    const MAX_DAYS = 45
+    const STEP = 14
 
-    const resultsDto: { products: IProductsWithCategory[] } =
-      new TopProductsDto(products)
+    while (products.length === 0) {
+      products = await fetchProductsSince(ctx, days)
+      if (products.length > 0 || days >= MAX_DAYS) break
+      days = Math.min(days + STEP, MAX_DAYS)
+    }
+
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+      products
+    )
 
     // Add the image url to the product
     const productsWithImages = await Promise.all(
@@ -93,38 +112,6 @@ export const getAllProducts = query({
     })
 
     return productsWithCategories
-  },
-})
-
-export const getProducts = query({
-  args: { paginationOpts: paginationOptsValidator },
-  handler: async (ctx, args) => {
-    const { paginationOpts } = args
-
-    const products = await ctx.db
-      .query('products')
-      .order('asc')
-      .paginate(paginationOpts)
-
-    const resultsDto: { products: IProductsWithCategory[] } =
-      new TopProductsDto(products?.page)
-
-    const productsWithImages = await Promise.all(
-      resultsDto?.products?.map(async (product) => {
-        product['image'] = product.image
-          ? await ctx.storage.getUrl(product.image)
-          : null
-        return product
-      })
-    )
-
-    return {
-      page: productsWithImages,
-      isDone: products?.isDone,
-      continueCursor: products?.continueCursor,
-      splitCursor: products?.splitCursor,
-      pageStatus: products?.pageStatus,
-    }
   },
 })
 

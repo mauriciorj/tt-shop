@@ -23,7 +23,7 @@ jest.mock('@/stores/components/storeNotFound', () => ({
   default: () => <div data-testid="not-found-store" />,
 }))
 
-jest.mock('@/stores/components/storeSkeleton', () => ({
+jest.mock('../loading', () => ({
   __esModule: true,
   default: () => <div data-testid="store-skeleton" />,
 }))

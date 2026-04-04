@@ -64,9 +64,28 @@ export const addStore = mutation({
   },
 })
 
+const fetchStoresSince = async (ctx: any, daysAgo: number) => {
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - daysAgo)
+  return ctx.db
+    .query('stores')
+    .filter((q: any) => q.gte(q.field('updated_at'), cutoff.toISOString()))
+    .order('asc')
+    .collect()
+}
+
 export const getAllStores = query({
   handler: async (ctx) => {
-    const stores = await ctx.db.query('stores').order('asc').collect()
+    let stores: any[] = []
+    let days = 14
+    const MAX_DAYS = 45
+    const STEP = 14
+
+    while (stores.length === 0) {
+      stores = await fetchStoresSince(ctx, days)
+      if (stores.length > 0 || days >= MAX_DAYS) break
+      days = Math.min(days + STEP, MAX_DAYS)
+    }
 
     const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
       stores
@@ -91,39 +110,6 @@ export const getAllStores = query({
     })
 
     return storesWithCategories
-  },
-})
-
-export const getStores = query({
-  args: { paginationOpts: paginationOptsValidator },
-  handler: async (ctx, args) => {
-    const { paginationOpts } = args
-
-    const stores = await ctx.db
-      .query('stores')
-      .order('asc')
-      .paginate(paginationOpts)
-
-    const resultsDto: { stores: IStoreWithCategory[] } = new TopStoresDto(
-      stores?.page
-    )
-
-    const storesWithImages = await Promise.all(
-      resultsDto?.stores?.map(async (store) => {
-        store['image'] = store.image
-          ? await ctx.storage.getUrl(store.image)
-          : null
-        return store
-      })
-    )
-
-    return {
-      page: storesWithImages,
-      isDone: stores?.isDone,
-      continueCursor: stores?.continueCursor,
-      splitCursor: stores?.splitCursor,
-      pageStatus: stores?.pageStatus,
-    }
   },
 })
 

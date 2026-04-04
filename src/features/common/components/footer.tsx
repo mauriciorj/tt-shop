@@ -6,11 +6,11 @@ const Footer = () => {
     Produto: [{ label: 'Preço', href: '/#price' }],
     Recursos: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Suporte', href: '/support' },
+      { label: 'Suporte', href: '/suporte' },
     ],
     Empresa: [
-      { label: 'Sobre', href: '/about' },
-      { label: 'Contato', href: '/contact' },
+      { label: 'Sobre', href: '/sobre' },
+      { label: 'Contato', href: '/contato' },
     ],
     Legal: [
       { label: 'Termos de Serviço', href: '/termos-de-servico' },

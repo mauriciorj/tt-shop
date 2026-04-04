@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import Loading from './loading'
 import CreatorsTable from '@/components/creatorsTable'
 import ProductsTable from '@/components/productsTable'
 import VideosTable from '@/components/videosTable'
@@ -11,7 +12,6 @@ import CardsStats from '@/stores/components/cardsStats'
 import Header from '@/stores/components/header'
 import LineChart from '@/stores/components/lineChart'
 import NotFoundStore from '@/stores/components/storeNotFound'
-import StoreDetailSkeleton from '@/stores/components/storeSkeleton'
 import useStore from '@/stores/hooks/useStore'
 import { ICreatorDto, IProductDto, IVideoDto } from '@/types/index'
 
@@ -46,7 +46,7 @@ const StoreDetail = () => {
           </Button>
 
           {isLoading ? (
-            <StoreDetailSkeleton />
+            <Loading />
           ) : (
             <>
               {/* Store Header */}
