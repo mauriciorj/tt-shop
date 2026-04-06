@@ -55,7 +55,7 @@ export default defineSchema({
     k_top_videos: v.optional(v.array(v.string())),
     created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
-  }),
+  }).index('by_k_revenue', ['k_revenue']),
   stores: defineTable({
     country: v.string(),
     name: v.string(),

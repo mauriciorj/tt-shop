@@ -15,6 +15,7 @@ Open this folder as a vault in Obsidian for best navigation experience.
 | Endpoint | Doc |
 |----------|-----|
 | `GET /api/videos` | [[api/videos]] |
+| `GET /api/products` | [[api/products]] |
 | `POST /api/create-checkout-session` | [[api/payments]] |
 | `GET /api/checkout-session` | [[api/payments]] |
 | `POST /api/webhook` | [[api/payments]] |
