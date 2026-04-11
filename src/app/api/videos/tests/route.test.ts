@@ -6,7 +6,7 @@ import { GET } from '../route'
 
 // ─── Mocks ───────────────────────────────────────────────────────────────────
 
-jest.mock('@/src/features/api-keys/lib/verifyApiKey', () => ({
+jest.mock('../../../../features/apiKeys/lib/verifyApiKey', () => ({
   verifyApiKey: jest.fn(),
 }))
 
@@ -31,7 +31,7 @@ jest.mock('@/convex/_generated/api', () => ({
 
 // ─── Imports after mocks ──────────────────────────────────────────────────────
 
-import { verifyApiKey } from '@/src/features/api-keys/lib/verifyApiKey'
+import { verifyApiKey } from '../../../../features/apiKeys/lib/verifyApiKey'
 import { ConvexHttpClient } from 'convex/browser'
 
 const mockVerifyApiKey = verifyApiKey as jest.Mock
@@ -48,7 +48,10 @@ beforeAll(() => {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const makeRequest = (params: Record<string, string> = {}, headers: Record<string, string> = {}) => {
+const makeRequest = (
+  params: Record<string, string> = {},
+  headers: Record<string, string> = {}
+) => {
   const url = new URL('http://localhost/api/videos')
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
   return new NextRequest(url, { headers })
@@ -64,7 +67,8 @@ const setupSuccess = () => {
   mockVerifyApiKey.mockResolvedValue('user_123')
   mockQuery.mockImplementation((key: string) => {
     if (key === 'userApiKeys:hasReachedLimit') return Promise.resolve(false)
-    if (key === 'videos:getVideosWithPagination') return Promise.resolve(defaultPaginationResult)
+    if (key === 'videos:getVideosWithPagination')
+      return Promise.resolve(defaultPaginationResult)
   })
   mockMutation.mockResolvedValue(undefined)
 }
@@ -117,10 +121,9 @@ describe('GET /api/videos', () => {
       mockVerifyApiKey.mockResolvedValue('clerk_xyz')
       mockQuery.mockResolvedValue(true)
       await GET(makeRequest())
-      expect(mockQuery).toHaveBeenCalledWith(
-        'userApiKeys:hasReachedLimit',
-        { clerk_id: 'clerk_xyz' }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('userApiKeys:hasReachedLimit', {
+        clerk_id: 'clerk_xyz',
+      })
     })
 
     it('does not query videos when rate limited', async () => {
@@ -152,10 +155,9 @@ describe('GET /api/videos', () => {
 
     it('calls incrementUsage after a successful response', async () => {
       await GET(makeRequest())
-      expect(mockMutation).toHaveBeenCalledWith(
-        'userApiKeys:incrementUsage',
-        { clerk_id: 'user_123' }
-      )
+      expect(mockMutation).toHaveBeenCalledWith('userApiKeys:incrementUsage', {
+        clerk_id: 'user_123',
+      })
     })
   })
 
@@ -164,50 +166,44 @@ describe('GET /api/videos', () => {
 
     it('uses default limit of 10 when not provided', async () => {
       await GET(makeRequest())
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 10, cursor: null } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 10, cursor: null },
+      })
     })
 
     it('uses the provided limit param', async () => {
       await GET(makeRequest({ limit: '25' }))
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 25, cursor: null } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 25, cursor: null },
+      })
     })
 
     it('clamps limit to a maximum of 100', async () => {
       await GET(makeRequest({ limit: '999' }))
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 100, cursor: null } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 100, cursor: null },
+      })
     })
 
     it('clamps limit to a minimum of 1', async () => {
       await GET(makeRequest({ limit: '0' }))
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 1, cursor: null } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 1, cursor: null },
+      })
     })
 
     it('passes the cursor param when provided', async () => {
       await GET(makeRequest({ cursor: 'cursor_xyz' }))
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 10, cursor: 'cursor_xyz' } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 10, cursor: 'cursor_xyz' },
+      })
     })
 
     it('passes null cursor when not provided', async () => {
       await GET(makeRequest())
-      expect(mockQuery).toHaveBeenCalledWith(
-        'videos:getVideosWithPagination',
-        { paginationOpts: { numItems: 10, cursor: null } }
-      )
+      expect(mockQuery).toHaveBeenCalledWith('videos:getVideosWithPagination', {
+        paginationOpts: { numItems: 10, cursor: null },
+      })
     })
   })
 
