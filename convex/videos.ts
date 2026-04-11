@@ -168,7 +168,11 @@ export const getVideoById = query({
   },
 })
 
-const fetchVideosByIdSince = async (ctx: any, daysAgo: number, paginationOpts: any) => {
+const fetchVideosByIdSince = async (
+  ctx: any,
+  daysAgo: number,
+  paginationOpts: any
+) => {
   const cutoff = new Date()
   cutoff.setDate(cutoff.getDate() - daysAgo)
   return ctx.db

@@ -18,7 +18,8 @@
       "Bash(npx jest:*)",
       "Bash(openssl rand:*)",
       "Bash(pnpm jest:*)",
-      "Bash(grep -E \"\\\\.\\(py|ts|js|json\\)$\")"
+      "Bash(grep -E \"\\\\.\\(py|ts|js|json\\)$\")",
+      "Bash(pnpm eslint:*)"
     ]
   }
 }

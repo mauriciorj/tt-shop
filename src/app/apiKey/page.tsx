@@ -2,7 +2,7 @@
 
 import { KeyRound, Lock } from 'lucide-react'
 import Link from 'next/link'
-import ApiKeyManager from '../../features/api-keys/components/ApiKeyManager'
+import ApiKeyManager from '../../features/api-keys/components/apiKeyManager'
 import UseUser from '@/hooks/useUser'
 import { Button } from '@/ui/button'
 

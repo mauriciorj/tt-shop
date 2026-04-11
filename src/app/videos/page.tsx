@@ -1,21 +1,13 @@
 'use client'
 
-import { Check, Copy } from 'lucide-react'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
-// import PeriodFilter from '@/components/periodFilter'
 import TablePagination from '@/components/tablePagination'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
-import useVideos from '@/videos/hooks/useVideos'
 import VideoCard from '@/videos/components/videoCard'
 import VideoCardSkeleton from '@/videos/components/videoCardSkeleton'
+import VideoTranscriptionGenerate from '@/videos/components/videoTranscriptionGenerate'
+import useVideos from '@/videos/hooks/useVideos'
 
 const Videos = () => {
   const {
@@ -31,14 +23,12 @@ const Videos = () => {
     isLoading,
     isTranscribing,
     onPageChange,
-    selectedVideo,
     savedVideoIds,
     selectedCategory,
-    selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
-    setSelectedPeriod,
     setSelectedVideo,
+    selectedVideo,
     totalPages,
   } = useVideos()
 
@@ -52,21 +42,13 @@ const Videos = () => {
         {isLoading ? (
           <CategoriesSkeleton />
         ) : (
-          <>
-            <Categories
-              categories={categories}
-              isFreeUser={isFreeUser}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              setCurrentPage={setCurrentPage}
-            />
-            {/* <PeriodFilter
-              isFreeUser={isFreeUser}
-              selectedPeriod={selectedPeriod}
-              setSelectedPeriod={setSelectedPeriod}
-              setCurrentPage={setCurrentPage}
-            /> */}
-          </>
+          <Categories
+            categories={categories}
+            isFreeUser={isFreeUser}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+          />
         )}
         {isLoading ? (
           <VideoCardSkeleton cards={12} />
@@ -86,7 +68,6 @@ const Videos = () => {
             ))}
           </div>
         )}
-        {/* Pagination */}
         <TablePagination
           currentPage={currentPage}
           isFreeUser={isFreeUser}
@@ -94,42 +75,14 @@ const Videos = () => {
           totalPages={totalPages}
         />
       </main>
-      {/* Transcription Dialog */}
-      <Dialog
-        open={!!selectedVideo}
-        onOpenChange={() => setSelectedVideo(null)}
-      >
-        <DialogContent className="sm:max-w-lg bg-card border-border">
-          <DialogHeader>
-            <DialogTitle className="text-foreground">
-              {selectedVideo?.description}
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              Transcrição do vídeo
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-2 max-h-[400px] overflow-y-auto pr-2">
-            <p className="text-sm text-foreground/80 leading-relaxed">
-              {displayedTranscription}
-              {isTranscribing && (
-                <span className="inline-block w-0.5 h-[1em] bg-primary ml-0.5 align-middle animate-pulse" />
-              )}
-            </p>
-          </div>
-          <button
-            onClick={handleCopy}
-            disabled={isTranscribing}
-            className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {copied ? (
-              <Check className="h-4 w-4" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-            {copied ? 'Copied' : 'Copy Text'}
-          </button>
-        </DialogContent>
-      </Dialog>
+      <VideoTranscriptionGenerate
+        copied={copied}
+        handleCopy={handleCopy}
+        isLoading={isTranscribing}
+        setVideo={setSelectedVideo}
+        video={selectedVideo}
+        transcription={displayedTranscription}
+      />
     </div>
   )
 }

@@ -9,7 +9,7 @@ jest.mock('@/hooks/useUser', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../../features/api-keys/components/ApiKeyManager', () => ({
+jest.mock('../../../features/api-keys/components/apiKeyManager', () => ({
   __esModule: true,
   default: () => <div data-testid="api-key-manager" />,
 }))

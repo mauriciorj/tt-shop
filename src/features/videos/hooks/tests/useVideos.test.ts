@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react'
 import { useQuery, useMutation } from 'convex/react'
 import UseUser from '@/hooks/useUser'
+import { toast } from 'sonner'
 import useVideos from '../useVideos'
 
 jest.mock('convex/react', () => ({ useQuery: jest.fn(), useMutation: jest.fn() }))
@@ -18,8 +19,10 @@ jest.mock('@/convex/_generated/api', () => ({
 jest.mock('@/hooks/useUser', () => ({ __esModule: true, default: jest.fn() }))
 jest.mock('@/components/periodFilter', () => ({}), { virtual: true })
 jest.mock('sonner', () => ({ toast: { success: jest.fn(), error: jest.fn() } }))
+
+const mockPush = jest.fn()
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn(), replace: jest.fn() }),
+  useRouter: () => ({ push: mockPush }),
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
 }))
@@ -27,6 +30,13 @@ jest.mock('next/navigation', () => ({
 const mockUseQuery = useQuery as jest.Mock
 const mockUseMutation = useMutation as jest.Mock
 const mockUseUser = UseUser as jest.Mock
+const mockToast = toast as jest.Mocked<typeof toast>
+
+const mockClipboard = { writeText: jest.fn() }
+Object.defineProperty(navigator, 'clipboard', {
+  value: mockClipboard,
+  writable: true,
+})
 
 const makeVideo = (overrides = {}) => ({
   video_id: 'vid_001',
@@ -357,6 +367,209 @@ describe('useVideos', () => {
       mockUseUser.mockReturnValue({ ...defaultUser, userSubscriptionPlan: 'enterprise' })
       const { result } = renderHook(() => useVideos())
       expect(result.current.userSubscriptionPlan).toBe('enterprise')
+    })
+  })
+
+  describe('transcription — initial state', () => {
+    it('starts with isTranscribing as false', () => {
+      const { result } = renderHook(() => useVideos())
+      expect(result.current.isTranscribing).toBe(false)
+    })
+
+    it('starts with displayedTranscription as empty string', () => {
+      const { result } = renderHook(() => useVideos())
+      expect(result.current.displayedTranscription).toBe('')
+    })
+  })
+
+  describe('handleOpenTranscription — paid user', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      const mockRecord = jest.fn().mockResolvedValue({ allowed: true })
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit') return mockRecord
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('sets selectedVideo', async () => {
+      const video = makeVideo()
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(video as any))
+      expect(result.current.selectedVideo).toEqual(video)
+    })
+
+    it('does not call recordTranscription for paid users', async () => {
+      const mockRecord = jest.fn().mockResolvedValue({ allowed: true })
+      mockUseMutation.mockReturnValue(mockRecord)
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(makeVideo() as any))
+      expect(mockRecord).not.toHaveBeenCalled()
+    })
+
+    it('sets isTranscribing to true immediately after opening', async () => {
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(makeVideo() as any))
+      expect(result.current.isTranscribing).toBe(true)
+    })
+
+    it('builds displayedTranscription incrementally via interval', async () => {
+      const video = makeVideo({ transcription: 'ABCDEFGH' })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(video as any))
+
+      act(() => jest.advanceTimersByTime(30))
+      expect(result.current.displayedTranscription).toBe('ABCD')
+
+      act(() => jest.advanceTimersByTime(30))
+      expect(result.current.displayedTranscription).toBe('ABCDEFGH')
+    })
+
+    it('sets isTranscribing to false once animation completes', async () => {
+      const video = makeVideo({ transcription: 'ABCDEFGH' })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(video as any))
+      act(() => jest.advanceTimersByTime(60))
+      expect(result.current.isTranscribing).toBe(false)
+    })
+  })
+
+  describe('handleOpenTranscription — free user', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      mockUseUser.mockReturnValue({ ...defaultUser, isFreeUser: true })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('proceeds and sets selectedVideo when allowed', async () => {
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit')
+          return jest.fn().mockResolvedValue({ allowed: true })
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(makeVideo() as any))
+      expect(result.current.selectedVideo).not.toBeNull()
+    })
+
+    it('shows a toast error and leaves selectedVideo null when not allowed', async () => {
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit')
+          return jest.fn().mockResolvedValue({ allowed: false })
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(makeVideo() as any))
+      expect(result.current.selectedVideo).toBeNull()
+      expect(mockToast.error).toHaveBeenCalledTimes(1)
+    })
+
+    it('toast action navigates to /subscription when not allowed', async () => {
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit')
+          return jest.fn().mockResolvedValue({ allowed: false })
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(makeVideo() as any))
+      const toastArg = mockToast.error.mock.calls[0][1] as {
+        action: { label: string; onClick: () => void }
+      }
+      toastArg.action.onClick()
+      expect(mockPush).toHaveBeenCalledWith('/subscription')
+    })
+  })
+
+  describe('handleCopy', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit')
+          return jest.fn().mockResolvedValue({ allowed: true })
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('does nothing when selectedVideo has no transcription', async () => {
+      const { result } = renderHook(() => useVideos())
+      act(() => result.current.setSelectedVideo(makeVideo({ transcription: undefined }) as any))
+      await act(async () => result.current.handleCopy())
+      expect(mockClipboard.writeText).not.toHaveBeenCalled()
+    })
+
+    it('copies the transcription to the clipboard', async () => {
+      const { result } = renderHook(() => useVideos())
+      await act(async () =>
+        result.current.handleOpenTranscription(makeVideo({ transcription: 'Full text' }) as any)
+      )
+      await act(async () => result.current.handleCopy())
+      expect(mockClipboard.writeText).toHaveBeenCalledWith('Full text')
+    })
+
+    it('sets copied to true after copying', async () => {
+      const { result } = renderHook(() => useVideos())
+      await act(async () =>
+        result.current.handleOpenTranscription(makeVideo({ transcription: 'Some text' }) as any)
+      )
+      await act(async () => result.current.handleCopy())
+      expect(result.current.copied).toBe(true)
+    })
+
+    it('resets copied to false after 2 seconds', async () => {
+      const { result } = renderHook(() => useVideos())
+      await act(async () =>
+        result.current.handleOpenTranscription(makeVideo({ transcription: 'Some text' }) as any)
+      )
+      await act(async () => result.current.handleCopy())
+      expect(result.current.copied).toBe(true)
+      act(() => jest.advanceTimersByTime(2000))
+      expect(result.current.copied).toBe(false)
+    })
+  })
+
+  describe('transcription cleanup effect', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      mockUseMutation.mockImplementation((mutation: string) => {
+        if (mutation === 'users:recordTranscriptionAndCheckLimit')
+          return jest.fn().mockResolvedValue({ allowed: true })
+        return jest.fn().mockResolvedValue({ saved: true })
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('resets isTranscribing to false when selectedVideo is set to null', async () => {
+      const { result } = renderHook(() => useVideos())
+      await act(async () =>
+        result.current.handleOpenTranscription(makeVideo() as any)
+      )
+      expect(result.current.isTranscribing).toBe(true)
+      act(() => result.current.setSelectedVideo(null))
+      expect(result.current.isTranscribing).toBe(false)
+    })
+
+    it('resets displayedTranscription to empty string when selectedVideo is set to null', async () => {
+      const video = makeVideo({ transcription: 'ABCDEFGH' })
+      const { result } = renderHook(() => useVideos())
+      await act(async () => result.current.handleOpenTranscription(video as any))
+      act(() => jest.advanceTimersByTime(30))
+      expect(result.current.displayedTranscription).toBe('ABCD')
+      act(() => result.current.setSelectedVideo(null))
+      expect(result.current.displayedTranscription).toBe('')
     })
   })
 })

@@ -9,18 +9,24 @@ import {
   Heart,
   Play,
   ShoppingCart,
+  Sparkles,
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { ITopVideosWithCategory } from '@/videos/types'
 import { formatNumber } from '@/utils/number'
+import FEATURES_FLAG from '@/featuresFlag/index'
 
 const VideoCard = ({
   handleToggleSave,
+  setSelectedVideosTranscriptionToEnhance,
   setSelectedVideo,
   savedVideoIds,
   video,
 }: {
   handleToggleSave: (videoId: string) => void
+  setSelectedVideosTranscriptionToEnhance?: (
+    video: ITopVideosWithCategory
+  ) => void
   setSelectedVideo: (video: ITopVideosWithCategory) => void
   savedVideoIds: string[]
   video: ITopVideosWithCategory
@@ -94,14 +100,33 @@ const VideoCard = ({
           </div>
         </div>
         {video.transcription && (
-          <div className="fixed bottom-3 left-[calc(50%-100px)]">
-            <button
-              onClick={() => setSelectedVideo(video)}
-              className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
+          <div
+            className={`${FEATURES_FLAG?.videoTranscriptionEnhance ? 'pt-10' : 'pt-1'} h-full`}
+          >
+            <div
+              className={`fixed ${FEATURES_FLAG?.videoTranscriptionEnhance ? 'bottom-16' : 'bottom-3'} left-[calc(50%-100px)]`}
             >
-              <FileText className="h-3.5 w-3.5" />
-              Transcrição do vídeo
-            </button>
+              <button
+                onClick={() => setSelectedVideo(video)}
+                className="flex justify-center items-center w-[200px] items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                Transcrição do vídeo
+              </button>
+            </div>
+            {FEATURES_FLAG?.videoTranscriptionEnhance && (
+              <div className="fixed bottom-3 left-[calc(50%-100px)]">
+                <button
+                  onClick={() =>
+                    setSelectedVideosTranscriptionToEnhance?.(video)
+                  }
+                  className="flex justify-center items-center w-[200px] gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-secondary hover:bg-secondary/60 text-secondary-foreground cursor-pointer"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Melhorar com IA
+                </button>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
