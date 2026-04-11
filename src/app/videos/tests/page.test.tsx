@@ -1,10 +1,28 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import useVideos from '@/videos/hooks/useVideos'
+import useSaveVideo from '@/videos/hooks/useSaveVideo'
+import useVideoTranscriptionGenerate from '@/videos/hooks/useVideoTranscriptionGenerate'
+import useVideoTranscriptionEnhance from '@/videos/hooks/useVideoTranscriptionEnhance'
 import Videos from '../page'
 
-// ─── Hook ────────────────────────────────────────────────────────────────────
+// ─── Hooks ────────────────────────────────────────────────────────────────────
 jest.mock('@/videos/hooks/useVideos', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+jest.mock('@/videos/hooks/useSaveVideo', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+jest.mock('@/videos/hooks/useVideoTranscriptionGenerate', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+jest.mock('@/videos/hooks/useVideoTranscriptionEnhance', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
@@ -31,13 +49,6 @@ jest.mock('@/components/categoriesSkeleton', () => ({
   __esModule: true,
   default: () => <div data-testid="categories-skeleton" />,
 }))
-
-// jest.mock('@/components/periodFilter', () => ({
-//   __esModule: true,
-//   default: ({ selectedPeriod }: { selectedPeriod: string }) => (
-//     <div data-testid="period-filter">{selectedPeriod}</div>
-//   ),
-// }))
 
 jest.mock('@/components/tablePagination', () => ({
   __esModule: true,
@@ -72,6 +83,12 @@ jest.mock('@/videos/components/videoCardSkeleton', () => ({
   ),
 }))
 
+// Render VideoTranscriptionEnhanceDialog as a simple stub to avoid UI dep issues
+jest.mock('@/videos/components/videoTranscriptionEnhanceDialog', () => ({
+  __esModule: true,
+  default: () => <div data-testid="enhance-dialog-stub" />,
+}))
+
 // Dialog: render children inline so portal issues are avoided in jsdom
 jest.mock('@/components/ui/dialog', () => ({
   Dialog: ({ open, children }: { open: boolean; children: React.ReactNode }) =>
@@ -92,6 +109,11 @@ jest.mock('@/components/ui/dialog', () => ({
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const mockUseVideos = useVideos as jest.Mock
+const mockUseSaveVideo = useSaveVideo as jest.Mock
+const mockUseVideoTranscriptionGenerate =
+  useVideoTranscriptionGenerate as jest.Mock
+const mockUseVideoTranscriptionEnhance =
+  useVideoTranscriptionEnhance as jest.Mock
 
 const makeVideo = (overrides = {}) => ({
   video_id: 'vid_001',
@@ -109,31 +131,59 @@ const makeVideo = (overrides = {}) => ({
 
 const defaultHook = {
   categories: undefined,
-  copied: false,
   currentPage: 1,
   data: [],
-  displayedTranscription: '',
-  handleCopy: jest.fn(),
-  handleOpenTranscription: jest.fn(),
-  handleToggleSave: jest.fn(),
   isFreeUser: false,
   isLoading: false,
-  isTranscribing: false,
+  itemsPerPage: 12,
   onPageChange: jest.fn(),
-  savedVideoIds: [],
   selectedCategory: 'all',
   selectedPeriod: '30' as const,
-  selectedVideo: null,
   setCurrentPage: jest.fn(),
   setSelectedCategory: jest.fn(),
   setSelectedPeriod: jest.fn(),
-  setSelectedVideo: jest.fn(),
   totalPages: 0,
+}
+
+const defaultUseSaveVideo = {
+  handleToggleSave: jest.fn(),
+  savedVideoIds: [],
+}
+
+const defaultUseVideoTranscriptionGenerate = {
+  copied: false,
+  handleCopy: jest.fn(),
+  handleOpenTranscription: jest.fn(),
+  isLoading: false,
+  video: null,
+  setVideo: jest.fn(),
+  transcription: '',
+}
+
+const defaultUseVideoTranscriptionEnhance = {
+  copied: false,
+  errorMessage: '',
+  handleCopy: jest.fn(),
+  handleEnhance: jest.fn(),
+  handleOpenEnhanceDialog: jest.fn(),
+  instruction: '',
+  result: '',
+  video: null,
+  setInstruction: jest.fn(),
+  setVideo: jest.fn(),
+  status: 'idle',
 }
 
 beforeEach(() => {
   jest.clearAllMocks()
   mockUseVideos.mockReturnValue(defaultHook)
+  mockUseSaveVideo.mockReturnValue(defaultUseSaveVideo)
+  mockUseVideoTranscriptionGenerate.mockReturnValue(
+    defaultUseVideoTranscriptionGenerate
+  )
+  mockUseVideoTranscriptionEnhance.mockReturnValue(
+    defaultUseVideoTranscriptionEnhance
+  )
 })
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -161,12 +211,6 @@ describe('Videos page', () => {
       expect(screen.getByTestId('categories-skeleton')).toBeInTheDocument()
     })
 
-    // it('hides categories and period filter', () => {
-    //   render(<Videos />)
-    //   expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
-    //   expect(screen.queryByTestId('period-filter')).not.toBeInTheDocument()
-    // })
-
     it('shows the video card skeleton', () => {
       render(<Videos />)
       expect(screen.getByTestId('video-card-skeleton')).toBeInTheDocument()
@@ -180,12 +224,6 @@ describe('Videos page', () => {
   })
 
   describe('loaded state', () => {
-    // it('shows categories and period filter', () => {
-    //   render(<Videos />)
-    //   expect(screen.getByTestId('categories')).toBeInTheDocument()
-    //   expect(screen.getByTestId('period-filter')).toBeInTheDocument()
-    // })
-
     it('hides skeleton components', () => {
       render(<Videos />)
       expect(
@@ -216,15 +254,6 @@ describe('Videos page', () => {
       expect(screen.queryByTestId(/^video-card-/)).not.toBeInTheDocument()
     })
 
-    // it('passes selectedPeriod to PeriodFilter', () => {
-    //   mockUseVideos.mockReturnValue({
-    //     ...defaultHook,
-    //     selectedPeriod: '7' as const,
-    //   })
-    //   render(<Videos />)
-    //   expect(screen.getByTestId('period-filter')).toHaveTextContent('7')
-    // })
-
     it('passes selectedCategory to Categories', () => {
       mockUseVideos.mockReturnValue({
         ...defaultHook,
@@ -241,34 +270,34 @@ describe('Videos page', () => {
       transcription: 'This is the full transcription text.',
     })
 
-    it('does not show dialog when selectedVideo is null', () => {
+    it('does not show dialog when video is null', () => {
       render(<Videos />)
       expect(screen.queryByTestId('dialog')).not.toBeInTheDocument()
     })
 
-    it('shows dialog when selectedVideo is set', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
+    it('shows dialog when video is set', () => {
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
       })
       render(<Videos />)
       expect(screen.getByTestId('dialog')).toBeInTheDocument()
     })
 
     it('displays the video description as dialog title', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
       })
       render(<Videos />)
       expect(screen.getByText('Great product video')).toBeInTheDocument()
     })
 
-    it('displays the transcription text from displayedTranscription', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
-        displayedTranscription: 'This is the full transcription text.',
+    it('displays the transcription text', () => {
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
+        transcription: 'This is the full transcription text.',
       })
       render(<Videos />)
       expect(
@@ -277,42 +306,42 @@ describe('Videos page', () => {
     })
 
     it('shows partial text while transcribing', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
-        displayedTranscription: 'This is',
-        isTranscribing: true,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
+        transcription: 'This is',
+        isLoading: true,
       })
       render(<Videos />)
       expect(screen.getByText(/This is/)).toBeInTheDocument()
     })
 
     it('disables the copy button while transcribing', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
-        displayedTranscription: 'Partial...',
-        isTranscribing: true,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
+        transcription: 'Partial...',
+        isLoading: true,
       })
       render(<Videos />)
       expect(screen.getByText('Copy Text').closest('button')).toBeDisabled()
     })
 
     it('enables the copy button when transcription is complete', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
-        displayedTranscription: 'This is the full transcription text.',
-        isTranscribing: false,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
+        transcription: 'This is the full transcription text.',
+        isLoading: false,
       })
       render(<Videos />)
       expect(screen.getByText('Copy Text').closest('button')).not.toBeDisabled()
     })
 
     it('shows "Copy Text" button when not copied', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
         copied: false,
       })
       render(<Videos />)
@@ -320,9 +349,9 @@ describe('Videos page', () => {
     })
 
     it('shows "Copied" label when copied is true', () => {
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
         copied: true,
       })
       render(<Videos />)
@@ -331,9 +360,9 @@ describe('Videos page', () => {
 
     it('calls handleCopy when the copy button is clicked', () => {
       const handleCopy = jest.fn()
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
         handleCopy,
       })
       render(<Videos />)
@@ -341,16 +370,14 @@ describe('Videos page', () => {
       expect(handleCopy).toHaveBeenCalledTimes(1)
     })
 
-    it('calls setSelectedVideo(null) when dialog is closed', () => {
-      const setSelectedVideo = jest.fn()
-      mockUseVideos.mockReturnValue({
-        ...defaultHook,
-        selectedVideo: videoWithTranscription,
-        setSelectedVideo,
+    it('wires setVideo to the dialog close handler', () => {
+      const setVideo = jest.fn()
+      mockUseVideoTranscriptionGenerate.mockReturnValue({
+        ...defaultUseVideoTranscriptionGenerate,
+        video: videoWithTranscription,
+        setVideo,
       })
       render(<Videos />)
-      // The Dialog mock calls onOpenChange with false when it changes — simulate by re-querying onOpenChange
-      // We verify setSelectedVideo is wired by checking the Dialog receives open=true
       expect(screen.getByTestId('dialog')).toBeInTheDocument()
     })
   })

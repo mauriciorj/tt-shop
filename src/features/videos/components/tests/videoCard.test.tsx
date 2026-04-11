@@ -2,6 +2,12 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import VideoCard from '../videoCard'
 import { ITopVideosWithCategory } from '@/videos/types'
 
+jest.mock('@/featuresFlag/index', () => ({ __esModule: true, default: { videoTranscriptionEnhance: false } }))
+
+import FEATURES_FLAG from '@/featuresFlag/index'
+
+const mockFeaturesFlag = FEATURES_FLAG as { videoTranscriptionEnhance: boolean }
+
 const mockVideo: ITopVideosWithCategory = {
   video_id: 'vid-123',
   description: 'Amazing TikTok product review',
@@ -25,9 +31,11 @@ const mockVideoWithTranscription: ITopVideosWithCategory = {
 describe('VideoCard', () => {
   const handleToggleSave = jest.fn()
   const setSelectedVideo = jest.fn()
+  const setSelectedVideosTranscriptionToEnhance = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
+    mockFeaturesFlag.videoTranscriptionEnhance = false
   })
 
   it('renders video description', () => {
@@ -174,5 +182,97 @@ describe('VideoCard', () => {
     expect(
       screen.queryByAltText('Amazing TikTok product review')
     ).not.toBeInTheDocument()
+  })
+
+  describe('FEATURES_FLAG.videoTranscriptionEnhance = false', () => {
+    beforeEach(() => {
+      mockFeaturesFlag.videoTranscriptionEnhance = false
+    })
+
+    it('does not render the "Melhorar com IA" button', () => {
+      render(
+        <VideoCard
+          video={mockVideoWithTranscription}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+        />
+      )
+      expect(screen.queryByText('Melhorar com IA')).not.toBeInTheDocument()
+    })
+
+    it('applies bottom-3 positioning to the transcription button', () => {
+      render(
+        <VideoCard
+          video={mockVideoWithTranscription}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+        />
+      )
+      const btn = screen.getByText('Transcrição do vídeo').closest('div[class*="fixed"]')
+      expect(btn?.className).toContain('bottom-3')
+    })
+  })
+
+  describe('FEATURES_FLAG.videoTranscriptionEnhance = true', () => {
+    beforeEach(() => {
+      mockFeaturesFlag.videoTranscriptionEnhance = true
+    })
+
+    it('renders the "Melhorar com IA" button when transcription is present', () => {
+      render(
+        <VideoCard
+          video={mockVideoWithTranscription}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+        />
+      )
+      expect(screen.getByText('Melhorar com IA')).toBeInTheDocument()
+    })
+
+    it('does not render the "Melhorar com IA" button when transcription is absent', () => {
+      render(
+        <VideoCard
+          video={mockVideo}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+        />
+      )
+      expect(screen.queryByText('Melhorar com IA')).not.toBeInTheDocument()
+    })
+
+    it('calls setSelectedVideosTranscriptionToEnhance with the video when "Melhorar com IA" is clicked', () => {
+      render(
+        <VideoCard
+          video={mockVideoWithTranscription}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+        />
+      )
+      fireEvent.click(screen.getByText('Melhorar com IA'))
+      expect(setSelectedVideosTranscriptionToEnhance).toHaveBeenCalledTimes(1)
+      expect(setSelectedVideosTranscriptionToEnhance).toHaveBeenCalledWith(mockVideoWithTranscription)
+    })
+
+    it('applies bottom-16 positioning to the transcription button', () => {
+      render(
+        <VideoCard
+          video={mockVideoWithTranscription}
+          savedVideoIds={[]}
+          handleToggleSave={handleToggleSave}
+          setSelectedVideo={setSelectedVideo}
+        />
+      )
+      const btn = screen.getByText('Transcrição do vídeo').closest('div[class*="fixed"]')
+      expect(btn?.className).toContain('bottom-16')
+    })
   })
 })

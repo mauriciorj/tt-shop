@@ -39,7 +39,7 @@ export interface IProduct {
 
 export interface IProductWithCategory {
   country: string
-  category_id: string
+  category_id?: string
   category_name?: string | null
   k_id?: string
   name: string

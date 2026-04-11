@@ -1,46 +1,59 @@
 'use client'
 
-import { Check, Copy } from 'lucide-react'
 import Breadcrumb from '@/components/breadcrumb'
 import Categories from '@/components/categories'
 import CategoriesSkeleton from '@/components/categoriesSkeleton'
-// import PeriodFilter from '@/components/periodFilter'
 import TablePagination from '@/components/tablePagination'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
-import useVideos from '@/videos/hooks/useVideos'
 import VideoCard from '@/videos/components/videoCard'
 import VideoCardSkeleton from '@/videos/components/videoCardSkeleton'
+import VideoTranscriptionEnhanceDialog from '@/videos/components/videoTranscriptionEnhanceDialog'
+import VideoTranscriptionGenerateDialog from '@/videos/components/videoTranscriptionGenerateDialog'
+import useVideos from '@/videos/hooks/useVideos'
+import useSaveVideo from '@/videos/hooks/useSaveVideo'
+import useVideoTranscriptionEnhance from '@/videos/hooks/useVideoTranscriptionEnhance'
+import useVideoTranscriptionGenerate from '@/videos/hooks/useVideoTranscriptionGenerate'
 
 const Videos = () => {
   const {
     categories,
-    copied,
     currentPage,
     data: videos,
-    displayedTranscription,
-    handleCopy,
-    handleOpenTranscription,
-    handleToggleSave,
     isFreeUser,
     isLoading,
-    isTranscribing,
     onPageChange,
-    selectedVideo,
-    savedVideoIds,
     selectedCategory,
-    selectedPeriod,
+    // selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
-    setSelectedPeriod,
-    setSelectedVideo,
+    // setSelectedPeriod,
     totalPages,
   } = useVideos()
+
+  const { handleToggleSave, savedVideoIds } = useSaveVideo()
+
+  const {
+    copied: videoTranscriptionGenerateCopied,
+    handleCopy: handleVideoTranscriptionGenerateCopy,
+    handleOpenTranscription,
+    isLoading: isTranscribing,
+    video: selectedVideoToTranscribe,
+    setVideo: setSelectedVideoToTranscribe,
+    transcription,
+  } = useVideoTranscriptionGenerate()
+
+  const {
+    copied: videoTranscriptionEnhanceCopied,
+    errorMessage,
+    handleCopy: handleVideoTranscriptionEnhanceCopy,
+    handleEnhance,
+    handleOpenEnhanceDialog,
+    instruction,
+    result,
+    video: selectedVideosTranscriptionToEnhance,
+    setInstruction,
+    setVideo: setSelectedVideosTranscriptionToEnhance,
+    status,
+  } = useVideoTranscriptionEnhance()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -52,21 +65,13 @@ const Videos = () => {
         {isLoading ? (
           <CategoriesSkeleton />
         ) : (
-          <>
-            <Categories
-              categories={categories}
-              isFreeUser={isFreeUser}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              setCurrentPage={setCurrentPage}
-            />
-            {/* <PeriodFilter
-              isFreeUser={isFreeUser}
-              selectedPeriod={selectedPeriod}
-              setSelectedPeriod={setSelectedPeriod}
-              setCurrentPage={setCurrentPage}
-            /> */}
-          </>
+          <Categories
+            categories={categories}
+            isFreeUser={isFreeUser}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+          />
         )}
         {isLoading ? (
           <VideoCardSkeleton cards={12} />
@@ -79,6 +84,9 @@ const Videos = () => {
               <VideoCard
                 key={video.video_id}
                 handleToggleSave={handleToggleSave}
+                setSelectedVideosTranscriptionToEnhance={
+                  setSelectedVideosTranscriptionToEnhance
+                }
                 setSelectedVideo={handleOpenTranscription}
                 savedVideoIds={savedVideoIds ?? []}
                 video={video}
@@ -86,7 +94,6 @@ const Videos = () => {
             ))}
           </div>
         )}
-        {/* Pagination */}
         <TablePagination
           currentPage={currentPage}
           isFreeUser={isFreeUser}
@@ -94,42 +101,28 @@ const Videos = () => {
           totalPages={totalPages}
         />
       </main>
-      {/* Transcription Dialog */}
-      <Dialog
-        open={!!selectedVideo}
-        onOpenChange={() => setSelectedVideo(null)}
-      >
-        <DialogContent className="sm:max-w-lg bg-card border-border">
-          <DialogHeader>
-            <DialogTitle className="text-foreground">
-              {selectedVideo?.description}
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              Transcrição do vídeo
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-2 max-h-[400px] overflow-y-auto pr-2">
-            <p className="text-sm text-foreground/80 leading-relaxed">
-              {displayedTranscription}
-              {isTranscribing && (
-                <span className="inline-block w-0.5 h-[1em] bg-primary ml-0.5 align-middle animate-pulse" />
-              )}
-            </p>
-          </div>
-          <button
-            onClick={handleCopy}
-            disabled={isTranscribing}
-            className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {copied ? (
-              <Check className="h-4 w-4" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-            {copied ? 'Copied' : 'Copy Text'}
-          </button>
-        </DialogContent>
-      </Dialog>
+      <VideoTranscriptionGenerateDialog
+        copied={videoTranscriptionGenerateCopied}
+        handleCopy={handleVideoTranscriptionGenerateCopy}
+        isLoading={isTranscribing}
+        setVideo={setSelectedVideoToTranscribe}
+        video={selectedVideoToTranscribe}
+        transcription={transcription}
+      />
+      <VideoTranscriptionEnhanceDialog
+        copied={videoTranscriptionEnhanceCopied}
+        errorMessage={errorMessage}
+        handleCopy={handleVideoTranscriptionEnhanceCopy}
+        handleEnhance={handleEnhance}
+        handleOpenEnhanceDialog={handleOpenEnhanceDialog}
+        instruction={instruction}
+        result={result}
+        selectedVideosTranscriptionToEnhance={
+          selectedVideosTranscriptionToEnhance
+        }
+        setInstruction={setInstruction}
+        status={status}
+      />
     </div>
   )
 }

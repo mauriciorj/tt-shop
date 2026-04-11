@@ -1,63 +1,23 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
+import { useState, useMemo } from 'react'
 import { TCategory } from '@/categories/types'
 import { TPeriod } from '@/components/periodFilter'
 import { api } from '@/convex/_generated/api'
-import { useMutation, useQuery } from 'convex/react'
+import { useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
-import { ITopVideosWithCategory } from '@/videos/types'
 
 const useVideos = () => {
-  const router = useRouter()
-
   const ITEMS_PER_PAGE = 12
 
   const {
     FREE_USER_ITEMS_PER_PAGE,
-    id: userId,
     isFreeUser,
     isLoading: isLoadingDbUser,
-    userSubscriptionPlan,
   } = UseUser()
 
-  const [copied, setCopied] = useState<boolean>(false)
+  // Filter states
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
-  const [selectedVideo, setSelectedVideo] =
-    useState<ITopVideosWithCategory | null>(null)
-  const [isTranscribing, setIsTranscribing] = useState<boolean>(false)
-  const [displayedTranscription, setDisplayedTranscription] =
-    useState<string>('')
-  const transcribeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
-    null
-  )
-
-  // Clean up animation when dialog closes
-  useEffect(() => {
-    if (!selectedVideo) {
-      if (transcribeIntervalRef.current) {
-        clearInterval(transcribeIntervalRef.current)
-        transcribeIntervalRef.current = null
-      }
-      setIsTranscribing(false)
-      setDisplayedTranscription('')
-    }
-  }, [selectedVideo])
-
-  // Get saved videos from the database
-  const savedVideoIds = useQuery(
-    api.savedVideos.getSavedVideoIds,
-    userId ? { clerk_id: userId } : 'skip'
-  )
-
-  const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
-
-  // Increase transcription count in the database
-  const recordTranscription = useMutation(
-    api.users.recordTranscriptionAndCheckLimit
-  )
 
   // Get ALL videos from the database
   const getAllVideos = useQuery(api.videos.getAllVideos)
@@ -136,102 +96,20 @@ const useVideos = () => {
     setCurrentPage(page)
   }
 
-  // Save or unsave a video
-  const handleToggleSave = async (videoKId: string) => {
-    if (!userId) {
-      toast.error('Faça login para salvar vídeos.')
-      return
-    }
-    const result = await toggleSaved({
-      clerk_id: userId,
-      video_k_id: videoKId,
-    })
-    if (result.saved) {
-      toast.success('Vídeo salvo!')
-    } else {
-      toast.success('Vídeo removido dos salvos.')
-    }
-  }
-
-  // Open transcription modal
-  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
-    if (isFreeUser && userId) {
-      const result = await recordTranscription({
-        clerk_id: userId,
-        video_k_id: video.video_id!,
-      })
-      if (!result.allowed) {
-        toast.error(
-          'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
-          {
-            action: {
-              label: 'Ver planos',
-              onClick: () => router.push('/subscription'),
-            },
-            duration: 6000,
-          }
-        )
-        return
-      }
-    }
-    setSelectedVideo(video)
-
-    // Typewriter animation — reveals text in chunks to simulate live transcription
-    const fullText = video.transcription ?? ''
-    const CHUNK = 4
-    const TICK_MS = 30
-    let i = 0
-    setIsTranscribing(true)
-    setDisplayedTranscription('')
-    transcribeIntervalRef.current = setInterval(() => {
-      i += CHUNK
-      if (i >= fullText.length) {
-        setDisplayedTranscription(fullText)
-        setIsTranscribing(false)
-        clearInterval(transcribeIntervalRef.current!)
-        transcribeIntervalRef.current = null
-      } else {
-        setDisplayedTranscription(fullText.slice(0, i))
-      }
-    }, TICK_MS)
-  }
-
-  // Copy transcription to clipboard
-  const handleCopy = async () => {
-    if (!selectedVideo?.transcription) return
-    await navigator.clipboard.writeText(selectedVideo.transcription)
-    setCopied(true)
-    toast.success('Transcrição copiada para a área de transferência.')
-    setTimeout(() => setCopied(false), 2000)
-  }
-
   return {
     categories,
-    copied,
-    displayedTranscription,
-    isTranscribing,
     currentPage,
     data: videosPaginated,
-    handleCopy,
-    handleOpenTranscription,
-    handleToggleSave,
     isFreeUser,
     isLoading: Boolean(getAllVideos === null && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
-    recordTranscription,
-    selectedVideo,
-    savedVideoIds,
     selectedCategory,
     selectedPeriod,
-    setCopied,
     setCurrentPage,
     setSelectedCategory,
     setSelectedPeriod,
-    setSelectedVideo,
-    toggleSaved,
     totalPages,
-    userSubscriptionPlan,
   }
 }
 

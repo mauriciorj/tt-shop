@@ -1,31 +1,18 @@
 import { renderHook, act } from '@testing-library/react'
-import { useQuery, useMutation } from 'convex/react'
+import { useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
 import useVideos from '../useVideos'
 
-jest.mock('convex/react', () => ({ useQuery: jest.fn(), useMutation: jest.fn() }))
-jest.mock('@convex-dev/react-query', () => ({ convexQuery: jest.fn(() => ({})) }))
+jest.mock('convex/react', () => ({ useQuery: jest.fn() }))
 jest.mock('@/convex/_generated/api', () => ({
   api: {
     videos: { getAllVideos: 'videos:getAllVideos' },
-    savedVideos: {
-      getSavedVideoIds: 'savedVideos:getSavedVideoIds',
-      toggleSavedVideo: 'savedVideos:toggleSavedVideo',
-    },
-    users: { recordTranscriptionAndCheckLimit: 'users:recordTranscriptionAndCheckLimit' },
   },
 }))
 jest.mock('@/hooks/useUser', () => ({ __esModule: true, default: jest.fn() }))
 jest.mock('@/components/periodFilter', () => ({}), { virtual: true })
-jest.mock('sonner', () => ({ toast: { success: jest.fn(), error: jest.fn() } }))
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn(), replace: jest.fn() }),
-  usePathname: () => '/',
-  useSearchParams: () => new URLSearchParams(),
-}))
 
 const mockUseQuery = useQuery as jest.Mock
-const mockUseMutation = useMutation as jest.Mock
 const mockUseUser = UseUser as jest.Mock
 
 const makeVideo = (overrides = {}) => ({
@@ -45,19 +32,13 @@ const makeVideo = (overrides = {}) => ({
 })
 
 const defaultUser = {
-  id: 'user_abc',
   isFreeUser: false,
   isLoading: false,
   FREE_USER_ITEMS_PER_PAGE: 10,
-  userSubscriptionPlan: 'pro',
 }
 
-// useQuery is called twice in the hook:
-//  1st call → savedVideoIds (convex/react native)
-//  2nd call → getAllVideos  (convex/react native)
-const setupUseQuery = (videos: ReturnType<typeof makeVideo>[], savedIds: string[] = []) => {
+const setupUseQuery = (videos: ReturnType<typeof makeVideo>[]) => {
   mockUseQuery.mockImplementation((query: string) => {
-    if (query === 'savedVideos:getSavedVideoIds') return savedIds
     if (query === 'videos:getAllVideos') return videos
     return undefined
   })
@@ -66,7 +47,6 @@ const setupUseQuery = (videos: ReturnType<typeof makeVideo>[], savedIds: string[
 beforeEach(() => {
   jest.clearAllMocks()
   mockUseUser.mockReturnValue(defaultUser)
-  mockUseMutation.mockReturnValue(jest.fn().mockResolvedValue({ saved: true }))
   setupUseQuery([])
 })
 
@@ -96,16 +76,6 @@ describe('useVideos', () => {
       const { result } = renderHook(() => useVideos())
       expect(result.current.data).toEqual([])
     })
-
-    it('starts with selectedVideo as null', () => {
-      const { result } = renderHook(() => useVideos())
-      expect(result.current.selectedVideo).toBeNull()
-    })
-
-    it('starts with copied as false', () => {
-      const { result } = renderHook(() => useVideos())
-      expect(result.current.copied).toBe(false)
-    })
   })
 
   describe('loading state', () => {
@@ -128,20 +98,6 @@ describe('useVideos', () => {
       mockUseQuery.mockReturnValue(null)
       const { result } = renderHook(() => useVideos())
       expect(result.current.isLoading).toBe(false)
-    })
-  })
-
-  describe('savedVideoIds', () => {
-    it('exposes savedVideoIds from convex', () => {
-      setupUseQuery([makeVideo()], ['vid_001', 'vid_002'])
-      const { result } = renderHook(() => useVideos())
-      expect(result.current.savedVideoIds).toEqual(['vid_001', 'vid_002'])
-    })
-
-    it('exposes empty savedVideoIds when none saved', () => {
-      setupUseQuery([], [])
-      const { result } = renderHook(() => useVideos())
-      expect(result.current.savedVideoIds).toEqual([])
     })
   })
 
@@ -318,45 +274,11 @@ describe('useVideos', () => {
     })
   })
 
-  describe('handleToggleSave', () => {
-    it('calls toggleSaved mutation with correct args', async () => {
-      const mockToggle = jest.fn().mockResolvedValue({ saved: true })
-      mockUseMutation.mockReturnValue(mockToggle)
-      setupUseQuery([makeVideo()])
-      const { result } = renderHook(() => useVideos())
-      await act(() => result.current.handleToggleSave('vid_001'))
-      expect(mockToggle).toHaveBeenCalledWith({ clerk_id: 'user_abc', video_k_id: 'vid_001' })
-    })
-  })
-
-  describe('selectedVideo', () => {
-    it('setSelectedVideo updates selectedVideo', () => {
-      const video = makeVideo()
-      const { result } = renderHook(() => useVideos())
-      act(() => result.current.setSelectedVideo(video as any))
-      expect(result.current.selectedVideo).toEqual(video)
-    })
-
-    it('setSelectedVideo can be reset to null', () => {
-      const video = makeVideo()
-      const { result } = renderHook(() => useVideos())
-      act(() => result.current.setSelectedVideo(video as any))
-      act(() => result.current.setSelectedVideo(null))
-      expect(result.current.selectedVideo).toBeNull()
-    })
-  })
-
   describe('return values', () => {
     it('exposes isFreeUser from UseUser', () => {
       mockUseUser.mockReturnValue({ ...defaultUser, isFreeUser: true })
       const { result } = renderHook(() => useVideos())
       expect(result.current.isFreeUser).toBe(true)
-    })
-
-    it('exposes userSubscriptionPlan from UseUser', () => {
-      mockUseUser.mockReturnValue({ ...defaultUser, userSubscriptionPlan: 'enterprise' })
-      const { result } = renderHook(() => useVideos())
-      expect(result.current.userSubscriptionPlan).toBe('enterprise')
     })
   })
 })

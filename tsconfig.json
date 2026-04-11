@@ -29,6 +29,7 @@
       "@/convex/*": ["./convex/*"],
       "@/db/*": ["./src/features/db/*"],
       "@/dtos/*": ["./src/features/common/dtos/*"],
+      "@/featuresFlag/*": ["./src/features/common/featuresFlag/*"],
       "@/hooks/*": ["./src/features/common/hooks/*"],
       "@/payment/*": ["./src/features/payment/*"],
       "@/products/*": ["./src/features/products/*"],

@@ -34,3 +34,5 @@ export interface ITopVideosWithCategory {
   video_id?: string | undefined
   views: number
 }
+
+export type Status = 'idle' | 'loading' | 'success' | 'error'
