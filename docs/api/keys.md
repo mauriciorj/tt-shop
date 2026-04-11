@@ -29,10 +29,11 @@ Keys are never stored in plaintext. The raw key is encrypted with **AES-256-GCM*
 Usage in an API route:
 
 ```ts
-import { verifyApiKey } from '@/api-keys/lib/verifyApiKey'
+import { verifyApiKey } from '@/apiKeys/lib/verifyApiKey'
 
 const clerkId = await verifyApiKey(request)
-if (!clerkId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+if (!clerkId)
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 ```
 
 ---
@@ -61,10 +62,10 @@ The key is shown **once**. Store it securely — it cannot be retrieved again.
 
 ### Errors
 
-| Status | Reason |
-|---|---|
-| `401` | Not authenticated |
-| `500` | `API_KEY_ENCRYPTION_SECRET` misconfigured or Convex error |
+| Status | Reason                                                    |
+| ------ | --------------------------------------------------------- |
+| `401`  | Not authenticated                                         |
+| `500`  | `API_KEY_ENCRYPTION_SECRET` misconfigured or Convex error |
 
 ---
 
@@ -90,10 +91,10 @@ No body or parameters.
 
 ### Errors
 
-| Status | Reason |
-|---|---|
-| `401` | Not authenticated |
-| `500` | Convex error |
+| Status | Reason            |
+| ------ | ----------------- |
+| `401`  | Not authenticated |
+| `500`  | Convex error      |
 
 ---
 

@@ -22,6 +22,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/actions/*": ["./src/app/actions/*"],
+      "@/apiKeys/*": ["./src/features/apiKeys/*"],
       "@/blog/*": ["./src/features/blog/*"],
       "@/categories/*": ["./src/features/categories/*"],
       "@/components/*": ["./src/features/common/components/*"],

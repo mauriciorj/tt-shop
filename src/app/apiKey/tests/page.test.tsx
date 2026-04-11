@@ -9,7 +9,7 @@ jest.mock('@/hooks/useUser', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../../features/api-keys/components/apiKeyManager', () => ({
+jest.mock('../../../features/apiKeys/components/apiKeyManager', () => ({
   __esModule: true,
   default: () => <div data-testid="api-key-manager" />,
 }))
@@ -21,14 +21,22 @@ jest.mock('@/ui/button', () => ({
   }: {
     children: React.ReactNode
     asChild?: boolean
-  }) => <div data-testid="button" data-as-child={String(!!asChild)}>{children}</div>,
+  }) => (
+    <div data-testid="button" data-as-child={String(!!asChild)}>
+      {children}
+    </div>
+  ),
 }))
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    href,
+    children,
+  }: {
+    href: string
+    children: React.ReactNode
+  }) => <a href={href}>{children}</a>,
 }))
 
 jest.mock('lucide-react', () => ({
@@ -45,7 +53,11 @@ const mockUseUser = UseUser as jest.Mock
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const setupUser = (overrides = {}) =>
-  mockUseUser.mockReturnValue({ isFreeUser: false, isLoading: false, ...overrides })
+  mockUseUser.mockReturnValue({
+    isFreeUser: false,
+    isLoading: false,
+    ...overrides,
+  })
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -89,7 +101,9 @@ describe('ApiPage', () => {
     it('does not render the lock gate while loading even if isFreeUser=true', () => {
       setupUser({ isLoading: true, isFreeUser: true })
       render(<ApiPage />)
-      expect(screen.queryByText('Recurso exclusivo para assinantes')).not.toBeInTheDocument()
+      expect(
+        screen.queryByText('Recurso exclusivo para assinantes')
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -98,27 +112,32 @@ describe('ApiPage', () => {
 
     it('renders the lock gate heading', () => {
       render(<ApiPage />)
-      expect(screen.getByText('Recurso exclusivo para assinantes')).toBeInTheDocument()
+      expect(
+        screen.getByText('Recurso exclusivo para assinantes')
+      ).toBeInTheDocument()
     })
 
     it('renders the upgrade description', () => {
       render(<ApiPage />)
       expect(
-        screen.getByText('Faça upgrade do seu plano para acessar a API do UseShopRadar.')
+        screen.getByText(
+          'Faça upgrade do seu plano para acessar a API do UseShopRadar.'
+        )
       ).toBeInTheDocument()
     })
 
     it('renders the upgrade button', () => {
       render(<ApiPage />)
-      expect(screen.getByRole('link', { name: 'Fazer upgrade' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('link', { name: 'Fazer upgrade' })
+      ).toBeInTheDocument()
     })
 
     it('upgrade link points to /subscription', () => {
       render(<ApiPage />)
-      expect(screen.getByRole('link', { name: 'Fazer upgrade' })).toHaveAttribute(
-        'href',
-        '/subscription'
-      )
+      expect(
+        screen.getByRole('link', { name: 'Fazer upgrade' })
+      ).toHaveAttribute('href', '/subscription')
     })
 
     it('renders the Lock icon', () => {
@@ -159,7 +178,9 @@ describe('ApiPage', () => {
 
     it('renders the code example with the Authorization header', () => {
       render(<ApiPage />)
-      expect(screen.getByText(/Authorization: Bearer usr_sua_chave_aqui/)).toBeInTheDocument()
+      expect(
+        screen.getByText(/Authorization: Bearer usr_sua_chave_aqui/)
+      ).toBeInTheDocument()
     })
 
     it('renders the GET /api/videos example', () => {
@@ -169,7 +190,9 @@ describe('ApiPage', () => {
 
     it('does not render the lock gate', () => {
       render(<ApiPage />)
-      expect(screen.queryByText('Recurso exclusivo para assinantes')).not.toBeInTheDocument()
+      expect(
+        screen.queryByText('Recurso exclusivo para assinantes')
+      ).not.toBeInTheDocument()
     })
 
     it('does not render the Lock icon', () => {
@@ -179,7 +202,9 @@ describe('ApiPage', () => {
 
     it('does not render the upgrade link', () => {
       render(<ApiPage />)
-      expect(screen.queryByRole('link', { name: 'Fazer upgrade' })).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('link', { name: 'Fazer upgrade' })
+      ).not.toBeInTheDocument()
     })
   })
 })
