@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog'
 import { ITopVideosWithCategory } from '@/videos/types'
 
-const VideoTranscriptionGenerate = ({
+const VideoTranscriptionGenerateDialog = ({
   copied,
   handleCopy,
   isLoading,
@@ -78,4 +78,4 @@ const VideoTranscriptionGenerate = ({
   )
 }
 
-export default VideoTranscriptionGenerate
+export default VideoTranscriptionGenerateDialog

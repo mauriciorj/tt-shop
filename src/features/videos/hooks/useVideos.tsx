@@ -1,102 +1,18 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { TCategory } from '@/categories/types'
 import { TPeriod } from '@/components/periodFilter'
 import { api } from '@/convex/_generated/api'
-import { useQuery, useMutation } from 'convex/react'
+import { useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
-import { ITopVideosWithCategory } from '../types'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
 
 const useVideos = () => {
   const ITEMS_PER_PAGE = 12
-  const router = useRouter()
 
   const {
     FREE_USER_ITEMS_PER_PAGE,
-    id: clerkId,
     isFreeUser,
     isLoading: isLoadingDbUser,
-    userSubscriptionPlan,
   } = UseUser()
-
-  // Selected video for transcription dialog
-  const [selectedVideo, setSelectedVideo] =
-    useState<ITopVideosWithCategory | null>(null)
-  const [copied, setCopied] = useState(false)
-  const [isTranscribing, setIsTranscribing] = useState(false)
-  const [displayedTranscription, setDisplayedTranscription] = useState('')
-  const transcribeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  // Clean up animation when dialog closes
-  useEffect(() => {
-    if (!selectedVideo) {
-      if (transcribeIntervalRef.current) {
-        clearInterval(transcribeIntervalRef.current)
-        transcribeIntervalRef.current = null
-      }
-      setIsTranscribing(false)
-      setDisplayedTranscription('')
-    }
-  }, [selectedVideo])
-
-  const recordTranscription = useMutation(api.users.recordTranscriptionAndCheckLimit)
-
-  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
-    if (isFreeUser && clerkId) {
-      const result = await recordTranscription({
-        clerk_id: clerkId,
-        video_k_id: video.video_id!,
-      })
-      if (!result.allowed) {
-        toast.error(
-          'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
-          {
-            action: { label: 'Ver planos', onClick: () => router.push('/subscription') },
-            duration: 6000,
-          }
-        )
-        return
-      }
-    }
-    setSelectedVideo(video)
-    const fullText = video.transcription ?? ''
-    const CHUNK = 4
-    const TICK_MS = 30
-    let i = 0
-    setIsTranscribing(true)
-    setDisplayedTranscription('')
-    transcribeIntervalRef.current = setInterval(() => {
-      i += CHUNK
-      if (i >= fullText.length) {
-        setDisplayedTranscription(fullText)
-        setIsTranscribing(false)
-        clearInterval(transcribeIntervalRef.current!)
-        transcribeIntervalRef.current = null
-      } else {
-        setDisplayedTranscription(fullText.slice(0, i))
-      }
-    }, TICK_MS)
-  }
-
-  const handleCopy = async () => {
-    if (!selectedVideo?.transcription) return
-    await navigator.clipboard.writeText(selectedVideo.transcription)
-    setCopied(true)
-    toast.success('Transcrição copiada para a área de transferência.')
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const savedVideoIds = useQuery(
-    api.savedVideos.getSavedVideoIds,
-    clerkId ? { clerk_id: clerkId } : 'skip'
-  ) as string[] | undefined
-
-  const toggleSaved = useMutation(api.savedVideos.toggleSavedVideo)
-
-  const handleToggleSave = async (video_k_id: string) => {
-    await toggleSaved({ clerk_id: clerkId as string, video_k_id })
-  }
 
   // Filter states
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -182,29 +98,18 @@ const useVideos = () => {
 
   return {
     categories,
-    copied,
     currentPage,
     data: videosPaginated,
-    displayedTranscription,
-    handleCopy,
-    handleOpenTranscription,
-    handleToggleSave,
     isFreeUser,
     isLoading: Boolean(getAllVideos === null && isLoadingDbUser),
-    isTranscribing,
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
-    savedVideoIds,
     selectedCategory,
     selectedPeriod,
-    selectedVideo,
-    setCopied,
     setCurrentPage,
     setSelectedCategory,
     setSelectedPeriod,
-    setSelectedVideo,
     totalPages,
-    userSubscriptionPlan,
   }
 }
 

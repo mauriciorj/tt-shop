@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import VideoTranscriptionGenerate from '../videoTranscriptionGenerate'
+import VideoTranscriptionGenerate from '../videoTranscriptionGenerateDialog'
 import { ITopVideosWithCategory } from '@/videos/types'
 
 jest.mock('@/components/ui/dialog', () => ({

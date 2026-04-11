@@ -6,31 +6,54 @@ import CategoriesSkeleton from '@/components/categoriesSkeleton'
 import TablePagination from '@/components/tablePagination'
 import VideoCard from '@/videos/components/videoCard'
 import VideoCardSkeleton from '@/videos/components/videoCardSkeleton'
-import VideoTranscriptionGenerate from '@/videos/components/videoTranscriptionGenerate'
+import VideoTranscriptionEnhanceDialog from '@/videos/components/videoTranscriptionEnhanceDialog'
+import VideoTranscriptionGenerateDialog from '@/videos/components/videoTranscriptionGenerateDialog'
 import useVideos from '@/videos/hooks/useVideos'
+import useSaveVideo from '@/videos/hooks/useSaveVideo'
+import useVideoTranscriptionEnhance from '@/videos/hooks/useVideoTranscriptionEnhance'
+import useVideoTranscriptionGenerate from '@/videos/hooks/useVideoTranscriptionGenerate'
 
 const Videos = () => {
   const {
     categories,
-    copied,
     currentPage,
     data: videos,
-    displayedTranscription,
-    handleCopy,
-    handleOpenTranscription,
-    handleToggleSave,
     isFreeUser,
     isLoading,
-    isTranscribing,
     onPageChange,
-    savedVideoIds,
     selectedCategory,
+    // selectedPeriod,
     setCurrentPage,
     setSelectedCategory,
-    setSelectedVideo,
-    selectedVideo,
+    // setSelectedPeriod,
     totalPages,
   } = useVideos()
+
+  const { handleToggleSave, savedVideoIds } = useSaveVideo()
+
+  const {
+    copied: videoTranscriptionGenerateCopied,
+    handleCopy: handleVideoTranscriptionGenerateCopy,
+    handleOpenTranscription,
+    isLoading: isTranscribing,
+    video: selectedVideoToTranscribe,
+    setVideo: setSelectedVideoToTranscribe,
+    transcription,
+  } = useVideoTranscriptionGenerate()
+
+  const {
+    copied: videoTranscriptionEnhanceCopied,
+    errorMessage,
+    handleCopy: handleVideoTranscriptionEnhanceCopy,
+    handleEnhance,
+    handleOpenEnhanceDialog,
+    instruction,
+    result,
+    video: selectedVideosTranscriptionToEnhance,
+    setInstruction,
+    setVideo: setSelectedVideosTranscriptionToEnhance,
+    status,
+  } = useVideoTranscriptionEnhance()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -61,6 +84,9 @@ const Videos = () => {
               <VideoCard
                 key={video.video_id}
                 handleToggleSave={handleToggleSave}
+                setSelectedVideosTranscriptionToEnhance={
+                  setSelectedVideosTranscriptionToEnhance
+                }
                 setSelectedVideo={handleOpenTranscription}
                 savedVideoIds={savedVideoIds ?? []}
                 video={video}
@@ -75,13 +101,27 @@ const Videos = () => {
           totalPages={totalPages}
         />
       </main>
-      <VideoTranscriptionGenerate
-        copied={copied}
-        handleCopy={handleCopy}
+      <VideoTranscriptionGenerateDialog
+        copied={videoTranscriptionGenerateCopied}
+        handleCopy={handleVideoTranscriptionGenerateCopy}
         isLoading={isTranscribing}
-        setVideo={setSelectedVideo}
-        video={selectedVideo}
-        transcription={displayedTranscription}
+        setVideo={setSelectedVideoToTranscribe}
+        video={selectedVideoToTranscribe}
+        transcription={transcription}
+      />
+      <VideoTranscriptionEnhanceDialog
+        copied={videoTranscriptionEnhanceCopied}
+        errorMessage={errorMessage}
+        handleCopy={handleVideoTranscriptionEnhanceCopy}
+        handleEnhance={handleEnhance}
+        handleOpenEnhanceDialog={handleOpenEnhanceDialog}
+        instruction={instruction}
+        result={result}
+        selectedVideosTranscriptionToEnhance={
+          selectedVideosTranscriptionToEnhance
+        }
+        setInstruction={setInstruction}
+        status={status}
       />
     </div>
   )
