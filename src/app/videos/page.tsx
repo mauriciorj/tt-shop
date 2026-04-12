@@ -39,6 +39,7 @@ const Videos = () => {
     video: selectedVideoToTranscribe,
     setVideo: setSelectedVideoToTranscribe,
     transcription,
+    usage: transcriptionUsage,
   } = useVideoTranscriptionGenerate()
 
   const {
@@ -53,6 +54,7 @@ const Videos = () => {
     setInstruction,
     setVideo: setSelectedVideosTranscriptionToEnhance,
     status,
+    usage: enhancementUsage,
   } = useVideoTranscriptionEnhance()
 
   return (
@@ -61,6 +63,11 @@ const Videos = () => {
         <Breadcrumb
           description="Descubra os melhores vídeos no TikTok Shop"
           title="Vídeos"
+          enhancementLimit={enhancementUsage?.limit}
+          enhancementPeriod={enhancementUsage?.period}
+          enhancementUsage={enhancementUsage?.used}
+          transcriptionLimit={transcriptionUsage?.limit}
+          transcriptionUsage={transcriptionUsage?.used}
         />
         {isLoading ? (
           <CategoriesSkeleton />

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { api } from '@/convex/_generated/api'
-import { useMutation } from 'convex/react'
+import { useMutation, useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
 import { ITopVideosWithCategory } from '@/videos/types'
 
@@ -37,6 +37,11 @@ const useVideoTranscriptionGenerate = () => {
   // Increase transcription count in the database
   const recordTranscription = useMutation(
     api.users.recordTranscriptionAndCheckLimit
+  )
+
+  const usage = useQuery(
+    api.users.getTranscriptionUsageToday,
+    isFreeUser && userId ? { clerk_id: userId } : 'skip'
   )
 
   // Open transcription modal
@@ -99,6 +104,7 @@ const useVideoTranscriptionGenerate = () => {
     video,
     setVideo,
     transcription,
+    usage,
   }
 }
 

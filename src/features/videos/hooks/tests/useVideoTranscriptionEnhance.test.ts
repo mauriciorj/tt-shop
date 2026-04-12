@@ -1,6 +1,17 @@
 import { renderHook, act } from '@testing-library/react'
+import { useQuery } from 'convex/react'
+import UseUser from '@/hooks/useUser'
 import useVideoTranscriptionEnhance from '../useVideoTranscriptionEnhance'
 import { ITopVideosWithCategory } from '@/videos/types'
+
+jest.mock('convex/react', () => ({ useQuery: jest.fn() }))
+jest.mock('@/convex/_generated/api', () => ({
+  api: { users: { getEnhancementUsage: 'users:getEnhancementUsage' } },
+}))
+jest.mock('@/hooks/useUser', () => ({ __esModule: true, default: jest.fn() }))
+
+const mockUseQuery = useQuery as jest.Mock
+const mockUseUser = UseUser as jest.Mock
 
 const mockClipboard = { writeText: jest.fn() }
 Object.defineProperty(navigator, 'clipboard', {
@@ -28,6 +39,8 @@ const mockFetch = global.fetch as jest.Mock
 beforeEach(() => {
   jest.clearAllMocks()
   jest.useFakeTimers()
+  mockUseUser.mockReturnValue({ id: 'user_123' })
+  mockUseQuery.mockReturnValue({ used: 0, limit: 1, period: 'day' })
 })
 
 afterEach(() => {

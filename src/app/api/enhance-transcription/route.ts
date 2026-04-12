@@ -1,11 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
+import { ConvexHttpClient } from 'convex/browser'
+import { api } from '@/convex/_generated/api'
+
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 export async function POST(request: NextRequest) {
   try {
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const limitResult = await convex.mutation(
+      api.users.recordEnhancementAndCheckLimit,
+      { clerk_id: userId }
+    )
+
+    if (!limitResult.allowed) {
+      const periodLabel = limitResult.period === 'day' ? 'hoje' : 'esta semana'
+      return NextResponse.json(
+        {
+          error: `Limite de melhoras atingido. Tente novamente ${periodLabel === 'hoje' ? 'amanhã' : 'na próxima semana'}.`,
+        },
+        { status: 429 }
+      )
     }
 
     const { transcription, instruction } = await request.json()

@@ -1,7 +1,12 @@
 import { useState } from 'react'
+import { useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 import { ITopVideosWithCategory, Status } from '@/videos/types'
+import UseUser from '@/hooks/useUser'
 
 const useVideoTranscriptionEnhance = () => {
+  const { id: userId } = UseUser()
+
   const [video, setVideo] = useState<ITopVideosWithCategory | null>(null)
 
   const [instruction, setInstruction] = useState('')
@@ -9,6 +14,11 @@ const useVideoTranscriptionEnhance = () => {
   const [result, setResult] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [copied, setCopied] = useState(false)
+
+  const usage = useQuery(
+    api.users.getEnhancementUsage,
+    userId ? { clerk_id: userId } : 'skip'
+  )
 
   const handleEnhance = async () => {
     if (!instruction.trim()) return
@@ -59,6 +69,7 @@ const useVideoTranscriptionEnhance = () => {
   return {
     copied,
     errorMessage,
+    usage,
     handleCopy,
     handleEnhance,
     handleOpenEnhanceDialog,

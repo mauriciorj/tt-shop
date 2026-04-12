@@ -2,6 +2,23 @@ import { v } from 'convex/values'
 import { internalMutation, mutation, query } from './_generated/server'
 import { getUpdatedValues } from './utils'
 
+// Returns ISO week string "YYYY-Www" (e.g. "2025-W15")
+function isoWeek(date: Date): string {
+  const d = new Date(date)
+  d.setHours(0, 0, 0, 0)
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7))
+  const yearStart = new Date(d.getFullYear(), 0, 4)
+  const week =
+    1 +
+    Math.round(
+      ((d.getTime() - yearStart.getTime()) / 86400000 -
+        3 +
+        ((yearStart.getDay() + 6) % 7)) /
+        7
+    )
+  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`
+}
+
 export const upsertUser = internalMutation({
   args: {
     clerk_id: v.string(),
@@ -240,6 +257,101 @@ export const recordTranscriptionAndCheckLimit = mutation({
     })
 
     return { allowed: true, remaining: DAILY_LIMIT - todayLogs.length - 1 }
+  },
+})
+
+export const getTranscriptionUsageToday = query({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const DAILY_LIMIT = 1
+    const today = new Date().toISOString().slice(0, 10)
+    const logs = await ctx.db
+      .query('transcriptionLogs')
+      .withIndex('by_clerk_id_date', (q) =>
+        q.eq('clerk_id', clerk_id).eq('date', today)
+      )
+      .collect()
+    return { used: logs.length, limit: DAILY_LIMIT }
+  },
+})
+
+export const recordEnhancementAndCheckLimit = mutation({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerk_id))
+      .first()
+
+    const isSubscriptionActive =
+      user?.subscription_status === 'active' ||
+      user?.subscription_plan === 'tester'
+
+    const now = new Date()
+    const today = now.toISOString().slice(0, 10)
+    const week = isoWeek(now)
+
+    if (isSubscriptionActive) {
+      const logs = await ctx.db
+        .query('enhancementLogs')
+        .withIndex('by_clerk_id_date', (q) =>
+          q.eq('clerk_id', clerk_id).eq('date', today)
+        )
+        .collect()
+      if (logs.length >= 1) {
+        return { allowed: false, used: logs.length, limit: 1, period: 'day' as const }
+      }
+      await ctx.db.insert('enhancementLogs', { clerk_id, date: today, week, created_at: now.toISOString() })
+      return { allowed: true, used: logs.length + 1, limit: 1, period: 'day' as const }
+    } else {
+      const logs = await ctx.db
+        .query('enhancementLogs')
+        .withIndex('by_clerk_id_week', (q) =>
+          q.eq('clerk_id', clerk_id).eq('week', week)
+        )
+        .collect()
+      if (logs.length >= 1) {
+        return { allowed: false, used: logs.length, limit: 1, period: 'week' as const }
+      }
+      await ctx.db.insert('enhancementLogs', { clerk_id, date: today, week, created_at: now.toISOString() })
+      return { allowed: true, used: logs.length + 1, limit: 1, period: 'week' as const }
+    }
+  },
+})
+
+export const getEnhancementUsage = query({
+  args: { clerk_id: v.string() },
+  handler: async (ctx, { clerk_id }) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_clerk_id', (q) => q.eq('clerk_id', clerk_id))
+      .first()
+
+    const isSubscriptionActive =
+      user?.subscription_status === 'active' ||
+      user?.subscription_plan === 'tester'
+
+    const now = new Date()
+
+    if (isSubscriptionActive) {
+      const today = now.toISOString().slice(0, 10)
+      const logs = await ctx.db
+        .query('enhancementLogs')
+        .withIndex('by_clerk_id_date', (q) =>
+          q.eq('clerk_id', clerk_id).eq('date', today)
+        )
+        .collect()
+      return { used: logs.length, limit: 1, period: 'day' as const }
+    } else {
+      const week = isoWeek(now)
+      const logs = await ctx.db
+        .query('enhancementLogs')
+        .withIndex('by_clerk_id_week', (q) =>
+          q.eq('clerk_id', clerk_id).eq('week', week)
+        )
+        .collect()
+      return { used: logs.length, limit: 1, period: 'week' as const }
+    }
   },
 })
 

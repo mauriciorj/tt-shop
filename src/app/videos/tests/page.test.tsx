@@ -1,13 +1,31 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { useQuery } from 'convex/react'
 import useVideos from '@/videos/hooks/useVideos'
 import useSaveVideo from '@/videos/hooks/useSaveVideo'
+import UseUser from '@/hooks/useUser'
 import useVideoTranscriptionGenerate from '@/videos/hooks/useVideoTranscriptionGenerate'
 import useVideoTranscriptionEnhance from '@/videos/hooks/useVideoTranscriptionEnhance'
 import Videos from '../page'
 
+// ─── Convex ───────────────────────────────────────────────────────────────────
+jest.mock('convex/react', () => ({ useQuery: jest.fn() }))
+jest.mock('@/convex/_generated/api', () => ({
+  api: {
+    users: {
+      getTranscriptionUsageToday: 'users:getTranscriptionUsageToday',
+      getEnhancementUsage: 'users:getEnhancementUsage',
+    },
+  },
+}))
+
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 jest.mock('@/videos/hooks/useVideos', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+jest.mock('@/hooks/useUser', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
@@ -108,6 +126,8 @@ jest.mock('@/components/ui/dialog', () => ({
 }))
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+const mockUseQuery = useQuery as jest.Mock
+const mockUseUser = UseUser as jest.Mock
 const mockUseVideos = useVideos as jest.Mock
 const mockUseSaveVideo = useSaveVideo as jest.Mock
 const mockUseVideoTranscriptionGenerate =
@@ -177,6 +197,8 @@ const defaultUseVideoTranscriptionEnhance = {
 beforeEach(() => {
   jest.clearAllMocks()
   mockUseVideos.mockReturnValue(defaultHook)
+  mockUseUser.mockReturnValue({ id: 'user_123' })
+  mockUseQuery.mockReturnValue(undefined)
   mockUseSaveVideo.mockReturnValue(defaultUseSaveVideo)
   mockUseVideoTranscriptionGenerate.mockReturnValue(
     defaultUseVideoTranscriptionGenerate

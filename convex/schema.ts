@@ -155,6 +155,14 @@ export default defineSchema({
   })
     .index('by_clerk_id_date', ['clerk_id', 'date'])
     .index('by_clerk_id_video', ['clerk_id', 'video_k_id']),
+  enhancementLogs: defineTable({
+    clerk_id: v.string(),
+    date: v.string(),
+    week: v.string(),
+    created_at: v.string(),
+  })
+    .index('by_clerk_id_date', ['clerk_id', 'date'])
+    .index('by_clerk_id_week', ['clerk_id', 'week']),
   userApiKeys: defineTable({
     clerk_id: v.string(),
     api_key: v.object({
