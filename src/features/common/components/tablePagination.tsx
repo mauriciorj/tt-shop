@@ -18,19 +18,27 @@ const TablePagination = ({
     })
   }
   return (
-    <div className="flex items-center justify-between mt-6">
-      <p className="text-sm text-muted-foreground">
-        Page {currentPage} of {totalPages}
+    <div
+      className="flex items-center justify-between mt-6"
+      data-testid="pagination-div"
+    >
+      <p
+        className="text-sm text-muted-foreground"
+        data-testid="pagination-text"
+      >
+        Página {currentPage} de {totalPages}
       </p>
-      <div className="flex gap-2">
+      <div className="flex gap-2" data-testid="pagination-buttons-div">
         <HoverCardUpgradePlan
-          key="pagina-anterior"
           isToShowTheHoverCard={isFreeUser}
+          data-testid="pagination-button-anterior"
+          key="pagina-anterior"
         >
           <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
             className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
+            data-testid="pagination-button-anterior"
+            disabled={currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
           >
             Anterior
           </button>
@@ -41,8 +49,9 @@ const TablePagination = ({
             const page = i + 1
             return (
               <HoverCardUpgradePlan
-                key={`pagina-${page}`}
+                data-testid={`pagination-hover-card-${page}`}
                 isToShowTheHoverCard={isFreeUser}
+                key={`pagina-${page}`}
               >
                 <button
                   key={page}
@@ -63,11 +72,13 @@ const TablePagination = ({
           }
         )}
         <HoverCardUpgradePlan
-          key="pagina-proxima"
+          data-testid="pagination-button-proxima"
           isToShowTheHoverCard={isFreeUser}
+          key="pagina-proxima"
         >
           <button
-            className="cursor-pointer px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
+            className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/80 transition-colors"
+            data-testid="pagination-button-proxima"
             disabled={currentPage === totalPages}
             onClick={() => {
               onPageChange(currentPage + 1)

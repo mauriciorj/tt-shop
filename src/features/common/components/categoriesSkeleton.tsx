@@ -1,11 +1,21 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-const CATEGORY_WIDTHS = ['w-20', 'w-24', 'w-16', 'w-28', 'w-20', 'w-24', 'w-16', 'w-20']
+const CATEGORY_WIDTHS = [
+  'w-20',
+  'w-24',
+  'w-16',
+  'w-28',
+  'w-20',
+  'w-24',
+  'w-16',
+  'w-20',
+]
 
 const CategoriesSkeleton = () => {
   return (
     <div
       className="space-y-3 mb-6 animate-slide-up"
+      data-testid="categories-skeleton"
       style={{ animationDelay: '200ms' }}
     >
       <div className="flex flex-wrap gap-2">

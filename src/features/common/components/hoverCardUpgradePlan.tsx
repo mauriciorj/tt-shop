@@ -18,10 +18,22 @@ const HoverCardUpgradePlan = ({
   if (!isToShowTheHoverCard) return children
 
   return (
-    <HoverCard openDelay={10} closeDelay={100}>
-      <HoverCardTrigger asChild>{children}</HoverCardTrigger>
-      <HoverCardContent className="flex w-64 flex-col gap-0.5">
-        <div className="text-sm">
+    <HoverCard
+      openDelay={10}
+      closeDelay={100}
+      data-testid="hover-card-upgrade-plan"
+    >
+      <HoverCardTrigger asChild data-testid="hover-card-upgrade-plan-trigger">
+        {children}
+      </HoverCardTrigger>
+      <HoverCardContent
+        className="flex w-64 flex-col gap-0.5"
+        data-testid="hover-card-upgrade-plan-content"
+      >
+        <div
+          className="text-sm"
+          data-testid="hover-card-upgrade-plan-content-text"
+        >
           Mude seu plano
           <Link href="/subscription">
             {' '}
