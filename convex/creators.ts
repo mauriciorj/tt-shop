@@ -1,6 +1,6 @@
-import { mutation } from './_generated/server'
+import { mutation } from '@/convex/_generated/server'
 import { v } from 'convex/values'
-import { getUpdatedValues } from './utils'
+import { getUpdatedValues } from '@/convex/utils'
 
 export const updateCreator = mutation({
   args: {

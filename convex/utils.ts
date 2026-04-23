@@ -38,3 +38,20 @@ export const getUpdatedValues = ({
 
   return updates
 }
+
+// Returns ISO week string "YYYY-Www" (e.g. "2025-W15")
+export const isoWeek = (date: Date): string => {
+  const d = new Date(date)
+  d.setHours(0, 0, 0, 0)
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7))
+  const yearStart = new Date(d.getFullYear(), 0, 4)
+  const week =
+    1 +
+    Math.round(
+      ((d.getTime() - yearStart.getTime()) / 86400000 -
+        3 +
+        ((yearStart.getDay() + 6) % 7)) /
+        7
+    )
+  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`
+}

@@ -1,4 +1,4 @@
-import { mutation, query } from './_generated/server'
+import { mutation, query } from '@/convex/_generated/server'
 import { v } from 'convex/values'
 import TopProductsDto from '@/products/dtos/topProducts'
 import { IProductWithCategory } from '@/products/types'
