@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import VideoTranscriptionGenerate from '../videoTranscriptionGenerateDialog'
+import VideoTranscriptionGenerateDialog from '../videoTranscriptionGenerateDialog'
 import { ITopVideosWithCategory } from '@/videos/types'
 
 jest.mock('@/components/ui/dialog', () => ({
@@ -47,7 +47,10 @@ jest.mock('@/components/ui/dialog', () => ({
     children: React.ReactNode
     [key: string]: unknown
   }) => (
-    <p data-testid="video-transcription-generate-dialog-description" {...props}>
+    <p
+      data-testid="video-transcription-generate-dialog-description"
+      {...props}
+    >
       {children}
     </p>
   ),
@@ -72,37 +75,48 @@ const makeVideo = (overrides = {}): ITopVideosWithCategory => ({
 })
 
 const defaultProps = {
-  copied: false,
-  handleCopy: jest.fn(),
+  isCopied: false,
   isLoading: false,
+  selectedVideo: null as ITopVideosWithCategory | null,
+  setTextToCopy: jest.fn(),
   setVideo: jest.fn(),
-  video: null as ITopVideosWithCategory | null,
   transcription: '',
 }
 
 beforeEach(() => jest.clearAllMocks())
 
-describe('VideoTranscriptionGenerate', () => {
+describe('VideoTranscriptionGenerateDialog', () => {
   describe('dialog visibility', () => {
-    it('does not render the dialog when video is null', () => {
-      render(<VideoTranscriptionGenerate {...defaultProps} video={null} />)
+    it('does not render the dialog when selectedVideo is null', () => {
+      render(
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={null}
+        />
+      )
       expect(
         screen.queryByTestId('video-transcription-generate-dialog')
       ).not.toBeInTheDocument()
     })
 
-    it('renders the dialog when video is set', () => {
+    it('renders the dialog when selectedVideo is set', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
         screen.getByTestId('video-transcription-generate-dialog')
       ).toBeInTheDocument()
     })
 
-    it('renders dialog content when video is set', () => {
+    it('renders dialog content when selectedVideo is set', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
         screen.getByTestId('video-transcription-generate-dialog-content')
@@ -113,7 +127,10 @@ describe('VideoTranscriptionGenerate', () => {
   describe('dialog header', () => {
     it('renders the header', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
         screen.getByTestId('video-transcription-generate-dialog-header')
@@ -122,22 +139,29 @@ describe('VideoTranscriptionGenerate', () => {
 
     it('renders the video description as the dialog title', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo({ description: 'Best seller unboxing' })}
+          selectedVideo={makeVideo({ description: 'Best seller unboxing' })}
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-title')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-title'
+        )
       ).toHaveTextContent('Best seller unboxing')
     })
 
     it('renders "Transcrição do vídeo" as the dialog description', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-description')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-description'
+        )
       ).toHaveTextContent('Transcrição do vídeo')
     })
   })
@@ -145,53 +169,59 @@ describe('VideoTranscriptionGenerate', () => {
   describe('transcription text', () => {
     it('renders the transcription body', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-transcription')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-transcription'
+        )
       ).toBeInTheDocument()
     })
 
     it('displays the transcription text', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           transcription="Live transcription content."
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-transcription')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-transcription'
+        )
       ).toHaveTextContent('Live transcription content.')
     })
 
     it('shows the pulsing cursor while isLoading is true', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           isLoading={true}
           transcription="Partial..."
         />
       )
       const transcriptionEl = screen.getByTestId(
-        'video-transcription-generate-dialog-transcription'
+        'selected-video-transcription-generate-dialog-transcription'
       )
-      // The pulsing cursor is a <span> inside the transcription container
       expect(transcriptionEl.querySelector('span')).toBeInTheDocument()
     })
 
     it('does not show the pulsing cursor when isLoading is false', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           isLoading={false}
           transcription="Full text."
         />
       )
       const transcriptionEl = screen.getByTestId(
-        'video-transcription-generate-dialog-transcription'
+        'selected-video-transcription-generate-dialog-transcription'
       )
       expect(transcriptionEl.querySelector('span')).not.toBeInTheDocument()
     })
@@ -200,56 +230,65 @@ describe('VideoTranscriptionGenerate', () => {
   describe('copy button', () => {
     it('renders the copy button', () => {
       render(
-        <VideoTranscriptionGenerate {...defaultProps} video={makeVideo()} />
+        <VideoTranscriptionGenerateDialog
+          {...defaultProps}
+          selectedVideo={makeVideo()}
+        />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
       ).toBeInTheDocument()
     })
 
-    it('shows "Copy Text" label when not copied', () => {
+    it('shows "Copiar texto" label when not copied', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
-          copied={false}
+          selectedVideo={makeVideo()}
+          isCopied={false}
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
-      ).toHaveTextContent('Copy Text')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
+      ).toHaveTextContent('Copiar texto')
     })
 
-    it('shows "Copied" label when copied is true', () => {
+    it('shows "Texto copiado" label when isCopied is true', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
-          copied={true}
+          selectedVideo={makeVideo()}
+          isCopied={true}
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
-      ).toHaveTextContent('Copied')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
+      ).toHaveTextContent('Texto copiado')
     })
 
     it('shows the Copy icon when not copied', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
-          copied={false}
+          selectedVideo={makeVideo()}
+          isCopied={false}
         />
       )
       expect(screen.getByTestId('icon-copy')).toBeInTheDocument()
     })
 
-    it('shows the Check icon when copied', () => {
+    it('shows the Check icon when isCopied', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
-          copied={true}
+          selectedVideo={makeVideo()}
+          isCopied={true}
         />
       )
       expect(screen.getByTestId('icon-check')).toBeInTheDocument()
@@ -257,43 +296,50 @@ describe('VideoTranscriptionGenerate', () => {
 
     it('is disabled while isLoading is true', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           isLoading={true}
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
       ).toBeDisabled()
     })
 
     it('is enabled when isLoading is false', () => {
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           isLoading={false}
         />
       )
       expect(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
       ).not.toBeDisabled()
     })
 
-    it('calls handleCopy when clicked', () => {
-      const handleCopy = jest.fn()
+    it('calls setTextToCopy with transcription when clicked', () => {
+      const setTextToCopy = jest.fn()
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
-          handleCopy={handleCopy}
+          selectedVideo={makeVideo()}
+          transcription="Full transcript"
+          setTextToCopy={setTextToCopy}
         />
       )
       fireEvent.click(
-        screen.getByTestId('video-transcription-generate-dialog-copy-button')
+        screen.getByTestId(
+          'selected-video-transcription-generate-dialog-copy-button'
+        )
       )
-      expect(handleCopy).toHaveBeenCalledTimes(1)
+      expect(setTextToCopy).toHaveBeenCalledWith('Full transcript')
     })
   })
 
@@ -301,9 +347,9 @@ describe('VideoTranscriptionGenerate', () => {
     it('calls setVideo(null) when the dialog is closed', () => {
       const setVideo = jest.fn()
       render(
-        <VideoTranscriptionGenerate
+        <VideoTranscriptionGenerateDialog
           {...defaultProps}
-          video={makeVideo()}
+          selectedVideo={makeVideo()}
           setVideo={setVideo}
         />
       )

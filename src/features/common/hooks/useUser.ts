@@ -1,12 +1,10 @@
+import { useConvexAuth } from 'convex/react'
 import { useUser as useClerkUser } from '@clerk/nextjs'
 import { api } from '@/convex/_generated/api'
-import { useConvexAuth } from 'convex/react'
 import { convexQuery } from '@convex-dev/react-query'
 import { useQuery } from '@tanstack/react-query'
 
 const UseUser = () => {
-  const FREE_USER_ITEMS_PER_PAGE = 10
-
   const { isAuthenticated, isLoading: isLoadingAuth } = useConvexAuth()
   const { user } = useClerkUser()
   const clerkId = user?.id ?? ''
@@ -27,7 +25,6 @@ const UseUser = () => {
   )
 
   return {
-    FREE_USER_ITEMS_PER_PAGE,
     id: clerkId,
     isAuthenticated,
     isFreeUser: isFreeUser,

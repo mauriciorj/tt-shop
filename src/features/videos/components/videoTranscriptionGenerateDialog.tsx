@@ -11,47 +11,47 @@ import {
 import { ITopVideosWithCategory } from '@/videos/types'
 
 const VideoTranscriptionGenerateDialog = ({
-  copied,
-  handleCopy,
+  isCopied,
   isLoading,
+  selectedVideo,
+  setTextToCopy,
   setVideo,
-  video,
   transcription,
 }: {
-  copied: boolean
-  transcription: string
-  handleCopy: () => void
+  isCopied: boolean
   isLoading: boolean
-  video: ITopVideosWithCategory | null
-  setVideo: (video: ITopVideosWithCategory | null) => void
+  selectedVideo: ITopVideosWithCategory | null
+  setTextToCopy: (text: string) => void
+  setVideo: (selectedVideo: ITopVideosWithCategory | null) => void
+  transcription: string
 }) => {
   return (
     <Dialog
-      open={!!video}
+      data-testid="selected-video-transcription-generate-dialog"
+      open={!!selectedVideo}
       onOpenChange={() => setVideo(null)}
-      data-testid="video-transcription-generate-dialog"
     >
       <DialogContent
         className="sm:max-w-lg bg-card border-border"
-        data-testid="video-transcription-generate-dialog-content"
+        data-testid="selected-video-transcription-generate-dialog-content"
       >
-        <DialogHeader data-testid="video-transcription-generate-dialog-header">
+        <DialogHeader data-testid="selected-video-transcription-generate-dialog-header">
           <DialogTitle
             className="text-foreground"
-            data-testid="video-transcription-generate-dialog-title"
+            data-testid="selected-video-transcription-generate-dialog-title"
           >
-            {video?.description}
+            {selectedVideo?.description}
           </DialogTitle>
           <DialogDescription
             className="text-muted-foreground"
-            data-testid="video-transcription-generate-dialog-description"
+            data-testid="selected-video-transcription-generate-dialog-description"
           >
             Transcrição do vídeo
           </DialogDescription>
         </DialogHeader>
         <div
           className="mt-2 max-h-[400px] overflow-y-auto pr-2"
-          data-testid="video-transcription-generate-dialog-transcription"
+          data-testid="selected-video-transcription-generate-dialog-transcription"
         >
           <p className="text-sm text-foreground/80 leading-relaxed">
             {transcription}
@@ -61,17 +61,17 @@ const VideoTranscriptionGenerateDialog = ({
           </p>
         </div>
         <button
-          data-testid="video-transcription-generate-dialog-copy-button"
-          disabled={isLoading}
-          onClick={handleCopy}
           className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-primary hover:bg-primary/60 text-primary-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          data-testid="selected-video-transcription-generate-dialog-copy-button"
+          disabled={isLoading}
+          onClick={() => setTextToCopy(transcription)}
         >
-          {copied ? (
+          {isCopied ? (
             <Check className="h-4 w-4" />
           ) : (
             <Copy className="h-4 w-4" />
           )}
-          {copied ? 'Copied' : 'Copy Text'}
+          {isCopied ? 'Texto copiado' : 'Copiar texto'}
         </button>
       </DialogContent>
     </Dialog>

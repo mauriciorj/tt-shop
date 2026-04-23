@@ -6,7 +6,7 @@ import useVideos from '../useVideos'
 jest.mock('convex/react', () => ({ useQuery: jest.fn() }))
 jest.mock('@/convex/_generated/api', () => ({
   api: {
-    videos: { getAllVideos: 'videos:getAllVideos' },
+    videos: { getVideos: 'videos:getVideos' },
   },
 }))
 jest.mock('@/hooks/useUser', () => ({ __esModule: true, default: jest.fn() }))
@@ -39,7 +39,7 @@ const defaultUser = {
 
 const setupUseQuery = (videos: ReturnType<typeof makeVideo>[]) => {
   mockUseQuery.mockImplementation((query: string) => {
-    if (query === 'videos:getAllVideos') return videos
+    if (query === 'videos:getVideos') return videos
     return undefined
   })
 }
@@ -79,21 +79,21 @@ describe('useVideos', () => {
   })
 
   describe('loading state', () => {
-    it('is loading when getAllVideos is null and user is loading', () => {
+    it('is loading when getVideos is null and user is loading', () => {
       mockUseUser.mockReturnValue({ ...defaultUser, isLoading: true })
       mockUseQuery.mockReturnValue(null)
       const { result } = renderHook(() => useVideos())
       expect(result.current.isLoading).toBe(true)
     })
 
-    it('is not loading when getAllVideos has data', () => {
+    it('is not loading when getVideos has data', () => {
       mockUseUser.mockReturnValue({ ...defaultUser, isLoading: true })
       setupUseQuery([makeVideo()])
       const { result } = renderHook(() => useVideos())
       expect(result.current.isLoading).toBe(false)
     })
 
-    it('is not loading when user is not loading even if getAllVideos is null', () => {
+    it('is not loading when user is not loading even if getVideos is null', () => {
       mockUseUser.mockReturnValue({ ...defaultUser, isLoading: false })
       mockUseQuery.mockReturnValue(null)
       const { result } = renderHook(() => useVideos())
@@ -137,8 +137,16 @@ describe('useVideos', () => {
   describe('category filtering', () => {
     it('returns all videos when selectedCategory is "all"', () => {
       const videos = [
-        makeVideo({ video_id: 'vid_1', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_2', category_id: '602284', category_name: 'Baby' }),
+        makeVideo({
+          video_id: 'vid_1',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_2',
+          category_id: '602284',
+          category_name: 'Baby',
+        }),
       ]
       setupUseQuery(videos)
       const { result } = renderHook(() => useVideos())
@@ -147,15 +155,29 @@ describe('useVideos', () => {
 
     it('filters videos by selected category', () => {
       const videos = [
-        makeVideo({ video_id: 'vid_1', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_2', category_id: '602284', category_name: 'Baby' }),
-        makeVideo({ video_id: 'vid_3', category_id: '601450', category_name: 'Beauty' }),
+        makeVideo({
+          video_id: 'vid_1',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_2',
+          category_id: '602284',
+          category_name: 'Baby',
+        }),
+        makeVideo({
+          video_id: 'vid_3',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
       ]
       setupUseQuery(videos)
       const { result } = renderHook(() => useVideos())
       act(() => result.current.setSelectedCategory('601450'))
       expect(result.current.data).toHaveLength(2)
-      expect(result.current.data.every((v) => v.category_name === 'Beauty')).toBe(true)
+      expect(
+        result.current.data.every((v) => v.category_name === 'Beauty')
+      ).toBe(true)
     })
 
     it('setSelectedCategory updates selectedCategory', () => {
@@ -173,16 +195,33 @@ describe('useVideos', () => {
     })
 
     it('includes "Todas as categorias" as the first option', () => {
-      setupUseQuery([makeVideo({ category_id: '601450', category_name: 'Beauty' })])
+      setupUseQuery([
+        makeVideo({ category_id: '601450', category_name: 'Beauty' }),
+      ])
       const { result } = renderHook(() => useVideos())
-      expect(result.current.categories![0]).toEqual({ id: 'all', label: 'Todas as categorias' })
+      expect(result.current.categories![0]).toEqual({
+        id: 'all',
+        label: 'Todas as categorias',
+      })
     })
 
     it('deduplicates categories with the same id', () => {
       setupUseQuery([
-        makeVideo({ video_id: 'vid_1', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_2', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_3', category_id: '602284', category_name: 'Baby' }),
+        makeVideo({
+          video_id: 'vid_1',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_2',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_3',
+          category_id: '602284',
+          category_name: 'Baby',
+        }),
       ])
       const { result } = renderHook(() => useVideos())
       expect(result.current.categories).toHaveLength(3) // "all" + 2 unique
@@ -190,9 +229,21 @@ describe('useVideos', () => {
 
     it('sorts categories alphabetically by label', () => {
       setupUseQuery([
-        makeVideo({ video_id: 'vid_1', category_id: '602284', category_name: 'Baby' }),
-        makeVideo({ video_id: 'vid_2', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_3', category_id: '605196', category_name: 'Auto' }),
+        makeVideo({
+          video_id: 'vid_1',
+          category_id: '602284',
+          category_name: 'Baby',
+        }),
+        makeVideo({
+          video_id: 'vid_2',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_3',
+          category_id: '605196',
+          category_name: 'Auto',
+        }),
       ])
       const { result } = renderHook(() => useVideos())
       const labels = result.current.categories!.slice(1).map((c) => c.label)
@@ -201,8 +252,16 @@ describe('useVideos', () => {
 
     it('excludes videos without category_name or category_id from categories', () => {
       setupUseQuery([
-        makeVideo({ video_id: 'vid_1', category_id: '601450', category_name: 'Beauty' }),
-        makeVideo({ video_id: 'vid_2', category_id: null, category_name: null }),
+        makeVideo({
+          video_id: 'vid_1',
+          category_id: '601450',
+          category_name: 'Beauty',
+        }),
+        makeVideo({
+          video_id: 'vid_2',
+          category_id: null,
+          category_name: null,
+        }),
       ])
       const { result } = renderHook(() => useVideos())
       expect(result.current.categories).toHaveLength(2) // "all" + 1
@@ -211,21 +270,39 @@ describe('useVideos', () => {
 
   describe('period selection', () => {
     it('uses revenue when selectedPeriod is "30"', () => {
-      setupUseQuery([makeVideo({ revenue: 1000, revenue_7_days: 700, revenue_14_days: 1400 })])
+      setupUseQuery([
+        makeVideo({
+          revenue: 1000,
+          revenue_7_days: 700,
+          revenue_14_days: 1400,
+        }),
+      ])
       const { result } = renderHook(() => useVideos())
       act(() => result.current.setSelectedPeriod('30'))
       expect(result.current.data[0].revenue).toBe(1000)
     })
 
     it('uses revenue_7_days when selectedPeriod is "7"', () => {
-      setupUseQuery([makeVideo({ revenue: 1000, revenue_7_days: 700, revenue_14_days: 1400 })])
+      setupUseQuery([
+        makeVideo({
+          revenue: 1000,
+          revenue_7_days: 700,
+          revenue_14_days: 1400,
+        }),
+      ])
       const { result } = renderHook(() => useVideos())
       act(() => result.current.setSelectedPeriod('7'))
       expect(result.current.data[0].revenue).toBe(700)
     })
 
     it('uses revenue_14_days when selectedPeriod is "14"', () => {
-      setupUseQuery([makeVideo({ revenue: 1000, revenue_7_days: 700, revenue_14_days: 1400 })])
+      setupUseQuery([
+        makeVideo({
+          revenue: 1000,
+          revenue_7_days: 700,
+          revenue_14_days: 1400,
+        }),
+      ])
       const { result } = renderHook(() => useVideos())
       act(() => result.current.setSelectedPeriod('14'))
       expect(result.current.data[0].revenue).toBe(1400)
@@ -261,14 +338,26 @@ describe('useVideos', () => {
 
   describe('free user limit', () => {
     it('limits data to FREE_USER_ITEMS_PER_PAGE for free users', () => {
-      mockUseUser.mockReturnValue({ ...defaultUser, isFreeUser: true, FREE_USER_ITEMS_PER_PAGE: 10 })
-      setupUseQuery(Array.from({ length: 20 }, (_, i) => makeVideo({ video_id: `vid_${i}` })))
+      mockUseUser.mockReturnValue({
+        ...defaultUser,
+        isFreeUser: true,
+        FREE_USER_ITEMS_PER_PAGE: 10,
+      })
+      setupUseQuery(
+        Array.from({ length: 20 }, (_, i) =>
+          makeVideo({ video_id: `vid_${i}` })
+        )
+      )
       const { result } = renderHook(() => useVideos())
       expect(result.current.data.length).toBeLessThanOrEqual(10)
     })
 
     it('does not limit data for non-free users', () => {
-      setupUseQuery(Array.from({ length: 15 }, (_, i) => makeVideo({ video_id: `vid_${i}` })))
+      setupUseQuery(
+        Array.from({ length: 15 }, (_, i) =>
+          makeVideo({ video_id: `vid_${i}` })
+        )
+      )
       const { result } = renderHook(() => useVideos())
       expect(result.current.data).toHaveLength(12)
     })

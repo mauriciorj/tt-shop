@@ -22,7 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/ui/alert-dialog'
-import UseApiKey from '../hooks/useApiKey'
+import UseApiKey from '@/apiKeys/hooks/useApiKey'
 import UseUser from '@/hooks/useUser'
 
 const ApiKeyManager = () => {

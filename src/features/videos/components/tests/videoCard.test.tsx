@@ -2,7 +2,10 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import VideoCard from '../videoCard'
 import { ITopVideosWithCategory } from '@/videos/types'
 
-jest.mock('@/featuresFlag/index', () => ({ __esModule: true, default: { videoTranscriptionEnhance: false } }))
+jest.mock('@/featuresFlag/index', () => ({
+  __esModule: true,
+  default: { videoTranscriptionEnhance: false },
+}))
 
 import FEATURES_FLAG from '@/featuresFlag/index'
 
@@ -20,6 +23,7 @@ const mockVideo: ITopVideosWithCategory = {
   category_name: 'Beauty',
   transcription: undefined,
   tt_account: '@tiktokshop',
+  saved: false,
 }
 
 const mockVideoWithTranscription: ITopVideosWithCategory = {
@@ -30,8 +34,8 @@ const mockVideoWithTranscription: ITopVideosWithCategory = {
 
 describe('VideoCard', () => {
   const handleToggleSave = jest.fn()
-  const setSelectedVideo = jest.fn()
-  const setSelectedVideosTranscriptionToEnhance = jest.fn()
+  const setSelectedVideoToTranscribe = jest.fn()
+  const setSelectedVideoToEnhance = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -42,9 +46,8 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     expect(
@@ -56,50 +59,44 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
-    expect(screen.getByText('1.3M')).toBeInTheDocument() // views
-    expect(screen.getByText('3.4K')).toBeInTheDocument() // sales
-    expect(screen.getByText('$85.0K')).toBeInTheDocument() // revenue
+    expect(screen.getByText('1.3M')).toBeInTheDocument()
+    expect(screen.getByText('3.4K')).toBeInTheDocument()
+    expect(screen.getByText('$85.0K')).toBeInTheDocument()
   })
 
   it('renders video duration', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
-    // duration appears in overlay badge and in stats grid
     const durations = screen.getAllByText('0:45')
     expect(durations.length).toBeGreaterThanOrEqual(1)
   })
 
-  it('shows save button with unsaved state when video is not saved', () => {
+  it('shows save button with unsaved state when video.saved is false', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
-    const saveButton = screen.getByTitle('Salvar vídeo')
-    expect(saveButton).toBeInTheDocument()
+    expect(screen.getByTitle('Salvar vídeo')).toBeInTheDocument()
   })
 
-  it('shows save button with saved state when video is in savedVideoIds', () => {
+  it('shows save button with saved state when video.saved is true', () => {
     render(
       <VideoCard
-        video={mockVideo}
-        savedVideoIds={['vid-123']}
+        video={{ ...mockVideo, saved: true }}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     expect(screen.getByTitle('Remover dos salvos')).toBeInTheDocument()
@@ -109,9 +106,8 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     fireEvent.click(screen.getByTitle('Salvar vídeo'))
@@ -123,9 +119,8 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     expect(screen.queryByText('Transcrição do vídeo')).not.toBeInTheDocument()
@@ -135,35 +130,34 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={mockVideoWithTranscription}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     expect(screen.getByText('Transcrição do vídeo')).toBeInTheDocument()
   })
 
-  it('calls setSelectedVideo with the video when transcription button is clicked', () => {
+  it('calls setSelectedVideoToTranscribe with the video when transcription button is clicked', () => {
     render(
       <VideoCard
         video={mockVideoWithTranscription}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     fireEvent.click(screen.getByText('Transcrição do vídeo'))
-    expect(setSelectedVideo).toHaveBeenCalledTimes(1)
-    expect(setSelectedVideo).toHaveBeenCalledWith(mockVideoWithTranscription)
+    expect(setSelectedVideoToTranscribe).toHaveBeenCalledTimes(1)
+    expect(setSelectedVideoToTranscribe).toHaveBeenCalledWith(
+      mockVideoWithTranscription
+    )
   })
 
   it('renders thumbnail image when image url is provided', () => {
     render(
       <VideoCard
         video={mockVideo}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     const img = screen.getByAltText('Amazing TikTok product review')
@@ -174,9 +168,8 @@ describe('VideoCard', () => {
     render(
       <VideoCard
         video={{ ...mockVideo, image: null }}
-        savedVideoIds={[]}
         handleToggleSave={handleToggleSave}
-        setSelectedVideo={setSelectedVideo}
+        setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
       />
     )
     expect(
@@ -193,10 +186,9 @@ describe('VideoCard', () => {
       render(
         <VideoCard
           video={mockVideoWithTranscription}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
-          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
+          setSelectedVideoToEnhance={setSelectedVideoToEnhance}
         />
       )
       expect(screen.queryByText('Melhorar com IA')).not.toBeInTheDocument()
@@ -206,12 +198,13 @@ describe('VideoCard', () => {
       render(
         <VideoCard
           video={mockVideoWithTranscription}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
         />
       )
-      const btn = screen.getByText('Transcrição do vídeo').closest('div[class*="fixed"]')
+      const btn = screen
+        .getByText('Transcrição do vídeo')
+        .closest('div[class*="fixed"]')
       expect(btn?.className).toContain('bottom-3')
     })
   })
@@ -225,10 +218,9 @@ describe('VideoCard', () => {
       render(
         <VideoCard
           video={mockVideoWithTranscription}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
-          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
+          setSelectedVideoToEnhance={setSelectedVideoToEnhance}
         />
       )
       expect(screen.getByText('Melhorar com IA')).toBeInTheDocument()
@@ -238,40 +230,41 @@ describe('VideoCard', () => {
       render(
         <VideoCard
           video={mockVideo}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
-          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
+          setSelectedVideoToEnhance={setSelectedVideoToEnhance}
         />
       )
       expect(screen.queryByText('Melhorar com IA')).not.toBeInTheDocument()
     })
 
-    it('calls setSelectedVideosTranscriptionToEnhance with the video when "Melhorar com IA" is clicked', () => {
+    it('calls setSelectedVideoToEnhance with the video when "Melhorar com IA" is clicked', () => {
       render(
         <VideoCard
           video={mockVideoWithTranscription}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
-          setSelectedVideosTranscriptionToEnhance={setSelectedVideosTranscriptionToEnhance}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
+          setSelectedVideoToEnhance={setSelectedVideoToEnhance}
         />
       )
       fireEvent.click(screen.getByText('Melhorar com IA'))
-      expect(setSelectedVideosTranscriptionToEnhance).toHaveBeenCalledTimes(1)
-      expect(setSelectedVideosTranscriptionToEnhance).toHaveBeenCalledWith(mockVideoWithTranscription)
+      expect(setSelectedVideoToEnhance).toHaveBeenCalledTimes(1)
+      expect(setSelectedVideoToEnhance).toHaveBeenCalledWith(
+        mockVideoWithTranscription
+      )
     })
 
     it('applies bottom-16 positioning to the transcription button', () => {
       render(
         <VideoCard
           video={mockVideoWithTranscription}
-          savedVideoIds={[]}
           handleToggleSave={handleToggleSave}
-          setSelectedVideo={setSelectedVideo}
+          setSelectedVideoToTranscribe={setSelectedVideoToTranscribe}
         />
       )
-      const btn = screen.getByText('Transcrição do vídeo').closest('div[class*="fixed"]')
+      const btn = screen
+        .getByText('Transcrição do vídeo')
+        .closest('div[class*="fixed"]')
       expect(btn?.className).toContain('bottom-16')
     })
   })

@@ -176,7 +176,7 @@ export const updateUserSubscription = mutation({
   },
 })
 
-export const recordSearchAndCheckLimit = mutation({
+export const updateSearchLimit = mutation({
   args: { clerk_id: v.string() },
   handler: async (ctx, { clerk_id }) => {
     const DAILY_LIMIT = 3
@@ -203,7 +203,7 @@ export const recordSearchAndCheckLimit = mutation({
   },
 })
 
-export const recordTranscriptionAndCheckLimit = mutation({
+export const updateTranscriptionLimit = mutation({
   args: { clerk_id: v.string(), video_k_id: v.string() },
   handler: async (ctx, { clerk_id, video_k_id }) => {
     const DAILY_LIMIT = 1

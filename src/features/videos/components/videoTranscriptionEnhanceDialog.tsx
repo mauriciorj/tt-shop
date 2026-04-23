@@ -15,32 +15,32 @@ import { ITopVideosWithCategory, Status } from '@/videos/types'
 const VideoTranscriptionEnhanceDialog = ({
   copied,
   errorMessage,
-  handleCopy,
   handleEnhance,
-  handleOpenEnhanceDialog,
+  handleOpenDialog,
   instruction,
   result,
-  selectedVideosTranscriptionToEnhance,
+  selectedVideo,
   setInstruction,
+  setTextToCopy,
   status,
 }: {
   copied: boolean
   errorMessage: string
-  handleCopy: () => void
   handleEnhance: () => void
-  handleOpenEnhanceDialog: (nextOpen: boolean) => void
+  handleOpenDialog: (nextOpen: boolean) => void
   instruction: string
   result: string
-  selectedVideosTranscriptionToEnhance: ITopVideosWithCategory | null
+  selectedVideo: ITopVideosWithCategory | null
   setInstruction: (instruction: string) => void
+  setTextToCopy: (text: string) => void
   status: Status
 }) => {
   return (
     <>
       <Dialog
         data-testid="video-transcription-enhance-dialog"
-        open={!!selectedVideosTranscriptionToEnhance}
-        onOpenChange={handleOpenEnhanceDialog}
+        onOpenChange={handleOpenDialog}
+        open={!!selectedVideo}
       >
         <DialogContent
           className="sm:max-w-lg bg-card border-border"
@@ -66,20 +66,20 @@ const VideoTranscriptionEnhanceDialog = ({
           <div className="space-y-4 mt-2">
             {/* Instruction input */}
             <Textarea
-              placeholder='Ex: "Mude o tom para formal", "Resuma em 3 frases", "Traduza para inglês"'
-              value={instruction}
-              onChange={(e) => setInstruction(e.target.value)}
-              rows={3}
               className="resize-none"
               disabled={status === 'loading'}
+              onChange={(e) => setInstruction(e.target.value)}
+              placeholder='Ex: "Mude o tom para formal", "Resuma em 3 frases", "Traduza para inglês"'
+              rows={3}
+              value={instruction}
             />
 
             {/* Generate button */}
             <Button
-              data-testid="video-transcription-enhance-dialog-generate-button"
-              onClick={handleEnhance}
-              disabled={!instruction.trim() || status === 'loading'}
               className="w-full"
+              data-testid="video-transcription-enhance-dialog-generate-button"
+              disabled={!instruction.trim() || status === 'loading'}
+              onClick={handleEnhance}
             >
               {status === 'loading' ? (
                 <>
@@ -117,10 +117,10 @@ const VideoTranscriptionEnhanceDialog = ({
                   </p>
                 </div>
                 <Button
-                  data-testid="video-transcription-enhance-dialog-copy-button"
-                  variant="outline"
                   className="w-full"
-                  onClick={handleCopy}
+                  data-testid="video-transcription-enhance-dialog-copy-button"
+                  onClick={() => setTextToCopy(instruction)}
+                  variant="outline"
                 >
                   {copied ? (
                     <>

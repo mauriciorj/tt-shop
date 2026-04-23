@@ -1,18 +1,17 @@
 import { useState, useMemo } from 'react'
+import { useQuery } from 'convex/react'
+import { LIMITS } from '@/businessRules/index'
 import { TCategory } from '@/categories/types'
 import { TPeriod } from '@/components/periodFilter'
 import { api } from '@/convex/_generated/api'
-import { useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
 
 const useVideos = () => {
-  const ITEMS_PER_PAGE = 12
+  // Business rules
+  const ITEMS_PER_PAGE = LIMITS.VIDEOS_PER_PAGE
+  const ITEMS_PER_PAGE_FREE_USER = LIMITS.VIDEOS_PER_PAGE_FREE_USER
 
-  const {
-    FREE_USER_ITEMS_PER_PAGE,
-    isFreeUser,
-    isLoading: isLoadingDbUser,
-  } = UseUser()
+  const { id, isFreeUser, isLoading: isLoadingDbUser } = UseUser()
 
   // Filter states
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -20,14 +19,19 @@ const useVideos = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TPeriod>('30')
 
   // Get ALL videos from the database
-  const getAllVideos = useQuery(api.videos.getAllVideos)
+  const getVideos = useQuery(
+    api.videos.getVideos,
+    id ? { clerk_id: id } : 'skip'
+  )
 
   // Show only unique categories from videos
+  // This is being done on client side to avoid extra Convex resources as the categories
+  // is a static list for now
   const categories = useMemo(() => {
-    if (getAllVideos) {
+    if (getVideos) {
       const getUniqueCategoriesFromVideos: TCategory[] = Array.from(
         new Map(
-          getAllVideos
+          getVideos
             .filter((video) => video?.category_name && video?.category_id)
             .map((video) => [
               video.category_id,
@@ -46,16 +50,16 @@ const useVideos = () => {
         ]
       }
     }
-  }, [getAllVideos])
+  }, [getVideos])
 
-  // Paginate videos
+  // Handle Video Pagination
   const videosPaginated = useMemo(() => {
-    if (!getAllVideos) return []
+    if (!getVideos) return []
 
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     const end = currentPage * ITEMS_PER_PAGE
 
-    let result = getAllVideos
+    let result = getVideos
 
     // Filter by category
     if (selectedCategory && selectedCategory !== 'all') {
@@ -78,10 +82,10 @@ const useVideos = () => {
     }))
 
     // Limit the number of videos if it's free user
-    result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
+    result = isFreeUser ? result.slice(0, ITEMS_PER_PAGE_FREE_USER) : result
 
     return result.slice(start, end)
-  }, [getAllVideos, categories, currentPage, selectedCategory, selectedPeriod])
+  }, [getVideos, categories, currentPage, selectedCategory, selectedPeriod])
 
   // Calculate the total number of pages loaded based on the number of stores and items per page
   const totalPages = useMemo(
@@ -101,7 +105,7 @@ const useVideos = () => {
     currentPage,
     data: videosPaginated,
     isFreeUser,
-    isLoading: Boolean(getAllVideos === null && isLoadingDbUser),
+    isLoading: Boolean(getVideos === null && isLoadingDbUser),
     itemsPerPage: ITEMS_PER_PAGE,
     onPageChange,
     selectedCategory,

@@ -1,18 +1,13 @@
-import { useRouter } from 'next/navigation'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
 import UseUser from '@/hooks/useUser'
 import { useQuery } from '@tanstack/react-query'
 
 const UseSaved = () => {
-  const router = useRouter()
   const { id } = UseUser()
 
   const { data: savedVideosQuery, isLoading: savedVideosIsLoading } = useQuery({
-    ...convexQuery(
-      api.savedVideos.getSavedVideos,
-      id ? { clerk_id: id } : 'skip'
-    ),
+    ...convexQuery(api.videos.getSavedVideos, id ? { clerk_id: id } : 'skip'),
   })
   const savedVideos = savedVideosQuery ?? []
 

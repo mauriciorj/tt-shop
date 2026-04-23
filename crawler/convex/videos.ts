@@ -115,7 +115,7 @@ export const getVideosWithPagination = query({
   },
 })
 
-export const getAllVideos = query({
+export const getVideos = query({
   handler: async (ctx) => {
     let videos: any[] = []
     let days = 14
@@ -178,7 +178,7 @@ const fetchVideosByIdSince = async (ctx: any, daysAgo: number, paginationOpts: a
     .paginate(paginationOpts)
 }
 
-export const getVideoByIdWithPagination = query({
+export const getVideosWithPagination = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const { paginationOpts } = args
@@ -203,7 +203,7 @@ export const getVideoByIdWithPagination = query({
   },
 })
 
-export const updateTranscription = mutation({
+export const updateVideoTranscription = mutation({
   args: { id: v.id('videos'), transcription: v.string() },
   handler: async (ctx, { id, transcription }) => {
     await ctx.db.patch(id, {

@@ -24,6 +24,7 @@
       "@/actions/*": ["./src/app/actions/*"],
       "@/apiKeys/*": ["./src/features/apiKeys/*"],
       "@/blog/*": ["./src/features/blog/*"],
+      "@/businessRules/*": ["./src/features/businessRules/*"],
       "@/categories/*": ["./src/features/categories/*"],
       "@/components/*": ["./src/features/common/components/*"],
       "@/contact/*": ["./src/features/contact/*"],

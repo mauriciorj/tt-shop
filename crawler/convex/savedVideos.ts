@@ -3,7 +3,7 @@ import { v } from 'convex/values'
 import TopVideosDto from '@/videos/dtos/topVideosDto'
 import { ITopVideosWithCategory } from '@/videos/types'
 
-export const getSavedVideoIds = query({
+export const getSavedVideoById = query({
   args: { clerk_id: v.string() },
   handler: async (ctx, { clerk_id }) => {
     const saved = await ctx.db

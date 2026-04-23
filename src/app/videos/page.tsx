@@ -8,8 +8,8 @@ import VideoCard from '@/videos/components/videoCard'
 import VideoCardSkeleton from '@/videos/components/videoCardSkeleton'
 import VideoTranscriptionEnhanceDialog from '@/videos/components/videoTranscriptionEnhanceDialog'
 import VideoTranscriptionGenerateDialog from '@/videos/components/videoTranscriptionGenerateDialog'
-import useVideos from '@/videos/hooks/useVideos'
 import useSaveVideo from '@/videos/hooks/useSaveVideo'
+import useVideos from '@/videos/hooks/useVideos'
 import useVideoTranscriptionEnhance from '@/videos/hooks/useVideoTranscriptionEnhance'
 import useVideoTranscriptionGenerate from '@/videos/hooks/useVideoTranscriptionGenerate'
 
@@ -29,37 +29,40 @@ const Videos = () => {
     totalPages,
   } = useVideos()
 
-  const { handleToggleSave, savedVideoIds } = useSaveVideo()
+  const { handleToggleSave } = useSaveVideo()
 
   const {
-    copied: videoTranscriptionGenerateCopied,
-    handleCopy: handleVideoTranscriptionGenerateCopy,
-    handleOpenTranscription,
-    isLoading: isTranscribing,
-    video: selectedVideoToTranscribe,
+    handleOpenDialog: handleOpenDialogTranscription,
+    isCopied: isVideoTranscriptionGenerateCopied,
+    isLoading: isTranscribingVideoLoading,
+    setTextToCopy: setVideoTranscriptionToCopy,
     setVideo: setSelectedVideoToTranscribe,
     transcription,
     usage: transcriptionUsage,
+    video: selectedVideoToTranscribe,
   } = useVideoTranscriptionGenerate()
 
   const {
-    copied: videoTranscriptionEnhanceCopied,
     errorMessage,
-    handleCopy: handleVideoTranscriptionEnhanceCopy,
     handleEnhance,
-    handleOpenEnhanceDialog,
+    handleOpenDialog: handleOpenDialogEnhance,
     instruction,
-    result,
-    video: selectedVideosTranscriptionToEnhance,
+    isCopied: videoTranscriptionEnhanceCopied,
+    setTextToCopy: setVideoTranscriptionEnhancedToCopy,
+    transcriptionEnhanced,
     setInstruction,
-    setVideo: setSelectedVideosTranscriptionToEnhance,
+    setVideoToGetTranscription: setSelectedVideosTranscriptionToEnhance,
     status,
     usage: enhancementUsage,
+    videoToGetTranscription: selectedVideosTranscriptionToEnhance,
   } = useVideoTranscriptionEnhance()
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]">
+    <div className="min-h-screen flex flex-col" data-testid="videos-page">
+      <main
+        className="flex-1 container py-8 px-10 mx-auto max-w-[1400px]"
+        data-testid="videos-page-main"
+      >
         <Breadcrumb
           description="Descubra os melhores vídeos no TikTok Shop"
           title="Vídeos"
@@ -91,11 +94,10 @@ const Videos = () => {
               <VideoCard
                 key={video.video_id}
                 handleToggleSave={handleToggleSave}
-                setSelectedVideosTranscriptionToEnhance={
+                setSelectedVideoToEnhance={
                   setSelectedVideosTranscriptionToEnhance
                 }
-                setSelectedVideo={handleOpenTranscription}
-                savedVideoIds={savedVideoIds ?? []}
+                setSelectedVideoToTranscribe={handleOpenDialogTranscription}
                 video={video}
               />
             ))}
@@ -109,25 +111,23 @@ const Videos = () => {
         />
       </main>
       <VideoTranscriptionGenerateDialog
-        copied={videoTranscriptionGenerateCopied}
-        handleCopy={handleVideoTranscriptionGenerateCopy}
-        isLoading={isTranscribing}
+        isCopied={isVideoTranscriptionGenerateCopied}
+        isLoading={isTranscribingVideoLoading}
+        selectedVideo={selectedVideoToTranscribe}
+        setTextToCopy={setVideoTranscriptionToCopy}
         setVideo={setSelectedVideoToTranscribe}
-        video={selectedVideoToTranscribe}
         transcription={transcription}
       />
       <VideoTranscriptionEnhanceDialog
         copied={videoTranscriptionEnhanceCopied}
         errorMessage={errorMessage}
-        handleCopy={handleVideoTranscriptionEnhanceCopy}
         handleEnhance={handleEnhance}
-        handleOpenEnhanceDialog={handleOpenEnhanceDialog}
+        handleOpenDialog={handleOpenDialogEnhance}
         instruction={instruction}
-        result={result}
-        selectedVideosTranscriptionToEnhance={
-          selectedVideosTranscriptionToEnhance
-        }
+        result={transcriptionEnhanced}
+        selectedVideo={selectedVideosTranscriptionToEnhance}
         setInstruction={setInstruction}
+        setTextToCopy={setVideoTranscriptionEnhancedToCopy}
         status={status}
       />
     </div>

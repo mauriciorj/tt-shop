@@ -31,7 +31,7 @@ const VideosTable = ({
   const router = useRouter()
   const [selectedVideo, setSelectedVideo] = useState<IVideoDto | null>(null)
   const { mutateAsync: recordTranscription } = useMutation({
-    mutationFn: useConvexMutation(api.users.recordTranscriptionAndCheckLimit),
+    mutationFn: useConvexMutation(api.users.updateTranscriptionLimit),
   })
 
   const [copied, setCopied] = useState(false)

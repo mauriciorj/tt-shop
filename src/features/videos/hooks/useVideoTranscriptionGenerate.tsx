@@ -1,23 +1,23 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useQuery } from 'convex/react'
 import { toast } from 'sonner'
 import { api } from '@/convex/_generated/api'
-import { useMutation, useQuery } from 'convex/react'
+import useCopyToClipboard from '@/hooks/useCopyToClipboard'
 import UseUser from '@/hooks/useUser'
 import { ITopVideosWithCategory } from '@/videos/types'
 
 const useVideoTranscriptionGenerate = () => {
   const router = useRouter()
-
   const { id: userId, isFreeUser } = UseUser()
 
   // Filter states
-  const [copied, setCopied] = useState<boolean>(false)
+  const { isCopied, setTextToCopy } = useCopyToClipboard()
 
-  // Transcribe video controls
-  const [video, setVideo] = useState<ITopVideosWithCategory | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [transcription, setTranscription] = useState<string>('')
+  const [video, setVideo] = useState<ITopVideosWithCategory | null>(null)
+
   const transcribeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
     null
   )
@@ -34,24 +34,16 @@ const useVideoTranscriptionGenerate = () => {
     }
   }, [video])
 
-  // Increase transcription count in the database
-  const recordTranscription = useMutation(
-    api.users.recordTranscriptionAndCheckLimit
-  )
-
-  const usage = useQuery(
+  // Get transcription usage today
+  const getTranscriptionUsageToday = useQuery(
     api.users.getTranscriptionUsageToday,
     isFreeUser && userId ? { clerk_id: userId } : 'skip'
   )
 
   // Open transcription modal
-  const handleOpenTranscription = async (video: ITopVideosWithCategory) => {
+  const handleOpenDialog = async (video: ITopVideosWithCategory) => {
     if (isFreeUser && userId) {
-      const result = await recordTranscription({
-        clerk_id: userId,
-        video_k_id: video.video_id!,
-      })
-      if (!result.allowed) {
+      if (!getTranscriptionUsageToday?.isAllowed) {
         toast.error(
           'Você atingiu o limite de 1 transcrição por dia. Faça upgrade para acessar sem limites.',
           {
@@ -87,24 +79,15 @@ const useVideoTranscriptionGenerate = () => {
     }, TICK_MS)
   }
 
-  // Copy transcription to clipboard
-  const handleCopy = async () => {
-    if (!video?.transcription) return
-    await navigator.clipboard.writeText(video.transcription)
-    setCopied(true)
-    toast.success('Transcrição copiada para a área de transferência.')
-    setTimeout(() => setCopied(false), 2000)
-  }
-
   return {
-    copied,
-    handleCopy,
-    handleOpenTranscription,
+    handleOpenDialog,
+    isCopied,
     isLoading,
-    video,
+    setTextToCopy,
     setVideo,
     transcription,
-    usage,
+    usage: getTranscriptionUsageToday,
+    video,
   }
 }
 

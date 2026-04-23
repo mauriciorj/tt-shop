@@ -62,7 +62,10 @@ jest.mock('@/ui/dialog', () => ({
     children: React.ReactNode
     [key: string]: unknown
   }) => (
-    <p data-testid="video-transcription-enhance-dialog-description" {...props}>
+    <p
+      data-testid="video-transcription-enhance-dialog-description"
+      {...props}
+    >
       {children}
     </p>
   ),
@@ -135,13 +138,13 @@ const makeVideo = (overrides = {}): ITopVideosWithCategory => ({
 const defaultProps = {
   copied: false,
   errorMessage: '',
-  handleCopy: jest.fn(),
   handleEnhance: jest.fn(),
-  handleOpenEnhanceDialog: jest.fn(),
+  handleOpenDialog: jest.fn(),
   instruction: '',
   result: '',
-  selectedVideosTranscriptionToEnhance: null as ITopVideosWithCategory | null,
+  selectedVideo: null as ITopVideosWithCategory | null,
   setInstruction: jest.fn(),
+  setTextToCopy: jest.fn(),
   status: 'idle' as Status,
 }
 
@@ -149,11 +152,11 @@ beforeEach(() => jest.clearAllMocks())
 
 describe('VideoTranscriptionEnhanceDialog', () => {
   describe('dialog visibility', () => {
-    it('does not render the dialog when selectedVideosTranscriptionToEnhance is null', () => {
+    it('does not render the dialog when selectedVideo is null', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={null}
+          selectedVideo={null}
         />
       )
       expect(
@@ -161,11 +164,11 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders the dialog when selectedVideosTranscriptionToEnhance is set', () => {
+    it('renders the dialog when selectedVideo is set', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -177,7 +180,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -185,17 +188,17 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       ).toBeInTheDocument()
     })
 
-    it('calls handleOpenEnhanceDialog(false) when the dialog is closed', () => {
-      const handleOpenEnhanceDialog = jest.fn()
+    it('calls handleOpenDialog(false) when the dialog is closed', () => {
+      const handleOpenDialog = jest.fn()
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
-          handleOpenEnhanceDialog={handleOpenEnhanceDialog}
+          selectedVideo={makeVideo()}
+          handleOpenDialog={handleOpenDialog}
         />
       )
       fireEvent.click(screen.getByTestId('dialog-close'))
-      expect(handleOpenEnhanceDialog).toHaveBeenCalledWith(false)
+      expect(handleOpenDialog).toHaveBeenCalledWith(false)
     })
   })
 
@@ -204,7 +207,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -216,7 +219,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -228,7 +231,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -244,7 +247,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Traduzir para inglês"
         />
       )
@@ -258,7 +261,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           setInstruction={setInstruction}
         />
       )
@@ -272,7 +275,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="loading"
         />
       )
@@ -283,7 +286,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="idle"
         />
       )
@@ -298,7 +301,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
         />
       )
       expect(
@@ -310,7 +313,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Some instruction"
           status="idle"
         />
@@ -324,7 +327,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Some instruction"
           status="loading"
         />
@@ -338,7 +341,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="loading"
         />
       )
@@ -349,7 +352,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction=""
           status="idle"
         />
@@ -363,7 +366,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="   "
           status="idle"
         />
@@ -377,7 +380,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Some instruction"
           status="loading"
         />
@@ -391,7 +394,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Resumir"
           status="idle"
         />
@@ -406,7 +409,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           instruction="Resumir"
           handleEnhance={handleEnhance}
         />
@@ -423,7 +426,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="error"
           errorMessage="Something went wrong."
         />
@@ -440,7 +443,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="error"
           errorMessage="Error occurred."
         />
@@ -452,7 +455,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="idle"
           errorMessage="Should not appear"
         />
@@ -468,7 +471,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Enhanced transcription result."
         />
@@ -482,7 +485,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Enhanced transcription result."
         />
@@ -496,13 +499,15 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result=""
         />
       )
       expect(
-        screen.queryByTestId('video-transcription-enhance-dialog-success-state')
+        screen.queryByTestId(
+          'video-transcription-enhance-dialog-success-state'
+        )
       ).not.toBeInTheDocument()
     })
 
@@ -510,13 +515,15 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="idle"
           result="Some result"
         />
       )
       expect(
-        screen.queryByTestId('video-transcription-enhance-dialog-success-state')
+        screen.queryByTestId(
+          'video-transcription-enhance-dialog-success-state'
+        )
       ).not.toBeInTheDocument()
     })
 
@@ -524,7 +531,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
         />
@@ -538,7 +545,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
           copied={false}
@@ -553,7 +560,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
           copied={true}
@@ -568,7 +575,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
           copied={false}
@@ -581,7 +588,7 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
           copied={true}
@@ -590,21 +597,22 @@ describe('VideoTranscriptionEnhanceDialog', () => {
       expect(screen.getByTestId('icon-check-check')).toBeInTheDocument()
     })
 
-    it('calls handleCopy when the copy button is clicked', () => {
-      const handleCopy = jest.fn()
+    it('calls setTextToCopy with instruction when the copy button is clicked', () => {
+      const setTextToCopy = jest.fn()
       render(
         <VideoTranscriptionEnhanceDialog
           {...defaultProps}
-          selectedVideosTranscriptionToEnhance={makeVideo()}
+          selectedVideo={makeVideo()}
           status="success"
           result="Result text."
-          handleCopy={handleCopy}
+          instruction="Summarize"
+          setTextToCopy={setTextToCopy}
         />
       )
       fireEvent.click(
         screen.getByTestId('video-transcription-enhance-dialog-copy-button')
       )
-      expect(handleCopy).toHaveBeenCalledTimes(1)
+      expect(setTextToCopy).toHaveBeenCalledWith('Summarize')
     })
   })
 })

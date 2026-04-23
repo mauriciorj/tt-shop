@@ -19,7 +19,8 @@
       "Bash(openssl rand:*)",
       "Bash(pnpm jest:*)",
       "Bash(grep -E \"\\\\.\\(py|ts|js|json\\)$\")",
-      "Bash(pnpm eslint:*)"
+      "Bash(pnpm eslint:*)",
+      "Bash(claude plugin:*)"
     ]
   }
 }

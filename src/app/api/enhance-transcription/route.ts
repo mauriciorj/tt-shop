@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     }
 
     const limitResult = await convex.mutation(
-      api.users.recordEnhancementAndCheckLimit,
+      api.users.updateEnhancementLimit,
       { clerk_id: userId }
     )
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { transcription, instruction } = await request.json()
+    const { instruction, transcription } = await request.json()
 
     if (!transcription || !instruction) {
       return NextResponse.json(

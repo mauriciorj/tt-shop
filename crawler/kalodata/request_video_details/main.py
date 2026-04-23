@@ -41,7 +41,7 @@ def main(start_date, end_date):
             request_db_result = None
 
             # STEP 01 - Request the top videos from database
-            request_db_result = client.query("videos:getVideoByIdWithPagination", {'paginationOpts': { 'numItems': num_items_per_page, 'cursor': cursor }})
+            request_db_result = client.query("videos:getVideosWithPagination", {'paginationOpts': { 'numItems': num_items_per_page, 'cursor': cursor }})
             
             # STEP 02 - Check if the request was successful
             if request_db_result is None or request_db_result['page'] is None:

@@ -26,7 +26,7 @@ const SearchBar = ({
   isFreeUser = false,
 }: SearchBarProps) => {
   const router = useRouter()
-  const recordSearch = useMutation(api.users.recordSearchAndCheckLimit)
+  const recordSearch = useMutation(api.users.updateSearchLimit)
 
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)

@@ -14,7 +14,8 @@ jest.mock('@/convex/_generated/api', () => ({
   api: {
     users: {
       getTranscriptionUsageToday: 'users:getTranscriptionUsageToday',
-      getEnhancementUsage: 'users:getEnhancementUsage',
+      getEnhancementUsageTodayAndWeekly:
+        'users:getEnhancementUsageTodayAndWeekly',
     },
   },
 }))
@@ -101,13 +102,11 @@ jest.mock('@/videos/components/videoCardSkeleton', () => ({
   ),
 }))
 
-// Render VideoTranscriptionEnhanceDialog as a simple stub to avoid UI dep issues
 jest.mock('@/videos/components/videoTranscriptionEnhanceDialog', () => ({
   __esModule: true,
   default: () => <div data-testid="enhance-dialog-stub" />,
 }))
 
-// Dialog: render children inline so portal issues are avoided in jsdom
 jest.mock('@/components/ui/dialog', () => ({
   Dialog: ({ open, children }: { open: boolean; children: React.ReactNode }) =>
     open ? <div data-testid="dialog">{children}</div> : null,
@@ -167,31 +166,32 @@ const defaultHook = {
 
 const defaultUseSaveVideo = {
   handleToggleSave: jest.fn(),
-  savedVideoIds: [],
 }
 
 const defaultUseVideoTranscriptionGenerate = {
-  copied: false,
-  handleCopy: jest.fn(),
-  handleOpenTranscription: jest.fn(),
+  handleOpenDialog: jest.fn(),
+  isCopied: false,
   isLoading: false,
-  video: null,
+  setTextToCopy: jest.fn(),
   setVideo: jest.fn(),
   transcription: '',
+  usage: undefined,
+  video: null,
 }
 
 const defaultUseVideoTranscriptionEnhance = {
-  copied: false,
   errorMessage: '',
-  handleCopy: jest.fn(),
   handleEnhance: jest.fn(),
-  handleOpenEnhanceDialog: jest.fn(),
+  handleOpenDialog: jest.fn(),
   instruction: '',
-  result: '',
-  video: null,
+  isCopied: false,
+  setTextToCopy: jest.fn(),
+  transcriptionEnhanced: '',
   setInstruction: jest.fn(),
-  setVideo: jest.fn(),
+  setVideoToGetTranscription: jest.fn(),
   status: 'idle',
+  usage: undefined,
+  videoToGetTranscription: null,
 }
 
 beforeEach(() => {
@@ -346,7 +346,9 @@ describe('Videos page', () => {
         isLoading: true,
       })
       render(<Videos />)
-      expect(screen.getByText('Copy Text').closest('button')).toBeDisabled()
+      expect(
+        screen.getByText('Copiar texto').closest('button')
+      ).toBeDisabled()
     })
 
     it('enables the copy button when transcription is complete', () => {
@@ -357,39 +359,44 @@ describe('Videos page', () => {
         isLoading: false,
       })
       render(<Videos />)
-      expect(screen.getByText('Copy Text').closest('button')).not.toBeDisabled()
+      expect(
+        screen.getByText('Copiar texto').closest('button')
+      ).not.toBeDisabled()
     })
 
-    it('shows "Copy Text" button when not copied', () => {
+    it('shows "Copiar texto" button when not copied', () => {
       mockUseVideoTranscriptionGenerate.mockReturnValue({
         ...defaultUseVideoTranscriptionGenerate,
         video: videoWithTranscription,
-        copied: false,
+        isCopied: false,
       })
       render(<Videos />)
-      expect(screen.getByText('Copy Text')).toBeInTheDocument()
+      expect(screen.getByText('Copiar texto')).toBeInTheDocument()
     })
 
-    it('shows "Copied" label when copied is true', () => {
+    it('shows "Texto copiado" label when isCopied is true', () => {
       mockUseVideoTranscriptionGenerate.mockReturnValue({
         ...defaultUseVideoTranscriptionGenerate,
         video: videoWithTranscription,
-        copied: true,
+        isCopied: true,
       })
       render(<Videos />)
-      expect(screen.getByText('Copied')).toBeInTheDocument()
+      expect(screen.getByText('Texto copiado')).toBeInTheDocument()
     })
 
-    it('calls handleCopy when the copy button is clicked', () => {
-      const handleCopy = jest.fn()
+    it('calls setTextToCopy with transcription when copy button is clicked', () => {
+      const setTextToCopy = jest.fn()
       mockUseVideoTranscriptionGenerate.mockReturnValue({
         ...defaultUseVideoTranscriptionGenerate,
         video: videoWithTranscription,
-        handleCopy,
+        transcription: 'This is the full transcription text.',
+        setTextToCopy,
       })
       render(<Videos />)
-      fireEvent.click(screen.getByText('Copy Text'))
-      expect(handleCopy).toHaveBeenCalledTimes(1)
+      fireEvent.click(screen.getByText('Copiar texto'))
+      expect(setTextToCopy).toHaveBeenCalledWith(
+        'This is the full transcription text.'
+      )
     })
 
     it('wires setVideo to the dialog close handler', () => {

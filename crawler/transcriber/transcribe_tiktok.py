@@ -129,7 +129,7 @@ def transcribe_tiktok(url: str, k_id: str) -> str:
 
 
 def save_transcription(client: ConvexClient, convex_id: str, transcription: str):
-    client.mutation("videos:updateTranscription", {
+    client.mutation("videos:updateVideoTranscription", {
         "id": convex_id,
         "transcription": transcription,
     })

@@ -1,23 +1,28 @@
 import { renderHook, act } from '@testing-library/react'
 import { useQuery } from 'convex/react'
 import UseUser from '@/hooks/useUser'
+import useCopyToClipboard from '@/hooks/useCopyToClipboard'
 import useVideoTranscriptionEnhance from '../useVideoTranscriptionEnhance'
 import { ITopVideosWithCategory } from '@/videos/types'
 
 jest.mock('convex/react', () => ({ useQuery: jest.fn() }))
 jest.mock('@/convex/_generated/api', () => ({
-  api: { users: { getEnhancementUsage: 'users:getEnhancementUsage' } },
+  api: {
+    users: {
+      getEnhancementUsageTodayAndWeekly:
+        'users:getEnhancementUsageTodayAndWeekly',
+    },
+  },
 }))
 jest.mock('@/hooks/useUser', () => ({ __esModule: true, default: jest.fn() }))
+jest.mock('@/hooks/useCopyToClipboard', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 const mockUseQuery = useQuery as jest.Mock
 const mockUseUser = UseUser as jest.Mock
-
-const mockClipboard = { writeText: jest.fn() }
-Object.defineProperty(navigator, 'clipboard', {
-  value: mockClipboard,
-  writable: true,
-})
+const mockUseCopyToClipboard = useCopyToClipboard as jest.Mock
 
 global.fetch = jest.fn()
 
@@ -41,6 +46,10 @@ beforeEach(() => {
   jest.useFakeTimers()
   mockUseUser.mockReturnValue({ id: 'user_123' })
   mockUseQuery.mockReturnValue({ used: 0, limit: 1, period: 'day' })
+  mockUseCopyToClipboard.mockReturnValue({
+    isCopied: false,
+    setTextToCopy: jest.fn(),
+  })
 })
 
 afterEach(() => {
@@ -49,9 +58,9 @@ afterEach(() => {
 
 describe('useVideoTranscriptionEnhance', () => {
   describe('initial state', () => {
-    it('starts with video as null', () => {
+    it('starts with videoToGetTranscription as null', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      expect(result.current.video).toBeNull()
+      expect(result.current.videoToGetTranscription).toBeNull()
     })
 
     it('starts with instruction as empty string', () => {
@@ -64,9 +73,9 @@ describe('useVideoTranscriptionEnhance', () => {
       expect(result.current.status).toBe('idle')
     })
 
-    it('starts with result as empty string', () => {
+    it('starts with transcriptionEnhanced as empty string', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      expect(result.current.result).toBe('')
+      expect(result.current.transcriptionEnhanced).toBe('')
     })
 
     it('starts with errorMessage as empty string', () => {
@@ -74,25 +83,39 @@ describe('useVideoTranscriptionEnhance', () => {
       expect(result.current.errorMessage).toBe('')
     })
 
-    it('starts with copied as false', () => {
+    it('returns isCopied from useCopyToClipboard', () => {
+      mockUseCopyToClipboard.mockReturnValue({
+        isCopied: true,
+        setTextToCopy: jest.fn(),
+      })
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      expect(result.current.copied).toBe(false)
+      expect(result.current.isCopied).toBe(true)
+    })
+
+    it('returns setTextToCopy from useCopyToClipboard', () => {
+      const mockSetTextToCopy = jest.fn()
+      mockUseCopyToClipboard.mockReturnValue({
+        isCopied: false,
+        setTextToCopy: mockSetTextToCopy,
+      })
+      const { result } = renderHook(() => useVideoTranscriptionEnhance())
+      expect(result.current.setTextToCopy).toBe(mockSetTextToCopy)
     })
   })
 
-  describe('setVideo / setInstruction', () => {
-    it('setVideo updates the video', () => {
+  describe('setVideoToGetTranscription / setInstruction', () => {
+    it('setVideoToGetTranscription updates the video', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
       const video = makeVideo()
-      act(() => result.current.setVideo(video))
-      expect(result.current.video).toEqual(video)
+      act(() => result.current.setVideoToGetTranscription(video))
+      expect(result.current.videoToGetTranscription).toEqual(video)
     })
 
-    it('setVideo can reset video to null', () => {
+    it('setVideoToGetTranscription can reset to null', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setVideo(makeVideo()))
-      act(() => result.current.setVideo(null))
-      expect(result.current.video).toBeNull()
+      act(() => result.current.setVideoToGetTranscription(makeVideo()))
+      act(() => result.current.setVideoToGetTranscription(null))
+      expect(result.current.videoToGetTranscription).toBeNull()
     })
 
     it('setInstruction updates the instruction', () => {
@@ -123,15 +146,19 @@ describe('useVideoTranscriptionEnhance', () => {
         json: async () => ({ result: 'Enhanced text' }),
       })
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setVideo(makeVideo({ transcription: 'Original' })))
+      act(() =>
+        result.current.setVideoToGetTranscription(
+          makeVideo({ transcription: 'Original' })
+        )
+      )
       act(() => result.current.setInstruction('Summarize'))
       await act(async () => result.current.handleEnhance())
       expect(mockFetch).toHaveBeenCalledWith('/api/enhance-transcription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          transcription: 'Original',
           instruction: 'Summarize',
+          transcription: 'Original',
         }),
       })
     })
@@ -150,7 +177,7 @@ describe('useVideoTranscriptionEnhance', () => {
       expect(body.instruction).toBe('Summarize')
     })
 
-    it('sets status to "success" and stores the result on ok response', async () => {
+    it('sets status to "success" and stores transcriptionEnhanced on ok response', async () => {
       mockFetch.mockResolvedValue({
         ok: true,
         json: async () => ({ result: 'Enhanced text' }),
@@ -159,10 +186,10 @@ describe('useVideoTranscriptionEnhance', () => {
       act(() => result.current.setInstruction('Summarize'))
       await act(async () => result.current.handleEnhance())
       expect(result.current.status).toBe('success')
-      expect(result.current.result).toBe('Enhanced text')
+      expect(result.current.transcriptionEnhanced).toBe('Enhanced text')
     })
 
-    it('clears a previous result before fetching', async () => {
+    it('clears a previous transcriptionEnhanced before fetching', async () => {
       mockFetch.mockResolvedValue({
         ok: true,
         json: async () => ({ result: 'First' }),
@@ -170,12 +197,14 @@ describe('useVideoTranscriptionEnhance', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
       act(() => result.current.setInstruction('First instruction'))
       await act(async () => result.current.handleEnhance())
-      expect(result.current.result).toBe('First')
+      expect(result.current.transcriptionEnhanced).toBe('First')
 
-      mockFetch.mockReturnValue(new Promise(() => {})) // hangs
+      mockFetch.mockReturnValue(new Promise(() => {}))
       act(() => result.current.setInstruction('Second instruction'))
-      act(() => { result.current.handleEnhance() })
-      expect(result.current.result).toBe('')
+      act(() => {
+        result.current.handleEnhance()
+      })
+      expect(result.current.transcriptionEnhanced).toBe('')
     })
 
     it('sets status to "error" and errorMessage when response is not ok', async () => {
@@ -219,69 +248,30 @@ describe('useVideoTranscriptionEnhance', () => {
     })
   })
 
-  describe('handleCopy', () => {
-    const setupSuccess = async (result: string) => {
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: async () => ({ result }),
-      })
-    }
-
-    it('copies the result to the clipboard', async () => {
-      await setupSuccess('Enhanced output')
-      const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setInstruction('go'))
-      await act(async () => result.current.handleEnhance())
-      await act(async () => result.current.handleCopy())
-      expect(mockClipboard.writeText).toHaveBeenCalledWith('Enhanced output')
-    })
-
-    it('sets copied to true after copying', async () => {
-      await setupSuccess('text')
-      const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setInstruction('go'))
-      await act(async () => result.current.handleEnhance())
-      await act(async () => result.current.handleCopy())
-      expect(result.current.copied).toBe(true)
-    })
-
-    it('resets copied to false after 2 seconds', async () => {
-      await setupSuccess('text')
-      const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setInstruction('go'))
-      await act(async () => result.current.handleEnhance())
-      await act(async () => result.current.handleCopy())
-      expect(result.current.copied).toBe(true)
-      act(() => jest.advanceTimersByTime(2000))
-      expect(result.current.copied).toBe(false)
-    })
-  })
-
-  describe('handleOpenEnhanceDialog', () => {
-    it('resets all state when called with false', async () => {
+  describe('handleOpenDialog', () => {
+    it('resets instruction, status, transcriptionEnhanced, errorMessage, and videoToGetTranscription when called with false', async () => {
       mockFetch.mockResolvedValue({
         ok: true,
         json: async () => ({ result: 'Done' }),
       })
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
-      act(() => result.current.setVideo(makeVideo()))
+      act(() => result.current.setVideoToGetTranscription(makeVideo()))
       act(() => result.current.setInstruction('Some instruction'))
       await act(async () => result.current.handleEnhance())
 
-      act(() => result.current.handleOpenEnhanceDialog(false))
+      act(() => result.current.handleOpenDialog(false))
 
       expect(result.current.instruction).toBe('')
       expect(result.current.status).toBe('idle')
-      expect(result.current.result).toBe('')
+      expect(result.current.transcriptionEnhanced).toBe('')
       expect(result.current.errorMessage).toBe('')
-      expect(result.current.copied).toBe(false)
-      expect(result.current.video).toBeNull()
+      expect(result.current.videoToGetTranscription).toBeNull()
     })
 
     it('does not reset state when called with true', () => {
       const { result } = renderHook(() => useVideoTranscriptionEnhance())
       act(() => result.current.setInstruction('Keep me'))
-      act(() => result.current.handleOpenEnhanceDialog(true))
+      act(() => result.current.handleOpenDialog(true))
       expect(result.current.instruction).toBe('Keep me')
     })
   })

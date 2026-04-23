@@ -29,6 +29,7 @@ export interface ITopVideosWithCategory {
   revenue_7_days?: number | undefined
   revenue_14_days?: number | undefined
   sales: number
+  saved?: boolean
   transcription?: string | undefined
   tt_account?: string | null | undefined
   video_id?: string | undefined
