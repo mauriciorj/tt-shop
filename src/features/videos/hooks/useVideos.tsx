@@ -9,7 +9,7 @@ import UseUser from '@/hooks/useUser'
 const useVideos = () => {
   // Business rules
   const ITEMS_PER_PAGE = LIMITS.VIDEOS_PER_PAGE
-  const ITEMS_PER_PAGE_FREE_USER = LIMITS.VIDEOS_PER_PAGE_FREE_USER
+  const ITEMS_MAX_FOR_FREE_USER = LIMITS.VIDEOS_MAX_TO_SHOW_TO_FREE_USER
 
   const { id, isFreeUser, isLoading: isLoadingDbUser } = UseUser()
 
@@ -82,7 +82,7 @@ const useVideos = () => {
     }))
 
     // Limit the number of videos if it's free user
-    result = isFreeUser ? result.slice(0, ITEMS_PER_PAGE_FREE_USER) : result
+    result = isFreeUser ? result.slice(0, ITEMS_MAX_FOR_FREE_USER) : result
 
     return result.slice(start, end)
   }, [getVideos, categories, currentPage, selectedCategory, selectedPeriod])

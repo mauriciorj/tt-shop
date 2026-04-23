@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [stores, products, videos] = await Promise.all([
     fetchQuery(api.stores.getAllStores),
     fetchQuery(api.products.getAllProducts),
-    fetchQuery(api.videos.getVideos),
+    fetchQuery(api.videos.getVideos, { clerk_id: '' }),
   ])
 
   const storeRoutes: MetadataRoute.Sitemap = stores.map((store) => ({

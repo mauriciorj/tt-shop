@@ -1,16 +1,19 @@
 import { useState, useMemo } from 'react'
 import { api } from '@/convex/_generated/api'
 import { convexQuery } from '@convex-dev/react-query'
+import { LIMITS } from '@/businessRules/index'
+import { TCategory } from '@/categories/types'
+import { TPeriod } from '@/components/periodFilter'
 import UseUser from '@/hooks/useUser'
 import { TProductSortKey, TProductSortOrder } from '@/products/types'
 import { useQuery } from '@tanstack/react-query'
-import { TPeriod } from '@/components/periodFilter'
-import { TCategory } from '@/categories/types'
 
 const useProducts = () => {
-  const ITEMS_PER_PAGE = 10
+  // Business rules
+  const ITEMS_PER_PAGE = LIMITS.PRODUCTS_PER_PAGE
+  const ITEMS_MAX_FOR_FREE_USER = LIMITS.PRODUCTS_MAX_TO_SHOW_TO_FREE_USER
+
   const {
-    FREE_USER_ITEMS_PER_PAGE,
     id,
     isFreeUser,
     isLoading: isLoadingDbUser,
@@ -76,7 +79,7 @@ const useProducts = () => {
       )
     }
 
-    result = isFreeUser ? result.slice(0, FREE_USER_ITEMS_PER_PAGE) : result
+    result = isFreeUser ? result.slice(0, ITEMS_MAX_FOR_FREE_USER) : result
 
     // Sort by key and order
     result = [...result].sort((a, b) => {

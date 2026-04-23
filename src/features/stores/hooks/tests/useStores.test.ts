@@ -239,13 +239,13 @@ describe('useStores', () => {
 
   describe('free user limit', () => {
     it('limits results to FREE_USER_ITEMS_PER_PAGE for free users', () => {
-      setupUseUser({ isFreeUser: true, FREE_USER_ITEMS_PER_PAGE: 3 })
-      const stores = Array.from({ length: 10 }, (_, i) =>
+      setupUseUser({ isFreeUser: true })
+      const stores = Array.from({ length: 20 }, (_, i) =>
         makeStore({ k_id: `s${i}`, name: `Store ${i}` })
       )
       setupUseQuery(stores)
       const { result } = renderHook(() => useStores())
-      expect(result.current.data).toHaveLength(3)
+      expect(result.current.data).toHaveLength(10)
     })
 
     it('does not limit results for paid users', () => {

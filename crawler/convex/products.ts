@@ -115,6 +115,48 @@ export const getAllProducts = query({
   },
 })
 
+export const getProductsWithPagination = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const { paginationOpts } = args
+
+    const products = await ctx.db
+      .query('products')
+      .withIndex('by_k_revenue')
+      .order('desc')
+      .paginate(paginationOpts)
+
+    const resultsDto: { products: IProductWithCategory[] } = new TopProductsDto(
+      products?.page
+    )
+
+    const productsWithImages = await Promise.all(
+      resultsDto?.products?.map(async (product) => {
+        product['image'] = product.image
+          ? await ctx.storage.getUrl(product.image)
+          : null
+        return product
+      })
+    )
+
+    const productsWithCategories = productsWithImages.map((product) => {
+      product['category_name'] =
+        categories.find((category) => category.id === product.category_id)
+          ?.label || null
+      delete product.category_id
+      return product
+    })
+
+    return {
+      page: productsWithCategories,
+      isDone: products?.isDone,
+      continueCursor: products?.continueCursor,
+      splitCursor: products?.splitCursor,
+      pageStatus: products?.pageStatus,
+    }
+  },
+})
+
 export const getProductsWithId = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
